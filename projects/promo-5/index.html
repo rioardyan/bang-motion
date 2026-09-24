@@ -136,7 +136,7 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var
     <div id="cover"><div class="sp"></div><b>PRACTICE MANAGEMENT</b><div class="n">93</div><div class="d">dokumen kerja<br>konsultan pajak</div></div></div>
 
   <div class="hl" id="h1"><span class="ln"><span>Bangun praktik konsultan</span></span><span class="ln"><span>pajak yang berjalan</span></span><span class="ln"><span>dengan <em>sistem</em>,</span></span></div>
-  <div class="hl" id="h2"><span class="ln"><span>bukan bergantung</span></span><span class="ln"><span>pada <em>ingatan</em>.</span></span></div>
+  <div class="hl" id="h2" style="top:372px"><span class="ln"><span>bukan bergantung</span></span><span class="ln"><span>pada <em>ingatan</em>.</span></span></div>
   <div id="areas"><b>93</b><span>dokumen kerja untuk</span><i id="area">onboarding klien</i></div>
 
   <div id="docs"></div>
@@ -212,11 +212,10 @@ const hlOut=(id,at)=>{tl.to($$('#'+id+' .ln>span'),{yPercent:-110,duration:.35,e
 /* ===== 0–8,5 HEADLINE + 93 dokumen ===== */
 tl.set(N,{g:0,j:56,f:0},0);
 tl.fromTo('#binder',{y:120,opacity:0},{y:0,opacity:1,duration:.9,ease:'power3.out',immediateRender:false},.1);
-hlIn('h1',.3);
-hlOut('h1',3.2);hlIn('h2',3.55);
-tl.to('#cover',{rotateY:-160,duration:.9,ease:'power2.inOut'},3.7);
-$$('#binder .pg').forEach((p,i)=>tl.fromTo(p,{rotateY:0},{rotateY:-170,duration:.5,ease:'power2.inOut',immediateRender:false},4.2+i*.16));
-hlOut('h2',5.9);
+hlIn('h1',.3);hlIn('h2',.66);            // satu kalimat: baris ke-4 dan ke-5 langsung menyambung
+tl.to('#cover',{rotateY:-160,duration:.9,ease:'power2.inOut'},2.9);
+$$('#binder .pg').forEach((p,i)=>tl.fromTo(p,{rotateY:0},{rotateY:-170,duration:.5,ease:'power2.inOut',immediateRender:false},3.4+i*.16));
+hlOut('h1',5.9);hlOut('h2',5.9);
 tl.to('#binder',{y:430,scale:.8,opacity:.0,duration:.6,ease:'power3.in'},5.9);
 tl.fromTo('#areas',{opacity:0,y:40},{opacity:1,y:0,duration:.5,ease:'power3.out',immediateRender:false},6.1);
 ['SPT','tax planning','keamanan data','pengembangan bisnis'].forEach((a,i)=>{const at=6.9+i*.38;
