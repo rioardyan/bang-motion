@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="id">
+<!-- Made with the Bang Motion skill by Bang Tutorial (https://youtube.com/bangtutorial) - MIT - https://github.com/bangtutorial/bang-motion -->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Klien Nawar Fee — Promo 4:5</title>
+<!--
+  =====  STYLE BRIEF  =====
+  Tema/produk + 3 kata sifat : Practice Management Konsultan Pajak — pain: klien nego fee terlalu murah — terjepit → tenang → berwibawa
+  Headline (C3H #27, asli)    : "Klien nawar fee, Anda langsung 'kalah'?" + "Definisi 'kalah':" + 3 masalah
+  Copy (BenBi)                : Get Money · Less Stress · No Underestimated; CTA menyebut hasil ("Pegang harga Anda, pakai hitungan")
+  Konsep                      : kandidat 10 Tanya → jawab diegetik (utas chat klien) · kandidat 3 Masalah → lenyap ·
+                                kandidat 4 Sebelum/sesudah → dipilih 10: seluruh video terjadi di satu utas chat; masalah dan
+                                jawabannya adalah pesan di utas yang sama.
+  Sidik jari struktur         : tanya-jawab diegetik · 5 momen · utas chat → balasan pasrah → pesan dihapus + latar berganti →
+                                kartu tools & SPK dikirim → panel mengecil + 12 kategori → tombol · pembuka pesan klien menawar ·
+                                penutup nama paket + tombol
+  Beda dari promo-1..3        : Bricolage Grotesque + Plus Jakarta Sans; latar malam navy → siang mint (berganti di tengah);
+                                tanda tangan gerak "pesan masuk"; gerak latar lingkaran cahaya mengambang
+  Palet                       : utama teal #0E7C86 (brand) · malam #151A2C (turunan: suasana lembur) · aksen koral #FF7A59
+                                (turunan: tanda bahaya di fase masalah) · siang #EEF6F4
+  Render ringan               : tanpa noise, tanpa filter blur
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<style>
+:root{--teal:#0E7C86;--teal-d:#0A5A61;--night:#151A2C;--day:#EEF6F4;--coral:#FF7A59;--ink:#17201E;--mute:#66736F;
+  --disp:"Bricolage Grotesque",system-ui,sans-serif;--sans:"Plus Jakarta Sans",system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var(--sans)}
+#stage{position:fixed;left:50%;top:50%;width:1080px;height:1350px;transform:translate(-50%,-50%);overflow:hidden;background:var(--night)}
+#bgN{position:absolute;inset:0;background:radial-gradient(80% 60% at 20% 0%,#27305A 0%,transparent 60%),linear-gradient(180deg,#1A2036,#121626)}
+#bgD{position:absolute;inset:0;background:radial-gradient(70% 55% at 80% 0%,#CFEAE6 0%,transparent 62%),linear-gradient(180deg,#F4FAF8,#E4F0ED);clip-path:circle(0px at 800px 760px)}
+.orb{position:absolute;border-radius:50%;pointer-events:none}
+#o1{left:-240px;top:760px;width:760px;height:760px;background:radial-gradient(circle,rgba(255,122,89,.20),transparent 64%)}
+#o2{left:620px;top:-200px;width:700px;height:700px;background:radial-gradient(circle,rgba(14,124,134,.30),transparent 64%)}
+
+/* teks layar */
+.cap{position:absolute;left:66px;right:66px;top:84px;opacity:0;z-index:30}
+.cap .ln{display:block;overflow:hidden;white-space:nowrap;padding-bottom:4px}
+.cap .ln span{display:inline-block;font:600 62px/1.1 var(--disp);letter-spacing:-.015em;color:#F3F5FA}
+.cap.d .ln span{color:var(--ink)}
+#stage .cap .ln .x{color:var(--coral)}#stage .cap .ln .e{color:var(--teal)}
+.cap .n{display:inline-block;width:64px;height:64px;margin-right:18px;border-radius:50%;background:var(--coral);color:#fff;text-align:center;font:800 38px/64px var(--disp);vertical-align:6px}
+#k0 .ln span{font-size:66px}
+#k1 .ln span{font-size:44px;color:#AEB6CE}
+
+/* panel chat */
+#panel{position:absolute;left:60px;top:330px;width:960px;height:960px;border-radius:34px;background:#1F2539;overflow:hidden;z-index:10;
+  box-shadow:0 50px 100px -40px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.06);transform-origin:50% 0%}
+#ph{position:absolute;left:0;right:0;top:0;height:96px;display:flex;align-items:center;padding:0 30px;gap:18px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.07)}
+#av{width:58px;height:58px;border-radius:50%;background:#3A4466;color:#DDE3F5;font:800 22px/58px var(--sans);text-align:center}
+#pn{font:700 26px/1.1 var(--sans);color:#EEF1F8}#pn small{display:block;font:500 18px/1.3 var(--sans);color:#8C95B0}
+#clock{margin-left:auto;padding:10px 18px;border-radius:14px;background:rgba(255,122,89,.14);color:var(--coral);font:800 30px/1 var(--sans);font-variant-numeric:tabular-nums;opacity:0}
+#view{position:absolute;left:0;right:0;top:96px;bottom:0;overflow:hidden}
+#thread{position:absolute;left:0;right:0;top:0;padding:30px 30px 40px;will-change:transform}
+.m{display:flex;margin-bottom:22px;opacity:0}
+.m.me{justify-content:flex-end}
+.b{max-width:700px;padding:20px 26px;border-radius:28px;font:500 30px/1.35 var(--sans);position:relative}
+.m.cl .b{background:#2D3552;color:#EEF1F8;border-bottom-left-radius:8px}
+.m.me .b{background:var(--teal);color:#fff;border-bottom-right-radius:8px}
+.b small{display:block;margin-top:6px;text-align:right;font:500 17px/1 var(--sans);opacity:.7}
+.b .alt{position:absolute;left:26px;top:20px;white-space:nowrap}
+.dots{display:inline-flex;gap:8px;padding:8px 0}.dots i{width:14px;height:14px;border-radius:50%;background:#fff;opacity:.8}
+.del{font-style:italic;color:#9AA3BE}
+/* kartu yang dikirim */
+.card{width:640px;border-radius:24px;background:#fff;overflow:hidden;box-shadow:0 14px 30px -14px rgba(10,60,64,.35)}
+.card .hd{padding:14px 22px;background:var(--teal);color:#fff;font:700 17px/1 var(--sans);letter-spacing:.14em}
+.card .bd{padding:20px 24px 22px;display:flex;align-items:center;gap:22px}
+.card .big{font:800 58px/1 var(--disp);color:var(--ink)}
+.card .big small{font-size:24px;color:var(--mute)}
+.card .tx{font:600 22px/1.4 var(--sans);color:var(--mute)}
+.card .tx b{color:var(--ink)}
+.chip{display:inline-block;padding:6px 14px;border-radius:999px;background:#F6E7DA;color:#8A5528;font:700 20px/1 var(--sans)}
+.pdf{display:flex;align-items:center;gap:18px;width:560px;padding:18px 22px;border-radius:22px;background:#0B6A73;color:#fff}
+.pdf i{width:54px;height:66px;border-radius:8px;background:#fff;position:relative;flex:none}
+.pdf i:after{content:"PDF";position:absolute;left:0;right:0;bottom:8px;text-align:center;font:800 13px/1 var(--sans);color:#C0392B}
+.pdf b{font:700 24px/1.2 var(--sans)}.pdf small{display:block;font:500 18px/1.3 var(--sans);opacity:.75}
+.spk .bd{display:block}
+.spk .ps{font:800 26px/1.2 var(--sans);color:var(--ink)}
+.spk .ps span{background:linear-gradient(transparent 55%,#BFE3DF 55%)}
+.spk .tx{margin-top:8px}
+
+/* properti masalah */
+#stack{position:absolute;left:700px;top:1010px;width:300px;height:300px;z-index:15;pointer-events:none}
+#stack i{position:absolute;left:0;width:280px;height:200px;border-radius:10px;background:#E9ECF3;box-shadow:0 8px 16px -8px rgba(0,0,0,.6)}
+#stack i:after{content:"";position:absolute;left:24px;right:60px;top:30px;height:10px;border-radius:5px;background:#C5CBD9;box-shadow:0 26px 0 #C5CBD9,0 52px 0 #C5CBD9}
+
+/* penutup */
+.cat{position:absolute;z-index:20;padding:12px 20px;border-radius:999px;background:#fff;color:var(--teal-d);font:700 22px/1 var(--sans);white-space:nowrap;
+  box-shadow:0 10px 24px -12px rgba(10,60,64,.45);opacity:0}
+#count{position:absolute;left:0;right:0;top:1015px;text-align:center;z-index:20;opacity:0}
+#count b{font:800 110px/1 var(--disp);color:var(--teal)}
+#count span{display:block;margin-top:6px;font:700 28px/1 var(--sans);color:var(--mute)}
+#name{position:absolute;left:60px;right:60px;top:950px;text-align:center;z-index:25;opacity:0}
+#name small{display:block;font:700 24px/1 var(--sans);letter-spacing:.24em;color:var(--mute)}
+#name b{display:block;margin-top:14px;font:800 66px/1.05 var(--disp);color:var(--ink)}
+#cta{position:absolute;left:50%;top:1160px;width:640px;height:112px;margin-left:-320px;border-radius:999px;background:var(--teal);color:#fff;z-index:25;
+  display:flex;align-items:center;justify-content:center;gap:20px;font:800 44px/1 var(--sans);letter-spacing:.03em;opacity:0;box-shadow:0 24px 50px -18px rgba(10,90,97,.6)}
+#cta svg{width:44px;height:44px}
+#ui{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);display:none;gap:14px;padding:11px 18px;border-radius:16px;background:rgba(14,16,22,.9);color:#A0A6B4;font-size:13px;z-index:90}
+#ui.on{display:flex}#scrub{width:340px}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="bgN"></div><div id="bgD"></div>
+  <i class="orb" id="o1"></i><i class="orb" id="o2"></i>
+
+  <div id="panel">
+    <div id="ph"><div id="av">MB</div><div id="pn">PT Maju Bersama<small>calon klien</small></div><div id="clock">17.02</div></div>
+    <div id="view"><div id="thread">
+      <div class="m cl" id="m0"><div class="b">Pak, konsultan sebelah cuma 5 juta lho. Bisa segitu?<small>17.02</small></div></div>
+      <div class="m me" id="m1"><div class="b"><span id="m1d" class="dots"><i></i><i></i><i></i></span><span id="m1t" style="opacity:0">Ya udah deh, Pak<small>17.05 ✓✓</small></span><span id="m1x" class="alt del" style="opacity:0">Pesan ini dihapus</span></div></div>
+      <div class="m me" id="m2"><div class="card"><div class="hd">PRE-ASSESSMENT KLIEN</div>
+        <div class="bd"><div class="big">50<small>/100</small></div><div class="tx"><span class="chip">Kategori C</span><br><b>Fee +55%</b> · data perlu pembenahan</div></div></div></div>
+      <div class="m me" id="m3"><div class="card"><div class="hd">KALKULATOR FEE</div>
+        <div class="bd"><div class="tx"><b style="font-size:26px">86,8 jam kerja</b><br>Fee minimum (batas rugi)<br><span class="big" style="font-size:52px">Rp 24.955.000</span></div></div></div></div>
+      <div class="m me" id="m4"><div class="pdf"><i></i><div><b>Rincian-fee-PT-Maju-Bersama.pdf</b><small>kertas kerja · 2 halaman</small></div></div></div>
+      <div class="m cl" id="m5"><div class="b">Kalau lingkupnya dikurangi, bisa Pak?</div></div>
+      <div class="m me" id="m6"><div class="card spk"><div class="hd">SURAT PERIKATAN JASA</div>
+        <div class="bd"><div class="ps"><span>Pasal 1 · Ruang lingkup jasa</span></div><div class="tx">Fee mengikuti lingkup. Pekerjaan di luar daftar lewat addendum.</div></div></div></div>
+    </div></div>
+  </div>
+
+  <div id="stack"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+  <div class="cap" id="k0"><span class="ln"><span>Klien nawar fee, Anda</span></span><span class="ln"><span>langsung <span class="x">'kalah'</span>?</span></span></div>
+  <div class="cap" id="k1" style="top:250px"><span class="ln"><span>Definisi 'kalah':</span></span></div>
+  <div class="cap" id="p1"><span class="ln"><span><i class="n">1</i>Balasnya cuma</span></span><span class="ln"><span>"ya udah deh, Pak"</span></span></div>
+  <div class="cap" id="p2"><span class="ln"><span><i class="n">2</i>Fee turun, kerjaan</span></span><span class="ln"><span>tetap segunung</span></span></div>
+  <div class="cap" id="p3"><span class="ln"><span><i class="n">3</i>Baru sadar rugi pas</span></span><span class="ln"><span>lembur tiap malam</span></span></div>
+  <div class="cap d" id="s1"><span class="ln"><span>Nilai dulu</span></span><span class="ln"><span class="e">data kliennya</span></span></div>
+  <div class="cap d" id="s2"><span class="ln"><span>Hitung jamnya, ketemu</span></span><span class="ln"><span class="e">batas rugi</span></span></div>
+  <div class="cap d" id="s3"><span class="ln"><span>Nego pindah ke lingkup,</span></span><span class="ln"><span>bukan ke <span class="e">harga</span></span></span></div>
+  <div class="cap d" id="s4"><span class="ln"><span>Semua alurnya sudah</span></span><span class="ln"><span class="e">tertulis</span></span></div>
+  <div class="cap d" id="s5" style="text-align:center"><span class="ln"><span>Pegang harga Anda,</span></span><span class="ln"><span class="e">pakai hitungan</span></span></div>
+
+  <div id="count"><b id="cN">0</b><span>dokumen kerja · 12 kategori</span></div>
+  <div id="name"><small>PAKET DOKUMEN KERJA</small><b>Practice Management Konsultan Pajak</b></div>
+  <div id="cta">DAPATKAN SEKARANG<svg viewBox="0 0 40 40"><path d="M8 20h22M21 10l10 10-10 10" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+</div>
+<div id="ui"><input id="scrub" type="range" min="0" max="1000" value="0"><span id="clk">0.00s</span></div>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const W=1080,H=1350,DURATION=24;
+const N={min:17*60+2,doc:0};const SCR={y:0};
+const CATS=['Onboarding Klien','Deadline','Eksekusi SPT','DJP & SP2DK','Penagihan Fee','Tax Planning','Arsip & Data','Kepatuhan Profesi','Kolaborator Lepas','Risiko & Kepatuhan','Keuangan Praktik','Pengembangan Bisnis'];
+const stage=$('#stage');
+CATS.forEach(c=>{const d=document.createElement('div');d.className='cat';d.textContent=c;stage.appendChild(d);});
+const thread=$('#thread'),clock=$('#clock'),o1=$('#o1'),o2=$('#o2'),cN=$('#cN');
+function render(t){
+  thread.style.transform=`translate3d(0,${SCR.y.toFixed(2)}px,0)`;
+  const m=Math.round(N.min);clock.textContent=`${String(Math.floor(m/60)).padStart(2,'0')}.${String(m%60).padStart(2,'0')}`;
+  cN.textContent=Math.round(N.doc);
+  o1.style.transform=`translate(${(Math.sin(t*.35)*70).toFixed(1)}px,${(Math.cos(t*.3)*50).toFixed(1)}px)`;
+  o2.style.transform=`translate(${(Math.cos(t*.3)*60).toFixed(1)}px,${(Math.sin(t*.27)*50).toFixed(1)}px)`;
+}
+const Q=new URLSearchParams(location.search);
+const tl=gsap.timeline({paused:true});
+const capIn=(id,at)=>{tl.set('#'+id,{opacity:1},at);tl.fromTo($$('#'+id+' .ln>span'),{yPercent:110},{yPercent:0,duration:.6,ease:'power4.out',stagger:.09,immediateRender:false},at);};
+const capOut=(id,at)=>{tl.to($$('#'+id+' .ln>span'),{yPercent:-110,duration:.32,ease:'power2.in',stagger:.04},at);tl.set('#'+id,{opacity:0},at+.45);};
+const VIEW_H=960-96-40;           // tinggi area pesan yang terlihat
+const msgIn=(id,at,side)=>{tl.fromTo('#'+id,{opacity:0,y:40,scale:.92,transformOrigin:side==='me'?'100% 100%':'0% 100%'},
+  {opacity:1,y:0,scale:1,duration:.45,ease:'back.out(1.8)',immediateRender:false},at);
+  const el=$('#'+id),bottom=el.offsetTop+el.offsetHeight+30;          // gulir supaya pesan terbaru terlihat
+  if(bottom>VIEW_H)tl.to(SCR,{y:VIEW_H-bottom,duration:.45,ease:'power2.inOut'},at-.1);};
+
+function build(){
+  tl.clear();
+  tl.set(SCR,{y:0},0);tl.set(N,{min:17*60+2,doc:0},0);
+  /* ===== 0–3 HOOK: klien menawar ===== */
+  msgIn('m0',.35,'cl');
+  capIn('k0',.6);
+  /* ===== 3–10 Definisi 'kalah' + 3 masalah ===== */
+  capIn('k1',2.6);
+  capOut('k0',3.55);capOut('k1',3.55);
+  capIn('p1',4.0);
+  msgIn('m1',4.2,'me');
+  tl.to('#m1d',{opacity:0,duration:.15},5.0);tl.to('#m1t',{opacity:1,duration:.2},5.05);
+  capOut('p1',5.85);
+  capIn('p2',6.1);
+  tl.set('#stack i',{y:420},0);
+  tl.fromTo('#stack i',{y:420,rotation:0},{y:(i)=>-i*28,rotation:(i)=>(i%2?4:-5),duration:.5,ease:'back.out(1.6)',stagger:.1,immediateRender:false},6.2);
+  capOut('p2',7.85);
+  capIn('p3',8.1);
+  tl.fromTo('#clock',{opacity:0,scale:.6},{opacity:1,scale:1,duration:.35,ease:'back.out(2.5)',immediateRender:false},8.2);
+  tl.to(N,{min:23*60+47,duration:1.1,ease:'power2.inOut'},8.4);
+  tl.fromTo('#panel',{x:0},{keyframes:[{x:-8},{x:6},{x:-3},{x:0}],duration:.3,immediateRender:false},9.5);
+  capOut('p3',9.8);
+  /* ===== 10–11 BALIK ARAH: pesan pasrah dihapus, latar siang ===== */
+  tl.to('#m1t',{opacity:0,duration:.2},10.0);tl.to('#m1x',{opacity:1,duration:.2},10.15);
+  tl.to('#m1 .b',{backgroundColor:'rgba(14,124,134,.18)',duration:.3},10.0);
+  tl.to('#bgD',{clipPath:'circle(1800px at 800px 760px)',duration:.9,ease:'power2.in'},10.25);
+  tl.to(['#stack','#clock'],{opacity:0,duration:.3},10.25);
+  tl.to('#panel',{backgroundColor:'#FFFFFF',duration:.5},10.6);
+  tl.to('#ph',{backgroundColor:'#F3F8F7',borderBottomColor:'#E1ECEA',duration:.5},10.6);
+  tl.to('#pn',{color:'#17201E',duration:.5},10.6);tl.to('#av',{backgroundColor:'#DCEDEB',color:'#0A5A61',duration:.5},10.6);
+  tl.to(['#m0 .b','#m5 .b'],{backgroundColor:'#EDF1F0',color:'#17201E',duration:.5},10.6);
+  tl.to('#m1x',{color:'#6E8A87',duration:.5},10.6);
+  tl.to('#o1',{opacity:0,duration:.6},10.4);
+  /* ===== 11–18,5 jawaban dari paket ===== */
+  capIn('s1',11.0);msgIn('m2',11.2,'me');capOut('s1',13.25);
+  capIn('s2',13.5);msgIn('m3',13.7,'me');capOut('s2',15.85);
+  capIn('s3',16.1);msgIn('m4',16.2,'me');msgIn('m5',16.95,'cl');msgIn('m6',17.6,'me');
+  /* ===== 18,5–20,5 panel mengecil, 12 kategori ===== */
+  capOut('s3',18.45);
+  capIn('s4',18.7);
+  tl.to('#panel',{scale:.5,y:-20,duration:.8,ease:'power3.inOut'},18.6);
+  const pos=[[130,380],[680,370],[90,470],[760,470],[70,570],[790,570],[80,670],[770,670],[110,770],[740,770],[170,870],[690,870]];
+  $$('.cat').forEach((c,i)=>{tl.set(c,{left:pos[i][0],top:pos[i][1]},0);
+    tl.fromTo(c,{opacity:0,scale:.5},{opacity:1,scale:1,duration:.35,ease:'back.out(2.5)',immediateRender:false},19.0+i*.06);});
+  tl.fromTo('#count',{opacity:0,y:30},{opacity:1,y:0,duration:.45,ease:'power3.out',immediateRender:false},19.1);
+  tl.to(N,{doc:93,duration:1.1,ease:'power2.out'},19.1);
+  /* ===== 20,5–24 CTA ===== */
+  capOut('s4',20.5);
+  tl.to('.cat',{opacity:0,scale:.6,duration:.3,stagger:.02},20.5);
+  tl.to('#count',{opacity:0,y:-20,duration:.3},20.5);
+  tl.to('#panel',{scale:.4,y:-10,duration:.6,ease:'power3.inOut'},20.5);
+  capIn('s5',20.8);
+  tl.fromTo('#name',{opacity:0,y:40},{opacity:1,y:0,duration:.55,ease:'power3.out',immediateRender:false},21.1);
+  tl.fromTo('#cta',{opacity:0,y:40,scale:.9},{opacity:1,y:0,scale:1,duration:.5,ease:'back.out(2)',immediateRender:false},21.5);
+  tl.to('#cta',{scale:1.05,duration:.28,ease:'sine.inOut',yoyo:true,repeat:3},22.1);
+  tl.to({},{duration:.01},DURATION-.01);
+}
+
+/* ============ perekat ============ */
+const fit=()=>{stage.style.transform=`translate(-50%,-50%) scale(${Math.min(innerWidth/W,innerHeight/H)})`;};
+addEventListener('resize',fit);fit();
+const clk=$('#clk'),scrub=$('#scrub');let scrubbing=false;
+(function loop(){const t=tl.time();render(t);clk.textContent=t.toFixed(2)+'s';if(!scrubbing)scrub.value=t/DURATION*1000;requestAnimationFrame(loop);})();
+scrub.addEventListener('pointerdown',()=>{scrubbing=true;tl.pause();});addEventListener('pointerup',()=>scrubbing=false);
+scrub.addEventListener('input',()=>{tl.pause();tl.time(scrub.value/1000*DURATION);});
+addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();tl.paused()?tl.play():tl.pause();}if(/^[rR]$/.test(e.key))tl.play(0);});
+if(Q.has('debug'))$('#ui').classList.add('on');
+tl.eventCallback('onComplete',()=>tl.play(0));
+const seek=t=>{tl.pause();tl.time(t,false);if(gsap.ticker.tick)gsap.ticker.tick();render(t);};
+window.OPENER={tl,DURATION,seek,W,H,ready:false};
+// posisi pesan (untuk gulir utas) diukur setelah font termuat; ukur ulang bila font terlambat datang
+const rebuild=()=>{const t=tl.time();build();tl.time(t,false);};
+document.fonts.addEventListener('loadingdone',rebuild);
+document.fonts.ready.then(()=>{build();window.OPENER.ready=true;if(!Q.has('clean'))tl.play(0);});
+</script>
+</body>
+</html>
