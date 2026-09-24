@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="id">
+<!-- Made with the Bang Motion skill by Bang Tutorial (https://youtube.com/bangtutorial) - MIT - https://github.com/bangtutorial/bang-motion -->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Practice Management Konsultan Pajak — Promo 4:5</title>
+<!--
+  =====  STYLE BRIEF  =====
+  Tema/produk + 3 kata sifat : Practice Management Konsultan Pajak (93 dokumen, 12 kategori) — rapi, yakin, presisi
+  Konsep (opener-konsep.md)   : kandidat 1 Satu shot kontinu (meja kerja konsultan)
+                                kandidat 9 Satu fitur didemo penuh (Pre-Assessment → Kalkulator Fee)
+                                kandidat 3 Masalah → lenyap (berkas berantakan dirapikan)
+                                -> dipilih: 1 sebagai induk + demo fitur 9 di tengahnya. Alasan: yang paling
+                                meyakinkan bila DILIHAT adalah satu klien yang sama bergerak dari "fee ditebak"
+                                sampai "fee terkunci di SPK" tanpa cut.
+  Sidik jari struktur         : satu shot kontinu · 8 momen · kolom fee → map berkas → 10 slider + gauge →
+                                kalkulator fee → SPK → rak 12 kategori → paket → tombol · pembuka close-up kolom
+                                fee kosong · penutup paket 93 dokumen + tombol "Dapatkan Sekarang"
+  Palet (dari produk)         : utama #0E7C86 (teal brand, dari tools & Core Library) · latar #EDF1EE (latar tools)
+                                · aksen #B8763E (warna "perlu pembenahan" di gauge tools) · tinta #16211F
+                                · gelap #0A5A61 · merah bendera #A4442F (red flag di tools)
+  Font                        : Spectral (serif display tools) + IBM Plex Sans / Mono (font UI tools) —
+                                pengecualian "font UI produk sendiri" karena UI produk didemokan
+  Penekanan                   : `color` — satu kata miring teal (gaya judul tools "satu alur"), hanya 3×
+  Bahasa latar                : Editorial terang + kertas kerja, satu arah untuk semua segmen
+  Tanda tangan gerak          : kertas berubah wujud (lembar → baris slider, map → SPK, SPK → rak)
+  Gerak latar (§7c #8)        : grid kertas kerja bernapas + ikut kamera
+  Permukaan latar (§7d c+f)   : mesh terang (blob teal & tembaga mengambang) + butiran kertas
+  Gaya render objek (§7e)     : flat kertas dengan bayangan lembut
+  Transisi                    : tanpa cut — kamera mundur (2×), benda berubah wujud, kartu bergeser antar-langkah
+  Momen istimewa              : angka fee terhitung lalu terbang mendarat di kolom fee dari detik pertama
+  Audio                       : tanpa audio; semua pesan di teks layar
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,500;0,600;1,500;1,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<style>
+:root{
+  --teal:#0E7C86; --teal-d:#0A5A61; --teal-l:#DCEDEB; --mint:#8FB3AE;
+  --base:#EDF1EE; --paper:#F7FAF8; --line:#CBD6D1; --mute:#5A6B66; --soft:#8B9A95;
+  --ink:#16211F; --copper:#B8763E; --red:#A4442F; --green:#2F7D4F; --olive:#7A8F3A;
+  --serif:"Spectral",Georgia,serif; --sans:"IBM Plex Sans",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#0f1614;overflow:hidden;font-family:var(--sans);color:var(--ink)}
+#filters{position:fixed;width:0;height:0;opacity:0;pointer-events:none}
+
+/* panggung 4:5 dipatok 1080x1350, discale ke jendela */
+#stage{position:fixed;left:50%;top:50%;width:1080px;height:1350px;transform:translate(-50%,-50%);overflow:hidden;background:var(--base)}
+
+/* ---------- latar (ruang layar) ---------- */
+#bg{position:absolute;inset:0;background:linear-gradient(180deg,#F4F7F5 0%,#EDF1EE 55%,#E4ECE8 100%)}
+#bg i{position:absolute;border-radius:50%;pointer-events:none}
+#bg .b1{left:-380px;top:-420px;width:1100px;height:1100px;background:radial-gradient(circle,rgba(14,124,134,.16) 0%,transparent 66%)}
+#bg .b2{left:520px;top:760px;width:1000px;height:1000px;background:radial-gradient(circle,rgba(184,118,62,.13) 0%,transparent 64%)}
+#bg .b3{left:260px;top:280px;width:900px;height:900px;background:radial-gradient(circle,rgba(143,179,174,.20) 0%,transparent 66%)}
+#grain{position:absolute;inset:-80px;pointer-events:none;opacity:.6;z-index:60}
+
+/* ---------- dunia (ikut kamera) ---------- */
+#world{position:absolute;left:0;top:0;width:1080px;height:1350px;transform-origin:0 0;will-change:transform}
+#grid{position:absolute;left:-1600px;top:-1600px;width:5600px;height:5600px;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(10,90,97,.10) 1.5px,transparent 1.5px),
+    linear-gradient(90deg,rgba(10,90,97,.10) 1.5px,transparent 1.5px),
+    linear-gradient(rgba(10,90,97,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(10,90,97,.05) 1px,transparent 1px);
+  background-size:216px 216px,216px 216px,54px 54px,54px 54px;background-position:-2px -2px}
+.abs{position:absolute}
+
+/* map berkas klien — koordinat lokal 700x730, asal di (190,470) */
+#folder{position:absolute;left:190px;top:470px;width:700px;height:730px;transform-origin:0 0;z-index:5}
+.f-tab{position:absolute;left:0;top:0;width:380px;height:110px;border-radius:22px 22px 0 0;
+  background:linear-gradient(180deg,#127F89,#0E7481)}
+.f-back{position:absolute;left:0;top:92px;width:700px;height:638px;border-radius:0 24px 24px 24px;
+  background:linear-gradient(170deg,#0E7C86 0%,#0B6770 100%);box-shadow:0 30px 60px -20px rgba(10,60,64,.45)}
+.f-cover{position:absolute;left:0;top:132px;width:700px;height:598px;border-radius:14px 24px 24px 24px;
+  background:linear-gradient(165deg,#1A8C95 0%,#0E7C86 45%,#0C6E77 100%);box-shadow:0 -2px 0 rgba(255,255,255,.18) inset,0 20px 40px -18px rgba(10,60,64,.5);
+  transform-origin:50% 100%}
+.f-cover .lbl{position:absolute;left:56px;top:70px;width:420px;padding:22px 26px;border-radius:10px;background:#F7FAF8;box-shadow:0 2px 0 rgba(0,0,0,.08)}
+.f-cover .lbl b{display:block;font:500 15px/1 var(--mono);letter-spacing:.14em;color:var(--mute);text-transform:uppercase}
+.f-cover .lbl span{display:block;margin-top:12px;font:600 34px/1.1 var(--serif);color:var(--ink)}
+.f-cover .ln{position:absolute;left:56px;height:10px;border-radius:5px;background:rgba(255,255,255,.14)}
+#fee{position:absolute;left:18px;top:14px;width:344px;height:82px;border-radius:12px;background:#F7FAF8;
+  padding:10px 16px;box-shadow:0 2px 0 rgba(0,0,0,.08)}
+#fee b{display:block;font:500 13px/1 var(--mono);letter-spacing:.16em;color:var(--mute)}
+#feeVal{display:block;margin-top:8px;font:600 36px/1 var(--mono);color:var(--ink);white-space:nowrap;font-variant-numeric:tabular-nums}
+#feeVal.q{color:var(--copper)}
+#fee .caret{display:inline-block;width:3px;height:34px;margin-left:4px;vertical-align:-4px;background:var(--teal)}
+
+/* lembar berkas → baris slider */
+.sheet{position:absolute;z-index:12;opacity:0;border-radius:8px;background:#FDFEFD;overflow:hidden;
+  box-shadow:0 14px 30px -12px rgba(22,33,31,.35),0 0 0 1px rgba(22,33,31,.06)}
+.sheet .doc{position:absolute;left:0;top:0;width:250px;height:330px;padding:22px 20px}
+.sheet .doc b{display:block;font:500 11px/1 var(--mono);letter-spacing:.14em;color:var(--soft)}
+.sheet .doc h4{margin-top:10px;font:600 21px/1.15 var(--sans);color:var(--ink)}
+.sheet .doc i{display:block;height:8px;border-radius:4px;background:#E3EAE7;margin-top:14px}
+.sheet .doc .flag{position:absolute;right:14px;top:14px;width:40px;height:40px;border-radius:50%;background:var(--red);
+  color:#fff;font:700 26px/40px var(--sans);text-align:center;opacity:0;transform:scale(.3)}
+.sheet .doc .ring{position:absolute;left:10px;top:118px;width:150px;height:40px;border:3px solid var(--red);border-radius:50%;opacity:0;transform:rotate(-4deg)}
+.sheet .row{position:absolute;left:0;top:0;width:692px;height:50px;display:flex;align-items:center;padding:0 18px;opacity:0}
+.sheet .row .nm{width:300px;font:500 17px/1.2 var(--sans);color:var(--ink);white-space:nowrap}
+.sheet .row .tr{position:relative;width:270px;height:8px;border-radius:4px;background:#E3EAE7;margin-left:12px}
+.sheet .row .fl{position:absolute;left:0;top:0;height:8px;border-radius:4px;background:var(--teal);width:0}
+.sheet .row .kn{position:absolute;top:-8px;left:0;width:24px;height:24px;margin-left:-12px;border-radius:50%;background:#fff;border:3px solid var(--teal)}
+.sheet.low .row .fl{background:var(--red)}
+.sheet.low .row .kn{border-color:var(--red)}
+.sheet .row .vl{margin-left:auto;width:40px;text-align:right;font:600 20px/1 var(--mono);color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* kartu tools (Langkah 1 & 2) */
+.card{position:absolute;left:60px;top:380px;width:740px;height:920px;border-radius:24px;background:#FBFCFB;opacity:0;z-index:10;
+  box-shadow:0 40px 80px -30px rgba(22,33,31,.35),0 0 0 1px rgba(22,33,31,.06)}
+.tabs{position:absolute;left:24px;top:22px;right:24px;height:52px;display:flex;gap:10px}
+.tabs div{flex:1;border-radius:12px;background:#EDF1EE;padding:9px 14px;font:500 12px/1 var(--mono);letter-spacing:.12em;color:var(--soft)}
+.tabs div span{display:block;margin-top:6px;font:600 15px/1 var(--sans);letter-spacing:0;color:var(--mute)}
+.tabs div.on{background:var(--teal-d);color:#9FC9C4}
+.tabs div.on span{color:#fff}
+#gauge{position:absolute;left:40px;top:120px;width:320px;height:200px}
+#gNum{position:absolute;left:40px;top:215px;width:320px;text-align:center;font:600 76px/1 var(--mono);color:var(--ink);font-variant-numeric:tabular-nums}
+#gNum small{font-size:24px;color:var(--soft);font-weight:500}
+.pa-info{position:absolute;left:390px;top:128px;width:320px}
+.pa-info b{display:block;font:500 13px/1 var(--mono);letter-spacing:.14em;color:var(--soft)}
+#band{display:inline-block;margin-top:12px;padding:8px 16px;border-radius:999px;background:#F3E6D9;color:#8A5528;font:600 26px/1 var(--serif);opacity:0}
+#adj{margin-top:14px;font:600 30px/1 var(--mono);color:var(--copper);opacity:0}
+#adj small{display:block;margin-top:8px;font:500 15px/1.2 var(--sans);color:var(--mute)}
+#btnFee{position:absolute;left:390px;top:262px;width:322px;height:56px;border-radius:14px;background:var(--teal);color:#fff;
+  font:600 17px/56px var(--sans);text-align:center;box-shadow:0 10px 20px -10px rgba(14,124,134,.8)}
+.rows-h{position:absolute;left:24px;top:318px;font:500 12px/1 var(--mono);letter-spacing:.14em;color:var(--soft)}
+
+/* kalkulator */
+.fld{position:absolute;left:24px;right:24px;border-radius:14px;background:#EDF1EE;padding:14px 18px}
+.fld b{display:block;font:500 12px/1 var(--mono);letter-spacing:.14em;color:var(--soft)}
+#slot{position:absolute;left:300px;top:92px;width:396px;height:76px;border:2px dashed var(--line);border-radius:14px}
+.led{position:absolute;left:24px;right:24px;height:56px;display:flex;align-items:center;padding:0 16px;border-bottom:1px solid #E3EAE7}
+.led .cb{width:26px;height:26px;border-radius:7px;border:2px solid var(--line);position:relative;flex:none}
+.led .cb i{position:absolute;inset:-2px;border-radius:7px;background:var(--teal);transform:scale(0)}
+.led .cb i:after{content:"";position:absolute;left:8px;top:3px;width:7px;height:13px;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg)}
+.led .nm{margin-left:16px;font:500 19px/1.2 var(--sans);color:var(--ink)}
+.led .nm small{display:block;font:400 13px/1.3 var(--sans);color:var(--soft)}
+.led .jm{margin-left:auto;font:600 20px/1 var(--mono);color:var(--soft);font-variant-numeric:tabular-nums}
+.led.dim .nm{color:var(--soft)}
+#jamBox{position:absolute;left:24px;right:24px;top:640px;display:flex;justify-content:space-between;align-items:baseline;padding:0 16px}
+#jamBox b{font:500 14px/1 var(--mono);letter-spacing:.14em;color:var(--soft)}
+#jamVal{font:600 34px/1 var(--mono);color:var(--ink);font-variant-numeric:tabular-nums}
+#res{position:absolute;left:24px;right:24px;top:700px;height:196px;border-radius:18px;padding:24px 28px;
+  background:linear-gradient(150deg,#0E7C86,#0A5A61);color:#fff;box-shadow:0 20px 40px -20px rgba(10,90,97,.8)}
+#res b{display:block;font:500 13px/1 var(--mono);letter-spacing:.16em;color:#A9D2CD}
+#feeBig{display:block;margin-top:14px;font:600 64px/1 var(--mono);white-space:nowrap;font-variant-numeric:tabular-nums}
+#res p{margin-top:16px;font:500 17px/1 var(--sans);color:#CFE6E3}
+#res p span{font-family:var(--mono);font-weight:600;color:#fff}
+#chip{position:absolute;z-index:14;left:0;top:0;width:380px;height:62px;margin:-31px 0 0 -190px;border-radius:12px;background:#F3E6D9;
+  display:flex;align-items:center;justify-content:space-between;padding:0 18px;opacity:0;box-shadow:0 12px 24px -12px rgba(138,85,40,.6)}
+#chip span{font:600 24px/1 var(--mono);color:#8A5528}
+#chip em{font:600 22px/1 var(--serif);font-style:normal;color:#8A5528}
+
+/* SPK */
+#spk{position:absolute;left:260px;top:470px;width:560px;height:736px;z-index:16;opacity:0;border-radius:10px;background:#FDFEFD;overflow:hidden;
+  box-shadow:0 40px 80px -30px rgba(22,33,31,.45),0 0 0 1px rgba(22,33,31,.06);padding:34px 40px}
+#spk .k{font:500 13px/1 var(--mono);letter-spacing:.18em;color:var(--soft)}
+#spk h3{margin-top:10px;font:600 36px/1.05 var(--serif);color:var(--ink)}
+#spk .fee{margin-top:22px;border-radius:12px;background:var(--teal-l);padding:14px 18px}
+#spk .fee b{display:block;font:500 12px/1 var(--mono);letter-spacing:.16em;color:var(--teal-d)}
+#spk .fee span{display:block;margin-top:8px;font:600 34px/1 var(--mono);color:var(--teal-d)}
+#spk .ps{margin-top:22px;font:600 15px/1.2 var(--sans);color:var(--ink)}
+#spk .ps small{display:block;margin-top:4px;font:400 14px/1.35 var(--sans);color:var(--mute)}
+#spk i{display:block;height:8px;border-radius:4px;background:#E3EAE7;margin-top:12px}
+#spk .sg{position:absolute;left:40px;right:40px;bottom:40px;display:flex;gap:40px}
+#spk .sg div{flex:1;border-top:2px solid var(--line);padding-top:10px;font:500 13px/1 var(--mono);color:var(--soft);letter-spacing:.1em}
+#stamp{position:absolute;z-index:18;left:470px;top:990px;width:320px;height:110px;margin:-55px 0 0 -160px;border:6px solid var(--teal-d);border-radius:16px;
+  display:flex;align-items:center;justify-content:center;font:600 44px/1 var(--mono);letter-spacing:.14em;color:var(--teal-d);opacity:0;
+  background:rgba(220,237,235,.55)}
+
+/* rak 12 kategori (ukuran dunia; dilihat dari kamera s≈.375) */
+.tile{position:absolute;width:560px;height:736px;border-radius:10px;background:#FDFEFD;z-index:15;overflow:hidden;
+  box-shadow:0 40px 80px -30px rgba(22,33,31,.4),0 0 0 1px rgba(22,33,31,.06);padding:44px 46px;opacity:0}
+.tile .k{font:500 30px/1 var(--mono);letter-spacing:.16em;color:var(--soft)}
+.tile i{display:block;height:20px;border-radius:10px;background:#E3EAE7;margin-top:30px}
+.band{position:absolute;left:0;right:0;bottom:0;height:250px;padding:34px 40px;background:#EDF1EE;z-index:17}
+.band span{display:block;font:600 30px/1 var(--mono);letter-spacing:.14em;color:var(--soft)}
+.band h5{margin-top:18px;font:600 64px/1.02 var(--serif);color:var(--ink)}
+#spkBand{position:absolute;left:260px;top:956px;width:560px;height:250px;border-radius:0 0 10px 10px;opacity:0}
+
+/* kursor */
+#cursor{position:absolute;z-index:30;left:900px;top:1400px;width:46px;height:56px;opacity:0;filter:drop-shadow(0 6px 8px rgba(0,0,0,.3))}
+#feeFly{position:absolute;z-index:20;left:0;top:0;font:600 64px/1 var(--mono);color:#fff;white-space:nowrap;opacity:0;
+  padding:10px 16px;border-radius:12px;background:var(--teal-d);transform-origin:50% 50%}
+
+/* ---------- lapisan layar (teks & penutup) ---------- */
+#hud{position:absolute;inset:0;z-index:40;pointer-events:none}
+.cap{position:absolute;left:80px;right:80px;top:96px;opacity:0;visibility:hidden}
+.cap .ln{display:block;white-space:nowrap}
+.cap .t{font-family:var(--serif);font-weight:500;color:var(--ink);letter-spacing:-.01em}
+.cap .em{font-style:italic;font-weight:600;color:var(--teal)}
+.cap.c{text-align:center}.cap.r{text-align:right}
+.s72 .t{font-size:74px;line-height:1.06}.s64 .t{font-size:64px;line-height:1.1}.s58 .t{font-size:58px;line-height:1.12}
+#h3b .t{font-size:176px;line-height:1}
+.wd{display:inline-block;white-space:nowrap}
+.ch{display:inline-block;will-change:transform,opacity,filter;opacity:0}
+#badge{position:absolute;left:50%;top:1256px;transform:translateX(-50%);padding:14px 30px;border-radius:999px;background:var(--ink);color:#fff;
+  font:600 26px/1 var(--mono);white-space:nowrap;opacity:0;font-variant-numeric:tabular-nums}
+#badge em{font-style:normal;color:#9FD3CD}
+#pack{position:absolute;left:290px;top:480px;width:500px;height:640px;opacity:0}
+#pack .body{position:absolute;inset:0;border-radius:20px;overflow:hidden;
+  background:linear-gradient(155deg,#16929C 0%,#0E7C86 40%,#0A5A61 100%);box-shadow:0 50px 90px -30px rgba(10,60,64,.65)}
+#pack .spine{position:absolute;left:0;top:0;bottom:0;width:46px;background:linear-gradient(90deg,rgba(0,0,0,.28),rgba(0,0,0,.08));border-right:2px solid rgba(255,255,255,.12)}
+#pack .tabx{position:absolute;right:-22px;width:40px;height:40px;border-radius:0 8px 8px 0}
+#pack .cv{position:absolute;left:92px;top:78px;right:44px;color:#fff}
+#pack .cv b{display:block;font:500 16px/1 var(--mono);letter-spacing:.2em;color:#A9D2CD}
+#pack .cv .n{display:block;margin-top:26px;font:600 210px/.9 var(--serif);letter-spacing:-.03em}
+#pack .cv .d{display:block;margin-top:6px;font:500 38px/1.1 var(--sans)}
+#pack .cv hr{border:0;height:2px;background:rgba(255,255,255,.25);margin:34px 0 22px}
+#pack .cv .c{display:block;font:500 22px/1.4 var(--mono);color:#CFE6E3}
+#sweep{position:absolute;top:-40%;left:-60%;width:40%;height:180%;transform:rotate(18deg);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent)}
+#cta{position:absolute;left:50%;top:1170px;width:600px;height:104px;margin-left:-300px;border-radius:999px;background:var(--copper);color:#fff;
+  display:flex;align-items:center;justify-content:center;gap:18px;font:600 42px/1 var(--sans);opacity:0;
+  box-shadow:0 24px 40px -18px rgba(138,85,40,.8)}
+#cta svg{width:40px;height:40px}
+
+#ui{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);display:none;align-items:center;gap:14px;padding:11px 18px;border-radius:16px;
+  background:rgba(14,16,22,.9);border:1px solid rgba(255,255,255,.1);font-size:13px;color:#A0A6B4;z-index:90}
+#ui.on{display:flex}
+#ui button{background:#262A34;color:#fff;border:none;padding:8px 16px;border-radius:9px;font:inherit;cursor:pointer}
+#scrub{width:340px;accent-color:var(--teal)}
+#clock{font-variant-numeric:tabular-nums;min-width:5.2ch;text-align:right}
+</style>
+</head>
+<body>
+<svg id="filters"><defs></defs></svg>
+
+<div id="stage">
+  <div id="bg"><i class="b1"></i><i class="b2"></i><i class="b3"></i></div>
+
+  <div id="world">
+    <div id="grid"></div>
+
+    <!-- map berkas klien -->
+    <div id="folder">
+      <div class="f-tab"></div>
+      <div class="f-back"></div>
+      <div id="fee"><b>FEE JASA</b><span id="feeVal">Rp ___</span></div>
+      <div class="f-cover" id="cover">
+        <div class="lbl"><b>Berkas klien baru</b><span>PT Maju Bersama</span></div>
+        <i class="ln" style="top:250px;width:520px"></i><i class="ln" style="top:282px;width:440px"></i>
+        <i class="ln" style="top:314px;width:480px"></i><i class="ln" style="top:470px;width:300px"></i>
+      </div>
+    </div>
+
+    <!-- Langkah 1: Pre-Assessment -->
+    <div class="card" id="pa">
+      <div class="tabs"><div class="on">LANGKAH 1<span>Pre-Assessment Klien</span></div><div>LANGKAH 2<span>Kalkulator Fee</span></div></div>
+      <svg id="gauge" viewBox="0 0 320 200">
+        <path d="M30 180 A130 130 0 0 1 290 180" fill="none" stroke="#E3EAE7" stroke-width="26" stroke-linecap="round"/>
+        <path id="gFill" d="M30 180 A130 130 0 0 1 290 180" fill="none" stroke="#B8763E" stroke-width="26" stroke-linecap="round" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"/>
+      </svg>
+      <div id="gNum">0<small>/100</small></div>
+      <div class="pa-info"><b>SKOR KESEHATAN DATA</b><div id="band">Kategori C</div>
+        <div id="adj">fee +55%<small>Perlu pembenahan signifikan</small></div></div>
+      <div id="btnFee">Pakai skor di Kalkulator Fee →</div>
+      <div class="rows-h">PENILAIAN · 10 ASPEK · SKOR 0–10</div>
+    </div>
+
+    <!-- Langkah 2: Kalkulator Fee -->
+    <div class="card" id="calc">
+      <div class="tabs"><div>LANGKAH 1<span>Pre-Assessment Klien</span></div><div class="on">LANGKAH 2<span>Kalkulator Fee</span></div></div>
+      <div class="fld" style="top:92px;height:76px;right:460px"><b>KONDISI DATA</b><div style="margin-top:10px;font:500 17px/1.2 var(--sans);color:var(--mute)">dari Pre-Assessment</div></div>
+      <div id="slot"></div>
+      <div class="rows-h" style="top:196px">LINGKUP JASA · JAM</div>
+      <div class="led" id="l1" style="top:222px"><div class="cb"><i></i></div><div class="nm">SPT Tahunan PPh Badan<small>termasuk rekonsiliasi fiskal</small></div><div class="jm" id="j1">0</div></div>
+      <div class="led" id="l2" style="top:278px"><div class="cb"><i></i></div><div class="nm">SPT Masa bulanan<small>PPh 21/23/25 · 3 jam × 12 bln</small></div><div class="jm" id="j2">0</div></div>
+      <div class="led dim" style="top:334px"><div class="cb"></div><div class="nm">SPT Masa PPN<small>rekap e-Faktur per bulan</small></div><div class="jm">0</div></div>
+      <div class="led dim" style="top:390px"><div class="cb"></div><div class="nm">Penanganan SP2DK<small>analisis + surat tanggapan</small></div><div class="jm">0</div></div>
+      <div class="led dim" style="top:446px"><div class="cb"></div><div class="nm">Tax Planning &amp; advisory<small>analisis skenario tertulis</small></div><div class="jm">0</div></div>
+      <div class="fld" style="top:520px;height:96px"><b>FAKTOR KOMPLEKSITAS DATA</b><div style="margin-top:12px;font:600 30px/1 var(--mono);color:var(--copper)">× 1,55</div></div>
+      <div id="jamBox"><b>TOTAL JAM KERJA</b><span id="jamVal">56 jam</span></div>
+      <div id="res"><b>FEE YANG DISARANKAN</b><span id="feeBig">Rp 0</span><p>Fee minimum (titik impas) <span>Rp 24.955.000</span></p></div>
+    </div>
+
+    <div id="chip"><span>50/100</span><em>Kategori C</em></div>
+
+    <!-- 10 lembar berkas: tiap lembar = satu aspek penilaian -->
+    <div id="sheets"></div>
+
+    <!-- SPK -->
+    <div id="spk">
+      <div class="k">SURAT PERIKATAN JASA · 017/SPK/IX/2026</div>
+      <h3>Konsultasi Pajak — PT Maju Bersama</h3>
+      <div class="fee"><b>FEE JASA DISEPAKATI</b><span>Rp 35.650.000</span></div>
+      <div class="ps">Pasal 1 · Ruang lingkup jasa<small>SPT Tahunan PPh Badan · SPT Masa PPh 21/23/25 (12 bulan). Pekerjaan di luar daftar ini lewat addendum.</small></div>
+      <div class="ps">Pasal 3 · Fee &amp; pembayaran<small>DP 50% sebelum pekerjaan dimulai.</small></div>
+      <i style="width:92%"></i><i style="width:76%"></i><i style="width:84%"></i>
+      <div class="sg"><div>KLIEN</div><div>KONSULTAN</div></div>
+    </div>
+    <div id="spkBand" class="band" ><span>A · 9 DOKUMEN</span><h5>Seleksi &amp; Onboarding Klien</h5></div>
+    <div id="stamp">DISEPAKATI</div>
+    <div id="rack"></div>
+
+    <div id="feeFly">Rp 35.650.000</div>
+    <svg id="cursor" viewBox="0 0 46 56"><path d="M4 3 L4 44 L15 34 L23 52 L31 48 L23 31 L39 31 Z" fill="#16211F" stroke="#fff" stroke-width="3" stroke-linejoin="round"/></svg>
+  </div>
+
+  <!-- lapisan layar -->
+  <div id="hud">
+    <div class="cap s72" id="h1"><span class="ln"><span class="t">Konsultan Pajak,</span></span></div>
+    <div class="cap s72" id="h2" style="top:180px"><span class="ln"><span class="t">masih menentukan fee jasa</span></span></div>
+    <div class="cap s72" id="h3a" style="top:264px"><span class="ln"><span class="t">hanya berdasarkan</span></span></div>
+    <div class="cap" id="h3b" style="top:340px;left:66px"><span class="ln"><span class="t em">Feeling?</span></span></div>
+
+    <div class="cap s64" id="c2"><span class="ln"><span class="t">Padahal berkas kliennya</span></span><span class="ln"><span class="t">belum kamu periksa</span></span></div>
+    <div class="cap s64 c" id="c3"><span class="ln"><span class="t">Coba nilai kesehatan</span></span><span class="ln"><span class="t">datanya dulu</span></span></div>
+    <div class="cap s72 r" id="c4" style="top:120px"><span class="ln"><span class="t">Dari skor itu,</span></span><span class="ln"><span class="t">fee-nya </span><span class="t em">terhitung</span></span></div>
+    <div class="cap s64" id="c5"><span class="ln"><span class="t">Lalu kunci di SPK,</span></span><span class="ln"><span class="t">sebelum klien diterima</span></span></div>
+    <div class="cap s58 c" id="c6"><span class="ln"><span class="t">Alur yang sama ada untuk deadline,</span></span><span class="ln"><span class="t">SPT, sampai penagihan</span></span></div>
+    <div class="cap s64" id="c7"><span class="ln"><span class="t">Supaya praktikmu jalan dengan</span></span><span class="ln"><span class="t em">sistem</span><span class="t">, bukan ingatan</span></span></div>
+    <div class="cap s72 c" id="c8" style="top:110px"><span class="ln"><span class="t">Practice Management</span></span><span class="ln"><span class="t em">Konsultan Pajak</span></span></div>
+
+    <div id="badge"><span id="docN">0</span> dokumen · <em>12 kategori</em></div>
+    <div id="pack"><div class="body"><div class="spine"></div>
+        <div class="cv"><b>PAKET DOKUMEN KERJA</b><span class="n">93</span><span class="d">dokumen siap pakai</span><hr><span class="c">12 kategori · SOP · form · template · Excel</span></div>
+        <div id="sweep"></div></div></div>
+    <div id="cta">Dapatkan Sekarang<svg viewBox="0 0 40 40"><path d="M8 20h22M21 10l10 10-10 10" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  </div>
+  <div id="grain"></div>
+</div>
+
+<div id="ui">
+  <button id="btn-play">Pause</button><button id="btn-restart">Restart</button>
+  <input id="scrub" type="range" min="0" max="1000" value="0">
+  <span id="clock">0.00s</span>
+</div>
+
+<script>
+/* ============ UTIL ============ */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const defs=$('#filters defs'); let fc=0;
+function makeBlur(){const id='mb'+(fc++),NS='http://www.w3.org/2000/svg';
+  const f=document.createElementNS(NS,'filter');f.id=id;
+  f.setAttribute('x','-70%');f.setAttribute('y','-70%');f.setAttribute('width','240%');f.setAttribute('height','240%');
+  const g=document.createElementNS(NS,'feGaussianBlur');g.setAttribute('stdDeviation','0 0');f.appendChild(g);defs.appendChild(f);
+  return {url:`url(#${id})`,node:g};}
+function splitChars(el){const words=(el.textContent||'').split(' ');el.textContent='';const out=[];
+  words.forEach((w,i)=>{if(w){const wr=document.createElement('span');wr.className='wd';
+      for(const c of w){const s=document.createElement('span');s.className='ch';s.textContent=c;wr.appendChild(s);out.push(s);}
+      el.appendChild(wr);}
+    if(i<words.length-1){const sp=document.createElement('span');sp.className='ch';sp.innerHTML='&nbsp;';el.appendChild(sp);out.push(sp);}});
+  return out;}
+const fmt=n=>Math.round(n).toLocaleString('id-ID');
+const W=1080,H=1350;
+
+/* ============ DATA DARI TOOLS ASLI (skor 50 → Kategori C → ×1,55 → Rp 35.650.000) ============ */
+const ITEMS=[ // [nama aspek, bobot, nilai, judul berkas]
+  ['Laporan keuangan',2,3,'Laporan Keuangan 2024'],['Pembukuan harian',2,4,'Buku Kas & Bank'],
+  ['Bukti potong historis',1,8,'Bukti Potong PPh 23'],['Pelaporan SPT',2,6,'SPT Tahunan 2023'],
+  ['Tunggakan pajak',2,5,'STP & Tagihan'],['Pemeriksaan & sengketa',3,3,'SP2DK 2022'],
+  ['Data transaksi / e-Faktur',2,4,'Rekap e-Faktur'],['Akses Coretax & EFIN',1,9,'Akses Coretax'],
+  ['Responsivitas klien',2,6,'Chat Klien'],['Kompleksitas kewajiban',1,8,'Daftar Kewajiban']];
+// skor = Σ(nilai×bobot) / (Σbobot×10) × 100 = 90/180×100 = 50
+const MESSY=[[215,560,-12],[440,522,7],[622,566,15],[258,770,9],[470,724,-6],[640,790,-16],[212,905,-4],[420,880,11],[606,930,-9],[384,650,-2]];
+const sheetsBox=$('#sheets');
+const SH=ITEMS.map((it,i)=>{const d=document.createElement('div');d.className='sheet'+(it[2]<=3?' low':'');
+  const flag=it[2]<=4;
+  d.innerHTML=`<div class="doc"><b>BERKAS ${String(i+1).padStart(2,'0')}</b><h4>${it[3]}</h4><i style="width:92%"></i><i style="width:70%"></i><i style="width:84%"></i><i style="width:56%"></i><i style="width:78%"></i>${flag?'<div class="ring"></div><div class="flag">!</div>':''}</div>
+  <div class="row"><div class="nm">${it[0]}</div><div class="tr"><div class="fl"></div><div class="kn"></div></div><div class="vl">0</div></div>`;
+  sheetsBox.appendChild(d);return d;});
+
+/* rak 12 kategori EXT-KP (A–L) — ukuran dunia 560×736, jarak 53.3 */
+const CATS=[['A','9','Seleksi & Onboarding Klien'],['B','7','Deadline & Beban Kerja'],['C','8','Eksekusi SPT'],['D','6','DJP, SP2DK & Sengketa'],
+  ['E','5','Penagihan Fee'],['F','7','Tax Planning & Advisory'],['G','7','Arsip & Offboarding'],['H','5','Kepatuhan Profesi'],
+  ['I','14','Kolaborator Lepas'],['J','15','Keamanan Data & Risiko'],['K','7','Keuangan Praktik'],['L','6','Pengembangan Bisnis']];
+const TW=560,TH=736,GAP=53.33,RX=260,RY=470;
+const TILES=CATS.map((c,i)=>{const col=i%4,row=Math.floor(i/4);
+  const x=RX+col*(TW+GAP),y=RY+row*(TH+GAP);
+  const d=document.createElement('div');d.className='tile';d.style.left=x+'px';d.style.top=y+'px';
+  if(i>0)d.innerHTML=`<div class="k">EXT-KP-${c[0]}</div><i style="width:80%"></i><i style="width:64%"></i><i style="width:88%"></i><i style="width:52%"></i>`;
+  else d.style.background='transparent',d.style.boxShadow='none';
+  const b=document.createElement('div');b.className='band';b.innerHTML=`<span>${c[0]} · ${c[1]} DOKUMEN</span><h5>${c[2]}</h5>`;
+  if(i>0)d.appendChild(b);
+  $('#rack').appendChild(d);return {el:d,band:i>0?b:$('#spkBand'),cx:x+TW/2,cy:y+TH/2};});
+
+/* tab indeks warna di sisi paket (12 kategori) */
+['#DCEDEB','#8FB3AE','#B8763E','#DCEDEB','#2F7D4F','#8FB3AE','#B8763E','#DCEDEB','#7A8F3A','#8FB3AE','#B8763E','#DCEDEB']
+  .forEach((c,i)=>{const t=document.createElement('i');t.className='tabx';t.style.top=(40+i*47)+'px';t.style.background=c;$('#pack').insertBefore(t,$('#pack .body'));});
+
+/* butiran kertas: tile noise deterministik (seed tetap), digeser dari t — bukan random per frame */
+(function(){const c=document.createElement('canvas');c.width=c.height=256;const x=c.getContext('2d'),im=x.createImageData(256,256);
+  let s=1337;const r=()=>(s=(s*16807)%2147483647)/2147483647;
+  for(let i=0;i<im.data.length;i+=4){const v=r()<.55?22:255;im.data[i]=im.data[i+1]=im.data[i+2]=v;im.data[i+3]=Math.round(r()*34);}
+  x.putImageData(im,0,0);$('#grain').style.backgroundImage=`url(${c.toDataURL()})`;})();
+
+/* ============ STATE yang dibaca render(t) ============ */
+const N={cyc:0,feeMode:0,score:0,jam:56,fee:0,doc:0,j1:0,j2:0,caret:1,sh:0};
+const V=ITEMS.map(()=>({v:0}));
+const CAM={s:2.3,fx:375,fy:517,ax:540,ay:960};   // skala + titik dunia (fx,fy) yang jatuh di titik layar (ax,ay)
+const CYC=['5.000.000','12.500.000','3.000.000','8.750.000','15.000.000','2.500.000','10.000.000','6.500.000','20.000.000','4.000.000'];
+const world=$('#world'),grid=$('#grid'),grain=$('#grain'),feeVal=$('#feeVal'),gFill=$('#gFill'),gNum=$('#gNum'),
+  feeBig=$('#feeBig'),jamVal=$('#jamVal'),docN=$('#docN'),blobs=$$('#bg i');
+const vls=SH.map(s=>$('.vl',s)),fls=SH.map(s=>$('.fl',s)),kns=SH.map(s=>$('.kn',s));
+let lastFee='';
+function render(t){
+  // kamera: shot + napas halus + getar (sinus, bukan random)
+  const s=CAM.s*(1+.006*Math.sin(t*.7));
+  const tx=CAM.ax-CAM.fx*s+Math.sin(t*93.1)*N.sh, ty=CAM.ay-CAM.fy*s+Math.cos(t*71.7)*N.sh;
+  world.style.transform=`translate(${tx.toFixed(2)}px,${ty.toFixed(2)}px) scale(${s.toFixed(4)})`;
+  // latar: grid bernapas, blob mengambang, butiran melompat 12×/dtk
+  grid.style.opacity=(.75+.25*Math.sin(t*.9)).toFixed(3);
+  blobs.forEach((b,i)=>{b.style.transform=`translate(${(Math.sin(t*.35+i*2.1)*60).toFixed(1)}px,${(Math.cos(t*.28+i*1.3)*50).toFixed(1)}px)`;});
+  const k=Math.floor(t*12);grain.style.transform=`translate(${k*37%80-40}px,${k*61%80-40}px)`;
+  // kolom fee — benang merah
+  let f;
+  if(N.feeMode===0) f='Rp ';
+  else if(N.feeMode===1) f='Rp '+CYC[Math.min(9,Math.floor(N.cyc))];
+  else if(N.feeMode===2) f='Rp ?';
+  else f='Rp 35.650.000';
+  if(f!==lastFee){feeVal.textContent=f;feeVal.classList.toggle('q',N.feeMode===2);
+    if(N.feeMode===0){const c=document.createElement('span');c.className='caret';feeVal.appendChild(document.createTextNode('___'));feeVal.appendChild(c);}
+    lastFee=f;}
+  const caret=$('#fee .caret');if(caret)caret.style.opacity=(Math.floor(t*2.4)%2===0?1:0)*N.caret;
+  // slider & gauge
+  V.forEach((o,i)=>{const p=o.v*10;fls[i].style.width=p+'%';kns[i].style.left=p+'%';vls[i].textContent=Math.round(o.v);});
+  gFill.setAttribute('stroke-dashoffset',(100-N.score).toFixed(2));
+  gNum.firstChild.nodeValue=Math.round(N.score);
+  // kalkulator
+  $('#j1').textContent=Math.round(N.j1);$('#j2').textContent=Math.round(N.j2);
+  jamVal.textContent=(Math.round(N.jam*10)/10).toLocaleString('id-ID')+' jam';
+  feeBig.textContent='Rp '+fmt(Math.round(N.fee/5000)*5000);
+  docN.textContent=Math.round(N.doc);
+}
+
+/* ============ TIMELINE — satu-satunya tempat waktu ditulis ============ */
+const Q=new URLSearchParams(location.search);
+const DURATION=23.0;
+const tl=gsap.timeline({paused:true});
+function blurTween(targets,at,from,to,dur,{ease='power3.out',ax=1,ay=.08}={}){
+  const b=makeBlur(),o={v:from};tl.set(targets,{filter:b.url},at);
+  tl.to(o,{v:to,duration:dur,ease,onUpdate(){b.node.setAttribute('stdDeviation',`${(o.v*ax).toFixed(2)} ${(o.v*ay).toFixed(2)}`);}},at);
+  tl.set(targets,{filter:'none'},at+dur);}
+const VERT={ax:.1,ay:1};
+const shot=(at,dur,o,ease='power2.inOut')=>tl.to(CAM,{...o,duration:dur,ease},at);
+// teks: tiap caption dipecah per huruf; pintu masuk dipilih dari arti kalimat, bergantian
+const CH={};$$('.cap').forEach(c=>{CH[c.id]=$$('.t',c).flatMap(splitChars);});
+const show=(id,at)=>tl.set('#'+id,{autoAlpha:1},at);
+const inUp=(id,at,{dur=.8,st=.022}={})=>{show(id,at);tl.fromTo(CH[id],{opacity:0,yPercent:60,scaleY:1.4},{opacity:1,yPercent:0,scaleY:1,duration:dur,ease:'power4.out',stagger:st,immediateRender:false},at);blurTween('#'+id,at,26,0,dur,VERT);};
+const inLeft=(id,at,{dur=.75,st=.016}={})=>{show(id,at);tl.fromTo(CH[id],{opacity:0,xPercent:-45},{opacity:1,xPercent:0,duration:dur,ease:'power4.out',stagger:st,immediateRender:false},at);blurTween('#'+id,at,40,0,dur,{ease:'power4.out'});};
+const inRight=(id,at,{dur=.75,st=.018}={})=>{show(id,at);tl.fromTo(CH[id],{opacity:0,xPercent:45},{opacity:1,xPercent:0,duration:dur,ease:'power4.out',stagger:{each:st,from:'end'},immediateRender:false},at);blurTween('#'+id,at,40,0,dur,{ease:'power4.out'});};
+const inDepth=(id,at,{dur=.9,st=.03}={})=>{show(id,at);tl.fromTo(CH[id],{opacity:0,scale:2.4},{opacity:1,scale:1,duration:dur,ease:'expo.out',stagger:{each:st,from:'center'},immediateRender:false},at);blurTween('#'+id,at,20,0,dur,{ease:'expo.out',ax:1,ay:1});};
+const inWords=(id,at,{dur=.55,st=.12}={})=>{show(id,at);const w=$$('#'+id+' .wd');tl.set(CH[id],{opacity:1},at);
+  tl.fromTo(w,{opacity:0,yPercent:40,rotateX:-60},{opacity:1,yPercent:0,rotateX:0,duration:dur,ease:'back.out(1.6)',stagger:st,immediateRender:false},at);};
+const inMask=(id,at,{dur=.8}={})=>{show(id,at);tl.set(CH[id],{opacity:1},at);
+  tl.fromTo('#'+id,{clipPath:'inset(0% 100% 0% 0%)'},{clipPath:'inset(0% 0% 0% 0%)',duration:dur,ease:'power3.inOut',immediateRender:false},at);tl.set('#'+id,{clipPath:'none'},at+dur);};
+const outUp=(id,at,{dur=.38,st=.006}={})=>{tl.to(CH[id],{opacity:0,yPercent:-70,duration:dur,ease:'power2.in',stagger:st},at);blurTween('#'+id,at,0,40,dur+.1,{ease:'power2.in',...VERT});tl.set('#'+id,{autoAlpha:0},at+dur+.15);};
+const outLeft=(id,at,{dur=.38,st=.006}={})=>{tl.to(CH[id],{opacity:0,xPercent:-60,duration:dur,ease:'power2.in',stagger:st},at);blurTween('#'+id,at,0,50,dur+.1,{ease:'power2.in'});tl.set('#'+id,{autoAlpha:0},at+dur+.15);};
+const outDepth=(id,at,{dur=.45,st=.006}={})=>{tl.to(CH[id],{opacity:0,scale:2.2,duration:dur,ease:'power2.in',stagger:{each:st,from:'center'}},at);blurTween('#'+id,at,0,26,dur+.1,{ease:'power2.in',ax:1,ay:1});tl.set('#'+id,{autoAlpha:0},at+dur+.15);};
+
+/* ---- keadaan awal ---- */
+tl.set(N,{feeMode:0,cyc:0,score:0,jam:56,fee:0,doc:0,j1:0,j2:0,caret:1,sh:0},0);
+tl.set(CAM,{s:2.3,fx:375,fy:517,ax:540,ay:960},0);
+tl.set('#folder',{x:0,y:0,scale:1,autoAlpha:1},0);
+tl.set('#cover',{rotateX:0,transformPerspective:1600,autoAlpha:1},0);
+SH.forEach((s,i)=>{tl.set(s,{left:320,top:640,width:250,height:330,rotation:0,x:0,y:0,opacity:0},0);
+  tl.set($('.doc',s),{opacity:1},0);tl.set($('.row',s),{opacity:0},0);});
+V.forEach(o=>tl.set(o,{v:0},0));
+
+/* ===== 0–3,5  HOOK: kolom fee ditebak ===== */
+shot(0,3.4,{s:2.05,ay:985},'sine.inOut');                 // push pelan saat menahan
+tl.set(N,{feeMode:1,caret:0},.55);
+tl.to(N,{cyc:9.99,duration:1.8,ease:'none'},.55);
+tl.set(N,{feeMode:2},2.45);
+tl.fromTo('#feeVal',{scale:1.5},{scale:1,duration:.5,ease:'back.out(3)',transformOrigin:'0% 50%',immediateRender:false},2.45);
+tl.to(N,{sh:5,duration:.08},2.45);tl.to(N,{sh:0,duration:.35},2.53);
+inUp('h1',.12);
+inWords('h2',.95);
+inMask('h3a',2.05,{dur:.55});
+inDepth('h3b',2.4,{dur:.8,st:.05});
+outUp('h1',3.3);outUp('h2',3.34);outUp('h3a',3.38);outDepth('h3b',3.38);
+
+/* ===== 3,5–6  kamera mundur: kolom fee menempel di map; map terbuka, berkas berantakan ===== */
+shot(3.4,1.0,{s:1,fx:540,fy:675,ax:540,ay:675},'power3.inOut');
+tl.to('#cover',{rotateX:78,duration:.6,ease:'power2.in'},4.15);
+tl.to('#cover',{autoAlpha:0,duration:.15},4.6);
+SH.forEach((s,i)=>{const m=MESSY[i];
+  tl.set(s,{opacity:1},4.35);
+  tl.fromTo(s,{left:320,top:660,rotation:0,scale:.9},{left:m[0],top:m[1],rotation:m[2],scale:1,duration:.75,ease:'back.out(1.4)',immediateRender:false},4.35+i*.045);});
+SH.forEach((s,i)=>{if(ITEMS[i][2]<=4){const k=[0,1,5,6].indexOf(i);
+  tl.to($('.flag',s),{opacity:1,scale:1,duration:.35,ease:'back.out(3)'},5.05+k*.12);
+  tl.to($('.ring',s),{opacity:1,duration:.2},5.1+k*.12);}});
+inLeft('c2',3.75);
+outLeft('c2',5.9);
+
+/* ===== 6–9,5  lembar merapat jadi 10 baris penilaian; gauge naik ke 50 ===== */
+tl.to('#folder',{x:645,y:-98,scale:.3,duration:.9,ease:'power3.inOut'},6.0);          // map mengecil ke pojok, kolom fee tetap terlihat
+tl.fromTo('#pa',{opacity:0,scale:.96},{opacity:1,scale:1,duration:.6,ease:'power2.out',transformOrigin:'50% 40%',immediateRender:false},6.05);
+SH.forEach((s,i)=>{const at=6.05+i*.045;
+  tl.to(s,{left:84,top:716+i*57,width:692,height:50,rotation:0,duration:.8,ease:'power3.inOut'},at);
+  tl.to($('.doc',s),{opacity:0,duration:.3},at+.15);
+  tl.to($('.row',s),{opacity:1,duration:.35},at+.45);});
+SH.forEach((s,i)=>tl.to(V[i],{v:ITEMS[i][2],duration:.55,ease:'power2.out'},7.0+i*.09));
+tl.to(N,{score:50,duration:1.45,ease:'power1.inOut'},7.05);
+tl.fromTo('#band',{opacity:0,scale:.6},{opacity:1,scale:1,duration:.45,ease:'back.out(2.5)',immediateRender:false},8.55);
+tl.fromTo('#adj',{opacity:0,y:14},{opacity:1,y:0,duration:.45,ease:'power3.out',immediateRender:false},8.75);
+shot(6.0,1.0,{s:1,fx:540,fy:675,ax:540,ay:675});
+shot(8.35,.85,{s:1.45,fx:430,fy:600,ax:540,ay:760});      // mendekat ke gauge saat skor jadi
+inUp('c3',6.3);
+outUp('c3',9.3);
+
+/* ===== 9,5–13,5  ✦ skor dibawa ke Kalkulator Fee; fee terhitung lalu mendarat di kolom fee ===== */
+tl.set('#cursor',{left:980,top:1150,opacity:0},0);
+tl.to('#cursor',{opacity:1,duration:.2},9.3);
+tl.to('#cursor',{left:660,top:660,duration:.6,ease:'power3.inOut'},9.3);
+tl.to('#btnFee',{scale:.94,duration:.09,ease:'power2.in'},9.95);
+tl.to('#btnFee',{scale:1,duration:.3,ease:'back.out(3)'},10.04);
+tl.to('#cursor',{scale:.85,duration:.09,yoyo:true,repeat:1},9.95);
+tl.to('#cursor',{opacity:0,left:760,top:760,duration:.35},10.25);
+// kartu bergeser ke Langkah 2
+tl.to(['#pa','.sheet'],{x:-820,duration:.75,ease:'power3.inOut'},10.15);
+tl.fromTo('#calc',{opacity:1,x:820},{opacity:1,x:0,duration:.75,ease:'power3.inOut',immediateRender:false},10.15);
+tl.set('#calc',{opacity:0},0);
+shot(10.1,.8,{s:1,fx:540,fy:675,ax:540,ay:675});
+// chip skor terbang dari gauge ke slot kalkulator
+tl.set('#chip',{left:260,top:560,opacity:0,scale:.8,rotation:0},0);
+tl.to('#chip',{opacity:1,scale:1.12,rotation:-5,top:520,duration:.3,ease:'power2.out'},10.1);
+tl.to('#chip',{left:568,top:510,scale:1,rotation:0,duration:.6,ease:'power3.inOut'},10.4);
+tl.fromTo('#slot',{borderColor:'#CBD6D1'},{borderColor:'#B8763E',duration:.2,yoyo:true,repeat:1,immediateRender:false},10.95);
+// lingkup dicentang, jam dikalikan faktor, fee menghitung
+tl.to('#l1 .cb i',{scale:1,duration:.3,ease:'back.out(3)'},10.95);tl.to(N,{j1:20,duration:.35},10.95);
+tl.to('#l2 .cb i',{scale:1,duration:.3,ease:'back.out(3)'},11.1);tl.to(N,{j2:36,duration:.35},11.1);
+tl.to(N,{jam:86.8,duration:.6,ease:'power2.out'},11.35);
+tl.to(N,{fee:35650000,duration:1.05,ease:'power2.out'},11.55);
+shot(11.35,.8,{s:1.12,fx:430,fy:1178,ax:540,ay:1224});
+inRight('c4',9.75);
+// angka fee terbang ke kolom fee di map (map kembali ke tengah)
+tl.to(['#calc','#chip'],{y:260,opacity:0,duration:.6,ease:'power2.in'},12.55);
+tl.to('#pa',{opacity:0,duration:.1},12.55);tl.to('.sheet',{opacity:0,duration:.1},12.55);
+tl.to('#folder',{x:70,y:30,scale:.8,duration:.8,ease:'power3.inOut'},12.55);
+tl.set('#feeFly',{left:280,top:1112,xPercent:0,yPercent:0,scale:1,opacity:0,transformOrigin:'0% 50%'},0);
+tl.set('#feeFly',{opacity:1},12.6);
+tl.to('#feeFly',{left:262,top:494,scale:.44,duration:.75,ease:'power3.inOut'},12.6);
+tl.set('#feeFly',{opacity:0},13.35);
+tl.set(N,{feeMode:3},13.35);
+tl.fromTo('#fee',{scale:1.18},{scale:1,duration:.45,ease:'back.out(3)',transformOrigin:'50% 50%',immediateRender:false},13.35);
+tl.fromTo('#feeVal',{color:'#0E7C86'},{color:'#16211F',duration:.8,immediateRender:false},13.35);
+shot(12.55,.85,{s:1.25,fx:540,fy:760,ax:540,ay:780});
+outUp('c4',13.3);
+
+/* ===== 13,5–16  map menutup, berubah jadi SPK, dicap ===== */
+tl.set('#cover',{rotateX:78},13.5);
+tl.to('#cover',{autoAlpha:1,duration:.1},13.55);
+tl.to('#cover',{rotateX:0,duration:.5,ease:'power3.out'},13.55);
+tl.fromTo('#spk',{opacity:0,top:500,height:584,scale:1},{opacity:1,top:470,height:736,duration:.6,ease:'power3.inOut',immediateRender:false},14.05);
+tl.to('#folder',{opacity:0,duration:.35},14.15);
+shot(14.0,.8,{s:1.12,fx:540,fy:850,ax:540,ay:830});
+tl.fromTo('#stamp',{opacity:0,scale:2.4,rotation:-22},{opacity:1,scale:1,rotation:-9,duration:.32,ease:'power4.in',immediateRender:false},14.85);
+tl.to(N,{sh:7,duration:.06},15.17);tl.to(N,{sh:0,duration:.4},15.23);
+inWords('c5',13.65,{st:.1});
+outLeft('c5',15.85);
+
+/* ===== 16–19,5  kamera mundur: SPK hanya satu dokumen di rak 12 kategori ===== */
+TILES.forEach((t,i)=>tl.set(t.el,{opacity:i?1:0,x:0,y:0,rotation:0,scale:1},15.9));
+tl.set(TILES.map(t=>t.el),{opacity:0},0);
+tl.fromTo('#spkBand',{opacity:0,y:60},{opacity:1,y:0,duration:.45,ease:'power3.out',immediateRender:false},16.05);
+tl.set('#spkBand',{opacity:0,y:0},0);
+tl.to('#stamp',{opacity:0,duration:.3},16.1);
+shot(16.0,1.5,{s:.375,fx:RX,fy:RY,ax:90,ay:340},'power3.inOut');
+tl.to('#grid',{autoAlpha:.35,duration:1},16.2);
+TILES.forEach((t,i)=>tl.to(t.band,{backgroundColor:'#0E7C86',duration:.25},17.2+i*.11));
+TILES.forEach((t,i)=>{tl.to($('h5',t.band),{color:'#FFFFFF',duration:.25},17.2+i*.11);tl.to($('span',t.band),{color:'#A9D2CD',duration:.25},17.2+i*.11);});
+tl.fromTo('#badge',{opacity:0,y:30},{opacity:1,y:0,duration:.5,ease:'power3.out',immediateRender:false},17.1);
+tl.to(N,{doc:93,duration:1.5,ease:'power2.out'},17.2);
+inUp('c6',16.3,{st:.014});
+outUp('c6',19.3);
+
+/* ===== 19,5–21  rak merapat jadi satu paket ===== */
+// titik layar (540,800) di kamera akhir = dunia (1460,1670); tile membesar 2.3× supaya pas dengan paket
+const PX=1460,PY=1670;
+TILES.forEach((t,i)=>{const els=i?[t.el]:[t.el,'#spk','#spkBand'];
+  tl.to(els,{x:PX-t.cx,y:PY-t.cy,rotation:(i-5.5)*1.6,scale:2.3,duration:.7,ease:'power3.inOut'},19.45+i*.025);});
+tl.to('#badge',{opacity:0,y:20,duration:.3},19.45);
+tl.fromTo('#pack',{opacity:0,scale:.94},{opacity:1,scale:1,duration:.45,ease:'power2.out',immediateRender:false},20.1);
+tl.to([...TILES.map(t=>t.el),'#spk','#spkBand'],{opacity:0,duration:.25},20.3);
+inLeft('c7',19.4,{st:.006});
+outUp('c7',20.75);
+
+/* ===== 21–23  penutup: nama produk + tombol ===== */
+tl.to('#pack',{y:-40,scale:.9,duration:.7,ease:'power3.inOut'},20.9);
+inDepth('c8',21.2,{st:.008});
+tl.fromTo('#cta',{opacity:0,y:40},{opacity:1,y:0,duration:.55,ease:'back.out(1.8)',immediateRender:false},21.35);
+tl.fromTo('#sweep',{left:'-60%'},{left:'130%',duration:.9,ease:'power2.inOut',immediateRender:false},21.5);
+tl.to('#cta',{scale:1.06,duration:.3,ease:'sine.inOut',yoyo:true,repeat:3},21.95);
+tl.to({},{duration:.01},DURATION-.01);
+
+/* ============ PEREKAT ============ */
+const stage=$('#stage');
+const fit=()=>{const k=Math.min(innerWidth/W,innerHeight/H);stage.style.transform=`translate(-50%,-50%) scale(${k})`;};
+addEventListener('resize',fit);fit();
+const clock=$('#clock'),scrub=$('#scrub'),btn=$('#btn-play');let scrubbing=false;
+(function frame(){const t=tl.time();render(t);clock.textContent=t.toFixed(2)+'s';
+  if(!scrubbing)scrub.value=String(t/DURATION*1000);requestAnimationFrame(frame);})();
+const toggle=()=>{if(tl.paused()||tl.progress()>=1){if(tl.progress()>=1)tl.progress(0);tl.play();btn.textContent='Pause';}else{tl.pause();btn.textContent='Play';}};
+btn.onclick=toggle;$('#btn-restart').onclick=()=>{tl.pause(0);tl.play();btn.textContent='Pause';};
+scrub.addEventListener('pointerdown',()=>{scrubbing=true;tl.pause();btn.textContent='Play';});
+addEventListener('pointerup',()=>scrubbing=false);
+scrub.addEventListener('input',()=>{tl.pause();tl.time(scrub.value/1000*DURATION);});
+addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();toggle();}
+  if(/^[rR]$/.test(e.key)){tl.pause(0);tl.play();}if(/^[hH]$/.test(e.key))$('#ui').classList.toggle('on');});
+if(Q.has('debug'))$('#ui').classList.add('on');
+tl.eventCallback('onComplete',()=>{tl.play(0);});
+const seek=t=>{tl.pause();tl.time(t,false);if(gsap.ticker.tick)gsap.ticker.tick();render(t);};
+window.OPENER={tl,DURATION,seek,W,H,ready:false};
+document.fonts.ready.then(()=>{window.OPENER.ready=true;if(!Q.has('clean'))tl.play(0);});
+</script>
+</body>
+</html>
