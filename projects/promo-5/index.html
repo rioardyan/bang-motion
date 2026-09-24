@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="id">
+<!-- Made with the Bang Motion skill by Bang Tutorial (https://youtube.com/bangtutorial) - MIT - https://github.com/bangtutorial/bang-motion -->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sepuluh Dokumen Unggulan</title>
+<!--
+  =====  STYLE BRIEF  =====
+  Tema/produk + 3 kata sifat : Practice Management Konsultan Pajak — concrete value 10 dokumen unggulan — jelas, lengkap, meyakinkan
+  Konsep                      : kandidat "Kartu dikocok" (menu fitur) · kandidat 13 Estafet benda · kandidat 11 Kolase ritmis
+                                → dipilih binder bertab: tiap tab ditarik = satu dokumen keluar, masalah dicoret lalu
+                                diganti nilai konkretnya. Urutan mengikuti perjalanan praktik (terima klien → berkembang).
+  Sidik jari struktur         : katalog bertab · 14 momen · binder → 10 kartu dokumen (visual khas tiap dokumen) → binder
+                                → tombol · pembuka headline dua ketukan · penutup binder tertutup + tombol
+  Beda dari promo-1..4        : Instrument Serif + Figtree; latar color-block yang berganti tiap tab (pemicu: tab ditarik);
+                                penekanan `strike` (masalah dicoret); tanda tangan gerak "tab ditarik → medan warna menyapu"
+  Palet                       : teal #0E7C86 (brand) + turunan gelap/hangat untuk tiap tab; kertas #F3EFE6; coret koral #FF8A6B
+  Render ringan               : tanpa noise, tanpa filter blur
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Figtree:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<style>
+:root{--teal:#0E7C86;--ink:#18211F;--mute:#6A726E;--paper:#F3EFE6;--coral:#FF8A6B;
+  --serif:"Instrument Serif",Georgia,serif;--sans:"Figtree",system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var(--sans)}
+#stage{position:fixed;left:50%;top:50%;width:1080px;height:1350px;transform:translate(-50%,-50%);overflow:hidden;
+  background:radial-gradient(70% 50% at 50% 0%,#FBF8F2 0%,transparent 70%),linear-gradient(180deg,#F5F1E9,#EBE4D6)}
+.glow{position:absolute;border-radius:50%;pointer-events:none}
+#gA{left:-300px;top:700px;width:900px;height:900px;background:radial-gradient(circle,rgba(14,124,134,.14),transparent 64%)}
+
+/* binder */
+#binder{position:absolute;left:290px;top:560px;width:500px;height:650px;z-index:5;perspective:1800px}
+#binder .pages{position:absolute;inset:8px 0 8px 18px;border-radius:14px;background:#FFFDF8;box-shadow:0 30px 60px -24px rgba(0,0,0,.35)}
+#binder .pg{position:absolute;inset:8px 0 8px 18px;border-radius:14px;background:#FFFDF8;transform-origin:0 50%;border:1px solid #E8E1D2}
+#cover{position:absolute;inset:0;border-radius:18px;transform-origin:0 50%;z-index:4;backface-visibility:hidden;
+  background:linear-gradient(150deg,#15909A,#0E7C86 45%,#0A5A61);box-shadow:0 40px 80px -30px rgba(10,60,64,.6)}
+#cover .sp{position:absolute;left:0;top:0;bottom:0;width:44px;border-radius:18px 0 0 18px;background:rgba(0,0,0,.22)}
+#cover b{position:absolute;left:84px;top:70px;font:700 18px/1 var(--sans);letter-spacing:.24em;color:#BFE3DF}
+#cover .n{position:absolute;left:80px;top:120px;font:400 230px/.85 var(--serif);color:#fff}
+#cover .d{position:absolute;left:86px;top:330px;font:600 34px/1.15 var(--sans);color:#E3F3F1}
+.tab{position:absolute;right:-30px;width:44px;height:42px;border-radius:0 10px 10px 0;z-index:3}
+
+/* headline */
+.hl{position:absolute;left:70px;right:70px;top:96px;z-index:20;opacity:0}
+.hl .ln{display:block;overflow:hidden;padding-bottom:6px}
+.hl .ln span{display:inline-block;font:400 84px/1.02 var(--serif);color:var(--ink);letter-spacing:-.01em}
+.hl em{font-style:italic;color:var(--teal)}
+#areas{position:absolute;left:0;right:0;top:250px;text-align:center;z-index:20;opacity:0}
+#areas b{display:block;font:800 150px/1 var(--sans);color:var(--teal);letter-spacing:-.03em}
+#areas span{display:block;margin-top:10px;font:600 40px/1 var(--sans);color:var(--ink)}
+#areas i{display:inline-block;margin-top:26px;padding:14px 28px;border-radius:999px;background:var(--ink);color:#fff;font:600 34px/1 var(--sans);font-style:normal}
+
+/* dokumen */
+.fld{position:absolute;inset:0;clip-path:inset(0 0 0 100%);z-index:8}
+.lab{position:absolute;left:70px;right:70px;top:92px;z-index:22;opacity:0;display:flex;align-items:center;gap:16px;color:#fff}
+.lab .no{font:800 22px/1 var(--sans);padding:9px 14px;border-radius:10px;background:rgba(255,255,255,.18)}
+.lab .nm{font:700 26px/1.2 var(--sans)}
+.lab .bn{margin-left:auto;font:800 17px/1 var(--sans);letter-spacing:.14em;padding:9px 14px;border-radius:999px;background:#FFE9A8;color:#6B4B00;white-space:nowrap}
+.pb,.vl{position:absolute;left:70px;right:70px;top:162px;z-index:22;opacity:0}
+.pb p{display:inline;position:relative;font:italic 400 68px/1.08 var(--serif);color:rgba(255,255,255,.88)}
+.pb .st{position:absolute;left:-6px;right:-6px;top:52%;height:8px;border-radius:4px;background:var(--coral);transform:scaleX(0);transform-origin:0 50%}
+.vl p{font:800 66px/1.06 var(--sans);color:#fff;letter-spacing:-.02em}
+.card{position:absolute;left:150px;top:520px;width:780px;height:700px;border-radius:30px;background:#FFFDF9;z-index:15;opacity:0;overflow:hidden;
+  box-shadow:0 50px 90px -40px rgba(0,0,0,.55)}
+.card .ch{padding:26px 34px;border-bottom:1px solid #ECE6DA;font:700 22px/1 var(--sans);letter-spacing:.14em;color:var(--mute)}
+.card .cb{position:absolute;left:34px;right:34px;top:92px;bottom:30px}
+/* visual kecil per dokumen */
+.gs{position:absolute;left:50%;top:40px;width:420px;margin-left:-210px}
+.gn{position:absolute;left:0;right:0;top:230px;text-align:center;font:800 96px/1 var(--sans);color:var(--ink)}
+.gn small{font-size:32px;color:var(--mute)}
+.pill{display:inline-block;padding:12px 22px;border-radius:999px;font:700 28px/1 var(--sans)}
+.row{display:flex;justify-content:space-between;align-items:baseline;padding:22px 0;border-bottom:1px solid #ECE6DA;font:600 30px/1.2 var(--sans);color:var(--ink)}
+.row small{color:var(--mute);font-weight:500}
+.big{font:800 76px/1 var(--sans);color:var(--ink);letter-spacing:-.02em}
+.ps{display:flex;align-items:center;gap:18px;padding:16px 18px;border-radius:14px;font:600 28px/1.2 var(--sans);color:var(--ink);opacity:0}
+.ps b{width:48px;height:48px;border-radius:12px;background:#EFE9DC;font:800 22px/48px var(--sans);text-align:center;flex:none}
+.stamp{position:absolute;padding:14px 24px;border:6px solid;border-radius:14px;font:800 36px/1 var(--sans);letter-spacing:.12em;transform:rotate(-9deg);opacity:0;background:rgba(255,255,255,.85)}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}
+.grid i{height:64px;border-radius:10px;background:#EFE9DC}
+.leg{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.leg span{display:flex;align-items:center;gap:8px;font:600 22px/1 var(--sans);color:var(--mute)}
+.leg span:before{content:"";width:18px;height:18px;border-radius:5px;background:var(--c)}
+.err{padding:22px 26px;border-radius:16px;background:#FDECEA;border:2px solid #E9A89C;font:700 30px/1.25 var(--sans);color:#9A3324}
+.err small{display:block;font:500 22px/1.3 var(--sans);color:#B0564A}
+.tbl{margin-top:24px;border-radius:14px;overflow:hidden;border:1px solid #ECE6DA}
+.tbl .th,.tbl .tr{display:grid;grid-template-columns:1.1fr 1.2fr .8fr;gap:14px;padding:13px 18px;align-items:center}
+.tbl .th{background:#F2EDE2;font:700 20px/1 var(--sans);letter-spacing:.08em;color:var(--mute)}
+.tbl .tr{border-top:1px solid #F0EADF;opacity:0}
+.tbl .tr i{height:12px;border-radius:6px;background:#E3DCCD}
+.tbl .tr i.ok{background:#BFE3DF}
+.ck{display:flex;align-items:center;gap:20px;padding:20px 6px;border-bottom:1px solid #ECE6DA;font:600 32px/1.2 var(--sans);color:var(--ink)}
+.ck b{width:46px;height:46px;border-radius:12px;border:3px solid #CFC7B6;position:relative;flex:none}
+.ck b i{position:absolute;inset:-3px;border-radius:12px;background:var(--teal);transform:scale(0)}
+.ck b i:after{content:"";position:absolute;left:15px;top:6px;width:11px;height:22px;border:solid #fff;border-width:0 5px 5px 0;transform:rotate(45deg)}
+.tl5{display:flex;justify-content:space-between;align-items:center;position:relative;margin:40px 10px 0}
+.tl5:before{content:"";position:absolute;left:30px;right:30px;top:30px;height:6px;border-radius:3px;background:#EFE9DC}
+.tl5 div{position:relative;text-align:center;font:700 22px/1 var(--sans);color:var(--mute)}
+.tl5 div b{display:block;width:60px;height:60px;margin:0 auto 12px;border-radius:50%;background:#EFE9DC;font:800 26px/60px var(--sans);color:#fff}
+.aging{display:flex;align-items:flex-end;gap:22px;height:230px;margin:40px 40px 0}
+.aging i{flex:1;height:100%;border-radius:12px 12px 0 0;transform-origin:50% 100%;transform:scaleY(0)}
+.env{position:absolute;width:300px;height:200px;border-radius:18px;background:#F4E4DC;border:3px solid #E0B9A8;font:800 40px/200px var(--sans);text-align:center;color:#9A3F2B}
+.doc2{position:absolute;width:330px;height:420px;border-radius:16px;background:#fff;border:2px solid #E6DFD1;padding:26px;box-shadow:0 20px 40px -24px rgba(0,0,0,.35)}
+.doc2 b{display:block;font:800 26px/1.2 var(--sans);color:var(--ink)}
+.doc2 i{display:block;height:12px;border-radius:6px;background:#EAE3D5;margin-top:18px}
+.sh{position:absolute;left:50%;top:10px;width:330px;margin-left:-165px}
+.b72{position:absolute;left:0;right:0;top:420px;text-align:center}
+.prof{display:flex;align-items:center;gap:24px;padding:10px 0 26px;border-bottom:1px solid #ECE6DA}
+.prof .av{width:110px;height:110px;border-radius:50%;background:#DDEBE8;position:relative;overflow:hidden}
+.prof .av:before{content:"";position:absolute;left:32px;top:20px;width:46px;height:46px;border-radius:50%;background:#8FB8B2}
+.prof .av:after{content:"";position:absolute;left:15px;top:72px;width:80px;height:70px;border-radius:40px 40px 0 0;background:#8FB8B2}
+.prof b{display:block;font:800 36px/1.1 var(--sans);color:var(--ink)}.prof small{font:500 24px/1.3 var(--sans);color:var(--mute)}
+
+/* penutup */
+#last{position:absolute;left:70px;right:70px;top:110px;text-align:center;z-index:30;opacity:0}
+#last p{font:400 96px/1 var(--serif);color:var(--ink)}
+#last p em{font-style:italic;color:var(--teal)}
+#fin{position:absolute;left:60px;right:60px;top:96px;text-align:center;z-index:30;opacity:0}
+#fin small{display:block;font:700 24px/1 var(--sans);letter-spacing:.26em;color:var(--mute)}
+#fin b{display:block;margin-top:18px;font:400 104px/1 var(--serif);color:var(--ink)}
+#fin b em{font-style:italic;color:var(--teal)}
+#cta{position:absolute;left:50%;top:1195px;width:640px;height:112px;margin-left:-320px;border-radius:999px;background:var(--ink);color:#fff;z-index:30;
+  display:flex;align-items:center;justify-content:center;gap:20px;font:800 44px/1 var(--sans);letter-spacing:.03em;opacity:0;box-shadow:0 24px 50px -18px rgba(0,0,0,.5)}
+#cta svg{width:44px;height:44px}
+#ui{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);display:none;gap:14px;padding:11px 18px;border-radius:16px;background:rgba(14,16,22,.9);color:#A0A6B4;font-size:13px;z-index:90}
+#ui.on{display:flex}#scrub{width:340px}
+</style>
+</head>
+<body>
+<div id="stage">
+  <i class="glow" id="gA"></i>
+  <div id="binder"><div class="pages"></div><div class="pg"></div><div class="pg"></div><div class="pg"></div>
+    <div id="cover"><div class="sp"></div><b>PRACTICE MANAGEMENT</b><div class="n">93</div><div class="d">dokumen kerja<br>konsultan pajak</div></div></div>
+
+  <div class="hl" id="h1"><span class="ln"><span>Bangun praktik konsultan</span></span><span class="ln"><span>pajak yang berjalan</span></span><span class="ln"><span>dengan <em>sistem</em>,</span></span></div>
+  <div class="hl" id="h2"><span class="ln"><span>bukan bergantung</span></span><span class="ln"><span>pada <em>ingatan</em>.</span></span></div>
+  <div id="areas"><b>93</b><span>dokumen kerja untuk</span><i id="area">onboarding klien</i></div>
+
+  <div id="docs"></div>
+
+  <div id="last"><p>Itu baru <em>10</em></p><p>dari 93</p></div>
+  <div id="fin"><small>PAKET DOKUMEN KERJA</small><b>Practice Management <em>Konsultan Pajak</em></b></div>
+  <div id="cta">DAPATKAN SEKARANG<svg viewBox="0 0 40 40"><path d="M8 20h22M21 10l10 10-10 10" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+</div>
+<div id="ui"><input id="scrub" type="range" min="0" max="1000" value="0"><span id="clk">0.00s</span></div>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const W=1080,H=1350;
+const COL=['#0E7C86','#0A5A61','#A8652F','#2F5E4E','#9A4A36','#164B53','#5E7030','#2F4F6A','#0A5A61','#A8652F'];
+const TABC=['#0E7C86','#0A5A61','#A8652F','#2F5E4E','#9A4A36','#164B53','#5E7030','#2F4F6A','#8FB3AE','#D9A566','#B7C68A','#7FA6C4'];
+/* 10 dokumen unggulan: [nama, masalah, nilai, header kartu, isi kartu, bonus?] */
+const DOCS=[
+ ['Pre-Assessment Kesehatan Data Klien','Baru sadar data klien berantakan setelah deal','Nilai 10 aspek sebelum kasih harga','SKOR KESEHATAN DATA',
+  `<svg class="gs" viewBox="0 0 420 230"><path d="M30 215 A180 180 0 0 1 390 215" fill="none" stroke="#EFE9DC" stroke-width="34" stroke-linecap="round"/><path class="gf" d="M30 215 A180 180 0 0 1 390 215" fill="none" stroke="#B8763E" stroke-width="34" stroke-linecap="round" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"/></svg>
+   <div class="gn"><span class="gv">0</span><small>/100</small></div><div style="position:absolute;left:0;right:0;top:380px;text-align:center"><span class="pill pp" style="background:#F6E7DA;color:#8A5528;opacity:0">Kategori C · fee +55%</span></div>`,1],
+ ['Kalkulator Fee','Pasang fee pakai feeling','Batas rugi kelihatan sebelum sepakat','KALKULATOR FEE',
+  `<div class="row"><span>Jam kerja dasar</span><span>56 jam</span></div><div class="row"><span>Faktor kompleksitas</span><span>× 1,55</span></div>
+   <div class="row"><span>Total jam kerja</span><span class="jv">56 jam</span></div><div style="margin-top:40px;font:700 24px/1 var(--sans);letter-spacing:.12em;color:#9A4A36">FEE MINIMUM · BATAS RUGI</div>
+   <div class="big fv" style="margin-top:16px">Rp 0</div>`,1],
+ ['Template Surat Perikatan Jasa (SPK)','Klien minta "sekalian"','5 pasal SPK yang mengunci lingkup','SURAT PERIKATAN JASA',
+  ['Ruang lingkup jasa','Kewajiban klien','Fee & denda','Kerahasiaan','Pengakhiran kontrak'].map((p,i)=>`<div class="ps"><b>${i+1}</b>Pasal ${i+1} · ${p}</div>`).join('')+
+  `<div class="stamp" style="right:10px;bottom:30px;border-color:#0E7C86;color:#0E7C86">ADDENDUM</div>`,0],
+ ['Master Tax Calendar Praktik','Deadline cuma diingat-ingat','Semua deadline klien, satu file','DEADLINE SELURUH KLIEN',
+  `<div class="grid">${'<i></i>'.repeat(35)}</div><div class="leg">${['#0E7C86','#2F7D4F','#E0B64A','#E08A4A','#C0463A','#7A8A99'].map((c,i)=>`<span style="--c:${c}">Status ${i+1}</span>`).join('')}</div>`,0],
+ ['Penanganan Kendala Teknis Coretax','Coretax error pas deadline mepet','9 kendala tersering + workaround-nya','TRIAGE KENDALA CORETAX',
+  `<div class="err">Coretax tidak bisa diakses<small>deadline tinggal hitungan jam…</small></div>
+   <div class="tbl"><div class="th"><span>KENDALA</span><span>WORKAROUND</span><span>ESKALASI</span></div>${'<div class="tr"><i></i><i class="ok"></i><i></i></div>'.repeat(5)}</div>
+   <div style="margin-top:16px;text-align:right;font:800 30px/1 var(--sans);color:#9A4A36">9 kendala terdokumentasi</div>`,0],
+ ['Checklist Review + Persetujuan Klien atas Draft SPT','Klien protes setelah SPT dikirim','Draft disetujui klien sebelum submit','SEBELUM SUBMIT SPT',
+  ['Identitas','Kebenaran angka','Kelengkapan lampiran','Konfirmasi klien'].map(c=>`<div class="ck"><b><i></i></b>${c}</div>`).join('')+
+  `<div class="stamp" style="right:6px;bottom:24px;border-color:#2F7D4F;color:#2F7D4F">DISETUJUI KLIEN</div>`,0],
+ ['Sistem Penagihan Fee + Tracker Piutang','Sungkan nagih fee','Reminder 5 tahap yang menagih untuk Anda','PENAGIHAN AKTIF',
+  `<div class="tl5">${[1,2,3,4,5].map(i=>`<div><b>${i}</b>Tahap ${i}</div>`).join('')}</div>
+   <div class="aging">${['#BFE3DF','#E0C27A','#E09A62','#C9604C'].map(c=>`<i style="background:${c}"></i>`).join('')}</div>
+   <div style="text-align:center;margin-top:14px;font:600 24px/1 var(--sans);color:var(--mute)">umur piutang · 4 kategori</div>`,0],
+ ['Respons SP2DK + Template Surat Tanggapan ke KPP','Klien panik dapat SP2DK','Protokol + surat tanggapan siap pakai','SP2DK → TANGGAPAN',
+  `<div class="env" style="left:10px;top:120px">SP2DK</div>
+   <div class="doc2" style="right:10px;top:40px"><b>Surat Tanggapan ke KPP</b><i></i><i style="width:80%"></i><i style="width:90%"></i><i style="width:60%"></i><i style="width:85%"></i><i style="width:70%"></i></div>
+   <div class="stamp" style="right:40px;bottom:40px;border-color:#0E7C86;color:#0E7C86">TERKIRIM</div>`,0],
+ ['Protokol Keamanan Data & Kepatuhan UU PDP','Data klien bocor, reputasi taruhannya','6 area keamanan + protokol UU PDP','KEAMANAN DATA KLIEN',
+  `<svg class="sh" viewBox="0 0 330 380">${[0,1,2,3,4,5].map(i=>{const a0=-90+i*60,a1=a0+56,r=150,cx=165,cy=175,p=a=>[cx+r*Math.cos(a*Math.PI/180),cy+r*Math.sin(a*Math.PI/180)];const[x0,y0]=p(a0),[x1,y1]=p(a1);
+     return `<path class="seg" d="M${cx} ${cy} L${x0.toFixed(1)} ${y0.toFixed(1)} A${r} ${r} 0 0 1 ${x1.toFixed(1)} ${y1.toFixed(1)} Z" fill="#E6EFEC"/>`}).join('')}
+     <circle cx="165" cy="175" r="72" fill="#FFFDF9"/><text x="165" y="193" text-anchor="middle" font-family="Figtree" font-weight="800" font-size="52" fill="#18211F">6</text></svg>
+   <div class="b72"><span class="pill" style="background:#18211F;color:#fff">Lapor kebocoran ≤ 72 jam</span></div>`,0],
+ ['Seleksi & Onboarding Kolaborator Lepas','Kewalahan sendirian saat peak season','Kolaborator siap kerja dalam 1–2 hari','KOLABORATOR LEPAS',
+  `<div class="prof"><div class="av"></div><div><b>Kolaborator lepas</b><small>bantuan peak season</small></div></div>
+   ${['Onboarding 1–2 hari','Akses data terbatas','NDA ditandatangani'].map(c=>`<div class="ck"><b><i></i></b>${c}</div>`).join('')}`,0]];
+const docsBox=$('#docs');
+DOCS.forEach((d,i)=>{const g=document.createElement('div');g.className='doc';g.id='d'+i;
+  g.innerHTML=`<div class="fld" style="background:radial-gradient(70% 50% at 80% 0%,rgba(255,255,255,.16),transparent 70%),${COL[i]}"></div>
+  <div class="lab"><span class="no">${String(i+1).padStart(2,'0')} / 10</span><span class="nm">${d[0]}</span>${d[5]?'<span class="bn">BONUS TOOLS</span>':''}</div>
+  <div class="pb"><p>${d[1]}<i class="st"></i></p></div><div class="vl"><p>${d[2]}</p></div>
+  <div class="card"><div class="ch">${d[3]}</div><div class="cb">${d[4]}</div></div>`;docsBox.appendChild(g);});
+TABC.forEach((c,i)=>{const t=document.createElement('i');t.className='tab';t.style.top=(46+i*48)+'px';t.style.background=c;$('#binder').appendChild(t);});
+
+const N={g:0,j:56,f:0};
+function render(t){
+  $('#gA').style.transform=`translate(${(Math.sin(t*.3)*80).toFixed(1)}px,${(Math.cos(t*.25)*60).toFixed(1)}px)`;
+  $('#d0 .gv').textContent=Math.round(N.g);$('#d0 .gf').setAttribute('stroke-dashoffset',(100-N.g).toFixed(2));
+  $('#d1 .jv').textContent=(Math.round(N.j*10)/10).toLocaleString('id-ID')+' jam';
+  $('#d1 .fv').textContent='Rp '+(Math.round(N.f/5000)*5000).toLocaleString('id-ID');
+}
+const Q=new URLSearchParams(location.search);
+const tl=gsap.timeline({paused:true});
+const hlIn=(id,at)=>{tl.set('#'+id,{opacity:1},at);tl.fromTo($$('#'+id+' .ln>span'),{yPercent:110},{yPercent:0,duration:.7,ease:'power4.out',stagger:.12,immediateRender:false},at);};
+const hlOut=(id,at)=>{tl.to($$('#'+id+' .ln>span'),{yPercent:-110,duration:.35,ease:'power2.in',stagger:.05},at);tl.set('#'+id,{opacity:0},at+.5);};
+
+/* ===== 0–8,5 HEADLINE + 93 dokumen ===== */
+tl.set(N,{g:0,j:56,f:0},0);
+tl.fromTo('#binder',{y:120,opacity:0},{y:0,opacity:1,duration:.9,ease:'power3.out',immediateRender:false},.1);
+hlIn('h1',.3);
+hlOut('h1',3.2);hlIn('h2',3.55);
+tl.to('#cover',{rotateY:-160,duration:.9,ease:'power2.inOut'},3.7);
+$$('#binder .pg').forEach((p,i)=>tl.fromTo(p,{rotateY:0},{rotateY:-170,duration:.5,ease:'power2.inOut',immediateRender:false},4.2+i*.16));
+hlOut('h2',5.9);
+tl.to('#binder',{y:430,scale:.8,opacity:.0,duration:.6,ease:'power3.in'},5.9);
+tl.fromTo('#areas',{opacity:0,y:40},{opacity:1,y:0,duration:.5,ease:'power3.out',immediateRender:false},6.1);
+['SPT','tax planning','keamanan data','pengembangan bisnis'].forEach((a,i)=>{const at=6.9+i*.38;
+  tl.to('#area',{yPercent:-40,opacity:0,duration:.1},at);tl.set('#area',{textContent:a},at+.1);tl.fromTo('#area',{yPercent:40,opacity:0},{yPercent:0,opacity:1,duration:.12,immediateRender:false},at+.1);});
+tl.to('#areas',{opacity:0,y:-40,duration:.3},8.4);
+
+/* ===== 8,5–38,5 SEPULUH DOKUMEN (3 dtk per dokumen) ===== */
+const VIS=[
+ T=>{tl.to(N,{g:50,duration:1.2,ease:'power2.out'},T+.7);tl.fromTo('#d0 .pp',{opacity:0,scale:.6},{opacity:1,scale:1,duration:.35,ease:'back.out(2.5)',immediateRender:false},T+1.9);},
+ T=>{tl.to(N,{j:86.8,duration:.6,ease:'power2.out'},T+.7);tl.to(N,{f:24955000,duration:1,ease:'power2.out'},T+1.2);},
+ T=>{tl.fromTo('#d2 .ps',{opacity:0,x:40},{opacity:1,x:0,duration:.3,stagger:.12,immediateRender:false},T+.6);
+     tl.to('#d2 .ps:first-child',{backgroundColor:'#DCEDEB',duration:.3},T+1.4);
+     tl.fromTo('#d2 .stamp',{opacity:0,scale:2},{opacity:1,scale:1,duration:.28,ease:'power4.in',immediateRender:false},T+1.9);},
+ T=>{const C=['#0E7C86','#2F7D4F','#E0B64A','#E08A4A','#C0463A','#7A8A99'];
+     $$('#d3 .grid i').forEach((c,k)=>tl.to(c,{backgroundColor:C[(k*7+3)%6],duration:.15},T+.6+((k*11)%35)*.04));},
+ T=>{tl.fromTo('#d4 .err',{x:0},{keyframes:[{x:-10},{x:9},{x:-6},{x:0}],duration:.35,immediateRender:false},T+.6);
+     tl.to('#d4 .tr',{opacity:1,duration:.2,stagger:.13},T+1.2);},
+ T=>{$$('#d5 .ck b i').forEach((c,k)=>tl.to(c,{scale:1,duration:.25,ease:'back.out(3)'},T+.7+k*.25));
+     tl.fromTo('#d5 .stamp',{opacity:0,scale:2},{opacity:1,scale:1,duration:.28,ease:'power4.in',immediateRender:false},T+1.9);},
+ T=>{$$('#d6 .tl5 b').forEach((c,k)=>tl.to(c,{backgroundColor:'#0E7C86',duration:.2},T+.6+k*.2));
+     tl.to('#d6 .aging i',{scaleY:(k)=>[.35,.6,.8,1][k],duration:.4,stagger:.1,ease:'power2.out'},T+1.5);},
+ T=>{tl.fromTo('#d7 .env',{x:0,rotation:0},{x:-30,rotation:-8,duration:.5,ease:'power2.out',immediateRender:false},T+.6);
+     tl.fromTo('#d7 .doc2',{x:120,opacity:0},{x:0,opacity:1,duration:.5,ease:'power3.out',immediateRender:false},T+.9);
+     tl.fromTo('#d7 .stamp',{opacity:0,scale:2},{opacity:1,scale:1,duration:.28,ease:'power4.in',immediateRender:false},T+1.9);},
+ T=>{tl.to('#d8 .seg',{fill:'#0E7C86',duration:.18,stagger:.14},T+.6);
+     tl.fromTo('#d8 .b72 .pill',{opacity:0,y:20},{opacity:1,y:0,duration:.35,immediateRender:false},T+1.6);},
+ T=>{$$('#d9 .ck b i').forEach((c,k)=>tl.to(c,{scale:1,duration:.25,ease:'back.out(3)'},T+.8+k*.3));}];
+DOCS.forEach((d,i)=>{const T=8.5+i*3,g='#d'+i;
+  tl.to(g+' .fld',{clipPath:'inset(0 0 0 0%)',duration:.55,ease:'power3.inOut'},T-.15);
+  tl.fromTo(g+' .card',{opacity:1,x:900,rotation:7},{opacity:1,x:0,rotation:0,duration:.6,ease:'power3.out',immediateRender:false},T+.05);
+  tl.set(g+' .card',{opacity:0},0);
+  tl.fromTo(g+' .lab',{opacity:0,y:-16},{opacity:1,y:0,duration:.35,immediateRender:false},T+.2);
+  tl.fromTo(g+' .pb',{opacity:0,y:30},{opacity:1,y:0,duration:.35,ease:'power3.out',immediateRender:false},T+.3);
+  tl.to(g+' .st',{scaleX:1,duration:.3,ease:'power2.out'},T+1.05);
+  tl.to(g+' .pb',{opacity:0,y:-24,duration:.25,ease:'power2.in'},T+1.45);
+  tl.fromTo(g+' .vl',{opacity:0,y:30},{opacity:1,y:0,duration:.4,ease:'power3.out',immediateRender:false},T+1.55);
+  VIS[i](T);
+  if(i<9){tl.to([g+' .lab',g+' .vl'],{opacity:0,duration:.2},T+2.75);
+           tl.to(g+' .card',{x:-1150,rotation:-7,duration:.45,ease:'power3.in'},T+2.72);}
+});
+
+/* ===== 38,5–40,8 "Itu baru 10 dari 93" ===== */
+tl.to(['#d9 .lab','#d9 .vl'],{opacity:0,duration:.25},38.4);
+tl.to('#d9 .card',{y:900,duration:.45,ease:'power3.in'},38.4);
+tl.to('#docs .fld',{clipPath:'inset(0 100% 0 0%)',duration:.6,ease:'power3.inOut'},38.55);
+tl.set('#binder',{y:0,scale:1},38.5);tl.set('#cover',{rotateY:0},38.5);tl.set('#binder .pg',{rotateY:0},38.5);
+tl.fromTo('#binder',{opacity:0,y:260},{opacity:1,y:0,duration:.7,ease:'power3.out',immediateRender:false},38.8);
+tl.fromTo('#binder .tab',{x:-30},{x:0,duration:.3,stagger:.05,ease:'back.out(2)',immediateRender:false},39.1);
+tl.fromTo('#last',{opacity:0,y:40},{opacity:1,y:0,duration:.5,ease:'power3.out',immediateRender:false},38.9);
+tl.to('#last',{opacity:0,y:-30,duration:.3},40.7);
+
+/* ===== 40,8–44,5 CTA ===== */
+tl.fromTo('#fin',{opacity:0,y:40},{opacity:1,y:0,duration:.55,ease:'power3.out',immediateRender:false},41.0);
+tl.to('#binder',{y:-40,scale:.88,duration:.6,ease:'power3.inOut'},40.9);
+tl.fromTo('#cta',{opacity:0,y:40,scale:.9},{opacity:1,y:0,scale:1,duration:.5,ease:'back.out(2)',immediateRender:false},41.5);
+tl.to('#cta',{scale:1.05,duration:.28,ease:'sine.inOut',yoyo:true,repeat:3},42.2);
+const DURATION=44.5;
+tl.to({},{duration:.01},DURATION-.01);
+
+/* ============ perekat ============ */
+const stage=$('#stage');const fit=()=>{stage.style.transform=`translate(-50%,-50%) scale(${Math.min(innerWidth/W,innerHeight/H)})`;};
+addEventListener('resize',fit);fit();
+const clk=$('#clk'),scrub=$('#scrub');let scrubbing=false;
+(function loop(){const t=tl.time();render(t);clk.textContent=t.toFixed(2)+'s';if(!scrubbing)scrub.value=t/DURATION*1000;requestAnimationFrame(loop);})();
+scrub.addEventListener('pointerdown',()=>{scrubbing=true;tl.pause();});addEventListener('pointerup',()=>scrubbing=false);
+scrub.addEventListener('input',()=>{tl.pause();tl.time(scrub.value/1000*DURATION);});
+addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();tl.paused()?tl.play():tl.pause();}if(/^[rR]$/.test(e.key))tl.play(0);});
+if(Q.has('debug'))$('#ui').classList.add('on');
+tl.eventCallback('onComplete',()=>tl.play(0));
+const seek=t=>{tl.pause();tl.time(t,false);if(gsap.ticker.tick)gsap.ticker.tick();render(t);};
+window.OPENER={tl,DURATION,seek,W,H,ready:false};
+document.fonts.ready.then(()=>{window.OPENER.ready=true;if(!Q.has('clean'))tl.play(0);});
+</script>
+</body>
+</html>
