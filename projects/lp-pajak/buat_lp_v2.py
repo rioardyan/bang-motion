@@ -104,3 +104,14 @@ end=s.index('</div>',s.index('Kalkulator Fee &amp; Estimasi Skenario Tax Plannin
 s=s[:a].rstrip()+'\n\n'+s[end:].lstrip('\n')
 s=s.replace('Contoh tampilan dari dalam paket — 5 dokumen yang paling sering dipakai.','Contoh tampilan dari dalam paket — 4 dokumen yang paling sering dipakai.')
 open(OUT,'w').write(s)
+# --- revisi: hapus disclaimer demo, rapatkan gap ke Paket & Harga, bersihkan teks checkout
+s=open(OUT).read()
+for a,b in [
+ ('    <p class="preview-disclaimer">*Demo dengan data contoh.</p>\n',''),
+ ('<section id="demo-tools">','<section id="demo-tools" style="padding-bottom:8px;">'),
+ ('    <p style="text-align:center;color:var(--ink-soft);margin-top:10px;">Pilih paket sesuai kebutuhan praktik Anda, lengkapi data, lalu mulai bangun sistem kerja yang lebih rapi dan siap berkembang.</p>\n',''),
+ ('    <p style="text-align:center;font-size:.9rem;margin-top:18px;color:var(--ink-soft);">Ganti paket kapan saja tanpa perlu scroll ke atas:</p>\n',''),
+ ('<div id="inline-tier-selector" style="margin-top:14px;','<div id="inline-tier-selector" style="margin-top:22px;'),
+]:
+  assert s.count(a)==1,a; s=s.replace(a,b)
+open(OUT,'w').write(s)
