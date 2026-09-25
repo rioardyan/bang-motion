@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="id">
+<!-- Made with the Bang Motion skill (https://github.com/bangtutorial/bang-motion) - MIT -->
+<head>
+<meta charset="utf-8">
+<title>Daftar Isi Legal Management</title>
+<!--
+  STYLE BRIEF (catatan; naskah + visual disetujui user) — promo 4, credit title
+  Konsep             : tipografi murni — daftar isi lengkap bergulung seperti credit film, judul kategori menempel
+  Sidik jari         : tipografi murni · 5 babak · judul hook / judul mengecil jadi kepala / gulungan 25 kategori 203 baris +
+                       penghitung file / kalimat manfaat / nama + tombol · judul hook di medan teal · tombol ditekan
+  Palet (dari tools) : medan teal #0E7C86 → #0A5A61, cahaya #4FC3CC, teks #F6FAFA, tanda "–" dan tombol #FFA200
+  Font               : Figtree 500/600/700/800
+  Gerak latar        : cahaya lembut bergeser pelan di medan teal
+  Tanda tangan gerak : gulungan naik konstan, judul kategori menempel lalu terdorong judul berikutnya
+  Sumber daftar      : daftar.json, diambil otomatis dari masterlist (25 kategori, 201 file + 2 tool)
+-->
+<link rel="stylesheet" href="vendor/fonts.css">
+<script src="vendor/gsap.min.js"></script>
+<style>
+:root{--teal:#0E7C86;--deep:#0A5A61;--glow:#4FC3CC;--paper:#F6FAFA;--btn:#FFA200;--btn-ink:#1D2B2D;--ff:"Figtree","Arial",sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#063E43;overflow:hidden}
+#filters{position:fixed;width:0;height:0;opacity:0;pointer-events:none}
+#stage{position:fixed;left:50%;top:50%;width:1080px;height:1350px;overflow:hidden;transform:translate(-50%,-50%);
+  background:linear-gradient(170deg,#0F8490 0%,var(--teal) 40%,var(--deep) 100%);font-family:var(--ff);color:var(--paper)}
+.lt{position:absolute;width:1300px;height:1300px;border-radius:50%;pointer-events:none}
+#l1{background:radial-gradient(circle,rgba(79,195,204,.38),transparent 62%)}
+#l2{background:radial-gradient(circle,rgba(6,54,58,.55),transparent 62%)}
+.w{display:inline-block;opacity:0}
+#hk{position:absolute;left:0;right:0;top:0;height:1350px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+#hk h3{font:700 40px var(--ff);letter-spacing:.34em;margin-right:-.34em;opacity:.92}
+#hk h1{font:800 172px/.92 var(--ff);letter-spacing:-.03em;margin-top:26px}
+#hk h1 .ch{display:inline-block;opacity:0}
+#dock{position:absolute;left:0;right:0;top:54px;text-align:center;opacity:0}
+#dock h3{font:700 26px var(--ff);letter-spacing:.34em;margin-right:-.34em;opacity:.85}
+#dock h1{font:800 70px/1 var(--ff);letter-spacing:-.025em;margin-top:8px}
+#win{position:absolute;left:0;right:0;top:220px;height:960px;overflow:hidden;
+  -webkit-mask-image:linear-gradient(transparent 0,#000 70px,#000 850px,transparent 960px);mask-image:linear-gradient(transparent 0,#000 70px,#000 850px,transparent 960px)}
+#roll{position:absolute;left:0;right:0;top:0;padding:0 64px}
+.cat{height:78px;margin-top:40px}
+.cat:first-child{margin-top:0}
+.it{display:flex;gap:18px;font:500 33px/1.3 var(--ff);padding:3px 0}
+.it i{font-style:normal;color:var(--btn);font-weight:800;flex:0 0 auto}
+.hd{position:absolute;left:52px;top:0;height:66px;display:flex;align-items:center;gap:16px;padding:0 24px 0 20px;border-radius:16px;
+  background:var(--deep);box-shadow:0 10px 30px rgba(3,40,44,.35);font:800 36px var(--ff);letter-spacing:-.01em;white-space:nowrap;will-change:transform}
+.hd b{font:800 30px var(--ff);color:var(--btn-ink);background:var(--btn);border-radius:10px;padding:2px 12px;font-variant-numeric:tabular-nums}
+#cnt{position:absolute;left:64px;right:64px;top:1206px;display:flex;align-items:center;gap:22px;opacity:0}
+#cnt .n{font:800 64px/1 var(--ff);font-variant-numeric:tabular-nums;min-width:3.2ch;text-align:right}
+#cnt .of{font:600 32px var(--ff);opacity:.9;white-space:nowrap}
+#cnt .bar{flex:1;height:12px;border-radius:6px;background:rgba(246,250,250,.2);overflow:hidden}
+#cnt .bar i{display:block;height:100%;width:100%;background:var(--btn);transform-origin:0 50%;transform:scaleX(0)}
+#ben{position:absolute;left:80px;right:80px;top:380px;text-align:center;font:700 64px/1.14 var(--ff);letter-spacing:-.018em}
+#end{position:absolute;left:0;right:0;top:250px;text-align:center}
+#end h2{font:800 76px/1 var(--ff);letter-spacing:-.025em;opacity:0}
+#end p{font:600 40px var(--ff);margin-top:22px;opacity:0}
+#end small{display:inline-block;margin-top:22px;font:800 30px var(--ff);letter-spacing:.08em;color:var(--btn-ink);background:var(--btn);border-radius:10px;padding:6px 18px;opacity:0}
+#cta{position:absolute;left:540px;top:900px;width:760px;height:160px;opacity:0}
+#cta .btn{position:absolute;inset:0;border-radius:80px;background:var(--btn);display:grid;place-items:center;font:800 62px var(--ff);
+  letter-spacing:.02em;color:var(--btn-ink);box-shadow:0 0 0 14px rgba(255,162,0,.2),0 30px 70px rgba(3,40,44,.45)}
+#tap{position:absolute;left:0;top:0;width:120px;height:120px;border-radius:50%;border:6px solid #fff;opacity:0}
+#ui{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);display:none;gap:12px;align-items:center;padding:10px 16px;
+  border-radius:14px;background:rgba(6,20,22,.92);color:#9fb;font:13px system-ui;z-index:9}
+#ui.on{display:flex} #ui button{background:#1d3a3c;color:#fff;border:0;padding:7px 14px;border-radius:8px;cursor:pointer}
+#scrub{width:340px} #clock{font-variant-numeric:tabular-nums;min-width:5.5ch;text-align:right}
+</style>
+</head>
+<body>
+<svg id="filters"><defs></defs></svg>
+<div id="stage">
+  <i class="lt" id="l1"></i><i class="lt" id="l2"></i>
+  <div id="hk"><h3>SISTEM TATA KELOLA</h3><h1>MANAJEMEN<br>LEGAL</h1></div>
+  <div id="dock"><h3>SISTEM TATA KELOLA</h3><h1>MANAJEMEN LEGAL</h1></div>
+  <div id="win"><div id="roll"></div><div id="hds"></div></div>
+  <div id="cnt"><span class="n" id="cn">0</span><span class="of">dari 201 file</span><span class="bar"><i id="cb"></i></span></div>
+  <div id="ben">Kontrak, izin, karyawan, sampai sengketa: alurnya sudah tertulis. Tinggal isi nama perusahaan, langsung pakai.</div>
+  <div id="end"><h2>Legal Management System</h2><p>201 file + 2 tool online</p><small>PAKET PRO PLUS</small></div>
+  <div id="cta"><div class="btn">DAPATKAN SEKARANG</div><div id="tap"></div></div>
+</div>
+<div id="ui"><button id="bPlay">Pause</button><button id="bRe">Restart</button>
+  <input id="scrub" type="range" min="0" max="1000" value="0"><span id="clock">0.00s</span></div>
+<script>
+(function(){
+"use strict";
+const DATA=[{"n": "Fondasi Legalitas & Kepatuhan Umum", "i": ["SOP Keamanan Siber, Hak Akses & Perlindungan Data (UU PDP)", "SOP Backup & Pemulihan Data Digital", "SOP K3 Fasilitas & Jalur Evakuasi Kebakaran", "SOP Media Handling saat Krisis Operasional", "SOP Audit Internal Berkala", "SOP Penilaian & Mitigasi Risiko Operasional", "SOP Pelaporan & Penanganan Insiden Internal", "SOP Investigasi Insiden & Root Cause Analysis (RCA)", "SOP Tindak Lanjut CAPA (Corrective & Preventive Action)", "SOP Retensi, Pengarsipan & Pemusnahan Dokumen", "Peraturan Internal & Kode Etik Karyawan", "Form NDA / Pakta Integritas Kerahasiaan (Staf)", "Form Laporan Kronologis Insiden Internal", "Checklist Masa Berlaku Perizinan & Legalitas Bisnis", "Checklist Kepatuhan Pajak Bisnis (PPh 21, PPh 23, PPN)"]}, {"n": "Fondasi HR & Manajemen Tim", "i": ["SOP Rekrutmen, Seleksi & Uji Kompetensi Karyawan", "SOP Onboarding, Orientasi & Pelatihan Budaya Kerja", "SOP Pengajuan Cuti, Tukar Jadwal & Lembur", "SOP Penanganan Pelanggaran Disiplin & Penerbitan SP", "SOP Penilaian Kinerja & Evaluasi Berkala Karyawan", "SOP Pengembangan Kompetensi & Pelatihan Berkelanjutan", "SOP Pengunduran Diri & Offboarding Karyawan", "SOP Pengelolaan Jadwal Kerja & Shift Karyawan", "SOP Kredensial & Verifikasi Kompetensi Tenaga Ahli", "Jobdesc & Standar Kompetensi — Manajer/Koordinator", "Jobdesc & Standar Kompetensi — Staf Front Office/Admin", "Jobdesc & Standar Kompetensi — Staf Operasional/Teknis", "Tata Tertib, Larangan & Standar Kedisiplinan Karyawan", "Kamus Standar Kompetensi & Etika Pelayanan", "Form Self-Assessment Performa Karyawan", "Form Berita Acara Konseling & Teguran Kedisiplinan", "Template Kontrak Kerja Karyawan (Per Jabatan)", "Matriks KPI Bulanan Staf", "Master Schedule Shift Bulanan"]}, {"n": "Kebijakan Kepatuhan Hukum", "i": ["Kebijakan Kepatuhan Hukum Perusahaan", "Kebijakan Manajemen Kontrak", "Kebijakan Perlindungan Data & Privasi", "Kebijakan Anti Korupsi & Gratifikasi", "Kebijakan Whistleblowing", "Kebijakan Kode Etik Bisnis & Integritas Korporat", "Kebijakan Kekayaan Intelektual", "Kebijakan Hubungan dengan Regulator"]}, {"n": "Kebijakan Pengelolaan Kontrak", "i": ["Kebijakan Standarisasi Template Kontrak", "Kebijakan Review & Approval Kontrak", "Kebijakan Standarisasi Perjanjian", "Kebijakan Pengarsipan Dokumen Legal", "Kebijakan Manajemen Vendor & Mitra (Aspek Legal)", "Kebijakan Perubahan (Amendment) Kontrak"]}, {"n": "SOP Siklus Kontrak", "i": ["SOP Permintaan Pembuatan Kontrak", "SOP Review Kontrak", "SOP Negosiasi Kontrak", "SOP Approval Kontrak", "SOP Penandatanganan Kontrak", "SOP Distribusi & Penyimpanan Kontrak", "SOP Monitoring Masa Berlaku Kontrak", "SOP Amendment Kontrak", "SOP Terminasi Kontrak", "SOP Renewal Kontrak"]}, {"n": "SOP Kepatuhan Regulasi", "i": ["SOP Identifikasi Regulasi Baru", "SOP Perizinan Usaha", "SOP Pelaporan Kepatuhan ke Regulator", "SOP Monitoring Kepatuhan", "SOP Audit Kepatuhan", "SOP Tanggap Perubahan Regulasi", "SOP Penanganan Pelanggaran Regulasi"]}, {"n": "Instruksi Kerja (IK)", "i": ["IK Pengisian Template Kontrak", "IK Legalisasi Dokumen", "IK Penomoran Dokumen Legal", "IK Penyusunan Perjanjian Kerja", "IK Pengajuan Perizinan Online (OSS)", "IK Legal Opinion", "IK Notarisasi Dokumen"]}, {"n": "Checklist", "i": ["Checklist Review Kontrak", "Checklist Monitoring Deadline Legal", "Checklist Kepatuhan Perizinan", "Checklist Aktivitas Legal Harian"]}, {"n": "Form", "i": ["Form Permintaan Legal", "Form Approval Kontrak", "Form Permintaan Legal Opinion", "Form Pelaporan Pelanggaran", "Form Monitoring Kontrak"]}, {"n": "Register", "i": ["Register Kontrak", "Register Izin Usaha & Perizinan", "Register Vendor Legal"]}, {"n": "Template Dasar", "i": ["Perjanjian Kerahasiaan (NDA) Pihak Ketiga", "Perjanjian Kerja Sama Umum (MoU)", "Perjanjian Kerja (PKWT & PKWTT)", "Perjanjian Kerja Sama dengan Vendor/Supplier"]}, {"n": "Legal Toolkit Excel (Dasar)", "i": ["Dashboard Fungsi Legal", "Tracker Permintaan Legal", "Kalender Kepatuhan Tahunan", "Matriks Kewenangan Approval", "Tracker Negosiasi Kontrak", "Register Dokumen Korporat", "Register Konflik Kepentingan & Gratifikasi", "Register Surat Kuasa", "Kalkulator Pesangon PHK", "Kalkulator Kompensasi PKWT", "Tracker PKWT Karyawan", "Tracker SP & Disiplin"]}, {"n": "SOP Litigasi & Penyelesaian Sengketa", "i": ["SOP Penanganan Gugatan", "SOP Persiapan Dokumen Litigasi", "SOP Koordinasi dengan Pengacara Eksternal", "SOP Negosiasi & Mediasi Penyelesaian Sengketa", "SOP Pelaporan Progress Litigasi", "SOP Penyimpanan Bukti & Dokumen Litigasi", "SOP Eksekusi Putusan", "SOP Arbitrase & Penyelesaian Sengketa Alternatif"]}, {"n": "SOP Audit Legal", "i": ["SOP Perencanaan Audit Legal", "SOP Pelaksanaan Audit Legal", "SOP Penyusunan Laporan Audit Legal", "SOP Tindak Lanjut Temuan Audit", "SOP Monitoring Remediasi Audit", "SOP Evaluasi Efektivitas Program Legal", "SOP Dokumentasi Hasil Audit"]}, {"n": "SOP HR Legal", "i": ["SOP Penyusunan Kontrak Kerja", "SOP Proses PHK", "SOP Penanganan Sengketa Ketenagakerjaan", "SOP Kepatuhan UU Ketenagakerjaan", "SOP Pengelolaan BPJS & Tunjangan (Aspek Legal)", "SOP Disiplin & Sanksi Karyawan", "SOP Pelatihan Kepatuhan HR", "SOP Dokumentasi HR Legal"]}, {"n": "Matrix Risiko", "i": ["Matrix Risiko Kontrak", "Matrix Risiko Kepatuhan Regulasi", "Matrix Risiko Operasional Legal"]}, {"n": "Template Perjanjian Lanjutan", "i": ["Kontrak Sewa Menyewa (Bangunan/Properti)", "Kontrak Jasa (Service Agreement dengan SLA)", "Kontrak Kerja Sama Distribusi", "Kontrak Waralaba (Franchise)", "Surat Peringatan Karyawan (SP1/SP2/SP3)", "Surat Pemutusan Hubungan Kerja", "Legal Opinion", "Surat Kuasa (Umum & Khusus)", "Somasi", "Perjanjian Bersama (PHK)", "Addendum Kontrak", "Release & Discharge (Pembebasan Tuntutan)"]}, {"n": "Legal Toolkit Excel (Lanjutan)", "i": ["Tracker Biaya Legal & Pengacara Eksternal", "Kalkulator Denda & Bunga Kontrak", "Tracker Pelatihan Kepatuhan", "Tracker Legal Hold"]}, {"n": "SOP Kepatuhan Khusus", "i": ["SOP Due Diligence Hukum", "SOP Kepatuhan Anti Pencucian Uang (APU-PPT)", "SOP Kepatuhan Persaingan Usaha", "SOP Kepatuhan Lingkungan Hidup", "SOP Kepatuhan Hukum Perpajakan & Sengketa Pajak", "SOP Manajemen Lisensi & Hak Kekayaan Intelektual", "SOP Kepatuhan Data Pribadi (UU PDP)", "SOP Penilaian Risiko Hukum Berkala", "SOP Pelaporan Insiden Legal", "SOP Review Kebijakan Legal Tahunan"]}, {"n": "SOP Investigasi Internal & Whistleblowing", "i": ["SOP Penerimaan Laporan Whistleblowing", "SOP Investigasi Dugaan Pelanggaran", "SOP Penanganan Konflik Kepentingan", "SOP Investigasi Kecurangan (Fraud)", "SOP Pelaporan Hasil Investigasi ke Manajemen", "SOP Dokumentasi Kasus Investigasi", "SOP Perlindungan Pelapor (Whistleblower)"]}, {"n": "Register Lanjutan", "i": ["Register Litigasi & Sengketa", "Register Risiko Legal", "Register Temuan Audit Legal", "Register Regulasi Terapan", "Register Hak Kekayaan Intelektual"]}, {"n": "Template Perjanjian & Laporan Korporat", "i": ["Perjanjian Usaha Patungan (Joint Venture)", "Shareholders Agreement (Perjanjian Pemegang Saham)", "Perjanjian Jual Beli Saham (Share Purchase Agreement)", "Perjanjian Escrow", "Perjanjian Pinjam Meminjam Antar Perusahaan", "Perjanjian Penjaminan (Guarantee Agreement)", "Anggaran Dasar Perubahan (Template Rapat RUPS)", "Perjanjian Merger & Akuisisi (Merger Agreement)", "Kontrak Sewa Aset (Peralatan/Kendaraan)", "Perjanjian Pengalihan Aset (Asset Purchase Agreement)", "Term Sheet / Letter of Intent (LOI)", "Surat Teguran Hukum (Cease & Desist)", "Template Laporan Due Diligence", "Surat Keputusan Direksi (Board Resolution)", "Template Legal Memo", "Perjanjian Settlement (Penyelesaian Sengketa)", "Perjanjian Kerja Sama Konsorsium (Consortium Agreement)", "Perjanjian Lisensi (Hak Kekayaan Intelektual)", "Perjanjian Distribusi Eksklusif", "Template Legal Risk Assessment Report"]}, {"n": "Legal Toolkit Excel (Pro Plus)", "i": ["Register Aktivitas Pemrosesan Data Pribadi (ROPA)", "Self-Assessment UU PDP", "Tracker Due Diligence & Data Room", "Tracker Whistleblowing", "Scoring Due Diligence Mitra", "Compliance Scorecard per Unit", "Dashboard Eksekutif Legal"]}, {"n": "Template Perjanjian & Surat Operasional", "i": ["Perjanjian Kerja Sama Tenaga Lepas (Freelancer)", "Perjanjian Kerja Harian Lepas", "Perjanjian Ikatan Dinas Pelatihan", "Perjanjian Pinjam Pakai Aset Perusahaan oleh Karyawan", "Surat Keterangan Kerja (Paklaring)", "Surat Pengunduran Diri dan Surat Penerimaan Pengunduran Diri", "Perjanjian Kerja Sama Bagi Hasil Usaha", "Perjanjian Agen Pemasaran Berbasis Komisi", "Surat Pengakuan Utang dan Kesepakatan Cicilan", "Berita Acara Serah Terima (Barang, Pekerjaan, atau Aset)"]}, {"n": "Tool Online (akses web)", "i": ["Skor Kontrak Sebelum Tanda Tangan", "Cek Status PKWT"]}];
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const W=1080,H=1350,DURATION=35,Q=new URLSearchParams(location.search),NS='http://www.w3.org/2000/svg';
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+
+/* ---------- daftar: judul kategori (penanda di aliran) + baris file ---------- */
+const roll=$('#roll'),hds=$('#hds');
+DATA.forEach((c,ci)=>{
+  const ph=document.createElement('div');ph.className='cat';ph.dataset.ci=ci;roll.appendChild(ph);
+  const tool=/Tool Online/.test(c.n);
+  c.i.forEach(x=>{const d=document.createElement('div');d.className='it'+(tool?' tool':'');d.innerHTML=`<i>–</i><span>${esc(x)}</span>`;roll.appendChild(d);});
+  const h=document.createElement('div');h.className='hd';h.innerHTML=`${esc(c.n)}<b>${c.i.length}</b>`;hds.appendChild(h);});
+
+function words(el){const out=[];const walk=n=>{[...n.childNodes].forEach(c=>{if(c.nodeType===3){const f=document.createDocumentFragment();
+  c.textContent.split(/(\s+)/).forEach(p=>{if(!p)return;if(/^\s+$/.test(p)){f.appendChild(document.createTextNode(' '));return;}
+  const s=document.createElement('span');s.className='w';s.textContent=p;f.appendChild(s);out.push(s);});n.replaceChild(f,c);}
+  else if(c.nodeType===1&&c.tagName!=='BR')walk(c);});};walk(el);return out;}
+const defs=$('#filters defs');let fc=0;
+function blurTween(tl,el,at,from,to,dur,ease='power3.out'){const id='mb'+(fc++),f=document.createElementNS(NS,'filter');f.id=id;
+  ['x','y'].forEach(k=>f.setAttribute(k,'-40%'));['width','height'].forEach(k=>f.setAttribute(k,'180%'));
+  const g=document.createElementNS(NS,'feGaussianBlur');g.setAttribute('stdDeviation','0 0');f.appendChild(g);defs.appendChild(f);
+  const o={v:from};tl.set(el,{filter:`url(#${id})`},at);
+  tl.to(o,{v:to,duration:dur,ease,onUpdate(){g.setAttribute('stdDeviation',`${(o.v*.12).toFixed(2)} ${o.v.toFixed(2)}`);}},at);
+  tl.set(el,{filter:'none'},at+dur+.01);}
+
+const tl=gsap.timeline({paused:true});
+const ini=(t,v)=>{gsap.set(t,v);tl.set(t,v,0);};
+const S={y:0};let CATY=[],ITEMS=[],WINH=960,HDH=66,CONTENT=0;
+
+function build(){
+  /* ukur sesudah font termuat: posisi tiap judul & baris di dalam gulungan */
+  CATY=$$('.cat',roll).map(e=>e.offsetTop);
+  ITEMS=$$('.it',roll).filter(e=>!e.classList.contains('tool')).map(e=>e.offsetTop+e.offsetHeight/2);
+  CONTENT=roll.offsetHeight;
+
+  /* --- 0–3,5 hook --- */
+  const h1=$('#hk h1');const chs=[];h1.childNodes.forEach(n=>{if(n.nodeType===3){const f=document.createDocumentFragment();
+    [...n.textContent].forEach(ch=>{const s=document.createElement('span');s.className='ch';s.textContent=ch;f.appendChild(s);chs.push(s);});n.replaceWith(f);}});
+  ini('#hk h3',{opacity:0,letterSpacing:'.6em'});
+  tl.to('#hk h3',{opacity:.92,letterSpacing:'.34em',duration:.9,ease:'power3.out'},0);
+  ini(chs,{opacity:i=>i<2?1:0,yPercent:i=>i<2?0:60});
+  tl.to(chs.slice(2),{opacity:1,yPercent:0,duration:.6,ease:'power4.out',stagger:.045},.1);
+  blurTween(tl,h1,.1,18,0,.9);
+  ini('#hk',{scale:1.04,y:0,opacity:1});
+  tl.to('#hk',{scale:1,duration:3.2,ease:'sine.out'},0);
+  /* --- 3,5–4,5 judul mengecil jadi kepala --- */
+  tl.to('#hk',{scale:.42,y:-560,opacity:0,duration:.8,ease:'power3.inOut'},3.4);
+  ini('#dock',{opacity:0,y:20});
+  tl.to('#dock',{opacity:1,y:0,duration:.5,ease:'power3.out'},3.85);
+  /* --- 4–30,5 gulungan --- */
+  const endY=-(CONTENT-WINH*.55);
+  ini(S,{y:WINH*.72});
+  tl.to(S,{y:endY,duration:26.4,ease:'none'},3.95);
+  ini('#cnt',{opacity:0,y:30});
+  tl.to('#cnt',{opacity:1,y:0,duration:.5},4.2);
+  /* --- 30,5–33 manfaat --- */
+  tl.to(['#win','#cnt','#dock'],{opacity:0,y:-40,duration:.5,ease:'power2.in'},30.2);
+  ini(['#win','#cnt','#dock'],{y:0});ini('#win',{opacity:1});
+  const bw=words($('#ben'));ini(bw,{opacity:0});
+  tl.fromTo(bw,{opacity:0,y:30},{opacity:1,y:0,duration:.5,ease:'power4.out',stagger:.07,immediateRender:false},30.55);
+  blurTween(tl,$('#ben'),30.55,14,0,1);
+  tl.to(bw,{opacity:0,y:-30,duration:.35,stagger:.01,ease:'power2.in'},32.85);
+  /* --- 33–35 nama + tombol --- */
+  ini(['#end h2','#end p','#end small'],{opacity:0,y:30});
+  tl.to(['#end h2','#end p','#end small'],{opacity:1,y:0,duration:.55,stagger:.15,ease:'power4.out'},33.05);
+  ini('#end',{y:0});
+  gsap.set('#cta',{xPercent:-50,yPercent:-50});
+  ini('#cta',{opacity:0,y:140,scale:.9});
+  tl.to('#cta',{opacity:1,y:0,scale:1,duration:.6,ease:'back.out(1.6)'},33.3);
+  ini('#tap',{x:560,y:30,opacity:0,scale:.6});
+  tl.to('#tap',{opacity:1,scale:1,duration:.25},34.05);
+  tl.to('#cta .btn',{scale:.93,duration:.12,ease:'power2.in'},34.25);
+  tl.to('#cta .btn',{scale:1,duration:.3,ease:'back.out(3)'},34.37);
+  tl.to('#tap',{scale:2.4,opacity:0,duration:.55},34.3);
+  tl.set({},{},DURATION);
+}
+
+/* ---------- render: fungsi murni dari t ---------- */
+const hdEls=()=>$$('.hd',hds);let HD=[];
+function render(){const t=tl.time();
+  roll.style.transform=`translateY(${S.y.toFixed(2)}px)`;
+  /* judul kategori menempel di atas jendela lalu terdorong judul berikutnya */
+  for(let i=0;i<HD.length;i++){const nat=CATY[i]+S.y, next=i+1<CATY.length?CATY[i+1]+S.y:1e9;
+    let y=Math.max(nat,6); y=Math.min(y,next-HDH-10); HD[i].style.transform=`translateY(${y.toFixed(2)}px)`;
+    HD[i].style.visibility=(y<-HDH-20||y>WINH)?'hidden':'visible';}
+  /* penghitung: file yang sudah melewati garis baca (sepertiga bawah jendela) */
+  const line=WINH*.82;let n=0;for(const y of ITEMS){if(y+S.y<line)n++;else break;}
+  $('#cn').textContent=n; $('#cb').style.transform=`scaleX(${(n/201).toFixed(4)})`;
+  const a=t*2*Math.PI/14;
+  $('#l1').style.transform=`translate(${(-300+300*Math.sin(a)).toFixed(1)}px,${(-250+260*Math.cos(a*.8)).toFixed(1)}px)`;
+  $('#l2').style.transform=`translate(${(200+220*Math.cos(a*.9)).toFixed(1)}px,${(600+200*Math.sin(a*1.1)).toFixed(1)}px)`;}
+tl.eventCallback('onUpdate',render);
+
+const stage=$('#stage');function fit(){const k=Math.min(innerWidth/W,innerHeight/H);stage.style.transform=`translate(-50%,-50%) scale(${k})`;}
+addEventListener('resize',fit);fit();
+if(Q.has('debug'))$('#ui').classList.add('on');
+tl.eventCallback('onComplete',()=>tl.play(0));
+const seek=t=>{tl.pause();tl.time(t,false);render();};
+window.OPENER={tl,DURATION,W,H,seek,ready:false};
+addEventListener('keydown',e=>{if(e.key==='r'||e.key==='R')tl.play(0);if(e.code==='Space'){e.preventDefault();tl.paused()?tl.play():tl.pause();}});
+$('#bPlay').onclick=()=>{tl.paused()?tl.play():tl.pause();$('#bPlay').textContent=tl.paused()?'Play':'Pause';};
+$('#bRe').onclick=()=>tl.play(0);$('#scrub').oninput=e=>seek(e.target.value/1000*DURATION);
+gsap.ticker.add(()=>{$('#clock').textContent=tl.time().toFixed(2)+'s';if(!tl.paused())$('#scrub').value=tl.time()/DURATION*1000;});
+Promise.all(['500 33px Figtree','700 40px Figtree','800 70px Figtree'].map(f=>document.fonts.load(f))).then(()=>document.fonts.ready)
+  .then(()=>{build();HD=hdEls();seek(0);window.OPENER.ready=true;if(!Q.has('clean'))tl.play(0);});
+})();
+</script>
+</body>
+</html>
