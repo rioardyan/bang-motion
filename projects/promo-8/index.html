@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="id">
+<!-- Made with the Bang Motion skill by Bang Tutorial (https://youtube.com/bangtutorial) - MIT - https://github.com/bangtutorial/bang-motion -->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Garis Kerja Fee — Promo 4:5</title>
+<!--
+  =====  STYLE BRIEF  =====
+  Tema/produk + 3 kata sifat : versi visual baru promo-1 (alur, isi, copy sama) — Practice Management Konsultan Pajak — rapi, ringan, presisi
+  Konsep                      : sama dengan promo-1 (satu klien dari "fee ditebak" sampai "fee terkunci di SPK", lalu 12 kategori → paket)
+  Gaya ilustrasi (§7e)        : garis tinta yang menggambar dirinya sendiri + satu warna aksen teal (line-art)
+  Palet                       : tinta #1B2622 · kertas putih #FBFBF8 (turunan: bersih) · teal #0E7C86 (brand tools) ·
+                                tembaga #B8763E (gauge "perlu pembenahan" di tools) · merah #C2412D (red flag tools)
+  Font                        : DM Serif Display (judul, miring untuk penekanan) + DM Sans · UI tools tetap IBM Plex (font produk)
+  Penekanan                   : kata miring teal + satu lingkaran coretan tangan di "Feeling?"
+  Latar                       : putih gading + cahaya teal lembut berpindah + elips garis tipis yang berputar pelan (§7c bentuk besar berputar)
+  Tanda tangan gerak          : garis menggambar (stroke draw-on) lalu warna mengisi
+  Momen istimewa              : angka fee terhitung terbang mendarat di kolom fee map, lalu tanda tangan tercoret di SPK
+  Render ringan               : tanpa butiran/noise dan tanpa filter blur
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<style>
+:root{--ink:#1B2622;--paper:#FBFBF8;--teal:#0E7C86;--teal-d:#0A5A61;--tl:#E4F1EF;--cu:#B8763E;--red:#C2412D;--mute:#5E6D68;--soft:#8C9A95;--line:#E3EAE7;
+  --serif:"DM Serif Display",Georgia,serif;--dm:"DM Sans",system-ui,sans-serif;--sans:"IBM Plex Sans",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var(--dm)}
+#stage{position:fixed;left:50%;top:50%;width:1080px;height:1350px;transform:translate(-50%,-50%);overflow:hidden;background:var(--paper)}
+#bg{position:absolute;inset:0;background:linear-gradient(180deg,#FDFDFB 0%,#F6F7F2 55%,#EEF2EE 100%)}
+#glow{position:absolute;left:-200px;top:300px;width:1100px;height:1100px;border-radius:50%;background:radial-gradient(circle,rgba(14,124,134,.10),transparent 65%)}
+#orb{position:absolute;left:-360px;top:-420px;width:1800px;height:2200px}
+#orb ellipse{fill:none;stroke:rgba(27,38,34,.07);stroke-width:2}
+#world{position:absolute;left:0;top:0;width:1080px;height:1350px;transform-origin:0 0}
+.d{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 2;stroke-dashoffset:1}
+
+/* ---------- map berkas ---------- */
+#folder{position:absolute;left:230px;top:690px;width:620px;height:460px;transform-origin:0 0}
+#folder>svg{position:absolute;inset:0;width:620px;height:460px;overflow:visible}
+#fback{fill:#F1F6F4}
+#front{position:absolute;left:0;top:0;width:620px;height:460px;transform-origin:50% 100%}
+#front>svg:first-child{position:absolute;inset:0;width:620px;height:460px;overflow:visible}
+#ffill{fill:#fff;opacity:0}
+.flbl{position:absolute;left:78px;top:140px;opacity:0}
+.flbl b{display:block;font:500 22px/1 var(--mono);letter-spacing:.14em;color:var(--soft)}
+.flbl span{display:block;margin-top:12px;font:400 46px/1 var(--serif);color:var(--ink)}
+#fee{position:absolute;left:62px;top:296px;width:496px;height:112px;border-radius:14px;background:var(--tl);opacity:0}
+#fee b{position:absolute;left:24px;top:18px;font:500 20px/1 var(--mono);letter-spacing:.16em;color:var(--teal-d)}
+#feeVal{position:absolute;left:24px;top:46px;font:700 50px/1 var(--dm);color:var(--ink);font-variant-numeric:tabular-nums;transform-origin:0 50%;white-space:nowrap}
+#feeVal.q{color:var(--red)}
+#front #feeBox{position:absolute;left:62px;top:296px;width:496px;height:112px;overflow:visible}
+
+/* ---------- lembar berkas ---------- */
+.sheet{position:absolute;background:#fff;border:2.5px solid var(--ink);border-radius:8px;overflow:hidden;opacity:0}
+.sheet svg{position:absolute;left:0;top:0;width:215px;height:285px;overflow:visible}
+.sheet h4{position:absolute;left:18px;top:20px;right:12px;font:500 20px/1.2 var(--dm);color:var(--ink)}
+.sheet .fx{position:absolute;right:14px;top:14px;width:40px;height:40px;border-radius:50%;background:var(--red);color:#fff;font:700 28px/40px var(--dm);text-align:center;transform:scale(0)}
+
+/* ---------- kartu tools (UI asli, IBM Plex) ---------- */
+#card{position:absolute;left:70px;top:400px;width:940px;height:900px;border-radius:24px;overflow:hidden}
+#card .cbg{position:absolute;inset:0;background:#fff;opacity:0}
+#card .edge{position:absolute;inset:0;width:940px;height:900px;overflow:visible;z-index:5;pointer-events:none}
+.pane{position:absolute;left:0;top:0;width:940px;height:900px;opacity:0}
+.tabs{position:absolute;left:28px;right:28px;top:24px;height:58px;display:flex;gap:12px}
+.tabs div{flex:1;border-radius:12px;background:#EDF1EE;padding:10px 16px;font:500 13px/1 var(--mono);letter-spacing:.12em;color:var(--soft)}
+.tabs div span{display:block;margin-top:7px;font:600 18px/1 var(--sans);letter-spacing:0;color:var(--mute)}
+.tabs div.on{background:var(--teal-d);color:#9FC9C4}.tabs div.on span{color:#fff}
+#gauge{position:absolute;left:36px;top:104px;width:300px;height:188px}
+#gNum{position:absolute;left:36px;top:192px;width:300px;text-align:center;font:600 78px/1 var(--mono);color:var(--ink)}
+#gNum small{font-size:24px;color:var(--soft)}
+.info{position:absolute;left:380px;top:112px;width:520px}
+.info>b{display:block;font:500 14px/1 var(--mono);letter-spacing:.14em;color:var(--soft)}
+#band{display:inline-block;margin-top:12px;padding:8px 18px;border-radius:999px;background:#F6E9DB;color:#8F5728;font:600 26px/1 var(--sans);opacity:0}
+#adj{display:inline-block;margin:12px 0 0 14px;font:600 28px/1 var(--mono);color:var(--cu);opacity:0}
+#adj small{display:block;margin-top:6px;font:500 16px/1 var(--sans);color:var(--mute)}
+#btnFee{position:absolute;left:380px;top:238px;width:524px;height:58px;border-radius:14px;background:var(--teal);color:#fff;font:600 20px/58px var(--sans);text-align:center}
+.rh{position:absolute;left:30px;top:318px;font:500 14px/1 var(--mono);letter-spacing:.14em;color:var(--soft)}
+.row{position:absolute;left:28px;width:884px;height:46px;border-radius:10px;border:2px solid var(--ink);background:#fff;display:flex;align-items:center;padding:0 18px;opacity:0}
+.row .nm{width:330px;font:500 18px/1.2 var(--sans);color:var(--ink);white-space:nowrap}
+.row .tr{position:relative;width:380px;height:8px;border-radius:4px;background:#DDE5E1;margin-left:16px}
+.row .fl{position:absolute;left:0;top:0;height:8px;border-radius:4px;background:var(--teal);width:0}
+.row .kn{position:absolute;top:-9px;left:0;width:26px;height:26px;margin-left:-13px;border-radius:50%;background:#fff;border:3px solid var(--teal)}
+.row .vl{margin-left:auto;width:44px;text-align:right;font:600 21px/1 var(--mono);color:var(--ink)}
+#p2{transform:translateX(940px)}
+.fld{position:absolute;border-radius:14px;background:#EDF1EE;padding:16px 22px}
+.fld b{display:block;font:500 14px/1 var(--mono);letter-spacing:.14em;color:var(--soft)}
+#slot{position:absolute;left:490px;top:104px;width:422px;height:84px;border-radius:14px;border:2.5px dashed #BFCBC6}
+.led{position:absolute;left:28px;right:28px;height:54px;display:flex;align-items:center;padding:0 16px;border-bottom:1px solid var(--line)}
+.led .cb{width:28px;height:28px;border-radius:8px;border:2px solid #CBD6D1;position:relative;flex:none}
+.led .cb i{position:absolute;inset:-2px;border-radius:8px;background:var(--teal);transform:scale(0)}
+.led .cb i:after{content:"";position:absolute;left:9px;top:3px;width:8px;height:14px;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg)}
+.led .nm{margin-left:16px;font:500 20px/1.2 var(--sans);color:var(--ink)}
+.led .nm small{display:block;font:400 15px/1.3 var(--sans);color:var(--soft)}
+.led .jm{margin-left:auto;font:600 21px/1 var(--mono);color:var(--soft)}
+.led.dim .nm{color:var(--soft)}
+#jamBox{position:absolute;left:44px;right:44px;top:648px;display:flex;justify-content:space-between;align-items:baseline}
+#jamBox b{font:500 14px/1 var(--mono);letter-spacing:.14em;color:var(--soft)}
+#jamVal{font:600 32px/1 var(--mono);color:var(--ink)}
+#res{position:absolute;left:28px;right:28px;top:700px;height:176px;border-radius:18px;padding:24px 28px;background:linear-gradient(150deg,#0E7C86,#0A5A61);color:#fff}
+#res b{display:block;font:500 14px/1 var(--mono);letter-spacing:.14em;color:#A9D2CD}
+#feeBig{display:block;margin-top:12px;font:600 60px/1 var(--mono)}
+#res p{margin-top:16px;font:500 18px/1 var(--sans);color:#CFE7E4;display:flex;justify-content:space-between}
+#res p span{font:600 22px/1 var(--mono);color:#fff}
+#chip{position:absolute;z-index:6;left:120px;top:190px;padding:14px 22px;border-radius:14px;background:#fff;border:2.5px solid var(--cu);display:flex;gap:14px;align-items:baseline;opacity:0}
+#chip span{font:600 34px/1 var(--mono);color:var(--ink)}#chip em{font:600 22px/1 var(--sans);font-style:normal;color:var(--cu)}
+#cursor{position:absolute;z-index:20;left:900px;top:900px;width:44px;height:54px;opacity:0;filter:drop-shadow(0 6px 8px rgba(0,0,0,.25))}
+#feeFly{position:absolute;z-index:30;left:0;top:0;font:600 60px/1 var(--mono);color:var(--teal);white-space:nowrap;opacity:0;transform-origin:0 0}
+
+/* ---------- SPK ---------- */
+#spk{position:absolute;left:240px;top:420px;width:600px;height:780px}
+#spk .bgw{position:absolute;inset:0;background:#fff;border-radius:14px;opacity:0}
+#spk>svg{position:absolute;inset:0;width:600px;height:780px;overflow:visible}
+#spk .ct{position:absolute;inset:0;opacity:0}
+#spk .k{position:absolute;left:44px;top:48px;font:500 20px/1 var(--mono);letter-spacing:.04em;color:var(--soft);white-space:nowrap}
+#spk h3{position:absolute;left:44px;top:88px;right:40px;font:400 44px/1.12 var(--serif);color:var(--ink)}
+#spk .fee{position:absolute;left:44px;right:44px;top:212px;height:128px;border-radius:14px;background:var(--tl);padding:22px 26px}
+#spk .fee b{display:block;font:500 20px/1 var(--mono);letter-spacing:.14em;color:var(--teal-d)}
+#spk .fee span{display:block;margin-top:14px;font:600 52px/1 var(--mono);color:var(--ink)}
+#spk .ps{position:absolute;left:44px;right:44px;font:600 26px/1.2 var(--dm);color:var(--ink)}
+#spk .ps small{display:block;margin-top:6px;font:400 22px/1.3 var(--dm);color:var(--mute)}
+#spk .sg{position:absolute;left:44px;right:44px;top:690px;display:flex;justify-content:space-between;font:500 22px/1 var(--mono);letter-spacing:.14em;color:var(--soft)}
+#spk .sg div{width:220px;text-align:center}
+#stampT{position:absolute;left:360px;top:560px;width:190px;height:190px;display:flex;align-items:center;justify-content:center;transform:rotate(-12deg);
+  font:700 28px/1 var(--dm);letter-spacing:.1em;color:var(--teal);opacity:0}
+
+/* ---------- rak 12 kategori ---------- */
+.tile{position:absolute;width:600px;height:780px;opacity:0}
+.tile .bgw{position:absolute;inset:0;background:#fff;border-radius:14px}
+.tile svg{position:absolute;inset:0;width:600px;height:780px;overflow:visible}
+.band{position:absolute;left:0;right:0;bottom:0;height:400px;border-radius:0 0 14px 14px;background:var(--tl);padding:40px 44px;border-top:3px solid var(--ink)}
+.band b{display:block;font:700 62px/1 var(--dm);color:var(--teal-d);white-space:nowrap}
+.band h5{margin-top:20px;font:400 72px/1.04 var(--serif);color:var(--ink)}
+#spk .band{opacity:0}
+
+/* ---------- teks layar ---------- */
+#hud{position:absolute;inset:0;z-index:40;pointer-events:none}
+.cap{position:absolute;left:80px;top:100px}
+.cap .ln{position:relative;display:block;width:max-content;font:400 70px/1.14 var(--serif);color:var(--ink);letter-spacing:-.005em;clip-path:inset(0 100% 0 0)}
+.cap .ln i.ul{position:absolute;left:0;right:0;bottom:2px;height:3px;border-radius:2px;background:var(--teal);transform:scaleX(0);transform-origin:0 50%}
+.cap em{font-style:italic;color:var(--teal)}
+.s58 .ln{font-size:58px}
+#h3b .ln{font-size:150px;line-height:1.05;font-style:italic;color:var(--teal)}
+#ring{position:absolute;left:52px;top:352px;width:620px;height:210px;overflow:visible}
+#ring path{stroke:var(--red);stroke-width:5}
+#c8{left:0;right:0;top:110px}
+#c8 .ln{margin:0 auto;font-size:84px}
+#badge{position:absolute;left:0;right:0;top:1210px;text-align:center;font:500 44px/1 var(--dm);color:var(--ink);opacity:0}
+#badge b{font-weight:700;color:var(--teal);font-variant-numeric:tabular-nums}
+#pack{position:absolute;left:260px;top:430px;width:560px;height:560px;opacity:0}
+#pack svg{position:absolute;inset:0;width:560px;height:560px;overflow:visible}
+#pack .pf{position:absolute;left:40px;top:150px;width:480px;height:380px;background:#fff;border-radius:6px}
+#pack .ct{position:absolute;left:40px;top:150px;width:480px;height:380px;text-align:center;padding-top:36px;opacity:0}
+#pack .ct b{display:block;font:500 22px/1 var(--mono);letter-spacing:.16em;color:var(--soft)}
+#pack .ct .n{display:block;margin-top:8px;font:400 150px/1 var(--serif);color:var(--teal)}
+#pack .ct .dd{display:block;font:600 36px/1.1 var(--dm);color:var(--ink)}
+#pack .ct .cc{display:block;margin-top:22px;font:500 24px/1.2 var(--dm);color:var(--mute)}
+#cta{position:absolute;left:50%;top:1110px;width:620px;height:112px;margin-left:-310px;border-radius:999px;background:var(--teal);color:#fff;
+  display:flex;align-items:center;justify-content:center;gap:18px;font:600 44px/1 var(--dm);opacity:0;box-shadow:0 26px 50px -18px rgba(10,90,97,.6)}
+#cta svg{width:42px;height:42px}
+#ui{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);display:none;align-items:center;gap:14px;padding:11px 18px;border-radius:16px;background:rgba(14,16,22,.9);font-size:13px;color:#A0A6B4;z-index:90}
+#ui.on{display:flex}#ui button{background:#262A34;color:#fff;border:none;padding:8px 16px;border-radius:9px;font:inherit;cursor:pointer}
+#scrub{width:340px}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="bg"><i id="glow"></i>
+    <svg id="orb" viewBox="0 0 1800 2200"><g id="orbG"><ellipse cx="900" cy="1100" rx="820" ry="560"/><ellipse cx="900" cy="1100" rx="640" ry="880"/><ellipse cx="900" cy="1100" rx="420" ry="420"/></g></svg>
+  </div>
+  <div id="world">
+    <!-- map berkas -->
+    <div id="folder">
+      <svg viewBox="0 0 620 460"><path id="fback" class="d" pathLength="1" d="M20 440 V42 Q20 22 40 22 H200 Q214 22 222 34 L236 54 H580 Q600 54 600 74 V440 Z"/>
+        <path class="d" pathLength="1" d="M70 110 H540 M70 90 H480" style="stroke-width:2.5;opacity:.5"/></svg>
+      <div id="front">
+        <svg viewBox="0 0 620 460"><path id="ffill" d="M8 440 L36 118 Q38 102 54 102 H566 Q582 102 584 118 L612 440 Z"/>
+          <path class="d" pathLength="1" id="fedge" d="M8 440 L36 118 Q38 102 54 102 H566 Q582 102 584 118 L612 440 Z"/></svg>
+        <div class="flbl"><b>BERKAS KLIEN BARU</b><span>PT Maju Bersama</span></div>
+        <div id="fee"><b>FEE JASA</b><span id="feeVal">Rp ___</span></div>
+        <svg id="feeBox" viewBox="0 0 496 112"><rect class="d" pathLength="1" x="0" y="0" width="496" height="112" rx="14"/></svg>
+      </div>
+    </div>
+
+    <div id="sheets"></div>
+
+    <!-- kartu tools -->
+    <div id="card"><div class="cbg"></div>
+      <div class="pane" id="p1">
+        <div class="tabs"><div class="on">LANGKAH 1<span>Pre-Assessment Klien</span></div><div>LANGKAH 2<span>Kalkulator Fee</span></div></div>
+        <svg id="gauge" viewBox="0 0 300 188"><path d="M26 170 A124 124 0 0 1 274 170" fill="none" stroke="#E3EAE7" stroke-width="26" stroke-linecap="round"/>
+          <path id="gFill" d="M26 170 A124 124 0 0 1 274 170" fill="none" stroke="#B8763E" stroke-width="26" stroke-linecap="round" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"/></svg>
+        <div id="gNum">0<small>/100</small></div>
+        <div class="info"><b>SKOR KESEHATAN DATA</b><div id="band">Kategori C</div><div id="adj">fee +55%<small>Perlu pembenahan signifikan</small></div></div>
+        <div id="btnFee">Pakai skor di Kalkulator Fee →</div>
+        <div class="rh">PENILAIAN · 10 ASPEK · SKOR 0–10</div>
+        <div id="rows"></div>
+      </div>
+      <div class="pane" id="p2">
+        <div class="tabs"><div>LANGKAH 1<span>Pre-Assessment Klien</span></div><div class="on">LANGKAH 2<span>Kalkulator Fee</span></div></div>
+        <div class="fld" style="left:28px;top:104px;width:440px;height:84px"><b>KONDISI DATA</b><div style="margin-top:10px;font:500 18px/1.2 var(--sans);color:var(--mute)">dari Pre-Assessment</div></div>
+        <div id="slot"></div>
+        <div class="rh" style="top:214px">LINGKUP JASA · JAM</div>
+        <div class="led" id="l1" style="top:238px"><div class="cb"><i></i></div><div class="nm">SPT Tahunan PPh Badan<small>termasuk rekonsiliasi fiskal</small></div><div class="jm" id="j1">0</div></div>
+        <div class="led" id="l2" style="top:296px"><div class="cb"><i></i></div><div class="nm">SPT Masa bulanan<small>PPh 21/23/25 · 3 jam × 12 bln</small></div><div class="jm" id="j2">0</div></div>
+        <div class="led dim" style="top:354px"><div class="cb"></div><div class="nm">SPT Masa PPN<small>rekap e-Faktur per bulan</small></div><div class="jm">0</div></div>
+        <div class="led dim" style="top:412px"><div class="cb"></div><div class="nm">Penanganan SP2DK<small>analisis + surat tanggapan</small></div><div class="jm">0</div></div>
+        <div class="led dim" style="top:470px"><div class="cb"></div><div class="nm">Tax Planning &amp; advisory<small>analisis skenario tertulis</small></div><div class="jm">0</div></div>
+        <div class="fld" style="left:28px;right:28px;top:540px;height:90px"><b>FAKTOR KOMPLEKSITAS DATA</b><div style="margin-top:12px;font:600 30px/1 var(--mono);color:var(--cu)">× 1,55</div></div>
+        <div id="jamBox"><b>TOTAL JAM KERJA</b><span id="jamVal">56 jam</span></div>
+        <div id="res"><b>FEE YANG DISARANKAN</b><span id="feeBig">Rp 0</span><p>Fee minimum (titik impas) <span>Rp 24.955.000</span></p></div>
+      </div>
+      <div id="chip"><span>50/100</span><em>Kategori C</em></div>
+      <svg id="cursor" viewBox="0 0 44 54"><path d="M4 3 L4 42 L14 33 L22 50 L30 46 L22 30 L37 30 Z" fill="#1B2622" stroke="#fff" stroke-width="3" stroke-linejoin="round"/></svg>
+      <svg class="edge" viewBox="0 0 940 900"><rect class="d" pathLength="1" x="1.5" y="1.5" width="937" height="897" rx="24"/></svg>
+    </div>
+
+    <!-- SPK -->
+    <div id="spk"><div class="bgw"></div>
+      <svg viewBox="0 0 600 780"><rect class="d" pathLength="1" id="spkEdge" x="0" y="0" width="600" height="780" rx="14"/>
+        <path class="d" pathLength="1" id="ln1" d="M44 470 H540 M44 500 H470" style="stroke-width:2.5;opacity:.45"/>
+        <path class="d" pathLength="1" id="ln2" d="M44 610 H250 M350 610 H556" style="stroke-width:2.5"/>
+        <path class="d" pathLength="1" id="sg1" d="M70 596 C90 560 104 556 102 584 C100 606 118 560 134 566 C150 572 132 600 152 592 C170 584 180 566 200 574 C212 580 214 590 232 584" style="stroke:var(--teal-d);stroke-width:3.5"/>
+        <path class="d" pathLength="1" id="sg2" d="M372 598 C382 560 404 552 408 576 C412 604 390 604 404 584 C420 562 440 560 444 584 C448 604 470 566 486 574 C500 580 498 598 520 590 C530 586 536 578 540 574" style="stroke:var(--teal-d);stroke-width:3.5"/>
+        <path class="d" pathLength="1" id="stampC" d="M455 560 m-92 0 a92 92 0 1 0 184 0 a92 92 0 1 0 -184 0 M455 560 m-76 0 a76 76 0 1 0 152 0 a76 76 0 1 0 -152 0" style="stroke:var(--teal);stroke-width:4"/></svg>
+      <div class="ct">
+        <div class="k">SURAT PERIKATAN JASA · 017/SPK/IX/2026</div>
+        <h3>Konsultasi Pajak — PT Maju Bersama</h3>
+        <div class="fee"><b>FEE JASA DISEPAKATI</b><span>Rp 35.650.000</span></div>
+        <div class="ps" style="top:372px">Pasal 1 · Ruang lingkup jasa<small>SPT Tahunan PPh Badan · SPT Masa 12 bulan</small></div>
+        <div class="sg"><div>KLIEN</div><div>KONSULTAN</div></div>
+      </div>
+      <div id="stampT">DISEPAKATI</div>
+      <div class="band"><b>A · 9 dokumen</b><h5>Seleksi &amp; Onboarding Klien</h5></div>
+    </div>
+    <div id="rack"></div>
+    <div id="feeFly">Rp 35.650.000</div>
+  </div>
+
+  <div id="hud">
+    <div class="cap" id="h1"><span class="ln">Konsultan Pajak,<i class="ul"></i></span></div>
+    <div class="cap" id="h2" style="top:185px"><span class="ln">masih menentukan fee jasa<i class="ul"></i></span></div>
+    <div class="cap" id="h3a" style="top:270px"><span class="ln">hanya berdasarkan<i class="ul"></i></span></div>
+    <div class="cap" id="h3b" style="top:352px;left:70px"><span class="ln">Feeling?</span></div>
+    <svg id="ring" viewBox="0 0 620 210"><path class="d" pathLength="1" d="M60 120 C40 40 250 8 420 20 C560 30 610 90 590 140 C570 190 380 206 230 198 C90 190 30 160 44 100 C54 64 110 40 170 30"/></svg>
+    <div class="cap" id="c2"><span class="ln">Padahal berkas kliennya<i class="ul"></i></span><span class="ln">belum kamu periksa<i class="ul"></i></span></div>
+    <div class="cap" id="c3"><span class="ln">Coba nilai kesehatan<i class="ul"></i></span><span class="ln">datanya dulu<i class="ul"></i></span></div>
+    <div class="cap" id="c4"><span class="ln">Dari skor itu,<i class="ul"></i></span><span class="ln">fee-nya <em>terhitung</em><i class="ul"></i></span></div>
+    <div class="cap" id="c5"><span class="ln">Lalu kunci di SPK,<i class="ul"></i></span><span class="ln">sebelum klien diterima<i class="ul"></i></span></div>
+    <div class="cap s58" id="c6"><span class="ln">Alur yang sama ada untuk deadline,<i class="ul"></i></span><span class="ln">SPT, sampai penagihan<i class="ul"></i></span></div>
+    <div class="cap" id="c7"><span class="ln">Supaya praktikmu jalan dengan<i class="ul"></i></span><span class="ln"><em>sistem</em>, bukan ingatan<i class="ul"></i></span></div>
+    <div class="cap" id="c8"><span class="ln">Practice Management</span><span class="ln"><em>Konsultan Pajak</em></span></div>
+    <div id="badge"><b id="docN">0</b> dokumen · 12 kategori</div>
+    <div id="pack"><div class="pf"></div>
+      <svg viewBox="0 0 560 560"><path class="d" pathLength="1" id="packEdge" d="M40 150 H520 V530 H40 Z M40 150 L110 70 H450 L520 150 M110 70 L150 150 M450 70 L410 150"/></svg>
+      <div class="ct"><b>PAKET DOKUMEN KERJA</b><span class="n">93</span><span class="dd">dokumen siap pakai</span><span class="cc">12 kategori · SOP · form · template · Excel</span></div></div>
+    <div id="cta">Dapatkan Sekarang<svg viewBox="0 0 40 40"><path d="M8 20h22M21 10l10 10-10 10" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  </div>
+</div>
+<div id="ui"><button id="bp">Pause</button><input id="scrub" type="range" min="0" max="1000" value="0"><span id="clock">0.00s</span></div>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const W=1080,H=1350,DURATION=23;
+/* data asli tools: skor 50 → Kategori C → ×1,55 → 86,8 jam → Rp 35.650.000 */
+const ITEMS=[['Laporan keuangan',2,3,'Laporan Keuangan 2024'],['Pembukuan harian',2,4,'Buku Kas & Bank'],
+  ['Bukti potong historis',1,8,'Bukti Potong PPh 23'],['Pelaporan SPT',2,6,'SPT Tahunan 2023'],
+  ['Tunggakan pajak',2,5,'STP & Tagihan'],['Pemeriksaan & sengketa',3,3,'SP2DK 2022'],
+  ['Data transaksi / e-Faktur',2,4,'Rekap e-Faktur'],['Akses Coretax & EFIN',1,9,'Akses Coretax'],
+  ['Responsivitas klien',2,6,'Chat Klien'],['Kompleksitas kewajiban',1,8,'Daftar Kewajiban']];
+const MESSY=[[250,610,-11],[480,570,7],[720,620,13],[880,780,-8],[200,880,9],[440,860,-5],[680,880,11],[860,1040,-13],[310,1110,6],[570,1120,-3]];
+const ROWY=i=>346+i*54;
+const rowsBox=$('#rows');
+const R=ITEMS.map((it,i)=>{const d=document.createElement('div');d.className='row';d.style.top=ROWY(i)+'px';
+  d.innerHTML=`<div class="nm">${it[0]}</div><div class="tr"><div class="fl"></div><div class="kn"></div></div><div class="vl">0</div>`;rowsBox.appendChild(d);
+  return {el:d,fl:$('.fl',d),kn:$('.kn',d),vl:$('.vl',d)};});
+const SH=ITEMS.map((it,i)=>{const d=document.createElement('div');d.className='sheet';const flag=it[2]<=4;
+  d.innerHTML=`<svg viewBox="0 0 215 285"><path class="d" pathLength="1" d="M18 100 H190 M18 128 H160 M18 156 H182 M18 184 H130 M18 212 H170" style="stroke-width:2.5;opacity:.55"/></svg><h4>${it[3]}</h4>${flag?'<div class="fx">!</div>':''}`;
+  $('#sheets').appendChild(d);return d;});
+/* rak 12 kategori EXT-KP (A–L): tile 600×780, SPK = tile A */
+const CATS=[['A','9','Seleksi & Onboarding Klien'],['B','7','Deadline & Beban Kerja'],['C','8','Eksekusi SPT'],['D','6','DJP, SP2DK & Sengketa'],
+  ['E','5','Penagihan Fee'],['F','7','Tax Planning & Advisory'],['G','7','Arsip & Offboarding'],['H','5','Kepatuhan Profesi'],
+  ['I','14','Kolaborator Lepas'],['J','15','Keamanan Data & Risiko'],['K','7','Keuangan Praktik'],['L','6','Pengembangan Bisnis']];
+const TX=i=>240+(i%4)*660, TY=i=>420+Math.floor(i/4)*840;
+const TILES=CATS.map((c,i)=>{if(!i)return {el:$('#spk'),band:$('#spk .band'),cx:540,cy:810};
+  const d=document.createElement('div');d.className='tile';d.style.left=TX(i)+'px';d.style.top=TY(i)+'px';
+  d.innerHTML=`<div class="bgw"></div><svg viewBox="0 0 600 780"><rect class="d" pathLength="1" x="0" y="0" width="600" height="780" rx="14"/>
+    <path class="d" pathLength="1" d="M44 90 H520 M44 150 H440 M44 210 H500 M44 270 H380" style="stroke-width:5;opacity:.5"/></svg>
+    <div class="band"><b>${c[0]} · ${c[1]} dokumen</b><h5>${c[2]}</h5></div>`;
+  $('#rack').appendChild(d);return {el:d,band:$('.band',d),cx:TX(i)+300,cy:TY(i)+390};});
+
+const N={cyc:0,feeMode:0,score:0,jam:56,fee:0,doc:0,j1:0,j2:0};
+const V=ITEMS.map(()=>({v:0}));
+const CAM={s:1,fx:540,fy:675,ax:540,ay:675};
+const CYC=['5.000.000','12.500.000','3.000.000','8.750.000','15.000.000','2.500.000','10.000.000','6.500.000','20.000.000','4.000.000'];
+const world=$('#world'),feeVal=$('#feeVal'),gFill=$('#gFill'),gNum=$('#gNum'),orbG=$('#orbG'),glow=$('#glow');
+const fmt=n=>Math.round(n).toLocaleString('id-ID');
+let lastFee='';
+function render(t){
+  world.style.transform=`translate(${(CAM.ax-CAM.fx*CAM.s).toFixed(2)}px,${(CAM.ay-CAM.fy*CAM.s).toFixed(2)}px) scale(${CAM.s.toFixed(4)})`;
+  orbG.setAttribute('transform',`rotate(${(t*4).toFixed(2)} 900 1100)`);
+  glow.style.transform=`translate(${(Math.sin(t*.3)*120).toFixed(1)}px,${(Math.cos(t*.24)*90).toFixed(1)}px)`;
+  const f=N.feeMode===0?'Rp ___':N.feeMode===1?'Rp '+CYC[Math.min(9,Math.floor(N.cyc))]:N.feeMode===2?'Rp ?':'Rp 35.650.000';
+  if(f!==lastFee){feeVal.textContent=f;feeVal.classList.toggle('q',N.feeMode===2);lastFee=f;}
+  V.forEach((o,i)=>{const p=o.v*10+'%';R[i].fl.style.width=p;R[i].kn.style.left=p;R[i].vl.textContent=Math.round(o.v);});
+  gFill.setAttribute('stroke-dashoffset',(100-N.score).toFixed(2));gNum.firstChild.nodeValue=Math.round(N.score);
+  $('#j1').textContent=Math.round(N.j1);$('#j2').textContent=Math.round(N.j2);
+  $('#jamVal').textContent=(Math.round(N.jam*10)/10).toLocaleString('id-ID')+' jam';
+  $('#feeBig').textContent='Rp '+fmt(Math.round(N.fee/5000)*5000);
+  $('#docN').textContent=Math.round(N.doc);
+}
+const Q=new URLSearchParams(location.search);
+const tl=gsap.timeline({paused:true});
+const shot=(at,dur,o,ease='power2.inOut')=>tl.to(CAM,{...o,duration:dur,ease},at);
+/* tanda tangan gerak: garis menggambar dirinya sendiri */
+const draw=(els,at,dur=.7,st=0)=>tl.fromTo(els,{strokeDashoffset:1},{strokeDashoffset:0,duration:dur,ease:'power2.inOut',stagger:st,immediateRender:false},at);
+/* teks: pena menarik garis bawah, huruf terbuka mengikutinya; garis lalu memudar */
+const capIn=(id,at,st=.22)=>{const L=$$('#'+id+' .ln');
+  tl.set('#'+id,{opacity:1},at);
+  tl.fromTo(L,{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0% 0 0)',duration:.6,ease:'power2.inOut',stagger:st,immediateRender:false},at);
+  const U=$$('#'+id+' .ul');if(U.length){tl.fromTo(U,{scaleX:0,opacity:1},{scaleX:1,duration:.6,ease:'power2.inOut',stagger:st,immediateRender:false},at);
+    tl.to(U,{opacity:0,duration:.4,stagger:st},at+.7);}};
+const capOut=(id,at)=>{tl.to('#'+id,{opacity:0,y:-24,duration:.35,ease:'power2.in'},at);tl.set('#'+id,{y:0},at+.4);};
+const pos=el=>{let x=0,y=0,n=el;while(n&&n!==world){x+=n.offsetLeft;y+=n.offsetTop;n=n.offsetParent;}return {x,y};};
+
+function build(){
+tl.clear();
+/* ---- keadaan awal (eksplisit, supaya tiap putaran bersih) ---- */
+tl.set(CAM,{s:1.5,fx:540,fy:1045,ax:540,ay:1080},0);
+tl.set(N,{cyc:0,feeMode:0,score:0,jam:56,fee:0,doc:0,j1:0,j2:0},0);V.forEach(o=>tl.set(o,{v:0},0));
+tl.set($$('.d'),{strokeDashoffset:1},0);
+tl.set('.cap',{opacity:0,y:0},0);tl.set('#folder',{x:0,y:0,scale:1,opacity:1},0);tl.set('#front',{rotationX:0,transformPerspective:1400},0);
+tl.set(['#ffill','.flbl','#fee'],{opacity:0},0);
+SH.forEach((s,i)=>{tl.set(s,{left:430,top:780,width:215,height:285,rotation:0,scale:.6,opacity:0},0);tl.set($('svg',s),{opacity:1},0);tl.set($('h4',s),{opacity:1},0);
+  const fx=$('.fx',s);if(fx)tl.set(fx,{scale:0},0);});
+tl.set('#card',{y:0,opacity:1},0);tl.set(['#card .cbg','#p1','#p2','#chip','#band','#adj','#cursor','#feeFly'],{opacity:0},0);tl.set('#feeBig',{opacity:1},0);
+tl.set('#p1',{x:0},0);tl.set('#p2',{x:940},0);R.forEach(r=>tl.set(r.el,{opacity:0},0));
+tl.set(['#l1 .cb i','#l2 .cb i'],{scale:0},0);tl.set('#chip',{left:120,top:190,scale:1,rotation:0},0);tl.set('#cursor',{left:900,top:900,scale:1},0);
+tl.set('#spk',{x:0,y:0,scale:1,rotation:0,opacity:1},0);tl.set(['#spk .bgw','#spk .ct','#stampT','#spk .band'],{opacity:0},0);
+TILES.forEach((t,i)=>{if(i)tl.set(t.el,{opacity:0,x:0,y:0,scale:1,rotation:0},0);tl.set(t.band,{backgroundColor:'#E4F1EF'},0);
+  tl.set($('b',t.band),{color:'#0A5A61'},0);tl.set($('h5',t.band),{color:'#1B2622'},0);});
+tl.set(['#badge','#pack','#cta'],{opacity:0,y:0,scale:1},0);tl.set('#pack .ct',{opacity:0},0);
+
+/* ===== 0–3,5 HOOK: kolom fee ditebak ===== */
+shot(0,3.4,{s:1.4,ay:1070},'sine.inOut');
+draw(['#fback','#fedge'],0,.9);
+tl.to('#ffill',{opacity:1,duration:.4},.6);
+draw('#feeBox rect',.25,.6);tl.to('#fee',{opacity:1,duration:.35},.6);tl.to('.flbl',{opacity:1,duration:.4},.7);
+tl.set(N,{feeMode:1},.6);tl.to(N,{cyc:9.99,duration:1.8,ease:'none'},.6);
+tl.set(N,{feeMode:2},2.45);
+tl.fromTo('#feeVal',{scale:1.4},{scale:1,duration:.5,ease:'back.out(3)',immediateRender:false},2.45);
+capIn('h1',.12);capIn('h2',.95);capIn('h3a',2.0);
+tl.set('#h3b',{opacity:1},2.35);tl.fromTo('#h3b .ln',{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0% 0 0)',duration:.45,ease:'power2.out',immediateRender:false},2.35);
+draw('#ring path',2.7,.5);
+capOut('h1',3.3);capOut('h2',3.33);capOut('h3a',3.36);capOut('h3b',3.38);tl.to('#ring',{opacity:0,duration:.3},3.38);tl.set('#ring',{opacity:1},3.8);tl.set('#ring path',{strokeDashoffset:1},3.8);
+
+/* ===== 3,5–6 map terbuka, berkas berantakan ===== */
+shot(3.4,1.0,{s:1,fx:540,fy:675,ax:540,ay:675},'power3.inOut');
+tl.to('#front',{rotationX:-76,duration:.55,ease:'power2.in'},4.1);
+SH.forEach((s,i)=>{const m=MESSY[i];
+  tl.set(s,{opacity:1},4.35+i*.04);
+  tl.to(s,{left:m[0]-107,top:m[1]-142,rotation:m[2],scale:1,duration:.75,ease:'back.out(1.3)'},4.35+i*.04);
+  draw($('svg .d',s),4.6+i*.04,.5);});
+[0,1,5,6].forEach((i,k)=>tl.to($('.fx',SH[i]),{scale:1,duration:.35,ease:'back.out(3)'},5.05+k*.12));
+capIn('c2',3.75);capOut('c2',5.9);
+
+/* ===== 6–9,5 lembar masuk jadi 10 baris penilaian ===== */
+tl.to('#folder',{x:640,y:-600,scale:.3,duration:.9,ease:'power3.inOut'},6.0);
+draw('#card .edge rect',6.05,.7);tl.to('#card .cbg',{opacity:1,duration:.4},6.3);tl.to('#p1',{opacity:1,duration:.4},6.45);
+SH.forEach((s,i)=>{const at=6.05+i*.045;
+  tl.to([$('svg',s),$('h4',s)],{opacity:0,duration:.2},at);const fx=$('.fx',s);if(fx)tl.to(fx,{scale:0,duration:.2},at);
+  tl.to(s,{left:98,top:400+ROWY(i),width:884,height:46,rotation:0,duration:.8,ease:'power3.inOut'},at);
+  tl.set(s,{opacity:0},at+.8);tl.set(R[i].el,{opacity:1},at+.8);});
+ITEMS.forEach((it,i)=>tl.to(V[i],{v:it[2],duration:.55,ease:'power2.out'},7.05+i*.09));
+tl.to(N,{score:50,duration:1.45,ease:'power1.inOut'},7.05);
+tl.fromTo('#band',{opacity:0,scale:.6},{opacity:1,scale:1,duration:.45,ease:'back.out(2.5)',immediateRender:false},8.55);
+tl.fromTo('#adj',{opacity:0,y:14},{opacity:1,y:0,duration:.45,ease:'power3.out',immediateRender:false},8.75);
+shot(8.35,.85,{s:1.2,fx:560,fy:600,ax:540,ay:640});
+capIn('c3',6.3);capOut('c3',9.3);
+
+/* ===== 9,5–13,5 skor dibawa ke Kalkulator Fee; fee terbang ke kolom fee ===== */
+tl.to('#cursor',{opacity:1,left:640,top:262,duration:.6,ease:'power3.inOut'},9.3);
+tl.to('#btnFee',{scale:.94,duration:.09},9.95);tl.to('#btnFee',{scale:1,duration:.3,ease:'back.out(3)'},10.04);
+tl.to('#cursor',{scale:.85,duration:.09,yoyo:true,repeat:1},9.95);
+tl.to('#cursor',{opacity:0,duration:.3},10.3);
+tl.to('#p1',{x:-940,duration:.75,ease:'power3.inOut'},10.15);
+tl.set('#p2',{opacity:1},10.15);tl.to('#p2',{x:0,duration:.75,ease:'power3.inOut'},10.15);
+shot(10.1,.8,{s:1,fx:540,fy:675,ax:540,ay:675});
+tl.set('#chip',{opacity:1},10.1);
+tl.fromTo('#chip',{scale:.8,rotation:0},{scale:1.1,rotation:-5,top:170,duration:.3,ease:'power2.out',immediateRender:false},10.1);
+tl.to('#chip',{left:540,top:116,scale:1,rotation:0,duration:.6,ease:'power3.inOut'},10.4);
+tl.to('#l1 .cb i',{scale:1,duration:.3,ease:'back.out(3)'},10.95);tl.to(N,{j1:20,duration:.35},10.95);
+tl.to('#l2 .cb i',{scale:1,duration:.3,ease:'back.out(3)'},11.1);tl.to(N,{j2:36,duration:.35},11.1);
+tl.to(N,{jam:86.8,duration:.6,ease:'power2.out'},11.35);
+tl.to(N,{fee:35650000,duration:1.05,ease:'power2.out'},11.55);
+shot(11.35,.8,{s:1.12,fx:540,fy:1190,ax:540,ay:1185});
+capIn('c4',9.75);
+// angka fee terbang dari kalkulator ke kolom fee di map
+const fb=pos($('#feeBig')),fv=pos($('#feeVal'));
+tl.set('#feeFly',{x:fb.x,y:fb.y,scale:1,opacity:1},12.45);tl.set('#feeBig',{opacity:0},12.45);
+tl.to('#card',{y:360,opacity:0,duration:.4,ease:'power2.in'},12.45);
+tl.to('#folder',{x:0,y:0,scale:1,duration:.6,ease:'power3.inOut'},12.7);
+tl.set('#front',{rotationX:0},12.7);
+tl.to('#feeFly',{x:fv.x,y:fv.y+4,scale:50/60,duration:.6,ease:'power3.inOut'},12.85);
+tl.set('#feeFly',{opacity:0},13.45);tl.set(N,{feeMode:3},13.45);
+tl.fromTo('#fee',{scale:1.12},{scale:1,duration:.4,ease:'back.out(3)',immediateRender:false},13.45);
+shot(12.45,.85,{s:1.2,fx:540,fy:960,ax:540,ay:880});
+capOut('c4',13.3);
+
+/* ===== 13,5–16 map jadi SPK, ditandatangani, dicap ===== */
+tl.to('#folder',{y:120,opacity:0,duration:.3,ease:'power2.in'},13.6);
+draw('#spkEdge',13.65,.55);tl.to('#spk .bgw',{opacity:1,duration:.35},13.85);tl.to('#spk .ct',{opacity:1,duration:.4},14.05);
+draw(['#ln1','#ln2'],14.05,.5);
+draw('#sg1',14.4,.45);draw('#sg2',14.6,.45);
+draw('#stampC',14.85,.4);tl.fromTo('#stampT',{opacity:0,scale:1.4},{opacity:1,scale:1,duration:.3,ease:'back.out(2)',immediateRender:false},15.05);
+shot(14.0,.8,{s:1.1,fx:540,fy:810,ax:540,ay:830});
+capIn('c5',13.65);capOut('c5',15.85);
+
+/* ===== 16–19,5 kamera mundur: SPK satu dari 12 kategori ===== */
+tl.to(['#stampT','#stampC'],{opacity:0,duration:.3},15.95);
+tl.fromTo('#spk .band',{opacity:0,y:40},{opacity:1,y:0,duration:.45,ease:'power3.out',immediateRender:false},16.05);
+shot(16.0,1.5,{s:.35,fx:1530,fy:1650,ax:540,ay:760},'power3.inOut');
+TILES.forEach((t,i)=>{if(!i)return;const at=16.25+i*.06;tl.set(t.el,{opacity:1},at);draw($$('svg .d',t.el),at,.6);
+  tl.fromTo([$('.bgw',t.el),t.band],{opacity:0},{opacity:1,duration:.4,immediateRender:false},at+.35);});
+TILES.forEach((t,i)=>{const at=17.2+i*.11;tl.to(t.band,{backgroundColor:'#0E7C86',duration:.25},at);
+  tl.to($('b',t.band),{color:'#CFE7E4',duration:.25},at);tl.to($('h5',t.band),{color:'#FFFFFF',duration:.25},at);});
+tl.fromTo('#badge',{opacity:0,y:30},{opacity:1,y:0,duration:.5,ease:'power3.out',immediateRender:false},17.1);
+tl.to(N,{doc:93,duration:1.5,ease:'power2.out'},17.2);
+capIn('c6',16.3);capOut('c6',19.3);
+
+/* ===== 19,5–21 rak masuk ke satu paket ===== */
+const PXw=1530+(540-540)/.35,PYw=1650+(740-760)/.35;
+TILES.forEach((t,i)=>tl.to(t.el,{x:PXw-t.cx,y:PYw-t.cy,scale:.3,rotation:(i-5.5)*2,duration:.7,ease:'power3.inOut'},19.45+i*.025));
+tl.to(TILES.map(t=>t.el),{opacity:0,duration:.25},20.05);
+tl.to('#badge',{opacity:0,y:20,duration:.3},19.45);
+tl.set('#pack',{opacity:1},19.9);draw('#packEdge',19.9,.6);tl.fromTo('#pack .pf',{opacity:0},{opacity:1,duration:.3,immediateRender:false},20.1);
+tl.to('#pack .ct',{opacity:1,duration:.4},20.25);
+capIn('c7',19.4,.18);capOut('c7',20.75);
+
+/* ===== 21–23 penutup ===== */
+tl.to('#pack',{y:10,scale:.92,duration:.7,ease:'power3.inOut'},20.9);
+capIn('c8',21.1,.15);
+tl.fromTo('#cta',{opacity:0,y:40},{opacity:1,y:0,duration:.55,ease:'back.out(1.8)',immediateRender:false},21.4);
+tl.to('#cta',{scale:1.05,duration:.3,ease:'sine.inOut',yoyo:true,repeat:3},21.95);
+tl.to({},{duration:.01},DURATION-.01);
+}
+build();
+
+/* ============ perekat ============ */
+const stage=$('#stage');const fit=()=>{stage.style.transform=`translate(-50%,-50%) scale(${Math.min(innerWidth/W,innerHeight/H)})`;};
+addEventListener('resize',fit);fit();
+const clock=$('#clock'),scrub=$('#scrub');let scrubbing=false;
+(function loop(){const t=tl.time();render(t);clock.textContent=t.toFixed(2)+'s';if(!scrubbing)scrub.value=t/DURATION*1000;requestAnimationFrame(loop);})();
+const toggle=()=>{tl.paused()?tl.play():tl.pause();};$('#bp').onclick=toggle;
+scrub.addEventListener('pointerdown',()=>{scrubbing=true;tl.pause();});addEventListener('pointerup',()=>scrubbing=false);
+scrub.addEventListener('input',()=>{tl.pause();tl.time(scrub.value/1000*DURATION);});
+addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();toggle();}if(/^[rR]$/.test(e.key))tl.play(0);});
+if(Q.has('debug'))$('#ui').classList.add('on');
+tl.eventCallback('onComplete',()=>tl.play(0));
+const seek=t=>{tl.pause();tl.time(t,false);if(gsap.ticker.tick)gsap.ticker.tick();render(t);};
+window.OPENER={tl,DURATION,seek,W,H,ready:false};
+document.fonts.ready.then(()=>{build();tl.pause(0);window.OPENER.ready=true;if(!Q.has('clean'))tl.play(0);});
+</script>
+</body>
+</html>
