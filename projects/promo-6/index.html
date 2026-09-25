@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="id">
+<!-- Made with the Bang Motion skill by Bang Tutorial (https://youtube.com/bangtutorial) - MIT - https://github.com/bangtutorial/bang-motion -->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Demo Tools Fee</title>
+<!--
+  =====  STYLE BRIEF  =====
+  Tema/produk + 3 kata sifat : demo bonus tools Pre-Assessment Klien + Kalkulator Fee (konten organik IG Reels) — jelas, praktis, meyakinkan
+  Konsep                      : kandidat 9 Satu fitur didemo penuh · kandidat 15 Klaim → cara → hasil · kandidat 5 Perjalanan
+                                di dalam UI → dipilih 9 + narasi ala 15: halaman tools asli digulir dan diperbesar seperti
+                                rekaman layar; caption di atas menceritakan gunanya tiap langkah.
+  Sidik jari struktur         : demo fitur · 13 momen · jendela tools (langkah 1 → langkah 2) → penutup paket · pembuka
+                                klaim "data, bukan feeling" · penutup nama paket + link di bio
+  Beda dari promo lain        : medan teal dalam di luar jendela, halaman UI digulir panjang (bukan kartu), chip langkah
+  Font                        : Spectral + IBM Plex (font UI tools — pengecualian "font UI produk")
+  Palet                       : dari tools: teal #0E7C86 / #0A5A61, mint #EDF1EE, tembaga #B8763E, merah #A4442F
+  Data                        : angka persis hasil tools asli (10 aspek → skor 50 → ×1,55 → 86,8 jam → Rp 24.955.000 /
+                                Rp 35.650.000 → PPh 23 Rp 713.000 → diterima bersih Rp 34.937.000 → Rp 410.714/jam)
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,500;0,600;1,500;1,600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<style>
+:root{--teal:#0E7C86;--teal-d:#0A5A61;--mint:#EDF1EE;--paper:#F7FAF8;--ink:#16211F;--mute:#5A6B66;--soft:#8B9A95;--line:#DCE5E1;
+  --copper:#B8763E;--red:#A4442F;--green:#2F7D4F;--olive:#7A8F3A;
+  --serif:"Spectral",Georgia,serif;--sans:"IBM Plex Sans",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var(--sans)}
+#stage{position:fixed;left:50%;top:50%;width:1080px;height:1350px;transform:translate(-50%,-50%);overflow:hidden;
+  background:radial-gradient(80% 50% at 15% 0%,#15909A 0%,transparent 60%),linear-gradient(170deg,#0C6A73 0%,#0A5A61 45%,#073F44 100%)}
+.glow{position:absolute;border-radius:50%;pointer-events:none}
+#g1{left:520px;top:-260px;width:900px;height:900px;background:radial-gradient(circle,rgba(255,255,255,.12),transparent 64%)}
+
+/* narasi di atas */
+#step{position:absolute;left:44px;top:56px;padding:10px 18px;border-radius:999px;background:rgba(255,255,255,.14);color:#CFE8E5;
+  font:600 20px/1 var(--mono);letter-spacing:.12em;z-index:30;opacity:0;white-space:nowrap}
+.cap{position:absolute;left:44px;right:44px;top:104px;z-index:30;opacity:0}
+.cap .ln{display:block;overflow:hidden;padding-bottom:4px}
+.cap .ln span{display:inline-block;font:600 54px/1.12 var(--sans);color:#fff;letter-spacing:-.01em}
+.cap em{font-family:var(--serif);font-style:italic;font-weight:600;color:#FFD9A8}
+
+/* jendela */
+#win{position:absolute;left:40px;top:318px;width:1000px;height:1000px;border-radius:24px;background:var(--mint);overflow:hidden;z-index:10;
+  box-shadow:0 60px 120px -40px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.1)}
+.chrome{position:absolute;left:0;right:0;top:0;height:50px;background:#DCE6E2;display:flex;align-items:center;gap:10px;padding:0 20px;z-index:5}
+.chrome i{width:13px;height:13px;border-radius:50%;background:#B9C8C2}
+.chrome .url{margin-left:18px;flex:1;height:30px;border-radius:9px;background:#F7FAF8;font:500 15px/30px var(--mono);color:var(--mute);padding:0 14px}
+#vp{position:absolute;left:0;right:0;top:50px;bottom:0;overflow:hidden}
+#cam{position:absolute;left:0;top:0;width:1000px;transform-origin:0 0}
+.page{position:absolute;left:0;top:0;width:1000px;padding:36px 40px 60px}
+.kick{font:600 15px/1 var(--mono);letter-spacing:.2em;color:var(--mute)}
+.page h1{margin-top:14px;font:600 50px/1.08 var(--serif);color:var(--ink)}
+.page h1 em{font-style:italic;color:var(--teal)}
+.tabs{display:flex;gap:12px;margin:26px 0 28px}
+.tabs div{flex:1;padding:12px 18px;border-radius:12px;background:#E1E9E5;font:600 14px/1 var(--mono);letter-spacing:.12em;color:var(--soft)}
+.tabs div span{display:block;margin-top:6px;font:600 20px/1 var(--sans);letter-spacing:0;color:var(--mute)}
+.tabs div.on{background:var(--teal-d);color:#9FC9C4}.tabs div.on span{color:#fff}
+.sec{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:24px 26px;margin-bottom:22px}
+.sh{display:flex;align-items:baseline;gap:14px;margin-bottom:18px}
+.sh b{font:600 16px/1 var(--mono);color:var(--teal)}
+.sh h2{font:600 28px/1 var(--serif);color:var(--ink)}
+.sh small{margin-left:auto;font:500 15px/1 var(--mono);color:var(--soft)}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.f label{display:block;font:600 15px/1 var(--sans);color:var(--mute);margin-bottom:8px}
+.f div{height:52px;border-radius:10px;border:1.5px solid var(--line);background:#fff;padding:0 16px;font:500 22px/50px var(--sans);color:var(--ink)}
+.f div.ph{color:#B3C0BB}
+#nameBox.focus{border-color:var(--teal);box-shadow:0 0 0 4px rgba(14,124,134,.15)}
+.caret{display:inline-block;width:2px;height:26px;background:var(--teal);vertical-align:-5px;margin-left:2px}
+.it{display:grid;grid-template-columns:330px 56px 1fr 44px;align-items:center;gap:14px;padding:11px 0;border-bottom:1px solid #E6EDEA}
+.it .nm{font:500 19px/1.2 var(--sans);color:var(--ink)}
+.it .w{font:600 15px/1 var(--mono);color:var(--soft);text-align:center;padding:6px 0;border-radius:8px;background:#EAF0ED}
+.it .tr{position:relative;height:8px;border-radius:4px;background:#DCE5E1}
+.it .fl{position:absolute;left:0;top:0;height:8px;border-radius:4px;background:var(--teal);width:0}
+.it .kn{position:absolute;top:-9px;left:0;width:26px;height:26px;margin-left:-13px;border-radius:50%;background:#fff;border:3px solid var(--teal)}
+.it.low .fl{background:var(--red)}.it.low .kn{border-color:var(--red)}
+.it .vl{font:600 21px/1 var(--mono);color:var(--ink);text-align:right}
+.fl6{display:flex;align-items:center;gap:14px;padding:11px 0;border-bottom:1px solid #E6EDEA;font:500 19px/1.3 var(--sans);color:var(--ink)}
+.cb{width:26px;height:26px;border-radius:7px;border:2px solid #C4D0CB;position:relative;flex:none;background:#fff}
+.cb i{position:absolute;inset:-2px;border-radius:7px;background:var(--red);transform:scale(0)}
+.cb i:after{content:"";position:absolute;left:8px;top:3px;width:7px;height:13px;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg)}
+.cb.t i{background:var(--teal)}
+.res{display:grid;grid-template-columns:330px 1fr;gap:26px;align-items:center}
+.gw{position:relative;height:210px}
+.gw svg{position:absolute;left:0;top:0;width:330px}
+.gw .n{position:absolute;left:0;right:0;top:100px;text-align:center;font:600 72px/1 var(--mono);color:var(--ink)}
+.gw .n small{font-size:22px;color:var(--soft)}
+.band{display:inline-block;padding:7px 16px;border-radius:999px;background:#F3E6D9;color:#8A5528;font:600 22px/1 var(--serif)}
+.kat{margin-top:8px;font:600 26px/1.15 var(--serif);color:var(--ink)}
+.st{display:flex;justify-content:space-between;gap:20px;padding:12px 0;border-bottom:1px solid #E6EDEA;font:500 18px/1.3 var(--sans);color:var(--mute)}
+.st b{font:600 19px/1.3 var(--sans);color:var(--ink);text-align:right}
+.st.hi{background:rgba(184,118,62,.12);border-radius:8px;padding:12px 10px;margin:0 -10px}
+.vd{position:relative;margin-top:18px;border-radius:14px;padding:18px 20px 18px 52px;font:500 20px/1.4 var(--sans);min-height:92px}
+.vd:before{content:"";position:absolute;left:22px;top:24px;width:16px;height:16px;border-radius:50%;background:currentColor}
+#vdW{background:#F6E9DC;color:#8A5528}#vdB{background:#F7E1DB;color:var(--red);position:absolute;left:0;right:0;top:0;opacity:0}
+.vd strong{color:inherit}
+.btns{display:flex;gap:12px;margin-top:22px}
+.btn{padding:14px 20px;border-radius:12px;border:1.5px solid var(--line);background:#fff;font:600 18px/1 var(--sans);color:var(--ink)}
+.btn.p{background:var(--teal);border-color:var(--teal);color:#fff}
+#toFee{margin-left:auto}
+/* halaman 2 */
+.sk{display:flex;align-items:center;gap:20px}
+.sk .tr{position:relative;flex:1;height:10px;border-radius:5px;background:#DCE5E1}
+.sk .fl{position:absolute;left:0;top:0;height:10px;border-radius:5px;background:var(--copper);width:50%}
+.sk .kn{position:absolute;top:-10px;left:50%;width:30px;height:30px;margin-left:-15px;border-radius:50%;background:#fff;border:3px solid var(--copper)}
+.sk .v{font:600 34px/1 var(--mono);color:var(--ink)}
+.chip{display:inline-block;padding:8px 14px;border-radius:999px;background:#F3E6D9;color:#8A5528;font:600 20px/1 var(--mono)}
+.lg{display:grid;grid-template-columns:34px 1fr 90px 80px;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid #E6EDEA}
+.lg .nm{font:500 20px/1.2 var(--sans);color:var(--ink)}.lg .nm small{display:block;font:400 15px/1.3 var(--sans);color:var(--soft)}
+.lg .q{font:600 18px/1 var(--mono);color:var(--soft);text-align:center}
+.lg .h{font:600 21px/1 var(--mono);color:var(--soft);text-align:right}
+.lg.dim .nm{color:var(--soft)}
+.tf{display:flex;gap:12px;flex-wrap:wrap}
+.tf span{padding:12px 16px;border-radius:12px;background:#fff;border:1.5px solid var(--line);font:500 19px/1 var(--sans);color:var(--mute)}
+.tf b{color:var(--ink);font-family:var(--mono)}
+.big{border-radius:18px;padding:24px 26px;background:linear-gradient(150deg,#0E7C86,#0A5A61);color:#fff;margin-bottom:22px}
+.big small{display:block;font:600 15px/1 var(--mono);letter-spacing:.14em;color:#A9D2CD}
+.big .fee{display:block;margin-top:12px;font:600 62px/1 var(--mono)}
+.big .row{display:flex;justify-content:space-between;margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.2);font:500 19px/1.3 var(--sans);color:#CFE6E3}
+.big .row b{font:600 26px/1 var(--mono);color:#fff}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.kp{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.kp small{display:block;font:500 16px/1.2 var(--sans);color:var(--mute)}
+.kp b{display:block;margin-top:8px;font:600 26px/1 var(--mono);color:var(--ink)}
+.kp.neg b{color:var(--red)}.kp.pos b{color:var(--green)}
+.wp{margin-top:6px;border-radius:14px;background:#fff;border:1px dashed #C9D6D1;padding:18px 20px;font:500 19px/1.5 var(--sans);color:var(--ink)}
+.wp .h{font:600 14px/1 var(--mono);letter-spacing:.14em;color:var(--soft);margin-bottom:10px}
+.wp b{font-weight:700}
+#cursor{position:absolute;z-index:50;left:0;top:0;width:40px;height:50px;margin:-4px 0 0 -4px;opacity:0;filter:drop-shadow(0 6px 8px rgba(0,0,0,.35))}
+#ring{position:absolute;z-index:49;width:60px;height:60px;margin:-30px 0 0 -30px;border-radius:50%;border:4px solid var(--copper);opacity:0}
+
+/* penutup */
+#end{position:absolute;left:60px;right:60px;top:430px;z-index:40;text-align:center;opacity:0}
+#end small{display:block;font:600 22px/1 var(--mono);letter-spacing:.2em;color:#9FD3CD}
+#end b{display:block;margin-top:22px;font:600 92px/1.02 var(--serif);color:#fff}
+#end b em{font-style:italic;color:#FFD9A8}
+#end p{margin-top:26px;font:500 32px/1.3 var(--sans);color:#CFE8E5}
+#bio{position:absolute;left:50%;top:1060px;margin-left:-250px;width:500px;height:96px;border-radius:999px;background:#fff;color:var(--teal-d);z-index:40;
+  display:flex;align-items:center;justify-content:center;gap:14px;font:700 36px/1 var(--sans);opacity:0}
+#ui{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);display:none;gap:14px;padding:11px 18px;border-radius:16px;background:rgba(14,16,22,.9);color:#A0A6B4;font-size:13px;z-index:90}
+#ui.on{display:flex}#scrub{width:340px}
+</style>
+</head>
+<body>
+<div id="stage">
+  <i class="glow" id="g1"></i>
+  <div id="step">LANGKAH 1 · PRE-ASSESSMENT KLIEN</div>
+
+  <div id="win">
+    <div class="chrome"><i></i><i></i><i></i><div class="url">tools-konsultan-pajak.html</div></div>
+    <div id="vp"><div id="cam">
+      <!-- ===== HALAMAN 1: Pre-Assessment ===== -->
+      <div class="page" id="p1">
+        <div class="kick">TOOLS KONSULTAN PAJAK</div>
+        <h1>Dua alat kerja, <em>satu</em> alur: nilai klien, lalu tetapkan fee.</h1>
+        <div class="tabs"><div class="on">LANGKAH 1<span>Pre-Assessment Klien</span></div><div>LANGKAH 2<span>Kalkulator Fee</span></div></div>
+        <div class="sec" id="s1"><div class="sh"><b>01</b><h2>Identitas klien</h2></div>
+          <div class="fg"><div class="f"><label>Nama / entitas klien</label><div id="nameBox"><span id="nameT"></span><span class="caret" id="caret"></span></div></div>
+            <div class="f"><label>Jenis wajib pajak</label><div>Badan</div></div>
+            <div class="f"><label>NPWP</label><div class="ph">00.000.000.0-000.000</div></div>
+            <div class="f"><label>Status PKP</label><div>Tidak</div></div></div></div>
+        <div class="sec" id="s2"><div class="sh"><b>02</b><h2>Penilaian kesehatan data</h2><small>geser 0–10</small></div><div id="items"></div></div>
+        <div class="sec" id="s3"><div class="sh"><b>03</b><h2>Red flag</h2><small>satu saja mengubah keputusan</small></div><div id="flags"></div></div>
+        <div class="sec" id="s4">
+          <div class="res"><div class="gw"><svg viewBox="0 0 330 190"><path d="M25 175 A140 140 0 0 1 305 175" fill="none" stroke="#DCE5E1" stroke-width="26" stroke-linecap="round"/>
+              <path id="gf" d="M25 175 A140 140 0 0 1 305 175" fill="none" stroke="#B8763E" stroke-width="26" stroke-linecap="round" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"/></svg>
+              <div class="n"><span id="gN">0</span><small>/100</small></div></div>
+            <div><span class="band" id="band">Kategori C</span><div class="kat">Perlu pembenahan signifikan</div></div></div>
+          <div class="st" id="stJasa"><span>Rekomendasi jasa</span><b>Accounting Service + Tax Compliance</b></div>
+          <div class="st"><span>Penyesuaian fee</span><b style="color:#8A5528">+55% dari standar</b></div>
+          <div class="st"><span>Faktor pengali fee</span><b>× 1,55</b></div>
+          <div class="st" id="stLemah"><span>Item terlemah · bahas ini dulu dengan klien</span><b>Laporan keuangan (3)</b></div>
+          <div class="st"><span>Red flag ditemukan</span><b id="rfN">0</b></div>
+          <div style="position:relative">
+            <div class="vd" id="vdW"><strong>Terima dengan kondisi.</strong> Minta DP di muka dan tetapkan fee dengan faktor × 1,55. Kunci lingkup rapat-rapat.</div>
+            <div class="vd" id="vdB"><strong>Tinjau ulang.</strong> Ada 1 red flag — keputusan wajib disetujui Pimpinan, berapapun skornya.</div></div>
+          <div class="btns"><div class="btn">Salin ringkasan</div><div class="btn">Cetak scorecard</div><div class="btn p" id="toFee">Pakai skor di Kalkulator Fee →</div></div>
+        </div>
+      </div>
+
+      <!-- ===== HALAMAN 2: Kalkulator Fee ===== -->
+      <div class="page" id="p2">
+        <div class="kick">TOOLS KONSULTAN PAJAK</div>
+        <h1>Dua alat kerja, <em>satu</em> alur: nilai klien, lalu tetapkan fee.</h1>
+        <div class="tabs"><div>LANGKAH 1<span>Pre-Assessment Klien</span></div><div class="on">LANGKAH 2<span>Kalkulator Fee</span></div></div>
+        <div class="sec" id="k1"><div class="sh"><b>01</b><h2>Kondisi data klien</h2><small>dari Pre-Assessment</small></div>
+          <div class="sk"><div class="tr"><div class="fl"></div><div class="kn"></div></div><span class="v">50</span><span class="chip">× 1,55</span></div>
+          <div style="margin-top:14px;font:500 18px/1.4 var(--sans);color:var(--mute)"><b style="color:var(--ink)">Perlu pembenahan signifikan</b> — pembukuan tidak tertata, perlu waktu ekstra. Fee naik 55%.</div></div>
+        <div class="sec" id="k2"><div class="sh"><b>02</b><h2>Lingkup jasa</h2><small>centang yang disepakati</small></div>
+          <div class="lg dim"><div class="cb t"><i></i></div><div class="nm">SPT Tahunan PPh OP — sederhana<small>karyawan, 1770SS/1770S</small></div><div class="q">—</div><div class="h">0</div></div>
+          <div class="lg" id="lA"><div class="cb t"><i></i></div><div class="nm">SPT Tahunan PPh Badan<small>termasuk rekonsiliasi fiskal</small></div><div class="q">—</div><div class="h" id="hA">0</div></div>
+          <div class="lg" id="lB"><div class="cb t"><i></i></div><div class="nm">SPT Masa bulanan<small>PPh 21/23/25 — per bulan</small></div><div class="q">12 bln</div><div class="h" id="hB">0</div></div>
+          <div class="lg dim"><div class="cb t"><i></i></div><div class="nm">Penanganan SP2DK<small>analisis + surat tanggapan ke KPP</small></div><div class="q">—</div><div class="h">0</div></div>
+          <div class="lg dim"><div class="cb t"><i></i></div><div class="nm">Tax Planning &amp; advisory<small>analisis skenario + laporan tertulis</small></div><div class="q">—</div><div class="h">0</div></div></div>
+        <div class="sec" id="k3"><div class="sh"><b>03</b><h2>Tarif &amp; margin</h2></div>
+          <div class="tf"><span>Tarif jam Anda <b>Rp 250.000</b></span><span>Overhead <b>15%</b></span><span>Target margin <b>30%</b></span></div></div>
+        <div id="k4"><div class="big"><small>FEE YANG DISARANKAN</small><span class="fee" id="feeS">Rp 0</span>
+            <div class="row"><span>Fee minimum · di bawah ini Anda rugi</span><b id="feeM">Rp 0</b></div></div>
+          <div class="g2" id="k5"><div class="kp"><small>Total jam kerja (× 1,55)</small><b id="jam">56 jam</b></div>
+            <div class="kp"><small>Pendapatan efektif per jam</small><b>Rp 410.714</b></div>
+            <div class="kp neg"><small>PPh 23 dipotong klien (2%)</small><b>− Rp 713.000</b></div>
+            <div class="kp pos"><small>Diterima bersih</small><b>Rp 34.937.000</b></div></div>
+          <div class="wp" id="k6"><div class="h">KERTAS KERJA</div>Untuk klien ini, pekerjaan menyerap <b>86,8 jam kerja</b>. Titik impasnya <b>Rp 24.955.000</b> — angka di bawah itu berarti Anda membiayai pekerjaan klien dari kantong sendiri. Fee <b>Rp 35.650.000</b> memberi margin 30%.</div>
+          <div class="btns"><div class="btn p" id="copyB">Salin ringkasan</div><div class="btn">Cetak / PDF</div></div></div>
+      </div>
+      <div id="ring"></div>
+      <svg id="cursor" viewBox="0 0 40 50"><path d="M4 3 L4 38 L13 30 L20 46 L27 43 L20 28 L34 28 Z" fill="#16211F" stroke="#fff" stroke-width="3" stroke-linejoin="round"/></svg>
+    </div></div>
+  </div>
+
+  <div class="cap" id="c0"><span class="ln"><span>Tentukan fee klien pakai</span></span><span class="ln"><span><em>data</em>, bukan feeling</span></span></div>
+  <div class="cap" id="c1"><span class="ln"><span>Begini cara kerja</span></span><span class="ln"><span>dua tools ini</span></span></div>
+  <div class="cap" id="c2"><span class="ln"><span>Mulai dari klien</span></span><span class="ln"><span>yang baru masuk</span></span></div>
+  <div class="cap" id="c3"><span class="ln"><span>Nilai <em>10 aspek</em> data klien,</span></span><span class="ln"><span>sebelum menyebut harga</span></span></div>
+  <div class="cap" id="c4"><span class="ln"><span>Skor langsung jadi saran</span></span><span class="ln"><span>jasa dan <em>penyesuaian fee</em></span></span></div>
+  <div class="cap" id="c5"><span class="ln"><span>Item terlemah: ini yang</span></span><span class="ln"><span>dibahas dulu dengan klien</span></span></div>
+  <div class="cap" id="c6"><span class="ln"><span>Ada <em>red flag</em>? Keputusan</span></span><span class="ln"><span>wajib ditinjau ulang</span></span></div>
+  <div class="cap" id="c7"><span class="ln"><span>Tanpa red flag: terima,</span></span><span class="ln"><span>dengan <em>DP di muka</em></span></span></div>
+  <div class="cap" id="c8"><span class="ln"><span>Lalu bawa skornya</span></span><span class="ln"><span>ke Kalkulator Fee</span></span></div>
+  <div class="cap" id="c9"><span class="ln"><span>Centang lingkup jasa, jam</span></span><span class="ln"><span>kerja <em>dihitung sendiri</em></span></span></div>
+  <div class="cap" id="c10"><span class="ln"><span>Di bawah <em>fee minimum</em>,</span></span><span class="ln"><span>Anda membiayai klien</span></span></div>
+  <div class="cap" id="c11"><span class="ln"><span>Sampai potongan PPh 23</span></span><span class="ln"><span>dan <em>pendapatan per jam</em></span></span></div>
+  <div class="cap" id="c12"><span class="ln"><span>Kertas kerjanya siap</span></span><span class="ln"><span>dikirim ke klien</span></span></div>
+
+  <div id="end"><small>BONUS TOOLS DI PAKET</small><b>Practice Management <em>Konsultan Pajak</em></b><p>bersama 93 dokumen kerja · 12 kategori</p></div>
+  <div id="bio">Link di bio →</div>
+</div>
+<div id="ui"><input id="scrub" type="range" min="0" max="1000" value="0"><span id="clk">0.00s</span></div>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const W=1080,H=1350,DURATION=52;
+const ITEMS=[['Ketersediaan laporan keuangan',2,3],['Ketertiban pembukuan harian',2,4],['Kelengkapan bukti potong historis',1,8],['Kepatuhan pelaporan SPT',2,6],
+ ['Status tunggakan pajak',2,5],['Riwayat pemeriksaan & sengketa',3,3],['Kualitas data transaksi / e-Faktur',2,4],['Kesiapan akses digital (Coretax, EFIN)',1,9],
+ ['Responsivitas klien',2,6],['Kompleksitas kewajiban pajak',1,8]];      // Σ nilai×bobot = 90 / 180 → skor 50
+const FLAGS=['Ganti konsultan lebih dari 2 kali dalam 3 tahun tanpa alasan jelas','Menolak menandatangani SPK atau minta kerja dulu baru kontrak',
+ 'Indikasi faktur fiktif atau transaksi tidak wajar','Minta fee sangat rendah yang tidak menutupi biaya','Sengketa pajak aktif tidak diungkapkan saat inquiry',
+ 'Meminta konsultan memanipulasi angka atau membuat dokumen backdated'];
+$('#items').innerHTML=ITEMS.map(it=>`<div class="it${it[2]<=3?' low':''}"><div class="nm">${it[0]}</div><div class="w">×${it[1]}</div><div class="tr"><div class="fl"></div><div class="kn"></div></div><div class="vl">0</div></div>`).join('');
+$('#flags').innerHTML=FLAGS.map(f=>`<div class="fl6"><div class="cb"><i></i></div>${f}</div>`).join('');
+const NAME='PT Maju Bersama';
+const N={typed:0,score:0,jam:56,fee:0,min:0,hA:0,hB:0,rf:0};const V=ITEMS.map(()=>({v:0}));
+const CAM={s:1,fx:500,fy:475};
+const cam=$('#cam'),rows=$$('.it'),g1=$('#g1');
+function render(t){
+  cam.style.transform=`translate(${(500-CAM.fx*CAM.s).toFixed(2)}px,${(475-CAM.fy*CAM.s).toFixed(2)}px) scale(${CAM.s.toFixed(4)})`;
+  g1.style.transform=`translate(${(Math.sin(t*.3)*60).toFixed(1)}px,${(Math.cos(t*.25)*50).toFixed(1)}px)`;
+  $('#nameT').textContent=NAME.slice(0,Math.round(N.typed));
+  $('#caret').style.opacity=(N.typed>=NAME.length||Math.floor(t*2.5)%2)?0:1;
+  V.forEach((o,i)=>{const p=o.v*10+'%';$('.fl',rows[i]).style.width=p;$('.kn',rows[i]).style.left=p;$('.vl',rows[i]).textContent=Math.round(o.v);});
+  $('#gf').setAttribute('stroke-dashoffset',(100-N.score).toFixed(2));$('#gN').textContent=Math.round(N.score);
+  $('#rfN').textContent=Math.round(N.rf);
+  $('#hA').textContent=Math.round(N.hA);$('#hB').textContent=Math.round(N.hB);
+  $('#jam').textContent=(Math.round(N.jam*10)/10).toLocaleString('id-ID')+' jam';
+  const rp=n=>'Rp '+(Math.round(n/5000)*5000).toLocaleString('id-ID');
+  $('#feeS').textContent=rp(N.fee);$('#feeM').textContent=rp(N.min);
+}
+const Q=new URLSearchParams(location.search);
+const tl=gsap.timeline({paused:true});
+/* posisi elemen dalam koordinat halaman (#cam) */
+const pos=el=>{let x=0,y=0,n=el;while(n&&n!==cam){x+=n.offsetLeft;y+=n.offsetTop;n=n.offsetParent;}return {x,y,w:el.offsetWidth,h:el.offsetHeight,cx:x+el.offsetWidth/2,cy:y+el.offsetHeight/2};};
+const look=(at,dur,el,s=1,dy=0)=>{const p=pos(el);s=Math.min(s,1.08);   // zoom kecil: padding halaman 40px, label kiri-kanan tidak terpotong
+  tl.to(CAM,{s,fx:500,fy:p.cy+dy,duration:dur,ease:'power2.inOut'},at);};
+const cur=(at,dur,el,ox=0,oy=0)=>{const p=pos(el);tl.to('#cursor',{left:p.cx+ox,top:p.cy+oy,duration:dur,ease:'power3.inOut'},at);};
+const click=(at,el)=>{const p=pos(el);tl.set('#ring',{left:p.cx,top:p.cy},at);
+  tl.fromTo('#ring',{opacity:.9,scale:.4},{opacity:0,scale:1.6,duration:.45,ease:'power2.out',immediateRender:false},at);
+  tl.to('#cursor',{scale:.82,duration:.08,yoyo:true,repeat:1},at);};
+const capIn=(id,at)=>{tl.set('#'+id,{opacity:1},at);tl.fromTo($$('#'+id+' .ln>span'),{yPercent:110},{yPercent:0,duration:.55,ease:'power4.out',stagger:.08,immediateRender:false},at);};
+const capOut=(id,at)=>{tl.to($$('#'+id+' .ln>span'),{yPercent:-110,duration:.3,ease:'power2.in',stagger:.04},at);tl.set('#'+id,{opacity:0},at+.42);};
+const seq=[];   // [id, masuk, keluar]
+const say=(id,a,b)=>{capIn(id,a);if(b)capOut(id,b);};
+
+function build(){
+  tl.clear();
+  tl.set(N,{typed:0,score:0,jam:56,fee:0,min:0,hA:0,hB:0,rf:0},0);V.forEach(o=>tl.set(o,{v:0},0));
+  tl.set(CAM,{s:1,fx:500,fy:475},0);tl.set('#p1',{x:0,opacity:1},0);tl.set('#p2',{x:1000,y:0,opacity:1},0);
+  tl.set('#cursor',{left:880,top:900,opacity:0,scale:1},0);tl.set('#vdB',{opacity:0},0);tl.set('#rfN',{color:'#16211F'},0);
+  tl.set('#step',{opacity:0,textContent:'LANGKAH 1 · PRE-ASSESSMENT KLIEN'},0);
+  /* ===== 0–5 pembuka ===== */
+  tl.fromTo('#win',{y:420,opacity:0},{y:0,opacity:1,duration:.9,ease:'power3.out',immediateRender:false},.15);
+  say('c0',.3,2.9);
+  say('c1',3.15,5.0);
+  /* ===== 5–9 identitas ===== */
+  tl.to('#step',{opacity:1,duration:.3},5.1);
+  say('c2',5.3,8.8);
+  look(5.2,.9,$('#s1'),1.25,-40);
+  tl.to('#cursor',{opacity:1,duration:.2},5.4);cur(5.4,.6,$('#nameBox'),-120,6);click(6.05,$('#nameBox'));
+  tl.set('#nameBox',{className:'focus'},6.1);
+  tl.to(N,{typed:NAME.length,duration:1.3,ease:'none'},6.2);
+  tl.set('#nameBox',{className:''},8.0);
+  /* ===== 9–15 sepuluh aspek ===== */
+  say('c3',9.1,14.8);
+  look(8.9,.9,rows[1],1.12,60);
+  const tr0=$('.tr',rows[0]);cur(9.0,.6,tr0,-190,0);
+  tl.to(V[0],{v:3,duration:.5,ease:'power2.inOut'},9.8);cur(9.8,.5,tr0,-190+0.3*380,0);
+  ITEMS.forEach((it,i)=>{if(i)tl.to(V[i],{v:it[2],duration:.45,ease:'power2.out'},10.4+i*.28);});
+  tl.to('#cursor',{opacity:0,duration:.2},10.5);
+  look(10.9,2.6,rows[8],1.12,0);
+  /* ===== 15–19,5 hasil ===== */
+  say('c4',15.1,19.3);
+  look(14.7,1.0,$('#s4 .res'),1.2,140);
+  tl.to(N,{score:50,duration:1.3,ease:'power2.out'},15.2);
+  tl.fromTo('#band',{scale:.5,opacity:0},{scale:1,opacity:1,duration:.4,ease:'back.out(2.5)',immediateRender:false},16.3);
+  tl.fromTo('#stJasa',{backgroundColor:'rgba(14,124,134,0)'},{backgroundColor:'rgba(14,124,134,.10)',duration:.4,immediateRender:false},17.0);
+  /* ===== 19,5–22,5 item terlemah ===== */
+  say('c5',19.6,22.4);
+  look(19.4,.8,$('#stLemah'),1.35,0);
+  tl.set('#stLemah',{className:'st hi'},19.9);
+  /* ===== 22,5–27 red flag ===== */
+  say('c6',22.7,26.8);
+  const f4=$$('.fl6')[3];
+  look(22.4,.9,f4,1.3,0);
+  tl.to('#cursor',{opacity:1,duration:.2},22.8);cur(22.8,.6,$('.cb',f4));click(23.5,$('.cb',f4));
+  tl.to($('.cb i',f4),{scale:1,duration:.25,ease:'back.out(3)'},23.55);
+  tl.set(N,{rf:1},23.6);tl.set('#rfN',{color:'#A4442F'},23.6);
+  look(24.2,.9,$('#vdW'),1.25,0);
+  tl.to('#vdB',{opacity:1,duration:.3},24.9);
+  tl.to('#cursor',{opacity:0,duration:.2},24.3);
+  /* ===== 27–29,5 tanpa red flag ===== */
+  say('c7',27.1,29.4);
+  tl.to('#vdB',{opacity:0,duration:.35},27.3);tl.set(N,{rf:0},27.3);tl.set('#rfN',{color:'#16211F'},27.3);
+  tl.to($('.cb i',f4),{scale:0,duration:.2},27.3);
+  /* ===== 29,5–31,5 ke Kalkulator Fee ===== */
+  say('c8',29.7,31.9);
+  look(29.4,.7,$('#toFee'),1.2,-60);
+  tl.to('#cursor',{opacity:1,duration:.2},29.6);cur(29.6,.6,$('#toFee'));click(30.35,$('#toFee'));
+  tl.to('#step',{opacity:0,duration:.2},30.6);tl.set('#step',{textContent:'LANGKAH 2 · KALKULATOR FEE'},30.8);tl.to('#step',{opacity:1,duration:.3},30.85);
+  const fyNow=pos($('#toFee')).cy-60;      // halaman 2 masuk dengan bagian atasnya di atas layar
+  tl.set('#p2',{y:fyNow-475},30.55);
+  tl.to('#p1',{x:-1000,duration:.6,ease:'power3.inOut'},30.6);tl.to('#p2',{x:0,y:0,duration:.6,ease:'power3.inOut'},30.6);
+  tl.to(CAM,{s:1,fx:500,fy:475,duration:.6,ease:'power3.inOut'},30.6);tl.set('#cursor',{opacity:0},30.9);
+  /* ===== 31,5–35 lingkup jasa ===== */
+  say('c9',32.2,35.3);
+  look(31.3,.8,$('#k2'),1.1,-10);
+  tl.to('#cursor',{opacity:1,duration:.2},31.9);
+  cur(31.9,.5,$('#lA .cb'));click(32.5,$('#lA .cb'));tl.to('#lA .cb i',{scale:1,duration:.25,ease:'back.out(3)'},32.55);tl.to(N,{hA:20,duration:.3},32.6);
+  cur(32.9,.4,$('#lB .cb'));click(33.35,$('#lB .cb'));tl.to('#lB .cb i',{scale:1,duration:.25,ease:'back.out(3)'},33.4);tl.to(N,{hB:36,duration:.3},33.45);
+  tl.to('#cursor',{opacity:0,duration:.2},34.0);
+  /* ===== 35–39,5 fee minimum ===== */
+  say('c10',35.6,39.3);
+  look(34.6,1.0,$('#k4 .big'),1.15,0);
+  tl.to(N,{jam:86.8,duration:.6},35.0);
+  tl.to(N,{fee:35650000,duration:1.2,ease:'power2.out'},35.4);tl.to(N,{min:24955000,duration:1.2,ease:'power2.out'},35.7);
+  look(37.3,.8,$('#k4 .big .row'),1.4,0);
+  /* ===== 39,5–43,5 PPh 23 & per jam ===== */
+  say('c11',39.6,43.3);
+  look(39.3,.9,$('#k5'),1.12,0);
+  tl.fromTo('#k5 .kp',{opacity:.3,y:20},{opacity:1,y:0,duration:.35,stagger:.2,immediateRender:false},39.8);
+  /* ===== 43,5–47 kertas kerja ===== */
+  say('c12',43.6,46.9);
+  look(43.2,.9,$('#k6'),1.15,40);
+  tl.to('#cursor',{opacity:1,duration:.2},44.4);cur(44.4,.6,$('#copyB'));click(45.1,$('#copyB'));
+  tl.to('#cursor',{opacity:0,duration:.2},45.9);
+  /* ===== 47–52 penutup ===== */
+  tl.to('#step',{opacity:0,duration:.3},46.9);
+  tl.to('#win',{y:380,scale:.8,opacity:0,duration:.8,ease:'power3.in'},46.9);
+  tl.fromTo('#end',{opacity:0,y:50},{opacity:1,y:0,duration:.6,ease:'power3.out',immediateRender:false},47.6);
+  tl.fromTo('#bio',{opacity:0,y:30,scale:.9},{opacity:1,y:0,scale:1,duration:.5,ease:'back.out(2)',immediateRender:false},48.3);
+  tl.to('#bio',{scale:1.05,duration:.3,ease:'sine.inOut',yoyo:true,repeat:3},49.0);
+  tl.to({},{duration:.01},DURATION-.01);
+}
+
+/* ============ perekat ============ */
+const stage=$('#stage');const fit=()=>{stage.style.transform=`translate(-50%,-50%) scale(${Math.min(innerWidth/W,innerHeight/H)})`;};
+addEventListener('resize',fit);fit();
+const clk=$('#clk'),scrub=$('#scrub');let scrubbing=false;
+(function loop(){const t=tl.time();render(t);clk.textContent=t.toFixed(2)+'s';if(!scrubbing)scrub.value=t/DURATION*1000;requestAnimationFrame(loop);})();
+scrub.addEventListener('pointerdown',()=>{scrubbing=true;tl.pause();});addEventListener('pointerup',()=>scrubbing=false);
+scrub.addEventListener('input',()=>{tl.pause();tl.time(scrub.value/1000*DURATION);});
+addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();tl.paused()?tl.play():tl.pause();}if(/^[rR]$/.test(e.key))tl.play(0);});
+if(Q.has('debug'))$('#ui').classList.add('on');
+tl.eventCallback('onComplete',()=>tl.play(0));
+const seek=t=>{tl.pause();tl.time(t,false);if(gsap.ticker.tick)gsap.ticker.tick();render(t);};
+window.OPENER={tl,DURATION,seek,W,H,ready:false};
+const rebuild=()=>{const t=tl.time();build();tl.time(t,false);};
+document.fonts.addEventListener('loadingdone',rebuild);
+document.fonts.ready.then(()=>{build();window.OPENER.ready=true;if(!Q.has('clean'))tl.play(0);});
+</script>
+</body>
+</html>
