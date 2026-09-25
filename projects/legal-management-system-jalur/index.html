@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="id">
+<!-- Made with the Bang Motion skill (https://github.com/bangtutorial/bang-motion) - MIT -->
+<head>
+<meta charset="utf-8">
+<title>Jalur Legal Management System</title>
+<!--
+  STYLE BRIEF (catatan; naskah + visual disetujui user) — promo 3
+  Tema + rasa        : dari kusut jadi punya jalur — terurai, terarah, tenang
+  Konsep             : masalah → lenyap + metafora benda (peta jalur)
+  Sidik jari         : masalah → lenyap · 13 babak · simpul kusut + 4 titik tersangkut / titik tim Legal berputar /
+                       garis lurus menguraikan simpul / 4 jalur berstasiun dokumen asli / peta utuh + angka 201 /
+                       stasiun pusat jadi tombol · simpul sudah ada di frame 1 · jalur bertemu jadi tombol
+  Palet (dari tools) : latar #16292B + gradien #0A5A61; garis kusut #4F6365; jalur #4FC3CC / #FFA200 / #6FD69C / #FF7B73
+  Font               : Overpass (huruf rambu jalan) 600/700/800
+  Penekanan          : tanpa sorotan — jalur menyala, titik melaju
+  Gerak latar        : gradien besar berpindah pelan (siklus ±12 dtk), tanpa butiran
+  Tanda tangan gerak : garis menggambar, titik melaju dan berhenti di stasiun
+  Render objek       : garis neon lembut (garis lebar transparan sebagai cahaya, tanpa filter blur)
+  Momen istimewa     : simpul tertarik lalu terurai jadi 4 jalur (15–17 dtk)
+-->
+<link rel="stylesheet" href="vendor/fonts.css">
+<script src="vendor/gsap.min.js"></script>
+<style>
+:root{--ink:#16292B;--deep:#0A5A61;--paper:#F6FAFA;--grey:#4F6365;--btn:#FFA200;--btn-ink:#1D2B2D;--fo:"Overpass","Arial",sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#0E1C1E;overflow:hidden}
+#filters{position:fixed;width:0;height:0;opacity:0;pointer-events:none}
+#stage{position:fixed;left:50%;top:50%;width:1080px;height:1350px;overflow:hidden;background:var(--ink);transform:translate(-50%,-50%)}
+#bg{position:absolute;inset:-300px}
+#bg i{position:absolute;width:1400px;height:1400px;border-radius:50%}
+#g1{background:radial-gradient(circle,rgba(14,124,134,.42),rgba(10,90,97,.16) 45%,transparent 70%)}
+#g2{background:radial-gradient(circle,rgba(10,90,97,.5),transparent 65%)}
+#world{position:absolute;left:0;top:0;width:1080px;height:1350px;transform-origin:0 0;will-change:transform}
+#map{position:absolute;left:0;top:0;width:1080px;height:1350px;overflow:visible}
+#map path{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.lab{position:absolute;width:300px;display:flex;align-items:flex-start;gap:12px;opacity:0}
+.lab b{flex:0 0 10px;align-self:stretch;border-radius:5px}
+.lab span{font:700 30px/1.08 var(--fo);color:var(--paper);letter-spacing:.005em}
+.tok{position:absolute;left:0;top:0;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;display:grid;place-items:center;
+  box-shadow:0 0 0 6px rgba(22,41,43,.9)}
+.tok svg{width:28px;height:28px;fill:none;stroke:#16292B;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.chip{position:absolute;left:0;top:0;font:800 30px var(--fo);padding:6px 14px;border-radius:12px;opacity:0;white-space:nowrap}
+.file{position:absolute;left:0;top:0;width:40px;height:50px;margin:-25px 0 0 -20px;border-radius:6px;background:var(--paper);opacity:0}
+.file::after{content:"";position:absolute;left:8px;right:8px;top:14px;height:18px;border-top:3px solid #9fb3b5;border-bottom:3px solid #9fb3b5}
+.file em{position:absolute;left:50%;top:-40px;transform:translateX(-50%);font:800 26px var(--fo);font-style:normal;color:#6FD69C;opacity:0}
+#hud{position:absolute;inset:0;pointer-events:none}
+.tx{position:absolute;left:64px;right:64px;color:var(--paper)}
+.w{display:inline-block;opacity:0}
+#tH{top:120px;font:700 78px/1.06 var(--fo);letter-spacing:-.02em}
+#list{top:56px;display:flex;flex-direction:column;gap:14px}
+#list p{font:600 40px/1.16 var(--fo);letter-spacing:-.01em;display:flex;gap:16px;opacity:0}
+#list p i{font-style:normal;color:#FF7B73;flex:0 0 auto}
+#tA{top:100px;font:600 52px/1.14 var(--fo);letter-spacing:-.012em}
+#tN{top:130px;font:600 60px/1.12 var(--fo);letter-spacing:-.015em}
+#tN .pn{font-weight:800;color:#4FC3CC}
+.ben{top:96px;font:700 54px/1.1 var(--fo);letter-spacing:-.015em}
+#num{position:absolute;left:64px;top:70px;font:800 190px/1 var(--fo);letter-spacing:-.03em;color:var(--paper);font-variant-numeric:tabular-nums;opacity:0}
+#tI{left:420px;top:92px;font:700 48px/1.12 var(--fo)}
+#tI small{display:inline-block;margin-top:14px;font:700 30px var(--fo);letter-spacing:.06em;color:var(--ink);background:#FFA200;padding:6px 16px;border-radius:10px}
+#name{top:92px;text-align:center;font:800 72px/1 var(--fo);letter-spacing:-.025em;opacity:0}
+#tag{position:absolute;left:50%;top:196px;transform:translateX(-50%);font:700 32px var(--fo);letter-spacing:.06em;color:var(--ink);
+  background:#FFA200;padding:6px 18px;border-radius:10px;opacity:0;white-space:nowrap}
+#cta{position:absolute;left:540px;top:1060px;width:700px;height:150px;opacity:0}
+#cta .btn{position:absolute;inset:0;border-radius:75px;background:var(--btn);display:grid;place-items:center;font:800 62px var(--fo);
+  color:var(--btn-ink);letter-spacing:-.015em;box-shadow:0 0 0 12px rgba(255,162,0,.18),0 30px 70px rgba(0,0,0,.45)}
+#tap{position:absolute;left:0;top:0;width:120px;height:120px;border-radius:50%;border:6px solid #fff;opacity:0}
+#ui{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);display:none;gap:12px;align-items:center;padding:10px 16px;
+  border-radius:14px;background:rgba(6,20,22,.92);color:#9fb;font:13px system-ui;z-index:9}
+#ui.on{display:flex} #ui button{background:#1d3a3c;color:#fff;border:0;padding:7px 14px;border-radius:8px;cursor:pointer}
+#scrub{width:340px} #clock{font-variant-numeric:tabular-nums;min-width:5.5ch;text-align:right}
+</style>
+</head>
+<body>
+<svg id="filters"><defs></defs></svg>
+<div id="stage">
+  <div id="bg"><i id="g1"></i><i id="g2"></i></div>
+  <div id="world">
+    <svg id="map" viewBox="0 0 1080 1350"><g id="glows"></g><g id="lines"></g><g id="dots"></g><g id="stations"></g></svg>
+    <div id="props"></div>
+  </div>
+  <div id="hud">
+    <div class="tx" id="tH">Kalian pernah ngalamin ini pas handle urusan Legal perusahaan?</div>
+    <div class="tx" id="list">
+      <p><i>→</i><span>Kontrak masuk tapi proses review belum jelas</span></p>
+      <p><i>→</i><span>Deadline izin atau kontrak hampir terlewat</span></p>
+      <p><i>→</i><span>Dokumen legal masih tersebar di berbagai file</span></p>
+      <p><i>→</i><span>Saat ada masalah hukum, bukti dan dokumen harus dicari dulu</span></p>
+    </div>
+    <div class="tx" id="tA">Akhirnya tim Legal lebih banyak mengurus hal-hal yang seharusnya sudah punya alur kerja yang jelas.</div>
+    <div class="tx" id="tN">Nah, itu kenapa kita bikin <span class="pn">Legal Management System.</span></div>
+    <div class="tx ben" id="b0">Tiap kontrak lewat jalur yang sama: dicek pakai checklist, disetujui orang yang berwenang</div>
+    <div class="tx ben" id="b1">Izin dan kontrak yang mau habis muncul di alert sebelum jatuh tempo</div>
+    <div class="tx ben" id="b2">Kontrak dan dokumen korporat tercatat di register, dengan aturan nomor dan arsip yang sama</div>
+    <div class="tx ben" id="b3">Saat ada perkara, cara mengumpulkan dan menyimpan bukti sudah tertulis</div>
+    <div id="num">0</div>
+    <div class="tx" id="tI">file siap pakai + 2 tool online<br><small>PAKET PRO PLUS</small></div>
+    <div class="tx" id="name">Legal Management System</div>
+    <div id="tag">PAKET PRO PLUS</div>
+    <div id="cta"><div class="btn">Dapatkan Sekarang</div><div id="tap"></div></div>
+  </div>
+</div>
+<div id="ui"><button id="bPlay">Pause</button><button id="bRe">Restart</button>
+  <input id="scrub" type="range" min="0" max="1000" value="0"><span id="clock">0.00s</span></div>
+
+<script>
+(function(){
+"use strict";
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const W=1080,H=1350,DURATION=35,Q=new URLSearchParams(location.search),NS='http://www.w3.org/2000/svg';
+const svgEl=(tag,attr,parent)=>{const e=document.createElementNS(NS,tag);for(const k in attr)e.setAttribute(k,attr[k]);parent.appendChild(e);return e;};
+
+/* ================= geometri: 4 untai, kusut → jalur → corong ke tombol ================= */
+const N=56, COL=['#4FC3CC','#FFA200','#6FD69C','#FF7B73'], LY=[560,720,880,1040], HUB={x:540,y:1135};
+const hash=i=>{const s=Math.sin(i*12.9898)*43758.5453;return s-Math.floor(s);};
+const TANG=[0,1,2,3].map(i=>{const a=1+hash(i+1)*.8,b=1.2+hash(i+7)*.9,p=hash(i+3)*6.28,q=hash(i+5)*6.28;
+  return Array.from({length:N},(_,k)=>{const u=k/(N-1);
+    return {x:540+360*Math.sin(u*6.28*a+p)*(.55+.45*Math.sin(u*9+i)), y:880+250*Math.sin(u*6.28*b+q)*(.6+.4*Math.cos(u*7+i*2))};});});
+/* ujung kiri tiap untai keluar dari tepi supaya "kontrak masuk dari kiri" terbaca */
+TANG.forEach((t,i)=>{t[0]={x:-80,y:640+i*120};t[1]={x:60,y:660+i*110};});
+const METRO=LY.map(y=>Array.from({length:N},(_,k)=>({x:40+k*(1000/(N-1)),y})));
+const FUNNEL=LY.map((y,i)=>Array.from({length:N},(_,k)=>{const u=k/(N-1);
+  /* dua jalur atas masuk dari kiri, dua jalur bawah dari kanan — keempatnya berakhir di sisi tombol */
+  const left=i<2, sx=left?40:1040, ex=left?HUB.x-250:HUB.x+250, sy=y, ey=HUB.y+(i%2?30:-30);
+  const v=left?u:1-u; const e=v*v*(3-2*v);
+  return {x:sx+(ex-sx)*v, y:sy+(ey-sy)*e};}));
+const MIX=[0,0,0,0].map(()=>({m:0,f:0}));
+const glows=$('#glows'),linesG=$('#lines');
+const PATHS=COL.map((c,i)=>({glow:svgEl('path',{stroke:c,'stroke-width':26,opacity:0},glows),
+  line:svgEl('path',{stroke:'#4F6365','stroke-width':9,opacity:1},linesG)}));
+function cr(pts){let d=`M${pts[0].x.toFixed(1)} ${pts[0].y.toFixed(1)}`;
+  for(let k=0;k<pts.length-1;k++){const p0=pts[k-1]||pts[k],p1=pts[k],p2=pts[k+1],p3=pts[k+2]||p2;
+    d+=` C${(p1.x+(p2.x-p0.x)/6).toFixed(1)} ${(p1.y+(p2.y-p0.y)/6).toFixed(1)} ${(p2.x-(p3.x-p1.x)/6).toFixed(1)} ${(p2.y-(p3.y-p1.y)/6).toFixed(1)} ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`;}
+  return d;}
+function strandPts(i,t){const {m,f}=MIX[i];
+  return TANG[i].map((p,k)=>{const q=METRO[i][k],r=FUNNEL[i][k];
+    /* kusut bergetar pelan selama belum terurai */
+    const jig=(1-Math.min(1,m))*6;const tx=p.x+jig*Math.sin(t*1.7+k*.9+i),ty=p.y+jig*Math.cos(t*1.3+k*.7+i);
+    const ax=tx+(q.x-tx)*m, ay=ty+(q.y-ty)*m;return {x:ax+(r.x-ax)*f,y:ay+(r.y-ay)*f};});}
+
+/* stasiun per jalur: [x, nama dokumen asli] */
+const ST=[[[180,'Checklist Review Kontrak'],[540,'Matriks Kewenangan Approval'],[890,'SOP Penandatanganan Kontrak']],
+  [[300,'Register Izin Usaha & Perizinan'],[760,'Kalender Kepatuhan Tahunan']],
+  [[180,'IK Penomoran Dokumen Legal'],[540,'Register Kontrak'],[890,'Register Dokumen Korporat']],
+  [[300,'SOP Persiapan Dokumen Litigasi'],[760,'SOP Penyimpanan Bukti & Dokumen Litigasi']]];
+const stG=$('#stations'),props=$('#props');
+const STN=ST.map((row,i)=>row.map(([x,name],j)=>{
+  const g=svgEl('g',{},stG);svgEl('circle',{cx:x,cy:LY[i],r:17,fill:'#16292B',stroke:'#F6FAFA','stroke-width':8},g);
+  const lab=document.createElement('div');lab.className='lab';lab.innerHTML=`<b style="background:${COL[i]}"></b><span>${name}</span>`;
+  lab.style.left=Math.min(Math.max(x-150,24),1056-300)+'px';lab.style.top=(LY[i]-128)+'px';props.appendChild(lab);
+  return {g,lab,x};}));
+/* titik file kecil untuk babak 201: 51+50+50+50 */
+const dotsG=$('#dots'),DOTS=[];
+[51,50,50,50].forEach((n,i)=>{for(let k=0;k<n;k++){const x=58+k*(964/(n-1));
+  DOTS.push(svgEl('circle',{cx:x.toFixed(1),cy:LY[i],r:6,fill:'#F6FAFA',opacity:0},dotsG));}});
+
+/* token dokumen */
+const ICON={doc:'<path d="M8 3h9l5 5v17H8z"/><path d="M17 3v5h5M11 14h8M11 19h6"/>',
+  cal:'<rect x="5" y="7" width="20" height="18" rx="3"/><path d="M5 12h20M10 4v5M20 4v5"/>',
+  box:'<path d="M4 10l11-5 11 5v12l-11 5-11-5z"/><path d="M4 10l11 5 11-5M15 15v12"/>',
+  mag:'<circle cx="13" cy="13" r="8"/><path d="M19 19l7 7"/>',user:'<circle cx="15" cy="10" r="5"/><path d="M5 27c1-6 5-9 10-9s9 3 10 9"/>'};
+const mkTok=(id,col,ic)=>{const e=document.createElement('div');e.className='tok';e.id=id;e.style.background=col;
+  e.innerHTML=`<svg viewBox="0 0 30 30">${ICON[ic]}</svg>`;props.appendChild(e);return e;};
+mkTok('tk0',COL[0],'doc');mkTok('tk1',COL[1],'cal');mkTok('tk2',COL[2],'doc');mkTok('tk3',COL[3],'box');
+mkTok('tkU','#F6FAFA','user');mkTok('tkM','#F6FAFA','mag');
+const chip=(id,txt,bg,col)=>{const e=document.createElement('div');e.className='chip';e.id=id;e.textContent=txt;e.style.background=bg;e.style.color=col;props.appendChild(e);return e;};
+chip('cQ','?','#F6FAFA','#16292B');chip('cD','H-3','#FFA200','#16292B');
+const FILES=[0,1,2].map(k=>{const e=document.createElement('div');e.className='file';e.id='fl'+k;e.innerHTML=`<em>00${k+1}</em>`;props.appendChild(e);return e;});
+const BELLS=[0,1].map(k=>{const e=document.createElement('div');e.className='chip';e.id='bell'+k;e.innerHTML='<svg viewBox="0 0 30 30" width="46" height="46"><path d="M8 21V13a7 7 0 0 1 14 0v8l2 3H6z" fill="#FFA200"/><circle cx="15" cy="26" r="2.6" fill="#FFA200"/></svg>';e.style.background='transparent';e.style.padding='0';props.appendChild(e);return e;});
+
+/* ================= helpers teks ================= */
+function words(el){const out=[];const walk=n=>{[...n.childNodes].forEach(c=>{if(c.nodeType===3){const frag=document.createDocumentFragment();
+  c.textContent.split(/(\s+)/).forEach(p=>{if(!p)return;if(/^\s+$/.test(p)){frag.appendChild(document.createTextNode(' '));return;}
+  const s=document.createElement('span');s.className='w';s.textContent=p;frag.appendChild(s);out.push(s);});n.replaceChild(frag,c);}
+  else if(c.nodeType===1&&c.tagName!=='SMALL'&&c.tagName!=='BR')walk(c);});};walk(el);return out;}
+const defs=$('#filters defs');let fc=0;
+function blurTween(tl,el,at,from,to,dur,ease='power3.out'){const id='mb'+(fc++),f=document.createElementNS(NS,'filter');f.id=id;
+  ['x','y'].forEach(k=>f.setAttribute(k,'-40%'));['width','height'].forEach(k=>f.setAttribute(k,'180%'));
+  const g=document.createElementNS(NS,'feGaussianBlur');g.setAttribute('stdDeviation','0 0');f.appendChild(g);defs.appendChild(f);
+  const o={v:from};tl.set(el,{filter:`url(#${id})`},at);
+  tl.to(o,{v:to,duration:dur,ease,onUpdate(){g.setAttribute('stdDeviation',`${(o.v*.12).toFixed(2)} ${o.v.toFixed(2)}`);}},at);
+  tl.set(el,{filter:'none'},at+dur+.01);}
+
+const tl=gsap.timeline({paused:true});
+const ini=(t,v)=>{gsap.set(t,v);tl.set(t,v,0);};
+const CAM={s:1,fx:540,fy:675};
+const shot=(at,dur,s,fx,fy,ease='power2.inOut')=>tl.to(CAM,{s,fx,fy,duration:dur,ease},at);
+const wIn=(el,at,st=.05)=>{const ws=words(el);ini(ws,{opacity:0});
+  tl.fromTo(ws,{opacity:0,y:28},{opacity:1,y:0,duration:.5,ease:'power4.out',stagger:st,immediateRender:false},at);
+  blurTween(tl,el,at,14,0,.5+st*Math.min(ws.length,8));return ws;};
+const wOut=(ws,el,at)=>{tl.to(ws,{opacity:0,y:-30,duration:.32,ease:'power2.in',stagger:.008},at);blurTween(tl,el,at,0,16,.38,'power2.in');};
+gsap.set(['#cta'],{xPercent:-50,yPercent:-50});
+const put=(el,x,y)=>ini(el,{x,y});
+
+/* --- 0–3 hook: simpul sudah ada di frame 1 --- */
+ini(CAM,{s:1.08,fx:540,fy:820}); shot(0,3,1,540,760,'sine.inOut');
+ini('.tok',{opacity:0,scale:.6}); ini(MIX,{m:0,f:0});
+[[0,330,700],[1,720,820],[2,470,1000],[3,640,1060]].forEach(([k,x,y])=>{if(k===0)return;put('#tk'+k,x,y);});
+tl.to(['#tk1','#tk2','#tk3'],{opacity:1,scale:1,duration:.4,ease:'back.out(2)',stagger:.1},.1);
+const hW=words($('#tH'));ini(hW,{opacity:i=>i<3?1:0});
+tl.fromTo(hW.slice(3),{opacity:0,y:28},{opacity:1,y:0,duration:.5,ease:'power4.out',stagger:.07,immediateRender:false},.05);
+wOut(hW,$('#tH'),2.75);
+
+/* --- 3–11,5 empat masalah --- */
+const LI=$$('#list p'),LIS=[3,5,7,9.1];
+ini(LI,{opacity:0,x:-30});
+LI.forEach((p,i)=>{tl.to(p,{opacity:1,x:0,duration:.5,ease:'power4.out'},LIS[i]);blurTween(tl,p,LIS[i],18,0,.5);
+  if(i>0)tl.to(LI[i-1],{opacity:.45,duration:.3},LIS[i]);});
+/* 1: kontrak masuk dari kiri, berputar di persimpangan */
+put('#tk0',-60,700);
+tl.to('#tk0',{opacity:1,scale:1,duration:.2},3.05);
+tl.to('#tk0',{x:330,y:700,duration:.8,ease:'power2.out'},3.05);
+tl.to('#tk0',{rotation:360,duration:.9,ease:'none',repeat:1},3.85);
+put('#cQ',318,610); ini('#cQ',{opacity:0,scale:.5});
+tl.to('#cQ',{opacity:1,scale:1,duration:.25,ease:'back.out(3)'},3.9);
+tl.to('#cQ',{opacity:.3,duration:.15,yoyo:true,repeat:5},4.3);
+shot(3.05,.7,1.12,420,780);
+/* 2: hitung mundur kuning → merah */
+put('#cD',760,760); ini('#cD',{opacity:0,scale:.5,backgroundColor:'#FFA200'});
+tl.to('#cQ',{opacity:0,duration:.2},5);
+tl.to('#cD',{opacity:1,scale:1,duration:.3,ease:'back.out(3)'},5.2);
+tl.set('#cD',{textContent:'H-2'},5.9);tl.set('#cD',{textContent:'H-1'},6.5);ini('#cD',{textContent:'H-3'});
+tl.to('#cD',{backgroundColor:'#FF7B73',duration:.8},5.6);
+shot(5,.7,1.14,700,820);
+/* 3: file terpental */
+FILES.forEach((f,k)=>{put(f,540,880);ini(f,{opacity:0,rotation:0,scale:.6});
+  tl.to(f,{opacity:1,scale:1,duration:.2},7.1+k*.1);
+  tl.to(f,{x:[190,880,560][k],y:[1110,640,1180][k],rotation:[-24,18,-10][k],duration:.7,ease:'power3.out'},7.1+k*.1);});
+tl.to('#cD',{opacity:0,duration:.2},7);
+shot(7,.7,1,540,800);
+/* 4: kaca pembesar menyisir */
+put('#tkM',250,760);
+tl.to('#tkM',{opacity:1,scale:1.2,duration:.3},9.1);
+tl.to('#tkM',{keyframes:[{x:480,y:980,duration:.6},{x:760,y:720,duration:.6},{x:880,y:1020,duration:.6},{x:560,y:840,duration:.5}],ease:'sine.inOut'},9.3);
+tl.to('#tk3',{opacity:.25,duration:.4},9.2);
+shot(9.1,.8,1.08,560,860);
+
+/* --- 11,5–15 akibat: tim Legal berputar di sekeliling simpul --- */
+tl.to(LI,{opacity:0,y:-20,duration:.35,stagger:.04},11.4);
+tl.to('#tkM',{opacity:0,duration:.3},11.4);
+const aW=wIn($('#tA'),11.75,.045);
+const ORB={a:0};ini(ORB,{a:0});
+tl.to('#tkU',{opacity:1,scale:1,duration:.3},11.8);
+tl.to(ORB,{a:Math.PI*4.5,duration:3.3,ease:'none'},11.8);
+shot(11.5,1,.94,540,760);
+wOut(aW,$('#tA'),14.85);
+
+/* --- 15–17 ✦ simpul terurai jadi 4 jalur --- */
+const nW=wIn($('#tN'),15.05,.06);
+const SL=svgEl('path',{d:'M-40 880 L1120 880',stroke:'#F6FAFA','stroke-width':6,'stroke-linecap':'round',opacity:0},$('#map'));
+SL.style.strokeDasharray=1200;ini(SL,{strokeDashoffset:1200,opacity:0});
+tl.to(SL,{opacity:1,duration:.05},15.1);tl.to(SL,{strokeDashoffset:0,duration:.35,ease:'power3.in'},15.1);
+tl.to(SL,{opacity:0,duration:.3},15.55);
+MIX.forEach((m,i)=>tl.to(m,{m:1,duration:1.15,ease:'elastic.out(1,.55)'},15.45+i*.07));
+PATHS.forEach((p,i)=>{ini(p.line,{attr:{stroke:'#4F6365'},opacity:1});ini(p.glow,{opacity:0});
+  tl.to(p.line,{attr:{stroke:COL[i]},duration:.5},15.5+i*.07);tl.to(p.glow,{opacity:.18,duration:.6},15.6+i*.07);});
+tl.to(['#tk0','#tk1','#tk2','#tk3'],{x:40,y:(i)=>LY[i],rotation:0,opacity:1,duration:.7,ease:'power3.inOut'},15.5);
+tl.to('#tkU',{opacity:0,scale:.4,duration:.3},15.4);
+tl.to(FILES,{opacity:0,duration:.3},15.4);
+shot(15,1.3,1,540,760);
+wOut(nW,$('#tN'),16.85);
+
+/* --- 17–29 empat benefit, satu jalur per babak --- */
+ini(STN.flat().map(s=>s.g),{opacity:0,scale:.3,transformOrigin:'50% 50%'});
+ini(STN.flat().map(s=>s.lab),{opacity:0,y:16});
+ini(BELLS,{opacity:0});ini(FILES.map(f=>$('em',f)),{opacity:0});
+[0,1,2,3].forEach(i=>{
+  const at=17+i*3, el=$('#b'+i);
+  const bw=wIn(el,at+.05,.04);
+  PATHS.forEach((p,j)=>{tl.to(p.line,{opacity:j===i?1:.22,duration:.35},at);tl.to(p.glow,{opacity:j===i?.3:0,duration:.35},at);});
+  tl.to(['#tk0','#tk1','#tk2','#tk3'].filter((s,j)=>j!==i),{opacity:.25,duration:.3},at);
+  tl.to('#tk'+i,{opacity:1,scale:1.1,duration:.3},at);
+  shot(at,.7,1.02,540,700);
+  if(i>0){tl.to(STN[i-1].map(s=>s.g),{opacity:.25,duration:.3},at);}
+  const row=STN[i];let t0=at+.45;
+  row.forEach((s,j)=>{tl.to(s.g,{opacity:1,scale:1,duration:.35,ease:'back.out(3)'},at+.3+j*.15);
+    tl.to(s.lab,{opacity:1,y:0,duration:.4,ease:'power4.out'},at+.4+j*.15);});
+  /* titik melaju dan berhenti di tiap stasiun */
+  row.forEach((s,j)=>{tl.to('#tk'+i,{x:s.x,duration:.42,ease:'power2.inOut'},t0);t0+=.62;});
+  if(i===1) row.forEach((s,j)=>{const b=BELLS[j];put(b,s.x-20,LY[1]-70);
+    tl.to(b,{opacity:1,duration:.15},at+.85+j*.62);tl.to(b,{rotation:18,duration:.07,yoyo:true,repeat:5,ease:'sine.inOut'},at+.85+j*.62);
+    tl.to(b,{opacity:0,duration:.2},at+2.75);});
+  if(i===2) FILES.forEach((f,k)=>{const s=row[k];
+    tl.to(f,{opacity:1,x:s.x,y:LY[2]+70,rotation:0,duration:.55,ease:'power3.inOut'},at+.5+k*.3);
+    tl.to($('em',f),{opacity:1,duration:.3},at+1+k*.3);
+    tl.to(f,{opacity:0,duration:.25},at+2.8);});
+  if(i===3){[0,1,2].forEach(k=>{const e=document.createElement('div');e.className='tok';e.id='ev'+k;e.style.width=e.style.height='22px';
+      e.style.margin='-11px 0 0 -11px';e.style.background='#FF7B73';props.appendChild(e);put(e,[180,420,640][k],[1180,1230,1170][k]);ini(e,{opacity:0});
+      tl.to(e,{opacity:1,duration:.2},at+.3);
+      tl.to(e,{x:300,y:LY[3],duration:.5,ease:'power3.inOut'},at+.6+k*.12);
+      tl.to(e,{x:760,duration:.5,ease:'power2.inOut'},at+1.65+k*.06);
+      tl.to(e,{opacity:0,scale:.3,duration:.2},at+2.2);});}
+  tl.to(row.map(s=>s.lab),{opacity:0,duration:.25},at+2.8);
+  wOut(bw,el,at+2.82);
+});
+
+/* --- 29–32 peta utuh + 201 --- */
+const TI=29;
+PATHS.forEach(p=>{tl.to(p.line,{opacity:1,duration:.4},TI);tl.to(p.glow,{opacity:.2,duration:.4},TI);});
+tl.to(['#tk0','#tk1','#tk2','#tk3'],{opacity:0,scale:.5,duration:.3},TI);
+tl.to(STN.flat().map(s=>s.g),{opacity:1,scale:1,duration:.3},TI);
+ini(DOTS,{opacity:0});
+tl.to(DOTS,{opacity:.9,duration:.12,stagger:.0065},TI+.2);
+const CNT={v:0};ini(CNT,{v:0});
+ini('#num',{opacity:0,y:20});
+tl.to('#num',{opacity:1,y:0,duration:.4},TI+.1);
+tl.to(CNT,{v:201,duration:1.35,ease:'power1.out',onUpdate(){$('#num').textContent=Math.round(CNT.v);}},TI+.2);
+const iW=wIn($('#tI'),TI+.4,.06); ini('#tI small',{opacity:0,y:10}); tl.to('#tI small',{opacity:1,y:0,duration:.35},TI+1.1);
+shot(TI,1,.96,540,800);
+
+/* --- 32–35 jalur bertemu jadi tombol --- */
+const TT=32;
+tl.to(['#num','#tI'],{opacity:0,y:-30,duration:.35,ease:'power2.in'},TT-.05);
+ini('#tI',{opacity:1,y:0});
+tl.to(DOTS,{opacity:0,duration:.3},TT);
+tl.to(STN.flat().map(s=>s.g),{opacity:0,scale:.3,duration:.3},TT);
+MIX.forEach((m,i)=>tl.to(m,{f:1,duration:.9,ease:'power3.inOut'},TT+.05+i*.04));
+ini('#name',{opacity:0,y:30});tl.to('#name',{opacity:1,y:0,duration:.6,ease:'power4.out'},TT+.25);
+ini('#tag',{opacity:0,y:16});tl.to('#tag',{opacity:1,y:0,duration:.45},TT+.5);
+ini('#cta',{opacity:0,scale:.2});tl.to('#cta',{opacity:1,scale:1,duration:.6,ease:'back.out(1.7)'},TT+.8);
+ini('#tap',{x:510,y:24,opacity:0,scale:.6});
+tl.to('#tap',{opacity:1,scale:1,duration:.3},TT+1.6);
+tl.to('#cta .btn',{scale:.93,duration:.12,ease:'power2.in'},TT+1.85);
+tl.to('#cta .btn',{scale:1,duration:.3,ease:'back.out(3)'},TT+1.97);
+tl.to('#tap',{scale:2.4,opacity:0,duration:.6},TT+1.9);
+shot(TT,.9,1,540,675);shot(TT+1,2,1.02,540,700,'sine.inOut');
+tl.set({},{},DURATION);
+
+/* ================= render: fungsi murni dari t ================= */
+const world=$('#world'),g1=$('#g1'),g2=$('#g2'),tkU=$('#tkU');
+function render(){const t=tl.time();
+  const s=CAM.s*(1+.005*Math.sin(t*.8));let tx=W/2-CAM.fx*s,ty=H/2-CAM.fy*s;
+  world.style.transform=`translate(${tx.toFixed(2)}px,${ty.toFixed(2)}px) scale(${s.toFixed(4)})`;
+  const a=t*2*Math.PI/12;
+  g1.style.transform=`translate(${(-200+260*Math.sin(a)).toFixed(1)}px,${(300+220*Math.cos(a*.8)).toFixed(1)}px)`;
+  g2.style.transform=`translate(${(400+200*Math.cos(a*.9)).toFixed(1)}px,${(700+160*Math.sin(a*1.1)).toFixed(1)}px)`;
+  PATHS.forEach((p,i)=>{const d=cr(strandPts(i,t));p.line.setAttribute('d',d);p.glow.setAttribute('d',d);});
+  const o=ORB.a;tkU.style.left=(540+380*Math.cos(o)).toFixed(1)+'px';tkU.style.top=(880+290*Math.sin(o)).toFixed(1)+'px';}
+tl.eventCallback('onUpdate',render);
+
+const stage=$('#stage');function fit(){const k=Math.min(innerWidth/W,innerHeight/H);stage.style.transform=`translate(-50%,-50%) scale(${k})`;}
+addEventListener('resize',fit);fit();
+if(Q.has('debug'))$('#ui').classList.add('on');
+tl.eventCallback('onComplete',()=>tl.play(0));
+const seek=t=>{tl.pause();tl.time(t,false);render();};
+window.OPENER={tl,DURATION,W,H,seek,ready:false};
+addEventListener('keydown',e=>{if(e.key==='r'||e.key==='R')tl.play(0);if(e.code==='Space'){e.preventDefault();tl.paused()?tl.play():tl.pause();}});
+$('#bPlay').onclick=()=>{tl.paused()?tl.play():tl.pause();$('#bPlay').textContent=tl.paused()?'Play':'Pause';};
+$('#bRe').onclick=()=>tl.play(0);$('#scrub').oninput=e=>seek(e.target.value/1000*DURATION);
+gsap.ticker.add(()=>{$('#clock').textContent=tl.time().toFixed(2)+'s';if(!tl.paused())$('#scrub').value=tl.time()/DURATION*1000;});
+Promise.all(['600 40px Overpass','700 78px Overpass','800 84px Overpass'].map(f=>document.fonts.load(f))).then(()=>document.fonts.ready)
+  .then(()=>{seek(0);window.OPENER.ready=true;if(!Q.has('clean'))tl.play(0);});
+})();
+</script>
+</body>
+</html>
