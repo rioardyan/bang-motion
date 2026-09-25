@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Practice Management System untuk Konsultan Pajak — ARDYA CONSULTING</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal:#0E7C86; --teal-dark:#0A5A61; --teal-tint:#E6F2F3;
+    --paper:#FAF8F4; --ink:#14201F; --ink-soft:#4B5B59;
+    --amber:#C8791A; --line:#D9E4E3; --white:#FFFFFF;
+    --red:#C6373C; --red-tint:#FBEAEA;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;}
+  img{max-width:100%;display:block;}
+  a{color:inherit;}
+  .wrap{max-width:960px;margin:0 auto;padding:0 24px;}
+  .wrap-sm{max-width:640px;margin:0 auto;padding:0 24px;}
+  .font-display{font-family:'Fraunces',serif;}
+  .font-mono{font-family:'IBM Plex Mono',monospace;}
+  section{padding:64px 0;}
+  @media (max-width:640px){ section{padding:48px 0;} }
+  .btn{display:inline-block;font-weight:700;padding:14px 28px;border-radius:10px;text-align:center;text-decoration:none;cursor:pointer;border:none;font-size:1rem;font-family:inherit;transition:opacity .15s;}
+  .btn:hover{opacity:.9;}
+  .btn-primary{background:var(--white);color:var(--teal-dark);}
+  .btn-outline{background:transparent;color:var(--white);border:1.5px solid rgba(255,255,255,.4);}
+  .btn-dark{background:var(--teal-dark);color:var(--white);width:100%;}
+  .btn-teal-outline{background:transparent;color:var(--teal-dark);border:1.5px solid var(--teal);width:100%;}
+  .btn-teal-outline:hover{background:var(--teal-tint);}
+  .card{background:var(--white);border:1px solid var(--line);border-radius:14px;}
+  .badge{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.03em;text-transform:uppercase;padding:3px 10px;border-radius:20px;display:inline-block;}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:22px;}
+  @media (max-width:760px){ .grid-2,.grid-3{grid-template-columns:1fr;} }
+  .accordion-item{border:1px solid var(--line);border-radius:12px;background:var(--white);overflow:hidden;margin-bottom:12px;}
+  .accordion-head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;text-align:left;background:none;border:none;cursor:pointer;font-family:inherit;font-size:1rem;color:inherit;}
+  .accordion-panel{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+  .accordion-panel.open{max-height:5000px;}
+  .accordion-panel-inner{padding:0 18px 18px;}
+  .doc-row{display:flex;flex-direction:column;gap:2px;border-bottom:1px dashed var(--line);padding:9px 0;}
+  .doc-row:last-child{border-bottom:none;}
+  .doc-code{font-family:'IBM Plex Mono',monospace;font-size:.66rem;color:var(--teal-dark);}
+  .doc-type{font-family:'IBM Plex Mono',monospace;font-size:.6rem;text-transform:uppercase;background:#F1F0EC;color:#6B6B63;padding:1px 6px;border-radius:5px;margin-left:8px;}
+  .doc-title{font-weight:600;font-size:.9rem;margin-top:2px;}
+  .doc-desc{font-size:.8rem;color:var(--ink-soft);margin-top:2px;}
+  .chev{transition:transform .25s;color:var(--ink-soft);}
+  .preview-row{display:flex;gap:18px;padding:20px;align-items:flex-start;}
+  @media (max-width:640px){ .preview-row{flex-direction:column;} }
+  .preview-thumb{width:120px;height:80px;flex-shrink:0;border-radius:8px;background:linear-gradient(135deg,var(--teal-tint),#fff);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--teal-dark);text-align:center;}
+  .focus-ring:focus-visible{outline:3px solid var(--amber);outline-offset:2px;}
+  input[type=text],input[type=tel],input[type=email]{width:100%;border:1px solid var(--line);border-radius:10px;padding:13px 14px;font-family:inherit;font-size:1rem;}
+  label{font-size:.9rem;font-weight:600;display:block;margin-bottom:6px;}
+  .field{margin-bottom:16px;}
+  .pill-list{list-style:none;font-size:.9rem;}
+  .pill-list li{display:flex;gap:8px;margin-bottom:8px;}
+  .stamp{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:104px;height:104px;border-radius:999px;border:2px solid var(--teal);color:var(--teal-dark);transform:rotate(-6deg);text-align:center;}
+
+  /* ===== Problem grid (bukan bullet polos) ===== */
+  .problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  @media (max-width:640px){ .problem-grid{grid-template-columns:1fr;} }
+  .problem-item{display:flex;gap:11px;align-items:flex-start;background:var(--red-tint);border:1px solid rgba(198,55,60,.2);border-radius:10px;padding:13px 15px;font-size:.88rem;line-height:1.45;}
+  .problem-item .p-ic{flex-shrink:0;width:20px;height:20px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;margin-top:1px;}
+  .pivot-block{margin-top:32px;background:linear-gradient(150deg,var(--teal-dark),var(--teal));color:#fff;border-radius:16px;padding:28px 26px;text-align:center;box-shadow:0 18px 36px -18px rgba(10,90,97,.5);}
+  .pivot-block p.pivot-lead{font-family:'Fraunces',serif;font-size:1.15rem;font-weight:600;line-height:1.4;}
+  .pivot-block p.pivot-body{margin-top:12px;font-size:.9rem;color:rgba(255,255,255,.88);line-height:1.6;}
+  .pm-option{display:flex;align-items:center;gap:12px;background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:14px 16px;cursor:pointer;width:100%;transition:border-color .15s,background .15s,box-shadow .15s;box-shadow:0 3px 10px -6px rgba(10,90,97,.18);}
+  .pm-option:hover{border-color:var(--teal);}
+  .pm-option:has(input:checked){border-color:var(--teal);background:var(--teal-tint);box-shadow:0 6px 16px -8px rgba(14,124,134,.4);}
+  .pm-option input{accent-color:var(--teal);width:18px;height:18px;flex-shrink:0;}
+  .pm-option img{height:22px;width:auto;flex-shrink:0;}
+  .pm-option span.pm-label{font-weight:600;font-size:.92rem;}
+
+  /* ===== Preview file — pola browser chrome, bukan kotak abstrak ===== */
+  .previewgrid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  @media (max-width:760px){ .previewgrid{grid-template-columns:1fr;} }
+  .pcard{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 12px 28px -16px rgba(10,90,97,.25);}
+  .pcard__chrome{display:flex;align-items:center;gap:6px;padding:10px 14px;background:var(--ink);}
+  .pcard__dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+  .pcard__title{margin-left:8px;font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:#CFE3E4;letter-spacing:.02em;}
+  .pcard__body{padding:16px;overflow-x:auto;}
+  .mocktable{width:100%;border-collapse:collapse;font-size:.72rem;font-family:'IBM Plex Mono',monospace;white-space:nowrap;}
+  .mocktable th{background:var(--teal-dark);color:#fff;text-align:left;padding:7px 9px;font-weight:600;}
+  .mocktable td{padding:7px 9px;border-bottom:1px solid var(--line);}
+  .mocktable tr:last-child td{border-bottom:none;}
+  .status-ok{color:#158C4D;font-weight:600;}
+  .status-warn{color:var(--amber);font-weight:600;}
+  .docprev{font-family:'Plus Jakarta Sans',sans-serif;}
+  .docprev .dp-step{display:flex;gap:9px;margin-bottom:11px;}
+  .docprev .dp-num{flex-shrink:0;width:20px;height:20px;border-radius:50%;background:var(--teal-tint);color:var(--teal-dark);font-size:.68rem;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;}
+  .docprev .dp-txt b{display:block;font-size:.78rem;}
+  .docprev .dp-txt span{font-size:.7rem;color:var(--ink-soft);}
+  .docprev .dp-note{margin-top:6px;background:#FBEBD8;border-left:3px solid var(--amber);font-size:.68rem;color:#8a5a10;padding:6px 8px;border-radius:4px;}
+  .formprev .fp-label{font-size:.68rem;color:var(--ink-soft);margin-bottom:3px;margin-top:9px;}
+  .formprev .fp-bar{height:16px;background:#F1F0EC;border-radius:4px;border:1px solid var(--line);}
+  .formprev .fp-check{display:flex;align-items:center;gap:6px;font-size:.7rem;color:var(--ink);margin-top:6px;}
+  .formprev .fp-box{width:12px;height:12px;border:1.5px solid var(--teal);border-radius:3px;flex-shrink:0;}
+  .formprev .fp-result{margin-top:10px;background:var(--amber);color:#fff;font-size:.72rem;font-weight:700;padding:7px 9px;border-radius:6px;text-align:center;}
+  .pcard__caption{padding:14px 16px 18px;font-size:.82rem;color:var(--ink-soft);border-top:1px solid var(--line);}
+  .pcard__caption b{color:var(--ink);}
+  .preview-disclaimer{max-width:640px;margin:24px auto 0;text-align:center;font-size:.75rem;color:var(--ink-soft);}
+</style>
+</head>
+<body>
+
+<header style="background:linear-gradient(180deg,var(--teal-dark),var(--teal));color:#fff;">
+  <div class="wrap" style="padding:64px 24px 56px;text-align:center;">
+    <span class="badge" style="border:1px solid rgba(255,255,255,.3);color:rgba(255,255,255,.85);">ARDYA CONSULTING · Practice Management System</span>
+    <h1 class="font-display" style="font-size:2.1rem;line-height:1.18;font-weight:600;margin-top:24px;">
+      Bangun Praktik Konsultan Pajak yang<br class="hide-mobile">
+      Berjalan dengan Sistem, <span style="color:#F4C978;">Bukan Bergantung pada Ingatan.</span>
+    </h1>
+    <p style="margin-top:20px;font-size:1.05rem;color:rgba(255,255,255,.88);max-width:560px;margin-left:auto;margin-right:auto;">
+      93 dokumen kerja profesional yang membantu Anda menjalankan praktik konsultan pajak secara lebih terstruktur, konsisten, dan siap berkembang — dari onboarding klien, penyusunan SPT, tax planning, keamanan data, hingga pengembangan bisnis praktik.
+    </p>
+    <div style="margin-top:32px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <a href="#paket" class="btn btn-primary focus-ring">Lihat Isi Dokumen &amp; Harga ↓</a>
+      <a href="#isi-paket" class="btn btn-outline focus-ring">Cek 12 Kategori Dokumen</a>
+    </div>
+    <div class="font-mono" style="margin-top:36px;display:flex;justify-content:center;gap:28px;font-size:.85rem;color:rgba(255,255,255,.8);">
+      <div><strong style="color:#fff;font-size:1.2rem;display:block;">93</strong>Dokumen</div>
+      <div><strong style="color:#fff;font-size:1.2rem;display:block;">12</strong>Kategori</div>
+      <div><strong style="color:#fff;font-size:1.2rem;display:block;">US Letter</strong>Siap Cetak</div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== PROBLEM ===== -->
+<section>
+  <div class="wrap">
+    <p class="badge font-mono" style="color:var(--teal);text-align:center;display:block;">Yang sering terjadi</p>
+    <h2 class="font-display" style="font-size:1.6rem;text-align:center;margin-top:12px;font-weight:600;line-height:1.3;">
+      Praktik Tanpa Sistem Akan Terus Mengulang Masalah yang Sama
+    </h2>
+    <p style="text-align:center;color:var(--ink-soft);margin-top:10px;">Apakah Anda pernah mengalami salah satu kondisi berikut?</p>
+
+    <div class="problem-grid" style="margin-top:26px;max-width:760px;margin-left:auto;margin-right:auto;">
+      <div class="problem-item"><span class="p-ic">✕</span> Menentukan fee masih berdasarkan feeling, bukan standar yang jelas.</div>
+      <div class="problem-item"><span class="p-ic">✕</span> Setiap klien baru selalu dijelaskan prosesnya dari awal, dari nol lagi.</div>
+      <div class="problem-item"><span class="p-ic">✕</span> Deadline SPT selalu terasa terburu-buru, padahal tanggalnya sama tiap tahun.</div>
+      <div class="problem-item"><span class="p-ic">✕</span> Takut ada langkah yang terlewat karena belum punya SOP tertulis.</div>
+      <div class="problem-item"><span class="p-ic">✕</span> Review pekerjaan sendiri sering terlewat karena buru-buru, bukan lupa caranya.</div>
+      <div class="problem-item"><span class="p-ic">✕</span> Dokumen dan workpaper klien sering sulit ditemukan saat dibutuhkan mendadak.</div>
+      <div class="problem-item"><span class="p-ic">✕</span> Belum punya standar onboarding klien yang konsisten tiap kali ada klien baru.</div>
+      <div class="problem-item"><span class="p-ic">✕</span> Belum punya prosedur tertulis saat menghadapi SP2DK atau pemeriksaan pajak.</div>
+      <div class="problem-item"><span class="p-ic">✕</span> Mulai sesekali dibantu kolaborator lepas, tapi belum ada standar kerja bersama.</div>
+      <div class="problem-item"><span class="p-ic">✕</span> Ingin praktik berkembang, tapi semuanya masih bergantung sepenuhnya pada Anda.</div>
+    </div>
+
+    <div class="pivot-block" style="max-width:680px;margin-left:auto;margin-right:auto;">
+      <p class="pivot-lead">Saat praktik semakin berkembang, bekerja berdasarkan kebiasaan saja sudah tidak cukup.</p>
+      <p class="pivot-body">ARDYA CONSULTING Practice Management System membantu Anda membangun standar kerja yang lebih terstruktur melalui SOP, checklist, template, formulir, dan panduan Excel yang siap dipakai — sehingga pekerjaan lebih konsisten, lebih mudah didelegasikan ke kolaborator lepas kapan pun dibutuhkan, dan lebih profesional di mata klien.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BUKAN SEKADAR TEMPLATE ===== -->
+<section style="background:var(--teal-tint);">
+  <div class="wrap-sm">
+    <h2 class="font-display" style="font-size:1.5rem;text-align:center;font-weight:600;">Ini Bukan Sekadar Kumpulan Template SOP</h2>
+    <p style="text-align:center;color:var(--ink-soft);margin-top:14px;">
+      Kebanyakan template hanya memberi Anda dokumen untuk diedit. Setelah dibuka, Anda masih harus mikir sendiri: mulai dari mana, siapa yang review, dan bagaimana kalau terjadi masalah.
+    </p>
+    <p style="text-align:center;color:var(--ink-soft);margin-top:10px;">
+      ARDYA CONSULTING Practice Management System disusun mengikuti alur operasional praktik konsultan pajak — dari calon klien pertama menghubungi Anda sampai pengembangan bisnis praktik — sehingga setiap dokumen saling terhubung dan langsung bisa dipakai.
+    </p>
+
+    <div class="grid-2" style="margin-top:32px;">
+      <div class="card" style="padding:20px;">
+        <p style="font-weight:700;">✓ Disusun Mengikuti Siklus Praktik</p>
+        <p style="font-size:.88rem;color:var(--ink-soft);margin-top:6px;">Dari klien pertama menghubungi Anda, onboarding, penyusunan SPT, tax planning, pengarsipan, keamanan data, hingga pengembangan bisnis praktik.</p>
+      </div>
+      <div class="card" style="padding:20px;">
+        <p style="font-weight:700;">✓ Lebih dari Sekadar SOP</p>
+        <p style="font-size:.88rem;color:var(--ink-soft);margin-top:6px;">SOP, template, checklist, formulir, dan panduan Excel — semuanya saling melengkapi, bukan file lepas-lepas.</p>
+      </div>
+      <div class="card" style="padding:20px;">
+        <p style="font-weight:700;">✓ Standar Kerja yang Konsisten</p>
+        <p style="font-size:.88rem;color:var(--ink-soft);margin-top:6px;">Setiap prosedur dibuat supaya pekerjaan lebih terdokumentasi dan bisa dijalankan sama persis setiap kali — bukan tergantung mood hari itu.</p>
+      </div>
+      <div class="card" style="padding:20px;">
+        <p style="font-weight:700;">✓ Siap Saat Butuh Bantuan Kolaborator Lepas</p>
+        <p style="font-size:.88rem;color:var(--ink-soft);margin-top:6px;">Begitu peak season datang dan Anda butuh bantuan freelance, Anda tidak perlu menjelaskan proses kerja dari nol — standarnya sudah ada.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ===== ISI PAKET ===== -->
+<section id="isi-paket">
+  <div class="wrap-sm">
+    <p class="badge font-mono" style="color:var(--teal);text-align:center;display:block;">Isi paket lengkap</p>
+    <h2 class="font-display" style="font-size:1.6rem;text-align:center;font-weight:600;margin-top:12px;">12 Kategori · 93 Dokumen Kerja</h2>
+    <p style="text-align:center;color:var(--ink-soft);margin-top:10px;">Klik setiap kategori untuk lihat detail dokumennya. Kategori bertanda <span class="badge" style="background:#FBEBD8;color:var(--amber);">Paket Lengkap</span> hanya tersedia di tier tertinggi.</p>
+    <div id="accordion-root" style="margin-top:28px;"></div>
+  </div>
+</section>
+
+<!-- ===== PREVIEW ===== -->
+<section style="background:var(--teal-tint);">
+  <div class="wrap">
+    <p class="badge font-mono" style="color:var(--teal-dark);text-align:center;display:block;">✓ Ini isinya, bukan sekadar katanya</p>
+    <h2 class="font-display" style="font-size:1.6rem;text-align:center;font-weight:600;margin-top:12px;">Intip Langsung Isi File-nya</h2>
+    <p style="text-align:center;color:var(--ink-soft);margin-top:10px;">Contoh tampilan dari dalam paket — 5 dokumen yang paling sering dipakai.</p>
+
+    <div class="previewgrid" style="margin-top:28px;">
+
+      <div class="pcard">
+        <div class="pcard__chrome">
+          <span class="pcard__dot" style="background:#FF5F57"></span>
+          <span class="pcard__dot" style="background:#FEBC2E"></span>
+          <span class="pcard__dot" style="background:#28C840"></span>
+          <span class="pcard__title">sop-seleksi-klien.docx</span>
+        </div>
+        <div class="pcard__body">
+          <div class="docprev">
+            <div class="dp-step"><span class="dp-num">1</span><span class="dp-txt"><b>KYC &amp; Customer Due Diligence</b><span>Cek NIB, NPWP, status PKP, EFIN, riwayat sengketa pajak</span></span></div>
+            <div class="dp-step"><span class="dp-num">2</span><span class="dp-txt"><b>Pre-Assessment Kesehatan Data</b><span>Scoring 10 poin, output rekomendasi jenis jasa</span></span></div>
+            <div class="dp-step"><span class="dp-num">3</span><span class="dp-txt"><b>Penetapan Fee &amp; Lock Scope</b><span>Via Surat Perikatan Jasa (SPK)</span></span></div>
+            <div class="dp-note">⚠ Checklist serah terima dokumen wajib sebelum pekerjaan dimulai.</div>
+          </div>
+        </div>
+        <div class="pcard__caption"><b>SOP Seleksi &amp; Penerimaan Klien Baru.</b> Jangan lagi menerima klien hanya berdasarkan feeling — ada sistem KYC, scoring, dan penetapan fee yang terstruktur.</div>
+      </div>
+
+      <div class="pcard">
+        <div class="pcard__chrome">
+          <span class="pcard__dot" style="background:#FF5F57"></span>
+          <span class="pcard__dot" style="background:#FEBC2E"></span>
+          <span class="pcard__dot" style="background:#28C840"></span>
+          <span class="pcard__title">form-pre-assessment.docx</span>
+        </div>
+        <div class="pcard__body">
+          <div class="formprev">
+            <div class="fp-label">Kelengkapan Data Klien (1–5)</div><div class="fp-bar"></div>
+            <div class="fp-label">Riwayat Kepatuhan Pajak</div><div class="fp-bar"></div>
+            <div class="fp-check"><span class="fp-box"></span> Data historis lengkap &amp; terverifikasi</div>
+            <div class="fp-check"><span class="fp-box"></span> Tidak ada sengketa pajak aktif</div>
+            <div class="fp-result">Skor: 42/50 → Rekomendasi: Fee +15%</div>
+          </div>
+        </div>
+        <div class="pcard__caption"><b>Formulir Pre-Assessment Kesehatan Data Klien.</b> Isi skoring 10 poin, rekomendasi jenis jasa dan penyesuaian fee langsung keluar — bukan cuma konsep, ini tools yang benar-benar dipakai.</div>
+      </div>
+
+      <div class="pcard">
+        <div class="pcard__chrome">
+          <span class="pcard__dot" style="background:#FF5F57"></span>
+          <span class="pcard__dot" style="background:#FEBC2E"></span>
+          <span class="pcard__dot" style="background:#28C840"></span>
+          <span class="pcard__title">sop-tax-planning.docx</span>
+        </div>
+        <div class="pcard__body">
+          <div class="docprev">
+            <div class="dp-step"><span class="dp-num">1</span><span class="dp-txt"><b>Dasar Hukum</b><span>Rujukan pasal UU/PP yang relevan dengan skenario klien</span></span></div>
+            <div class="dp-step"><span class="dp-num">2</span><span class="dp-txt"><b>Analisis Risiko</b><span>Potensi sengketa &amp; mitigasi per opsi skema</span></span></div>
+            <div class="dp-step"><span class="dp-num">3</span><span class="dp-txt"><b>Rekomendasi</b><span>Perbandingan skenario dengan estimasi penghematan</span></span></div>
+            <div class="dp-note">⚠ Disclaimer wajib dicantumkan sebelum diserahkan ke klien.</div>
+          </div>
+        </div>
+        <div class="pcard__caption"><b>SOP Penyusunan Laporan Tax Planning.</b> Bangun layanan advisory dengan dasar hukum dan dokumentasi profesional — bukan sekadar hitung setor lapor.</div>
+      </div>
+
+      <div class="pcard">
+        <div class="pcard__chrome">
+          <span class="pcard__dot" style="background:#FF5F57"></span>
+          <span class="pcard__dot" style="background:#FEBC2E"></span>
+          <span class="pcard__dot" style="background:#28C840"></span>
+          <span class="pcard__title">sop-konversi-inquiry.docx</span>
+        </div>
+        <div class="pcard__body">
+          <table class="mocktable">
+            <tr><th>Tahap</th><th>Target Waktu</th><th>Output</th></tr>
+            <tr><td>Inquiry Masuk</td><td>&lt; 1 jam</td><td class="status-ok">Respons awal</td></tr>
+            <tr><td>Meeting Awal</td><td>H+2</td><td class="status-ok">Notulen</td></tr>
+            <tr><td>Pre-Assessment</td><td>H+3</td><td class="status-warn">Skor &amp; Fee</td></tr>
+            <tr><td>Proposal → SPK</td><td>H+5</td><td class="status-ok">Kontrak</td></tr>
+          </table>
+        </div>
+        <div class="pcard__caption"><b>SOP Konversi Inquiry Menjadi Kontrak.</b> Alur jelas sejak calon klien menghubungi Anda sampai SPK ditandatangani — termasuk opsi rujuk kolaborator lepas kalau di luar kapasitas Anda sendiri.</div>
+      </div>
+
+      <div class="pcard" style="grid-column:1/-1;max-width:520px;margin:0 auto;width:100%;">
+        <div class="pcard__chrome">
+          <span class="pcard__dot" style="background:#FF5F57"></span>
+          <span class="pcard__dot" style="background:#FEBC2E"></span>
+          <span class="pcard__dot" style="background:#28C840"></span>
+          <span class="pcard__title">kalkulator-tax-planning.xlsx</span>
+        </div>
+        <div class="pcard__body">
+          <table class="mocktable">
+            <tr><th>Skenario</th><th>PPh Terutang</th><th>Selisih</th></tr>
+            <tr><td>Skema A — PPh Final</td><td>Rp18.400.000</td><td class="status-ok">—</td></tr>
+            <tr><td>Skema B — PPh Normal</td><td>Rp24.100.000</td><td class="status-warn">+Rp5.700.000</td></tr>
+            <tr><td><b>Potensi Hemat</b></td><td colspan="2" class="status-ok"><b>Rp5.700.000 / tahun</b></td></tr>
+          </table>
+        </div>
+        <div class="pcard__caption"><b>Kalkulator Fee &amp; Estimasi Skenario Tax Planning.</b> Klien tanya "kalau pindah skema pajak, hematnya berapa?" — tinggal isi file Excel ini, angka penghematan per skenario langsung keluar.</div>
+      </div>
+
+    </div>
+
+    <p class="preview-disclaimer">*Tampilan di atas adalah ilustrasi isi file dengan data contoh, bukan tangkapan layar produk final.</p>
+  </div>
+</section>
+<!-- ===== PAKET & HARGA ===== -->
+<section id="paket">
+  <div class="wrap">
+    <p class="badge font-mono" style="color:var(--teal);text-align:center;display:block;">Paket &amp; harga</p>
+    <h2 class="font-display" style="font-size:1.6rem;text-align:center;font-weight:600;margin-top:12px;">Pilih Sesuai Tahap Praktik Anda</h2>
+
+    <div class="grid-3" style="margin-top:32px;align-items:start;">
+
+      <!-- STARTER - LEFT -->
+      <div class="card" style="padding:26px;display:flex;flex-direction:column;">
+        <span class="badge" style="background:#F1F0EC;color:var(--ink-soft);">Starter</span>
+        <p class="font-display" style="font-size:1.9rem;font-weight:600;margin-top:10px;">Rp139.000</p>
+        <p style="font-size:.85rem;color:var(--ink-soft);margin-top:2px;">23 Dokumen · Kategori A–C</p>
+        <ul class="pill-list" style="margin-top:16px;flex:1;">
+          <li>✓ Seleksi &amp; Onboarding Klien</li>
+          <li>✓ Manajemen Deadline &amp; Beban Kerja</li>
+          <li>✓ Eksekusi Pekerjaan Pajak</li>
+        </ul>
+        <p class="font-mono" style="font-size:.75rem;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px;margin-top:12px;">≈ Rp6.043 / dokumen</p>
+        <button data-tier="1" class="tier-select-btn btn btn-teal-outline focus-ring" style="margin-top:16px;">Pilih Starter</button>
+      </div>
+
+      <!-- ULTIMA / PAKET LENGKAP - CENTER, HIGHEST, RECOMMENDED -->
+      <div style="position:relative;border-radius:16px;padding:28px;color:#fff;box-shadow:0 20px 40px -12px rgba(10,90,97,.4);transform:translateY(-10px);background:linear-gradient(165deg,var(--teal-dark),var(--teal));display:flex;flex-direction:column;">
+        <span class="badge" style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--amber);color:#fff;white-space:nowrap;">👑 Paling Direkomendasikan</span>
+        <span class="badge" style="background:rgba(255,255,255,.15);color:#fff;margin-top:6px;">Paket Lengkap · ULTIMA</span>
+        <p class="font-display" style="font-size:2.2rem;font-weight:600;margin-top:10px;">Rp197.000</p>
+        <p style="font-size:.85rem;color:rgba(255,255,255,.85);margin-top:2px;">93 Dokumen · Kategori A–L (semua)</p>
+        <ul class="pill-list" style="margin-top:16px;flex:1;">
+          <li>✓ Semua isi paket Professional</li>
+          <li>✓ Arsip, Keamanan Data &amp; Offboarding Klien</li>
+          <li>✓ Kepatuhan Profesi &amp; Pengembangan Praktik</li>
+          <li>✓ Kolaborator Lepas &amp; Pengembangan Praktik</li>
+          <li>✓ Keamanan Data, Risiko &amp; Kepatuhan Praktik</li>
+          <li>✓ Keuangan Internal Praktik</li>
+          <li>✓ Pengembangan Bisnis &amp; Kemitraan Praktik</li>
+        </ul>
+        <p class="font-mono" style="font-size:.75rem;color:rgba(255,255,255,.8);border-top:1px dashed rgba(255,255,255,.3);padding-top:12px;margin-top:12px;">≈ Rp2.118 / dokumen — paling hemat</p>
+        <p style="font-size:.8rem;font-weight:700;margin-top:10px;background:rgba(255,255,255,.12);padding:10px 12px;border-radius:8px;">Hanya selisih Rp18.000 dari Professional untuk mendapat tambahan 54 dokumen.</p>
+        <button data-tier="3" class="tier-select-btn btn btn-primary focus-ring" style="margin-top:16px;">Pilih Paket Lengkap</button>
+      </div>
+
+      <!-- PROFESSIONAL - RIGHT -->
+      <div class="card" style="padding:26px;display:flex;flex-direction:column;">
+        <span class="badge" style="background:#F1F0EC;color:var(--ink-soft);">Professional</span>
+        <p class="font-display" style="font-size:1.9rem;font-weight:600;margin-top:10px;">Rp179.000</p>
+        <p style="font-size:.85rem;color:var(--ink-soft);margin-top:2px;">39 Dokumen · Kategori A–F</p>
+        <ul class="pill-list" style="margin-top:16px;flex:1;">
+          <li>✓ Semua isi paket Starter</li>
+          <li>✓ Hubungan dengan DJP &amp; Sengketa</li>
+          <li>✓ Penagihan Fee &amp; Perlindungan Finansial</li>
+          <li>✓ Tax Planning &amp; Advisory</li>
+        </ul>
+        <p class="font-mono" style="font-size:.75rem;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px;margin-top:12px;">≈ Rp4.590 / dokumen</p>
+        <button data-tier="2" class="tier-select-btn btn btn-teal-outline focus-ring" style="margin-top:16px;">Pilih Professional</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== VS SEWA KONSULTAN ===== -->
+<section style="background:var(--teal-tint);">
+  <div class="wrap-sm">
+    <p class="badge font-mono" style="color:var(--teal-dark);text-align:center;display:block;">Bandingkan sendiri</p>
+    <h2 class="font-display" style="font-size:1.5rem;text-align:center;font-weight:600;margin-top:12px;">Dibanding Menyusun Sendiri atau Sewa Konsultan Manajemen Praktik</h2>
+    <p style="text-align:center;color:var(--ink-soft);margin-top:10px;">Estimasi umum biaya jasa konsultan bisnis/SOP perorangan untuk proyek skala kecil di Indonesia — bervariasi tergantung cakupan &amp; konsultan.</p>
+
+    <div class="grid-2" style="margin-top:26px;align-items:stretch;">
+      <div class="card" style="padding:24px;">
+        <p class="badge" style="background:#F1F0EC;color:var(--ink-soft);">Opsi Lama</p>
+        <p style="font-weight:700;margin-top:10px;">Sewa Konsultan Manajemen Praktik</p>
+        <p class="font-display" style="font-size:1.7rem;font-weight:600;margin-top:8px;">Rp5.000.000 – 25.000.000+</p>
+        <p style="font-size:.85rem;color:var(--ink-soft);margin-top:8px;">Estimasi umum jasa konsultan perorangan untuk menyusun SOP &amp; sistem kerja praktik skala kecil per proyek — di luar waktu tunggu berminggu-minggu sampai selesai.</p>
+      </div>
+      <div class="card" style="padding:24px;border:2px solid var(--teal);">
+        <p class="badge" style="background:var(--teal);color:#fff;">ARDYA CONSULTING</p>
+        <p style="font-weight:700;margin-top:10px;">Paket Lengkap ULTIMA</p>
+        <p class="font-display" style="font-size:1.7rem;font-weight:600;margin-top:8px;color:var(--teal-dark);">Rp197.000</p>
+        <p style="font-size:.85rem;color:var(--ink-soft);margin-top:8px;">93 dokumen siap pakai, sekali bayar, akses selamanya — tanpa proses konsultasi berbulan-bulan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ===== CHECKOUT ===== -->
+<section id="checkout" style="background:var(--teal-tint);">
+  <div class="wrap-sm">
+    <h2 class="font-display" style="font-size:1.5rem;text-align:center;font-weight:600;">Bangun Praktik yang Lebih Terstruktur Mulai Hari Ini</h2>
+    <p style="text-align:center;color:var(--ink-soft);margin-top:10px;">Pilih paket sesuai kebutuhan praktik Anda, lengkapi data, lalu mulai bangun sistem kerja yang lebih rapi dan siap berkembang.</p>
+    <p style="text-align:center;font-size:.9rem;margin-top:18px;color:var(--ink-soft);">Ganti paket kapan saja tanpa perlu scroll ke atas:</p>
+
+    <div id="inline-tier-selector" style="margin-top:14px;display:flex;flex-direction:column;gap:10px;">
+      <label class="pm-option" for="tierpick_1">
+        <input type="radio" name="tierPick" value="1" id="tierpick_1">
+        <span class="pm-label" style="flex:1;">Starter <span style="color:var(--ink-soft);font-weight:400;">(23 dokumen)</span></span>
+        <span class="font-mono" style="font-weight:700;">Rp139.000</span>
+      </label>
+      <label class="pm-option" for="tierpick_2">
+        <input type="radio" name="tierPick" value="2" id="tierpick_2">
+        <span class="pm-label" style="flex:1;">Professional <span style="color:var(--ink-soft);font-weight:400;">(39 dokumen)</span></span>
+        <span class="font-mono" style="font-weight:700;">Rp179.000</span>
+      </label>
+      <label class="pm-option" for="tierpick_3">
+        <input type="radio" name="tierPick" value="3" id="tierpick_3">
+        <span class="pm-label" style="flex:1;">Paket Lengkap ULTIMA <span style="color:var(--ink-soft);font-weight:400;">(93 dokumen)</span></span>
+        <span class="font-mono" style="font-weight:700;">Rp197.000</span>
+      </label>
+    </div>
+
+    <form id="checkout-form" class="card" style="padding:24px;margin-top:18px;">
+      <div class="field">
+        <label for="customerName">Nama Lengkap</label>
+        <input required id="customerName" name="customerName" type="text" placeholder="Nama sesuai identitas">
+      </div>
+      <div class="field">
+        <label for="customerPhone">Nomor WhatsApp</label>
+        <input required id="customerPhone" name="customerPhone" type="tel" placeholder="08xxxxxxxxxx">
+      </div>
+      <div class="field">
+        <label for="customerEmail">Email</label>
+        <input required id="customerEmail" name="customerEmail" type="email" placeholder="Untuk pengiriman file digital">
+      </div>
+      <div class="field">
+        <label>Metode Pembayaran</label>
+        <div id="payment-methods-list" style="display:flex;flex-direction:column;gap:10px;"></div>
+      </div>
+      <p id="form-error" style="color:#B3261E;font-size:.85rem;display:none;margin-bottom:12px;margin-top:16px;"></p>
+      <button id="submit-btn" type="submit" class="btn btn-dark focus-ring" style="margin-top:16px;">Checkout Sekarang</button>
+      <p style="text-align:center;font-size:.75rem;color:var(--ink-soft);margin-top:10px;">Produk digital — file dikirim otomatis ke email setelah pembayaran terkonfirmasi.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ===== GARANSI (di bawah form) ===== -->
+<section style="text-align:center;">
+  <div class="wrap-sm">
+    <div class="stamp"><span class="font-display" style="font-weight:700;font-size:.85rem;">GARANSI<br>7 HARI</span></div>
+    <h2 class="font-display" style="font-size:1.4rem;font-weight:600;margin-top:18px;">Isi Tidak Sesuai Listing? Uang Kembali.</h2>
+    <p style="color:var(--ink-soft);margin-top:10px;">Kalau dalam 7 hari isi paket ternyata tidak sesuai daftar dokumen di halaman ini, dana Anda dikembalikan penuh.</p>
+  </div>
+</section>
+
+<footer style="text-align:center;padding:32px 24px;font-size:.75rem;color:var(--ink-soft);border-top:1px solid var(--line);">
+  <p style="font-weight:700;color:var(--ink);">ARDYA CONSULTING</p>
+  <p style="margin-top:4px;">Dokumen ini bersifat rahasia dan dilindungi hak cipta. Dilarang menggandakan atau menyebarluaskan tanpa izin tertulis dari ARDYA CONSULTING.</p>
+</footer>
+
+<script>
+(function(){
+  var CATEGORIES = [{"code": "A", "title": "Seleksi & Onboarding Klien", "tier": 1, "docs": [{"code": "EXT-KP-A01", "type": "SOP", "title": "Seleksi & Penerimaan Klien Baru", "desc": "Prosedur KYC dan Customer Due Diligence (CDD) untuk menyeleksi klien baru — mencakup pengecekan NIB, NPWP, status PKP, EFIN, dan riwayat sengketa pajak. Dilengkapi alur Pre-Assessment kesehatan data, penetapan fee, lock scope via SPK, dan checklist serah terima dokumen sebelum pekerjaan dimulai."}, {"code": "EXT-KP-A02", "type": "SOP", "title": "Pengumpulan & Verifikasi Dokumen Onboarding", "desc": "Standar pengumpulan dokumen klien dengan dua jalur terpisah: Orang Pribadi dan Badan. Mencakup prosedur permintaan, batas waktu, verifikasi keaslian, dan pengarsipan."}, {"code": "EXT-KP-A03", "type": "SOP", "title": "Penyusunan & Eksekusi Surat Perikatan Jasa (SPK)", "desc": "Prosedur penyusunan SPK yang mengunci ruang lingkup pekerjaan dan mencegah scope creep. Mencakup elemen wajib SPK, alur negosiasi, penandatanganan, dan pengelolaan perubahan scope via addendum."}, {"code": "EXT-KP-A04", "type": "Form", "title": "Formulir Pre-Assessment Kesehatan Data Klien", "desc": "Formulir skoring 10 item untuk menilai kondisi data klien sebelum pricing diberikan. Output: rekomendasi jenis jasa dan penyesuaian fee."}, {"code": "EXT-KP-A05", "type": "Form", "title": "Formulir Profil & KYC Klien", "desc": "Formulir standar pengumpulan data klien meliputi identitas & legalitas, kontak & PIC, kewajiban pajak aktif, riwayat perpajakan, dan lingkup jasa yang diminta."}, {"code": "EXT-KP-A06", "type": "Template", "title": "Template Surat Perikatan Jasa (SPK) Konsultasi Pajak", "desc": "Template SPK lengkap dengan 5 pasal: ruang lingkup jasa dengan klausul anti-scope creep, kewajiban klien, fee & denda, kerahasiaan, dan pengakhiran kontrak."}, {"code": "EXT-KP-A07", "type": "Checklist", "title": "Checklist Dokumen Onboarding Klien", "desc": "Checklist dua bagian terpisah untuk Orang Pribadi dan Badan, mencakup dokumen identitas, legalitas, perpajakan historis, keuangan, operasional, dan akses digital."}, {"code": "EXT-KP-A08", "type": "Panduan Excel", "title": "Tracker Pipeline Klien Baru & Master Database Klien", "desc": "Panduan file Excel 3-sheet: Pipeline Klien Baru, Master Klien Aktif, dan Status Kewajiban Pajak. Dilengkapi KPI conversion rate dan SLA onboarding."}], "intro": "Mulai dari proses menerima klien, KYC, pre-assessment, penentuan fee, hingga SPK."}, {"code": "B", "title": "Manajemen Deadline & Beban Kerja", "tier": 1, "docs": [{"code": "EXT-KP-B01", "type": "SOP", "title": "Pengelolaan Tax Calendar Praktik", "desc": "Sistem pengelolaan tax calendar terpusat untuk semua klien dan jenis kewajiban pajak. Mencakup deadline DJP vs internal, pemeliharaan bulanan, monitoring mingguan, dan eskalasi."}, {"code": "EXT-KP-B02", "type": "SOP", "title": "Protokol Eskalasi Klien Tidak Responsif", "desc": "Prosedur 5-tahap bertingkat untuk klien yang belum menyerahkan data sebelum deadline — dari reminder hingga Surat Pernyataan keterlambatan klien."}, {"code": "EXT-KP-B03", "type": "SOP", "title": "Manajemen Beban Kerja & Kapasitas Peak Season", "desc": "Perencanaan distribusi beban kerja saat peak season SPT Tahunan. Mencakup pemetaan kapasitas, antisipasi sejak Desember, dan contingency plan."}, {"code": "EXT-KP-B04", "type": "SOP", "title": "Standar Komunikasi Proaktif ke Klien", "desc": "Standar frekuensi, channel, dan konten komunikasi ke klien untuk 5 situasi kunci sepanjang siklus kerja pajak."}, {"code": "EXT-KP-B05", "type": "Panduan Excel", "title": "Master Tax Calendar Praktik", "desc": "Panduan file Excel 3-sheet dengan sistem kode status 6 warna dan conditional formatting otomatis untuk deadline seluruh klien."}, {"code": "EXT-KP-B06", "type": "Panduan Excel", "title": "Dashboard Kapasitas Kerja Praktik", "desc": "Panduan file Excel untuk memantau beban kerja konsultan — kapasitas vs aktual dan indikator overload."}, {"code": "EXT-KP-B07", "type": "Template", "title": "Template Pesan Reminder & Permintaan Dokumen ke Klien", "desc": "Set 5 template pesan siap pakai untuk WhatsApp/Email di berbagai tahap komunikasi klien."}], "intro": "Tax calendar, manajemen beban kerja, reminder klien, dashboard operasional, dan monitoring deadline."}, {"code": "C", "title": "Eksekusi Pekerjaan Pajak", "tier": 1, "docs": [{"code": "EXT-KP-C01", "type": "SOP", "title": "Alur Kerja SPT Tahunan PPh Orang Pribadi", "desc": "Standar kerja 10 tahap dari data masuk hingga BPE tersimpan. Mencakup penentuan formulir, rekonsiliasi, self-review, dan penanganan kondisi khusus."}, {"code": "EXT-KP-C02", "type": "SOP", "title": "Alur Kerja SPT Tahunan PPh Badan", "desc": "Standar kerja 11 tahap penyusunan SPT Badan — rekonsiliasi fiskal, review berlapis, hingga rekomendasi tax planning."}, {"code": "EXT-KP-C03", "type": "SOP", "title": "Pengelolaan SPT Masa Bulanan (PPh 21/23/25/PPN)", "desc": "Jadwal kerja bulanan terstandar untuk pengelolaan kewajiban pajak masa seluruh klien secara massal."}, {"code": "EXT-KP-C04", "type": "SOP", "title": "Penanganan Kendala Teknis Coretax", "desc": "Tabel triage 9 jenis kendala Coretax paling sering terjadi lengkap dengan workaround dan eskalasi."}, {"code": "EXT-KP-C05", "type": "SOP", "title": "Prosedur Pembetulan SPT", "desc": "Prosedur koreksi SPT berdasarkan Pasal 8 KUP — pembetulan biasa vs pengungkapan ketidakbenaran sukarela."}, {"code": "EXT-KP-C06", "type": "Checklist", "title": "Checklist Review Internal Sebelum Submit SPT", "desc": "Checklist 4 seksi wajib diisi sebelum submit — identitas, kebenaran angka, kelengkapan lampiran, konfirmasi klien."}, {"code": "EXT-KP-C07", "type": "Panduan Excel", "title": "Workpaper Rekonsiliasi Fiskal PPh Badan", "desc": "Panduan file Excel 4-sheet untuk workpaper rekonsiliasi fiskal dengan dasar hukum per item koreksi."}, {"code": "EXT-KP-C08", "type": "Form", "title": "Formulir Persetujuan Klien atas Draft SPT", "desc": "Bukti tertulis persetujuan klien sebelum submit SPT ke DJP ke DJP — melindungi konsultan dari klaim klien pasca-submit."}], "intro": "Workflow SPT Tahunan, SPT Masa, workpaper, review internal, approval klien, hingga pengarsipan."}, {"code": "D", "title": "Hubungan dengan DJP & Sengketa", "tier": 2, "docs": [{"code": "EXT-KP-D01", "type": "SOP", "title": "Respons & Tindak Lanjut SP2DK", "desc": "Protokol penanganan SP2DK — analisis sumber data DJP, penyusunan surat tanggapan, dan opsi tindak lanjut."}, {"code": "EXT-KP-D02", "type": "SOP", "title": "Pendampingan Pemeriksaan Pajak (Tax Audit)", "desc": "Standar pendampingan klien dalam pemeriksaan pajak — 7 tahapan dari SP2 hingga closing conference."}, {"code": "EXT-KP-D03", "type": "SOP", "title": "Penanganan SKP & Surat Tagihan Pajak (STP)", "desc": "Prosedur analisis SKP dan STP dengan deadline keberatan 3 bulan yang absolut serta tiga opsi tindak lanjut."}, {"code": "EXT-KP-D04", "type": "Template", "title": "Template Surat Tanggapan ke KPP", "desc": "Template surat tanggapan resmi ke KPP untuk SP2DK, klarifikasi, dan surat penjelasan."}, {"code": "EXT-KP-D05", "type": "Form", "title": "Surat Kuasa Khusus (SKK) Perpajakan", "desc": "Template SKK yang memenuhi syarat formal DJP dengan checklist kelengkapan 7 item."}], "intro": "SP2DK, pemeriksaan pajak, SKP, STP, surat tanggapan, dan pendampingan."}, {"code": "E", "title": "Penagihan Fee & Perlindungan Finansial", "tier": 2, "docs": [{"code": "EXT-KP-E01", "type": "SOP", "title": "Sistem Penagihan Fee Jasa Konsultasi", "desc": "Sistem penagihan fee terstruktur dengan alur reminder aktif 5 tahap dan penanganan klien yang menunggak."}, {"code": "EXT-KP-E02", "type": "SOP", "title": "Pengelolaan Bukti Potong PPh 23 dari Klien", "desc": "Prosedur pengumpulan dan rekonsiliasi Bukti Potong PPh 23 dari klien sepanjang tahun."}, {"code": "EXT-KP-E03", "type": "Template", "title": "Template Invoice Jasa Konsultasi Pajak", "desc": "Template invoice dengan komponen pajak yang benar: PPh 23, PPN, dan instruksi bukti potong."}, {"code": "EXT-KP-E04", "type": "Panduan Excel", "title": "Tracker Piutang & Bukti Potong PPh 23", "desc": "Panduan file Excel dengan aging piutang 4 kategori dan tracker bukti potong."}, {"code": "EXT-KP-E05", "type": "Form", "title": "Berita Acara Serah Terima Hasil Pekerjaan", "desc": "Bukti hukum serah terima pekerjaan ke klien dengan klausul pengalihan tanggung jawab."}], "intro": "Invoice, tracker piutang, bukti potong, berita acara, dan sistem penagihan."}, {"code": "F", "title": "Tax Planning & Advisory", "tier": 2, "docs": [{"code": "EXT-KP-F01", "type": "SOP", "title": "Alur Kerja Tax Review & Health Check Klien", "desc": "Standar kerja 8 tahap Tax Review dengan area review wajib yang mencakup rekonsiliasi, penyusutan, dan kredit pajak."}, {"code": "EXT-KP-F02", "type": "SOP", "title": "Penyusunan Laporan Tax Planning", "desc": "Prosedur penyusunan rekomendasi tax planning yang legal dan terdokumentasi dengan disclaimer wajib."}, {"code": "EXT-KP-F03", "type": "SOP", "title": "Prosedur Pemberian Opini Pajak (Tax Opinion)", "desc": "Standar pemberian Tax Opinion tertulis dengan komponen wajib dan batasan kewenangan."}, {"code": "EXT-KP-F04", "type": "Template", "title": "Template Laporan Tax Health Check Klien", "desc": "Format standar laporan Tax Health Check dengan temuan, rekomendasi, dan action plan."}, {"code": "EXT-KP-F05", "type": "Template", "title": "Template Tax Opinion Letter", "desc": "Template Tax Opinion Letter berformat hukum lengkap dengan disclaimer."}, {"code": "EXT-KP-F06", "type": "Panduan Excel", "title": "Kalkulator Fee & Estimasi Skenario Tax Planning", "desc": "Panduan file Excel 6-sheet untuk analisis kuantitatif perbandingan skenario tax planning."}], "intro": "Tax planning, tax opinion, tax review, health check, dan kalkulator skenario."}, {"code": "G", "title": "Arsip, Keamanan Data & Offboarding Klien", "tier": 3, "docs": [{"code": "EXT-KP-G01", "type": "SOP", "title": "Sistem Pengarsipan Dokumen Pajak Klien", "desc": "Sistem pengarsipan terpusat dengan hierarki folder, 9 kategori, konvensi penamaan file, dan tabel retensi."}, {"code": "EXT-KP-G02", "type": "SOP", "title": "Protokol Keamanan Data & Kerahasiaan Klien", "desc": "Standar keamanan data 6 area teknis dengan prosedur penanganan kebocoran data."}, {"code": "EXT-KP-G03", "type": "SOP", "title": "Offboarding Klien", "desc": "Prosedur 7-tahap offboarding klien — penyelesaian piutang, serah terima dokumen, pencabutan akses digital."}, {"code": "EXT-KP-G04", "type": "SOP", "title": "Penanganan Klien Bermasalah & Pemutusan Kontrak", "desc": "Prosedur penanganan klien dengan indikasi faktur fiktif, transaksi tidak wajar, atau tekanan ilegal."}, {"code": "EXT-KP-G05", "type": "Form", "title": "Berita Acara Serah Terima Dokumen — Offboarding", "desc": "Formulir inventaris lengkap serah terima dokumen saat klien offboarding."}, {"code": "EXT-KP-G06", "type": "Checklist", "title": "Checklist Audit Keamanan Data Praktik (Kuartalan)", "desc": "Checklist audit keamanan kuartalan 3 seksi: akses/password, perangkat/jaringan, kerapian arsip."}, {"code": "EXT-KP-G07", "type": "SOP", "title": "Kepatuhan UU Pelindungan Data Pribadi (UU PDP) atas Data Klien", "desc": "Kepatuhan terhadap UU No. 27/2022 — klasifikasi data sensitif, kewajiban Pengendali Data, protokol pelaporan kebocoran 72 jam, evaluasi kewajiban DPO, fasilitasi hak subjek data, dan sanksi ketidakpatuhan."}], "intro": "Standar pengarsipan, keamanan data, offboarding klien, audit keamanan, hingga kepatuhan UU PDP."}, {"code": "H", "title": "Kepatuhan Profesi & Pengembangan Praktik", "tier": 3, "docs": [{"code": "EXT-KP-H01", "type": "SOP", "title": "Pengelolaan Izin Praktik Konsultan Pajak", "desc": "Prosedur pengelolaan Izin Praktik Konsultan Pajak — cakupan klien per level, jadwal perpanjangan, dan upgrade level."}, {"code": "EXT-KP-H02", "type": "SOP", "title": "Pemenuhan Kewajiban CPD", "desc": "Prosedur perencanaan dan pelaksanaan kewajiban CPD tahunan dengan sumber CPD yang diakui IKPI."}, {"code": "EXT-KP-H03", "type": "SOP", "title": "Monitoring & Sosialisasi Perubahan Regulasi Perpajakan", "desc": "Sistem monitoring regulasi harian dari 5 sumber resmi dengan prosedur penanganan regulasi baru."}, {"code": "EXT-KP-H04", "type": "Panduan Excel", "title": "Tracker Kewajiban Profesi per Konsultan", "desc": "Panduan file Excel untuk memantau izin praktik dan poin CPD dengan dashboard alert otomatis."}, {"code": "EXT-KP-H05", "type": "Template", "title": "Template Catatan Konsultasi & Evaluasi Kolaborator Lepas", "desc": "Template pencatatan hasil konsultasi/koordinasi dengan kolaborator lepas per proyek — poin diskusi, keputusan, dan tindak lanjut."}], "intro": "Pengelolaan izin praktik, CPD, monitoring regulasi, tracker profesi, dan catatan konsultasi kolaborator."}, {"code": "I", "title": "Kolaborator Lepas & Pengembangan Praktik", "tier": 3, "docs": [{"code": "EXT-KP-I01", "type": "SOP", "title": "Seleksi & Onboarding Kolaborator Lepas Pajak", "desc": "Alur seleksi kolaborator lepas (freelance) untuk bantuan peak season Feb–April — kapan dibutuhkan, standar kompetensi minimal per jenis bantuan, dan proses kesepakatan kerja sama."}, {"code": "EXT-KP-I02", "type": "SOP", "title": "Onboarding Singkat Kolaborator Lepas", "desc": "Onboarding efisien 1-2 hari untuk kolaborator lepas — briefing lingkup kerja spesifik, akses terbatas, dan evaluasi kecocokan awal."}, {"code": "EXT-KP-I03", "type": "SOP", "title": "Pengaturan Jadwal & Ketersediaan Kolaborator Lepas", "desc": "Koordinasi ketersediaan kolaborator yang bersifat fleksibel, konfirmasi komitmen di awal kerja sama, dan insentif untuk standby peak season."}, {"code": "EXT-KP-I04", "type": "SOP", "title": "Penanganan Masalah Kualitas & Pengakhiran Kerja Sama Kolaborator", "desc": "Kategori masalah kolaborator (ringan/sedang/berat) dan keputusan melanjutkan atau menghentikan kerja sama untuk proyek berikutnya."}, {"code": "EXT-KP-I05", "type": "SOP", "title": "Evaluasi Kinerja Diri & Kolaborator Lepas", "desc": "Evaluasi diri sendiri (self-review praktik) per kuartal dan evaluasi kolaborator lepas per proyek sebagai dasar keputusan kerja sama berikutnya."}, {"code": "EXT-KP-I06", "type": "SOP", "title": "Pengembangan Kompetensi Diri & Kolaborator Lepas", "desc": "Rencana pengembangan tahunan untuk diri sendiri (teknis, bisnis, sertifikasi) dan berbagi pengetahuan dengan kolaborator langganan."}, {"code": "EXT-KP-I07", "type": "SOP", "title": "Pengakhiran Kerja Sama dengan Kolaborator Lepas", "desc": "Prosedur pengakhiran kerja sama — proyek selesai normal, diakhiri lebih awal, atau kolaborator mengundurkan diri — dengan checklist pencabutan akses data klien."}, {"code": "EXT-KP-I08", "type": "Dokumen", "title": "Panduan Peran: Konsultan Pajak sebagai Pemilik Praktik", "desc": "Cakupan peran ganda konsultan solo — praktisi teknis, pemilik praktik, dan manajer kolaborator — beserta kompetensi yang perlu dikembangkan."}, {"code": "EXT-KP-I09", "type": "Dokumen", "title": "Panduan Peran: Kolaborator Lepas Pelaksana Teknis", "desc": "Cakupan peran dan batasan wewenang kolaborator lepas dalam pekerjaan teknis — dipakai sebagai panduan singkat saat onboarding."}, {"code": "EXT-KP-I10", "type": "Dokumen", "title": "Kesepakatan Kerja & Standar Perilaku Kolaborator Lepas", "desc": "Aturan ketersediaan, profesionalisme, dan larangan tegas terkait kerahasiaan data untuk kolaborator lepas."}, {"code": "EXT-KP-I11", "type": "Form", "title": "Formulir Self-Assessment Praktik & Kolaborator Lepas", "desc": "Formulir penilaian diri — dapat diisi konsultan sendiri (refleksi kuartalan) atau kolaborator lepas setelah proyek selesai."}, {"code": "EXT-KP-I12", "type": "Form", "title": "Formulir Catatan Masalah Kerja Sama Kolaborator", "desc": "Dokumentasi masalah kerja sama dengan kolaborator lepas — kronologi, tindakan, dan catatan untuk referensi masa depan."}, {"code": "EXT-KP-I13", "type": "Template", "title": "Template Perjanjian Kerja Sama dengan Kolaborator Lepas", "desc": "Template perjanjian kerja sama freelance (bukan kontrak karyawan tetap) — lingkup pekerjaan, kompensasi per proyek/jam, dan kerahasiaan."}, {"code": "EXT-KP-I14", "type": "Panduan Excel", "title": "Matriks Evaluasi Kolaborator Lepas per Proyek", "desc": "Panduan file Excel database kolaborator dan riwayat evaluasi — dasar keputusan siapa yang diajak kembali di musim berikutnya."}], "intro": "Seleksi, onboarding, evaluasi, NDA, kerja sama, hingga database kolaborator lepas."}, {"code": "J", "title": "Keamanan Data, Risiko & Kepatuhan Praktik", "tier": 3, "docs": [{"code": "EXT-KP-J01", "type": "SOP", "title": "Keamanan Siber, Hak Akses & Perlindungan Data Klien (UU PDP)", "desc": "Kebijakan payung keamanan siber praktik — akses penuh untuk konsultan, akses terbatas per proyek untuk kolaborator lepas, dengan referensi silang ke SOP keamanan detail."}, {"code": "EXT-KP-J02", "type": "SOP", "title": "Backup & Pemulihan Data Digital", "desc": "Standar backup prinsip 3-2-1, uji pemulihan berkala, dan prosedur jika terjadi kehilangan data."}, {"code": "EXT-KP-J03", "type": "SOP", "title": "Keamanan Fisik & Kesiapsiagaan Darurat Ruang Kerja", "desc": "Standar keamanan untuk home office, coworking space, atau kantor kecil sewa — bukan manajemen gedung skala besar — dengan rekomendasi digitalisasi dokumen klien."}, {"code": "EXT-KP-J04", "type": "SOP", "title": "Media Handling saat Krisis Reputasi Praktik", "desc": "Prosedur respons publik terkoordinasi untuk krisis kebocoran data, sengketa klien, atau isu etika — tanpa mengungkap data klien."}, {"code": "EXT-KP-J05", "type": "SOP", "title": "Audit Internal Berkala", "desc": "Audit internal atas operasional praktik sendiri mencakup kepatuhan deadline, kualitas review, keamanan data, dan keuangan."}, {"code": "EXT-KP-J06", "type": "SOP", "title": "Penilaian & Mitigasi Risiko Operasional", "desc": "Peta risiko operasional praktik solo termasuk risiko \"single point of failure\" — mitigasi lewat jaringan kolaborator lepas siaga."}, {"code": "EXT-KP-J07", "type": "SOP", "title": "Pelaporan & Penanganan Insiden Internal", "desc": "Mekanisme pencatatan insiden dengan kategori minor/moderat/major, termasuk insiden yang melibatkan kolaborator lepas."}, {"code": "EXT-KP-J08", "type": "SOP", "title": "Investigasi Insiden & Root Cause Analysis (RCA)", "desc": "Metode 5 Whys untuk investigasi mendalam akar masalah insiden major."}, {"code": "EXT-KP-J09", "type": "SOP", "title": "Tindak Lanjut CAPA", "desc": "Penyusunan dan pemantauan Corrective & Preventive Action pasca-RCA dengan verifikasi efektivitas."}, {"code": "EXT-KP-J10", "type": "SOP", "title": "Retensi, Pengarsipan & Pemusnahan Dokumen Praktik", "desc": "Retensi dokumen internal praktik (kerja sama kolaborator, keuangan, legalitas) — berbeda dari dokumen klien di EXT-KP-G01."}, {"code": "EXT-KP-J11", "type": "Dokumen", "title": "Kode Etik Praktik & Standar Integritas Profesional", "desc": "Kode etik yang mengikat konsultan dan kolaborator lepas — integritas, objektivitas, kerahasiaan, dan larangan praktik pajak ilegal."}, {"code": "EXT-KP-J12", "type": "Form", "title": "Form NDA / Pakta Integritas Kerahasiaan Kolaborator Lepas", "desc": "Pakta kerahasiaan data klien dan metode kerja yang berlaku tanpa batas waktu, ditandatangani setiap kolaborator lepas."}, {"code": "EXT-KP-J13", "type": "Form", "title": "Form Laporan Kronologis Insiden Internal", "desc": "Formulir pelaporan insiden dengan kronologi, dampak, dan indikasi keterlibatan kolaborator lepas."}, {"code": "EXT-KP-J14", "type": "Checklist", "title": "Checklist Masa Berlaku Perizinan & Legalitas Praktik", "desc": "Monitoring legalitas praktik sebagai entitas usaha — NIB, NPWP (berbeda dari izin praktik profesi individual di EXT-KP-H01)."}, {"code": "EXT-KP-J15", "type": "Checklist", "title": "Checklist Kepatuhan Pajak Praktik Sendiri (PPh 21, 23, PPN)", "desc": "Checklist kewajiban pajak konsultan sendiri sebagai entitas usaha — bukan pekerjaan pajak untuk klien — dengan prinsip review independen antar-sesama konsultan."}], "intro": "Risk management, audit internal, backup, keamanan siber, CAPA, RCA, hingga kode etik praktik."}, {"code": "K", "title": "Keuangan Internal Praktik", "tier": 3, "docs": [{"code": "EXT-KP-K01", "type": "SOP", "title": "Pengelolaan & Pertanggungjawaban Kas Kecil Praktik", "desc": "Pengelolaan kas kecil operasional untuk ATK, transportasi, dan konsumsi kerja — dengan kontrol dan rekonsiliasi bulanan."}, {"code": "EXT-KP-K02", "type": "SOP", "title": "Pencatatan Pendapatan & Pengeluaran Harian Praktik", "desc": "Pencatatan arus kas harian praktik mencakup kategori pengeluaran honor kolaborator, ruang kerja, software, dan pengembangan diri."}, {"code": "EXT-KP-K03", "type": "SOP", "title": "Pembayaran ke Vendor & Kolaborator", "desc": "Prosedur pembayaran ke vendor software/ruang kerja dan honor kolaborator lepas dengan kontrol subscription berulang."}, {"code": "EXT-KP-K04", "type": "Panduan Excel", "title": "Dashboard Keuangan Harian Praktik", "desc": "Panduan file Excel arus kas dan buku besar praktik — terpisah dari tracker piutang klien."}, {"code": "EXT-KP-K05", "type": "Panduan Excel", "title": "Kalkulator Honor Kolaborator Lepas & Bagi Hasil Proyek", "desc": "Panduan file Excel perhitungan honor kolaborator berdasarkan level keahlian — per jam, per proyek, atau bagi hasil untuk proyek besar dengan spesialis."}, {"code": "EXT-KP-K06", "type": "Panduan Excel", "title": "Template Budgeting & Perencanaan Anggaran Tahunan Praktik", "desc": "Panduan file Excel penyusunan anggaran tahunan praktik dengan perbandingan realisasi vs anggaran, termasuk cadangan kolaborator peak season."}, {"code": "EXT-KP-K07", "type": "Panduan Excel", "title": "Template Forecast Pendapatan 12 Bulan Praktik", "desc": "Panduan file Excel proyeksi pendapatan berdasarkan retainer, project musiman, dan pipeline klien baru untuk perencanaan kebutuhan kolaborator."}], "intro": "Kas kecil, budgeting, forecasting, dashboard keuangan, dan kalkulator honor kolaborator."}, {"code": "L", "title": "Pengembangan Bisnis & Kemitraan Praktik", "tier": 3, "docs": [{"code": "EXT-KP-L01", "type": "SOP", "title": "Program Kemitraan & Rujukan Profesional", "desc": "Sistem rujukan B2B dengan notaris, akuntan publik, firma hukum, dan konsultan HR korporat — jaring pengaman reputasi bagi konsultan solo untuk kasus di luar kapasitas."}, {"code": "EXT-KP-L02", "type": "SOP", "title": "Konversi Inquiry Klien menjadi Kontrak Jasa", "desc": "Alur profesional dari inquiry awal hingga SPK ditandatangani, dengan opsi rujuk mitra atau kolaborator lepas jika di luar kapasitas solo."}, {"code": "EXT-KP-L03", "type": "SOP", "title": "Kerja Sama B2B (Korporat, Notaris, Firma Hukum)", "desc": "Model kerja sama retainer dan project-based dengan korporat/mitra profesional — termasuk perencanaan kolaborator lepas untuk proyek besar."}, {"code": "EXT-KP-L04", "type": "SOP", "title": "Penanganan Ulasan Negatif & Reputasi Digital", "desc": "Respons profesional atas ulasan negatif di Google Business/LinkedIn — krusial bagi konsultan solo yang reputasi personalnya menentukan kelangsungan praktik."}, {"code": "EXT-KP-L05", "type": "Dokumen", "title": "Strategi Retensi Klien & Mencegah Pindah ke Konsultan Lain", "desc": "Strategi retensi berbasis switching cost profesional — kontinuitas pengetahuan, kepercayaan, dan hubungan personal langsung sebagai keunggulan solo."}, {"code": "EXT-KP-L06", "type": "Template", "title": "Template Analisis SWOT & Action Plan Praktik", "desc": "Template evaluasi strategis tahunan praktik dengan matriks SWOT dan action plan, termasuk perencanaan jaringan kolaborator lepas."}], "intro": "Konversi inquiry, referral partner, retensi klien, SWOT praktik, dan kerja sama B2B."}];
+
+  var root = document.getElementById('accordion-root');
+  if (!root || !CATEGORIES.length) return;
+
+  function esc(s){
+    return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  CATEGORIES.forEach(function(cat){
+    var wrap = document.createElement('div');
+    wrap.className = 'accordion-item';
+
+    var tierBadge = cat.tier === 1
+      ? '<span class="badge" style="background:#F1F0EC;color:var(--ink-soft);">Semua Paket</span>'
+      : cat.tier === 2
+      ? '<span class="badge" style="background:var(--teal-tint);color:var(--teal-dark);">Mulai Professional</span>'
+      : '<span class="badge" style="background:#FBEBD8;color:var(--amber);">Paket Lengkap</span>';
+
+    var head = document.createElement('button');
+    head.type = 'button';
+    head.className = 'accordion-head focus-ring';
+    head.innerHTML =
+      '<span style="display:flex;align-items:center;gap:10px;">' +
+        '<span class="font-mono" style="width:26px;height:26px;flex-shrink:0;border-radius:999px;background:var(--teal-tint);color:var(--teal-dark);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;">' + cat.code + '</span>' +
+        '<span style="font-weight:700;">' + esc(cat.title) + '</span>' +
+      '</span>' +
+      '<span style="display:flex;align-items:center;gap:10px;flex-shrink:0;">' +
+        tierBadge +
+        '<span class="font-mono" style="font-size:.72rem;color:var(--ink-soft);">' + cat.docs.length + ' dok</span>' +
+        '<span class="chev">&#9662;</span>' +
+      '</span>';
+
+    var panel = document.createElement('div');
+    panel.className = 'accordion-panel';
+    var inner = document.createElement('div');
+    inner.className = 'accordion-panel-inner';
+    inner.innerHTML = '<p style="font-size:.85rem;color:var(--ink-soft);padding:4px 0 12px;">' + esc(cat.intro) + '</p>';
+
+    cat.docs.forEach(function(d){
+      var row = document.createElement('div');
+      row.className = 'doc-row';
+      row.innerHTML =
+        '<span><span class="doc-code">' + esc(d.code) + '</span><span class="doc-type">' + esc(d.type) + '</span></span>' +
+        '<span class="doc-title">' + esc(d.title) + '</span>' +
+        '<span class="doc-desc">' + esc(d.desc) + '</span>';
+      inner.appendChild(row);
+    });
+
+    panel.appendChild(inner);
+    wrap.appendChild(head);
+    wrap.appendChild(panel);
+    root.appendChild(wrap);
+
+    head.addEventListener('click', function(){
+      var open = panel.classList.contains('open');
+      panel.classList.toggle('open', !open);
+      head.querySelector('.chev').style.transform = open ? '' : 'rotate(180deg)';
+    });
+  });
+})();
+</script>
+<script>
+(function(){
+  // ============================================================
+  // KONFIGURASI TIER -> PRODUK SCALEV
+  // Nama produk diambil persis dari setup toko TRUSTED:
+  // STARTER, PROFESSIONAL, ULTIMA. Kalau kamu ganti nama produk
+  // di dashboard Scalev, update regex di bawah ini juga.
+  // ============================================================
+  var TIER_PRODUCT_MATCH = {
+    1: /^starter/i,
+    2: /^professional/i,
+    3: /^ultima/i
+  };
+  // Harga tidak lagi disimpan sebagai konstanta di sini. Sumber harga
+  // tunggal = data varian dari store Scalev (selectedVariant), sehingga
+  // saat harga diubah di dashboard Scalev, LP otomatis ikut — tidak perlu
+  // sinkronkan angka di dua tempat. Angka harga yang tampil di section
+  // "Paket & Harga" murni sebagai tampilan HTML statis.
+
+  var selectedTier = null;
+  var selectedVariant = null;
+  var storeData = null;
+
+  var scalev = window.Scalev;
+  var paymentListEl = document.getElementById('payment-methods-list');
+  var formErrorEl = document.getElementById('form-error');
+  var submitBtn = document.getElementById('submit-btn');
+
+  function showError(msg){ formErrorEl.textContent = msg; formErrorEl.style.display = 'block'; }
+  function clearError(){ formErrorEl.style.display = 'none'; }
+
+  function findVariantForTier(tier){
+    if (!storeData || !storeData.store || !Array.isArray(storeData.store.products)) return null;
+    var matcher = TIER_PRODUCT_MATCH[tier];
+    var product = storeData.store.products.find(function(p){ return matcher.test((p.name || '').trim()); });
+    if (!product || !product.variants || !product.variants.length){
+      // Debug: kalau matching gagal lagi, buka console browser (F12) untuk
+      // lihat daftar nama produk ASLI yang terbaca dari store — cocokkan
+      // manual dengan regex TIER_PRODUCT_MATCH di atas.
+      console.warn('Produk tier ' + tier + ' tidak ketemu. Nama produk yang tersedia di store:',
+        (storeData.store.products || []).map(function(p){ return p.name; }));
+      return null;
+    }
+    return product.variants[0];
+  }
+
+  function cleanPaymentLabel(display, value){
+    // Bank transfer manual (bt:...) sering menyertakan nama pemilik rekening
+    // di belakang nama bank, mis. "Bank Central Asia (SILVIANA ANGGRAINI)".
+    // Untuk tampilan publik, nama rekening tidak perlu ditampilkan.
+    if (typeof value === 'string' && value.toLowerCase().indexOf('bt:') === 0){
+      return String(display || '').replace(/\s*\([^)]*\)\s*$/, '').trim();
+    }
+    return display;
+  }
+
+  function renderPaymentMethods(){
+    if (!storeData || !storeData.store || !Array.isArray(storeData.store.paymentMethodOptions) || !storeData.store.paymentMethodOptions.length){
+      paymentListEl.innerHTML = '<p style="font-size:.8rem;color:var(--ink-soft);">Metode pembayaran dimuat setelah halaman ini aktif di Scalev.</p>';
+      return;
+    }
+    paymentListEl.innerHTML = '';
+    var options = storeData.store.paymentMethodOptions.slice().sort(function(a, b){
+      var aIsQris = a.value === 'qris' ? 0 : 1;
+      var bIsQris = b.value === 'qris' ? 0 : 1;
+      return aIsQris - bIsQris;
+    });
+    options.forEach(function(opt, i){
+      var id = 'pm_' + i;
+      var label = document.createElement('label');
+      label.className = 'pm-option';
+      label.setAttribute('for', id);
+      var cleanDisplay = cleanPaymentLabel(opt.display, opt.value);
+      label.innerHTML =
+        '<input type="radio" name="paymentMethod" value="' + opt.value + '" id="' + id + '" ' + (i === 0 ? 'checked' : '') + '>' +
+        (opt.logoUrl ? '<img src="' + opt.logoUrl + '" alt="">' : '') +
+        '<span class="pm-label">' + cleanDisplay + '</span>';
+      paymentListEl.appendChild(label);
+    });
+  }
+
+  function waitForScalev(maxWaitMs){
+    return new Promise(function(resolve){
+      var waited = 0;
+      var interval = 100;
+      var timer = setInterval(function(){
+        if (window.Scalev){ clearInterval(timer); resolve(window.Scalev); return; }
+        waited += interval;
+        if (waited >= maxWaitMs){ clearInterval(timer); resolve(null); }
+      }, interval);
+    });
+  }
+
+  async function initRuntime(){
+    scalev = window.Scalev || await waitForScalev(3000);
+    if (!scalev){
+      // Fallback statis: halaman tetap terbaca meski runtime belum aktif
+      // (mis. saat preview di luar Scalev). Checkout dinonaktifkan.
+      showError('Checkout aktif setelah halaman ini dipublikasikan lewat Scalev.');
+      if (submitBtn) submitBtn.disabled = true;
+      renderPaymentMethods();
+      return;
+    }
+    try{
+      storeData = scalev.data.get();
+      renderPaymentMethods();
+      var prefill = await scalev.prefill.get();
+      if (prefill && prefill.customer){
+        var n = document.getElementById('customerName');
+        var p = document.getElementById('customerPhone');
+        var em = document.getElementById('customerEmail');
+        if (n) n.value = prefill.customer.name || '';
+        if (p) p.value = prefill.customer.phone || '';
+        if (em) em.value = prefill.customer.email || '';
+      }
+    } catch(e){
+      console.error('Gagal memuat data Scalev:', e);
+      renderPaymentMethods();
+    }
+  }
+  initRuntime();
+
+  // ============================================================
+  // PILIH TIER — dipakai baik dari tombol di section harga
+  // maupun dari selector inline di atas form checkout, supaya
+  // orang bisa ganti paket tanpa scroll ke atas.
+  // ============================================================
+  function selectTier(tier, opts){
+    opts = opts || {};
+    selectedTier = tier;
+    selectedVariant = findVariantForTier(selectedTier);
+
+    // Sinkronkan radio selector inline di atas form
+    var inlineRadio = document.getElementById('tierpick_' + tier);
+    if (inlineRadio) inlineRadio.checked = true;
+
+    if (!selectedVariant){
+      showError('Produk untuk paket ini belum ditemukan di store. Cek nama produk STARTER/PROFESSIONAL/ULTIMA di dashboard Scalev.');
+    } else {
+      clearError();
+    }
+
+    if (opts.scroll){
+      var checkoutSection = document.getElementById('checkout');
+      if (checkoutSection) checkoutSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // CATATAN TRACKING:
+    // Tidak ada event mid-funnel (InitiateCheckout/AddPaymentInfo) yang
+    // di-fire dari LP ini. Konversi murni mengandalkan event Purchase
+    // yang sudah dikonfigurasi otomatis di level Store Scalev (CAPI),
+    // ter-trigger saat order Confirmed / bukti transfer di-upload.
+    // Jangan tambahkan Scalev.analytics.track(...) di sini — memfire IC
+    // saat pilih paket akan mempolusi data & bikin angka Meta jauh lebih
+    // besar dari order riil di Scalev.
+  }
+
+  document.querySelectorAll('.tier-select-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      selectTier(parseInt(btn.getAttribute('data-tier'), 10), { scroll: true });
+    });
+  });
+
+  document.querySelectorAll('#inline-tier-selector input[name="tierPick"]').forEach(function(radio){
+    radio.addEventListener('change', function(){
+      if (radio.checked) selectTier(parseInt(radio.value, 10), { scroll: false });
+    });
+  });
+
+  // ============================================================
+  // SUBMIT CHECKOUT
+  // Produk ini 100% digital (dokumen), jadi payload TIDAK menyertakan
+  // destination/shipping. Kalau store Scalev-mu ternyata tetap
+  // mewajibkan field tujuan pengiriman untuk semua produk (termasuk
+  // digital), form ini perlu ditambah field alamat — cek dulu di
+  // dashboard sebelum publish.
+  // ============================================================
+  var form = document.getElementById('checkout-form');
+  if (form){
+    form.addEventListener('submit', async function(e){
+      e.preventDefault();
+      clearError();
+
+      if (!selectedTier){
+        showError('Pilih salah satu paket dulu sebelum checkout.');
+        var paketSection = document.getElementById('paket');
+        if (paketSection) paketSection.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+      if (!selectedVariant){
+        showError('Produk untuk paket ini belum ditemukan di store. Cek nama produk STARTER/PROFESSIONAL/ULTIMA di dashboard Scalev.');
+        return;
+      }
+      var paymentMethodInput = form.querySelector('input[name="paymentMethod"]:checked');
+      if (!paymentMethodInput){
+        showError('Pilih metode pembayaran.');
+        return;
+      }
+      if (!scalev){
+        showError('Runtime Scalev tidak aktif di halaman ini.');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Memproses...';
+
+      try{
+        var payload = {
+          customer: {
+            name: form.customerName.value.trim(),
+            phone: form.customerPhone.value.trim(),
+            email: form.customerEmail.value.trim()
+          },
+          items: [
+            { type: 'product', variantUniqueId: selectedVariant.uniqueId, quantity: 1 }
+          ],
+          paymentMethod: paymentMethodInput.value
+        };
+
+        try { await scalev.prefill.save({ customer: payload.customer }, { source: 'ext_kp_checkout_form' }); }
+        catch(e){ console.warn('Prefill save gagal (non-blocking):', e); }
+
+        var order = await scalev.checkout.createOrder(payload);
+        var afterCheckout = (storeData && storeData.afterCheckout) || { type: 'success_page' };
+        redirectAfterOrder(order, afterCheckout, payload.paymentMethod);
+
+      } catch(err){
+        showError((err && err.message) || 'Checkout gagal diproses. Coba lagi.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Checkout Sekarang';
+      }
+    });
+  }
+
+  var PAYMENT_INSTRUCTION_METHODS = { va:1, qris:1, card:1, invoice:1, alfamart:1, ovo:1, dana:1, shopeepay:1, linkaja:1, gopay:1 };
+
+  function paymentMethodForRedirect(pm){
+    if (typeof pm !== 'string') return pm;
+    if (pm.toLowerCase().indexOf('va:') === 0) return 'va';
+    if (pm.toLowerCase().indexOf('bt:') === 0) return 'bank_transfer';
+    return pm;
+  }
+  function publicOrderUrl(order){
+    return order.publicOrderUrl || (window.location.origin + '/o/' + order.secretSlug);
+  }
+  function paymentInstructionUrl(order){
+    if (order.status === 'draft') return publicOrderUrl(order);
+    if (order.paymentUrl) return order.paymentUrl;
+    return publicOrderUrl(order).replace(/\/$/, '') + '/success';
+  }
+  function navigateAfterOrder(url){
+    if (window.self !== window.top){ window.parent.postMessage(url, '*'); return; }
+    window.location.assign(url);
+  }
+  function redirectAfterOrder(order, afterCheckout, paymentMethod){
+    var redirectPM = paymentMethodForRedirect(paymentMethod || order.paymentMethod);
+    var finalType = PAYMENT_INSTRUCTION_METHODS[redirectPM] ? 'success_page' : afterCheckout.type;
+
+    if (finalType === 'direct_to_whatsapp' && order.handlerPhone){
+      var msg = order.chatMessage || '';
+      navigateAfterOrder('https://api.whatsapp.com/send/?phone=' + order.handlerPhone.replace(/[^\d]/g,'') + '&text=' + msg);
+      return;
+    }
+    if (finalType === 'other_page' && afterCheckout.otherPagePath){ navigateAfterOrder(afterCheckout.otherPagePath); return; }
+    if (finalType === 'custom_url' && afterCheckout.customUrl){ navigateAfterOrder(afterCheckout.customUrl); return; }
+    if (finalType === 'order_page'){ navigateAfterOrder(publicOrderUrl(order)); return; }
+    navigateAfterOrder(paymentInstructionUrl(order));
+  }
+})();
+</script>
+</body>
+</html>
