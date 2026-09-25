@@ -134,3 +134,8 @@ s=s[:a]+'''    <div style="margin-top:32px;text-align:center;">
     </div>
 '''+s[b:]
 open(OUT,'w').write(s)
+# --- revisi: jarak atas hero dirapatkan
+s=open(OUT).read()
+a='<div class="wrap" style="padding:64px 24px 56px;text-align:center;">'
+assert s.count(a)==1; s=s.replace(a,'<div class="wrap" style="padding:28px 24px 56px;text-align:center;">')
+open(OUT,'w').write(s)
