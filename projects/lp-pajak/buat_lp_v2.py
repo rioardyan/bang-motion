@@ -98,3 +98,10 @@ g=open(GSAP).read()
 lp=lp.replace('</body>','<script>\n/* GSAP 3.12.5 — disertakan langsung supaya tidak perlu domain tambahan di CSP */\n'+g+'\n</script>\n<script>\n'+js+'</script>\n</body>',1)
 open(OUT,'w').write(lp)
 print('ok',len(lp),'ids',len(ids))
+# --- revisi: hapus kartu kalkulator tax planning (sudah diwakili demo tools), 5 → 4 dokumen
+s=open(OUT).read()
+a=s.index('      <div class="pcard" style="grid-column:1/-1;max-width:520px;margin:0 auto;width:100%;">')
+end=s.index('</div>',s.index('Kalkulator Fee &amp; Estimasi Skenario Tax Planning.</b>',a)); end=s.index('</div>',end+6)+6
+s=s[:a].rstrip()+'\n\n'+s[end:].lstrip('\n')
+s=s.replace('Contoh tampilan dari dalam paket — 5 dokumen yang paling sering dipakai.','Contoh tampilan dari dalam paket — 4 dokumen yang paling sering dipakai.')
+open(OUT,'w').write(s)
