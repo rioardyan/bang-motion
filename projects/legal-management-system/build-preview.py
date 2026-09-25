@@ -10,3 +10,15 @@ html=html.replace('<script src="vendor/gsap.min.js"></script>','<script>'+gsap+'
 assert 'vendor/' not in html
 (d/'preview.html').write_text(html)
 print('preview.html',len(html)//1024,'KB')
+
+# Versi Artifact (halaman claude.ai): tanpa kerangka doctype/html/head/body, judul berupa nama.
+import sys
+if len(sys.argv)>1:
+    a=html
+    for t in ['<!doctype html>','<html lang="id">','<head>','</head>','<body>','</body>','</html>','<meta charset="utf-8">']:
+        a=a.replace(t,'')
+    a=a.replace('<title>Legal Management System — Promo 4:5</title>','<title>Promo Legal Management System</title>')
+    a=a.replace('html,body{width:100%;height:100%;background:#041F22;overflow:hidden}',
+                'html,body{width:100%;height:100%;background:#041F22;overflow:hidden;color-scheme:dark}')
+    pathlib.Path(sys.argv[1]).write_text(a.strip()+'\n')
+    print('artifact',sys.argv[1])
