@@ -1019,6 +1019,11 @@ function render(t){
   $('#d6-feeS').textContent=rp(N.fee);$('#d6-feeM').textContent=rp(N.min);
 }
 const tl=gsap.timeline({paused:true});
+/* ritme LP: jeda diam dipadatkan, gerakan tetap */
+const HOLD=[[1.4,2.8],[3.9,5.0],[7.6,8.8],[13.6,14.6],[17.5,19.3],[20.3,22.3],[25.3,26.7],[27.8,29.3],[38.2,39.2],[41.0,43.1],[45.3,46.8],[50.3,52]],HK=.35;
+const wt=t=>{let c=0;for(const [a,b] of HOLD){if(t<=a)break;c+=(Math.min(t,b)-a)*(1-HK);}return t-c;};
+['to','set','fromTo'].forEach(m=>{const f=tl[m].bind(tl);tl[m]=(...a)=>{const i=a.length-1;if(typeof a[i]==='number')a[i]=wt(a[i]);return f(...a);};});
+tl.timeScale(1.2);
 /* posisi elemen dalam koordinat halaman (#d6-cam) */
 const pos=el=>{let x=0,y=0,n=el;while(n&&n!==cam){x+=n.offsetLeft;y+=n.offsetTop;n=n.offsetParent;}return {x,y,w:el.offsetWidth,h:el.offsetHeight,cx:x+el.offsetWidth/2,cy:y+el.offsetHeight/2};};
 const look=(at,dur,el,s=1,dy=0)=>{const p=pos(el);s=Math.min(s,1.08);   // zoom kecil: padding halaman 40px, label kiri-kanan tidak terpotong

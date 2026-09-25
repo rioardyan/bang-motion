@@ -39,6 +39,16 @@ js=js[:glue]
 js=js.replace("'#'+id","'#"+P+"'+id")
 js=pref(js)
 js=js.replace('const Q=new URLSearchParams(location.search);\n','')
+# --- ritme LP: jeda diam dipadatkan (durasi gerakan tetap), lalu diputar 1,2x
+WARP=r"""/* ritme LP: jeda diam dipadatkan, gerakan tetap */
+const HOLD=[[1.4,2.8],[3.9,5.0],[7.6,8.8],[13.6,14.6],[17.5,19.3],[20.3,22.3],[25.3,26.7],[27.8,29.3],[38.2,39.2],[41.0,43.1],[45.3,46.8],[50.3,52]],HK=.35;
+const wt=t=>{let c=0;for(const [a,b] of HOLD){if(t<=a)break;c+=(Math.min(t,b)-a)*(1-HK);}return t-c;};
+['to','set','fromTo'].forEach(m=>{const f=tl[m].bind(tl);tl[m]=(...a)=>{const i=a.length-1;if(typeof a[i]==='number')a[i]=wt(a[i]);return f(...a);};});
+tl.timeScale(1.2);
+"""
+anc='const tl=gsap.timeline({paused:true});\n'
+assert js.count(anc)==1
+js=js.replace(anc,anc+WARP)
 js+=r"""/* ============ perekat versi LP ============ */
 const box=document.querySelector('.d6-box'),stage=$('#d6-stage');
 const fit=()=>{stage.style.transform=`scale(${box.clientWidth/W})`;};
