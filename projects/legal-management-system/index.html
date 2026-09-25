@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="id">
+<!-- Made with the Bang Motion skill (https://github.com/bangtutorial/bang-motion) - MIT -->
+<head>
+<meta charset="utf-8">
+<title>Legal Management System — Promo 4:5</title>
+<!--
+  STYLE BRIEF (disetujui user)
+  Tema + rasa        : urusan legal yang menumpuk di satu orang jadi tertata — dimengerti, lega, siap pakai
+  Konsep             : tanya → jawab diegetik (dipilih) / masalah → lenyap / sebelum-sesudah
+  Sidik jari         : tanya → jawab diegetik · 9 babak · HP bergetar / kartu masalah ×5 / rantai kartu berbalik /
+                       HP diam / paket + 2 UI tool / tombol · HP sudah bergetar di frame 1 · CTA diegetik (tombol ditekan)
+  Palet (dari tools) : teal #0A5A61 / #0E7C86 (meja), kertas #F6FAFA, ink #16292B, aksen oranye #FFA200 (tombol tools)
+  Font               : Fraunces (display) · Plus Jakarta Sans (kartu, tombol = font UI produk) · Inter (hanya di UI tools)
+  Penekanan          : tanpa sorotan — kata per kata redup → penuh, dan kartu yang berbalik
+  Latar              : meja teal gelap + lampu redup (masalah) → sapuan cahaya, meja terang (jawaban) → lampu padam (CTA)
+  Gerak latar        : cincin stempel raksasa 2 lapis berputar lambat (§7c #6) + lampu bergeser; tanpa butiran
+  Tanda tangan gerak : kartu mendarat dengan hentakan, lalu berbalik 3D
+  Render objek       : kertas flat + bayangan lembut realistis
+  Momen istimewa     : lima kartu berbalik berantai (domino) sementara kamera mundur
+-->
+<link rel="stylesheet" href="vendor/fonts.css">
+<script src="vendor/gsap.min.js"></script>
+<style>
+:root{
+  --teal:#0E7C86; --teal-d:#0A5A61; --teal-dd:#06363A; --teal-50:#EEF7F8; --teal-100:#D9EDEF;
+  --paper:#F6FAFA; --ink:#16292B; --ink-2:#4F6365; --line:#DCE7E9;
+  --btn:#FFA200; --btn-ink:#1D2B2D;
+  --red:#C8312F; --red-50:#FDF1F1; --amber:#9A6200; --amber-50:#FFF6DB; --green:#157F48;
+  --fd:"Fraunces",Georgia,serif; --fu:"Plus Jakarta Sans",system-ui,sans-serif; --fi:"Inter",system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#041F22;overflow:hidden}
+#filters{position:fixed;width:0;height:0;opacity:0;pointer-events:none}
+#stage{position:fixed;left:50%;top:50%;width:1080px;height:1350px;overflow:hidden;background:var(--teal-dd);
+  transform:translate(-50%,-50%)}
+#world{position:absolute;left:0;top:0;width:1080px;height:1350px;transform-origin:0 0;will-change:transform}
+
+/* ---------- meja: dua keadaan + lampu + cincin stempel ---------- */
+#desk{position:absolute;left:-420px;top:-420px;width:1920px;height:2190px}
+.deskDark{position:absolute;inset:0;
+  background:radial-gradient(52% 40% at 50% 46%,#0C4D53 0%,#083A3F 55%,#052A2E 100%)}
+.deskLit{position:absolute;inset:0;opacity:0;
+  background:radial-gradient(60% 46% at 50% 44%,#F4FAFA 0%,#DDEFF0 58%,#BFDEE0 100%)}
+.lamp{position:absolute;left:0;top:0;width:1500px;height:1500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(79,195,204,.20),rgba(79,195,204,.07) 45%,transparent 70%)}
+.rings{position:absolute;left:50%;top:50%;width:1900px;height:1900px;margin:-950px 0 0 -950px}
+.rings svg{position:absolute;inset:0;width:100%;height:100%}
+.sweep{position:absolute;left:0;top:0;width:900px;height:3200px;opacity:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.55) 45%,rgba(255,244,214,.75) 50%,rgba(255,255,255,.55) 55%,transparent)}
+
+/* ---------- kartu berkas ---------- */
+#cards{position:absolute;inset:0}
+.card{position:absolute;left:540px;top:675px;width:880px;height:440px;transform-style:preserve-3d;--sy:26px;--sb:46px;--so:.5}
+.flip{position:absolute;inset:0;transform-style:preserve-3d}
+.face{position:absolute;inset:0;border-radius:24px;box-shadow:0 var(--sy) var(--sb) rgba(3,24,27,var(--so));backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}
+.front{background:linear-gradient(170deg,#FFFFFF 0%,var(--paper) 60%,#EAF3F4 100%);padding:46px 56px}
+.front .ic{width:70px;height:70px;border-radius:20px;background:var(--teal-50);display:grid;place-items:center;margin-bottom:22px}
+.front .ic svg{width:40px;height:40px;stroke:var(--teal-d);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.front p{font:600 50px/1.24 var(--fu);color:var(--ink);letter-spacing:-.012em;transform-origin:0 0}
+.front .ic{transform-origin:0 0}
+.dim{position:absolute;inset:0;border-radius:24px;background:#052A2E;opacity:0}
+.back{transform:rotateY(180deg);background:#fff;display:flex;align-items:center;gap:30px;padding:0 44px 0 58px}
+.back::before{content:"";position:absolute;left:0;top:0;bottom:0;width:16px;background:var(--btn)}
+.back .tile{flex:0 0 116px;height:116px;border-radius:22px;display:grid;place-items:center;
+  font:800 30px var(--fu);letter-spacing:.02em;color:#fff}
+.tile.x{background:var(--teal)} .tile.w{background:var(--teal-d)}
+.back h3{font:700 44px/1.1 var(--fu);color:var(--ink);letter-spacing:-.015em;white-space:nowrap}
+.back small{display:block;font:500 30px/1.2 var(--fu);color:var(--ink-2);margin-top:8px;white-space:nowrap}
+
+/* ---------- HP ---------- */
+#phone{position:absolute;left:540px;top:760px;width:300px;height:600px}
+#phone .body{position:absolute;inset:0;border-radius:48px;background:#10201F;
+  box-shadow:0 30px 60px rgba(0,0,0,.45), inset 0 0 0 3px #2B4446}
+#phone .scr{position:absolute;inset:14px;border-radius:36px;overflow:hidden;
+  background:linear-gradient(180deg,#0E7C86,#0A5A61 70%)}
+#phone .notch{position:absolute;left:50%;top:14px;width:96px;height:26px;margin-left:-48px;border-radius:14px;background:#10201F}
+.bub{position:absolute;left:18px;right:18px;height:84px;border-radius:20px;background:rgba(255,255,255,.93);
+  display:flex;align-items:center;gap:14px;padding:0 16px;opacity:0}
+.bub i{flex:0 0 42px;height:42px;border-radius:50%;background:var(--btn)}
+.bub b{display:block;height:12px;border-radius:6px;background:#B9C8CA;margin:6px 0}
+.bub span{flex:1}
+.moon{position:absolute;left:50%;top:44%;width:92px;height:92px;margin:-46px 0 0 -46px;opacity:0}
+.buzz{position:absolute;top:210px;width:60px;height:180px;opacity:0}
+.buzz.l{left:-86px}.buzz.r{right:-86px;transform:scaleX(-1)}
+.buzz path{fill:none;stroke:#FFD37A;stroke-width:7;stroke-linecap:round}
+
+/* ---------- paket + tools ---------- */
+#pack{position:absolute;left:540px;top:520px;width:560px;height:300px;opacity:0}
+#pack i{position:absolute;inset:0;border-radius:22px;background:#fff;box-shadow:0 10px 26px rgba(6,54,58,.22)}
+#pack i::before{content:"";position:absolute;left:0;top:0;bottom:0;width:14px;border-radius:22px 0 0 22px;background:var(--btn)}
+#tool{position:absolute;left:540px;top:1000px;width:860px;height:560px;perspective:2400px;opacity:0}
+#tool .flip{transform-style:preserve-3d}
+.ui{position:absolute;inset:0;border-radius:30px;background:#fff;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  box-shadow:0 40px 80px rgba(6,54,58,.28);padding:40px 44px;font-family:var(--fi);color:var(--ink);overflow:hidden}
+.ui.b{transform:rotateY(180deg)}
+.score{display:flex;gap:36px;align-items:center}
+.ring{position:relative;width:216px;height:216px;flex:0 0 auto}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .n{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.ring .n b{display:block;font:800 76px/1 var(--fu);font-variant-numeric:tabular-nums;min-width:2ch}
+.ring .n small{font:500 30px var(--fi);color:var(--ink-2)}
+.verdict{font:800 52px/1.1 var(--fu);color:var(--amber)}
+.vsub{font:500 30px/1.3 var(--fi);color:var(--ink-2);margin-top:10px}
+.fix{margin-top:34px;border:2px solid var(--line);border-radius:20px;padding:20px 24px;display:flex;align-items:center;gap:18px;opacity:0}
+.fix + .fix{margin-top:14px}
+.fix p{flex:1;font:600 30px/1.2 var(--fi);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lost{flex:0 0 auto;font:700 30px var(--fi);color:var(--red);background:var(--red-50);border-radius:999px;padding:6px 16px}
+.lost.half{color:var(--amber);background:var(--amber-50)}
+.status{border-radius:24px;padding:28px 30px;background:var(--amber-50);border:3px solid var(--amber)}
+.status .lab{font:800 30px var(--fu);letter-spacing:.06em;color:var(--amber)}
+.status h4{font:800 40px/1.15 var(--fu);color:var(--amber);margin-top:8px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+.stat{background:#fff;border-radius:16px;padding:14px 18px}
+.stat b{display:block;font:800 40px/1.15 var(--fu);color:var(--ink)}
+.stat span{font:500 30px/1.2 var(--fi);color:var(--ink-2)}
+.tl{position:relative;height:52px;border-radius:14px;background:var(--teal-50);margin-top:30px;overflow:visible}
+.tl i{position:absolute;top:0;bottom:0;background:var(--teal);border-right:4px solid #fff;transform-origin:0 50%}
+.tl i.cur{background:var(--teal-d)}
+.tl .cap{position:absolute;top:-10px;bottom:-10px;width:0;border-left:5px dashed var(--red)}
+.tl .now{position:absolute;top:-12px;bottom:-12px;width:4px;background:var(--ink)}
+
+/* ---------- HUD: teks layar di luar kamera ---------- */
+#hud{position:absolute;inset:0;pointer-events:none}
+.ln{position:absolute;left:0;right:0;text-align:center;color:#F6FAFA;padding:0 70px}
+.ln .w{display:inline-block;opacity:0;will-change:transform,opacity}
+.disp{font:600 84px/1.1 var(--fd);letter-spacing:-.018em;text-shadow:0 6px 30px rgba(0,0,0,.35)}
+.mid{font:500 64px/1.14 var(--fd);letter-spacing:-.012em}
+.ink{color:var(--ink);text-shadow:none}
+#tName{font:600 68px/1.05 var(--fd);letter-spacing:-.02em}
+#tCount{font:600 46px/1.2 var(--fu);letter-spacing:-.01em}
+#tCount .tag{display:inline-block;font:700 30px var(--fu);letter-spacing:.04em;color:#fff;background:var(--teal-d);
+  border-radius:999px;padding:8px 20px;margin-left:14px;vertical-align:6px}
+#cta{position:absolute;left:540px;top:980px;width:680px;height:150px;opacity:0}
+#cta .btn{position:absolute;inset:0;border-radius:34px;background:var(--btn);display:grid;place-items:center;
+  font:800 60px var(--fu);color:var(--btn-ink);letter-spacing:-.01em;box-shadow:0 26px 60px rgba(255,162,0,.35)}
+#tap{position:absolute;left:0;top:0;width:120px;height:120px;border-radius:50%;border:6px solid #fff;opacity:0}
+
+#ui{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);display:none;gap:12px;align-items:center;
+  padding:10px 16px;border-radius:14px;background:rgba(6,20,22,.92);color:#9fb;font:13px system-ui;z-index:9}
+#ui.on{display:flex} #ui button{background:#1d3a3c;color:#fff;border:0;padding:7px 14px;border-radius:8px;cursor:pointer}
+#scrub{width:340px} #clock{font-variant-numeric:tabular-nums;min-width:5.5ch;text-align:right}
+</style>
+</head>
+<body>
+<svg id="filters"><defs></defs></svg>
+
+<div id="stage">
+  <div id="world">
+    <div id="desk">
+      <div class="deskDark"></div>
+      <div class="deskLit" id="deskLit"></div>
+      <div class="lamp" id="lamp"></div>
+      <div class="rings">
+        <svg id="ringA" viewBox="-500 -500 1000 1000"></svg>
+        <svg id="ringB" viewBox="-500 -500 1000 1000"></svg>
+      </div>
+      <div class="sweep" id="sweep"></div>
+    </div>
+
+    <div id="cards"></div>
+
+    <div id="phone">
+      <svg class="buzz l" viewBox="0 0 60 180"><path d="M48 20 Q18 90 48 160"/><path d="M22 44 Q4 90 22 136"/></svg>
+      <svg class="buzz r" viewBox="0 0 60 180"><path d="M48 20 Q18 90 48 160"/><path d="M22 44 Q4 90 22 136"/></svg>
+      <div class="body"></div>
+      <div class="scr">
+        <div class="bub" style="top:70px"><i></i><span><b style="width:70%"></b><b style="width:92%"></b></span></div>
+        <div class="bub" style="top:168px"><i></i><span><b style="width:54%"></b><b style="width:84%"></b></span></div>
+        <div class="bub" style="top:266px"><i></i><span><b style="width:76%"></b><b style="width:66%"></b></span></div>
+        <div class="bub" style="top:364px"><i></i><span><b style="width:60%"></b><b style="width:88%"></b></span></div>
+        <svg class="moon" viewBox="0 0 92 92"><path d="M60 12a36 36 0 1 0 22 58A30 30 0 0 1 60 12z" fill="#D9EDEF"/></svg>
+      </div>
+      <div class="notch"></div>
+    </div>
+
+    <div id="tool"><div class="flip" id="toolFlip">
+      <div class="ui a">
+        <div class="score">
+          <div class="ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="#D9EDEF" stroke-width="12"/>
+            <circle id="arc" cx="60" cy="60" r="52" fill="none" stroke="#9A6200" stroke-width="12" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7"/></svg>
+            <div class="n"><div><b id="scoreN">0</b><small>dari 100</small></div></div></div>
+          <div><div class="verdict" id="verdict" style="opacity:0">Revisi dulu</div>
+            <div class="vsub" id="vsub" style="opacity:0">Kerangkanya ada, tapi masih ada celah</div></div>
+        </div>
+        <div class="fix"><p>Sanksi keterlambatan atau ingkar janji…</p><span class="lost">Belum ada · −6</span></div>
+        <div class="fix"><p>Ada batas tanggung jawab maksimal…</p><span class="lost">Belum ada · −6</span></div>
+      </div>
+      <div class="ui b">
+        <div class="status"><div class="lab">PERLU TINDAKAN</div><h4>Masih PKWT, tapi ada yang harus dibereskan</h4>
+          <div class="stats"><div class="stat"><b>4 tahun 7 bulan</b><span>Total masa semua kontrak</span></div>
+            <div class="stat"><b>5 bulan</b><span>Sisa ke batas 5 tahun</span></div></div></div>
+        <div class="tl" id="tlBar"></div>
+      </div>
+    </div></div>
+  </div>
+
+  <div id="hud">
+    <div class="ln disp" id="tHook" style="top:120px">Pegang urusan legal<br>perusahaan sendirian?</div>
+    <div class="ln mid" id="tBridge" style="top:560px">Definisi ‘sendirian’ tuh biasanya begini:</div>
+    <div class="ln mid ink" id="tClose1" style="top:120px">Semua alurnya tertulis.</div>
+    <div class="ln mid ink" id="tClose2" style="top:200px">Cuti 3 hari, HP gak bunyi lagi.</div>
+    <div class="ln ink" id="tName" style="top:78px">Legal Management System</div>
+    <div class="ln ink" id="tCount" style="top:168px">201 file + 2 tool online<span class="tag">paket PRO PLUS</span></div>
+    <div id="cta"><div class="btn">Dapatkan Sekarang</div><div id="tap"></div></div>
+  </div>
+</div>
+
+<div id="ui"><button id="bPlay">Pause</button><button id="bRe">Restart</button>
+  <input id="scrub" type="range" min="0" max="1000" value="0"><span id="clock">0.00s</span></div>
+
+<script>
+(function(){
+"use strict";
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const W=1080,H=1350,DURATION=30;
+const Q=new URLSearchParams(location.search);
+
+/* ================= isi kartu (kata-kata user persis) ================= */
+const IC={
+  phk:'<circle cx="18" cy="13" r="6"/><path d="M6 34c1-7 6-11 12-11s11 4 12 11"/><path d="M28 18h10"/>',
+  sign:'<path d="M6 30c5-1 7-9 11-9s1 9 6 9 5-6 9-6"/><path d="M28 6l6 6-14 14h-6v-6z"/>',
+  izin:'<rect x="7" y="5" width="22" height="30" rx="3"/><path d="M12 13h12M12 19h8"/><circle cx="30" cy="30" r="7"/><path d="M30 27v3l2 2"/>',
+  chat:'<path d="M6 9a4 4 0 0 1 4-4h20a4 4 0 0 1 4 4v14a4 4 0 0 1-4 4H16l-8 7v-7H10a4 4 0 0 1-4-4z"/><path d="M13 14h14M13 20h9"/>',
+  hp:'<rect x="11" y="4" width="18" height="32" rx="4"/><path d="M18 30h4"/><path d="M4 14v12M36 14v12"/>'
+};
+const CARDS=[
+  {ic:'phk', t:'Bos nanya “si A kalau di-PHK kena berapa?”, kamu masih buka PP 35 Pasal 40.',
+   tile:'x',ft:'XLSX', n:'Kalkulator Pesangon PHK', s:'Hitung otomatis, tabel PP 35/2021'},
+  {ic:'sign',t:'Kontrak vendor mandek 9 hari, karena gak jelas siapa yang harus tanda tangan.',
+   tile:'x',ft:'XLSX', n:'Matriks Kewenangan Approval', s:'Cek cepat siapa yang wajib menyetujui'},
+  {ic:'izin',t:'Izin usaha mati diam-diam. Ketahuannya pas auditor datang.',
+   tile:'x',ft:'XLSX', n:'Register Izin Usaha & Perizinan', s:'Alert otomatis sebelum izin kedaluwarsa'},
+  {ic:'chat',t:'Freelancer udah kerja 2 minggu, perjanjiannya masih di chat WhatsApp.',
+   tile:'w',ft:'DOCX', n:'Perjanjian Kerja Sama Tenaga Lepas', s:'Untuk freelancer, lengkap dengan hak cipta'},
+  {ic:'hp',  t:'Cuti 3 hari, HP tetap bunyi terus. Soalnya cuma kamu yang tahu alurnya.',
+   tile:'w',ft:'DOCX', n:'SOP & Instruksi Kerja', s:'Alur kerja tertulis, siapa pun bisa jalan'}
+];
+const cardsEl=$('#cards');
+CARDS.forEach((c,i)=>{
+  const d=document.createElement('div'); d.className='card'; d.id='c'+i;
+  d.innerHTML=`<div class="flip">
+    <div class="face front"><div class="ic"><svg viewBox="0 0 40 40">${IC[c.ic]}</svg></div><p>${c.t}</p><div class="dim"></div></div>
+    <div class="face back"><div class="tile ${c.tile}">${c.ft}</div><div><h3>${c.n}</h3><small>${c.s}</small></div></div></div>`;
+  cardsEl.appendChild(d);
+});
+/* teks di balik kartu dipaskan sekali (deterministik, bukan per frame) */
+function fitBacks(){ $$('.back').forEach(b=>{ const box=920-58-44-116-30;
+  ['h3','small'].forEach(sel=>{const e=$(sel,b); let fs=parseFloat(getComputedStyle(e).fontSize);
+    const min= sel==='h3'?34:30; while(e.scrollWidth>box && fs>min){fs-=1; e.style.fontSize=fs+'px';}});});}
+
+/* cincin stempel: garis & rigi dari bentuk segel, tanpa teks */
+(function rings(){
+  const NS='http://www.w3.org/2000/svg';
+  const mk=(svg,tag,attr)=>{const e=document.createElementNS(NS,tag);for(const k in attr)e.setAttribute(k,attr[k]);svg.appendChild(e);return e;};
+  const A=$('#ringA'),B=$('#ringB');
+  mk(A,'circle',{r:470,fill:'none',stroke:'#4FC3CC','stroke-opacity':.13,'stroke-width':6});
+  mk(A,'circle',{r:430,fill:'none',stroke:'#4FC3CC','stroke-opacity':.10,'stroke-width':2,'stroke-dasharray':'10 14'});
+  for(let k=0;k<96;k++){const a=k/96*Math.PI*2;mk(A,'line',{x1:Math.cos(a)*440,y1:Math.sin(a)*440,x2:Math.cos(a)*458,y2:Math.sin(a)*458,stroke:'#4FC3CC','stroke-opacity':.12,'stroke-width':4});}
+  mk(B,'circle',{r:330,fill:'none',stroke:'#4FC3CC','stroke-opacity':.10,'stroke-width':3});
+  mk(B,'circle',{r:300,fill:'none',stroke:'#4FC3CC','stroke-opacity':.08,'stroke-width':18,'stroke-dasharray':'2 22'});
+  for(let k=0;k<24;k++){const a=k/24*Math.PI*2;mk(B,'path',{d:`M${Math.cos(a)*250} ${Math.sin(a)*250} L${Math.cos(a+.07)*272} ${Math.sin(a+.07)*272} L${Math.cos(a+.13)*250} ${Math.sin(a+.13)*250}`,fill:'none',stroke:'#4FC3CC','stroke-opacity':.10,'stroke-width':3});}
+})();
+
+/* garis waktu PKWT (hasil tool: 1 Apr 2022 → 31 Okt 2026, batas 31 Mar 2027, dicek 25 Sep 2026) */
+(function timeline(){ const bar=$('#tlBar'); const d=s=>Date.UTC(...s.split('-').map((v,i)=>i===1?v-1:+v));
+  const start=d('2022-04-01'), end=d('2027-03-31'), span=end-start, p=x=>((x-start)/span*100).toFixed(2)+'%';
+  [['2022-04-01','2023-04-01'],['2023-04-01','2025-04-01'],['2025-04-01','2026-11-01']].forEach((s,i)=>{
+    const e=document.createElement('i'); e.style.left=p(d(s[0])); e.style.width=`calc(${p(d(s[1]))} - ${p(d(s[0]))})`;
+    if(i===2)e.className='cur'; bar.appendChild(e);});
+  const cap=document.createElement('div');cap.className='cap';cap.style.left='calc(100% - 3px)';bar.appendChild(cap);
+  const now=document.createElement('div');now.className='now';now.style.left=p(d('2026-09-25'));bar.appendChild(now);
+})();
+
+/* split kata untuk HUD & kartu */
+function words(el){const out=[]; const walk=n=>{[...n.childNodes].forEach(c=>{
+  if(c.nodeType===3){const parts=c.textContent.split(/(\s+)/); const frag=document.createDocumentFragment();
+    parts.forEach(p=>{ if(!p)return; if(/^\s+$/.test(p)){frag.appendChild(document.createTextNode(' '));return;}
+      const s=document.createElement('span'); s.className='w'; s.textContent=p; frag.appendChild(s); out.push(s);});
+    n.replaceChild(frag,c);} else if(c.nodeType===1 && !c.classList.contains('tag')) walk(c); else if(c.nodeType===1) {c.classList.add('w');out.push(c);} });};
+  walk(el); return out;}
+
+/* motion blur berarah — hanya pada satu elemen baris, dilepas setelah tween */
+const defs=$('#filters defs'); let fc=0;
+function blurTween(tl,el,at,from,to,dur,ease='power3.out',ax=.12,ay=1){
+  const id='mb'+(fc++),NS='http://www.w3.org/2000/svg',f=document.createElementNS(NS,'filter');
+  f.id=id;['x','y'].forEach(k=>f.setAttribute(k,'-40%'));['width','height'].forEach(k=>f.setAttribute(k,'180%'));
+  const g=document.createElementNS(NS,'feGaussianBlur');g.setAttribute('stdDeviation','0 0');f.appendChild(g);defs.appendChild(f);
+  const o={v:from}; tl.set(el,{filter:`url(#${id})`},at);
+  tl.to(o,{v:to,duration:dur,ease,onUpdate(){g.setAttribute('stdDeviation',`${(o.v*ax).toFixed(2)} ${(o.v*ay).toFixed(2)}`);}},at);
+  tl.set(el,{filter:'none'},at+dur+.01);
+}
+
+/* ================= timeline ================= */
+const tl=gsap.timeline({paused:true});
+const ini=(t,v)=>{gsap.set(t,v);tl.set(t,v,0);};   /* keadaan awal: dipasang saat muat DAN di t=0 */
+const CAM={s:1.18,fx:540,fy:900};
+const PH={amp:1,lit:0,lampX:0};
+gsap.set(['.card','#phone','#tool','#cta'],{xPercent:-50,yPercent:-50});
+
+const wordsIn=(ws,el,at,{dur=.55,st=.05,y=26}={})=>{
+  tl.fromTo(ws,{opacity:0,y},{opacity:1,y:0,duration:dur,ease:'power4.out',stagger:st,immediateRender:false},at);
+  if(el) blurTween(tl,el,at,14,0,dur+st*Math.min(ws.length,8),'power3.out');};
+const lineOut=(el,ws,at,dir=-1)=>{tl.to(ws,{opacity:0,y:40*dir,duration:.36,ease:'power2.in',stagger:.012},at);
+  blurTween(tl,el,at,0,16,.42,'power2.in');};
+const shot=(at,dur,s,fx,fy,ease='power2.inOut')=>tl.to(CAM,{s,fx,fy,duration:dur,ease},at);
+
+/* --- 0–2,8 hook: HP sudah bergetar di frame 1 --- */
+const hookW=words($('#tHook'));
+ini('#phone',{x:0,y:250,rotation:-6,scale:1,opacity:1});
+ini('.bub',{opacity:i=>i?0:1,y:i=>i?30:0});
+[.5,1.1,1.7].forEach((t,i)=>tl.to(`.bub:nth-child(${i+2})`,{opacity:1,y:0,duration:.4,ease:'back.out(2)'},t));
+wordsIn(hookW,$('#tHook'),.1,{st:.07});
+ini(CAM,{s:1.06,fx:540,fy:760}); shot(0,2.6,1.16,540,860,'sine.inOut');
+lineOut($('#tHook'),hookW,2.45);
+tl.to('#phone',{y:1100,rotation:10,duration:.55,ease:'power3.in'},2.45);
+tl.to(PH,{amp:0,duration:.3},2.7);
+
+/* --- 2,8–4,6 jembatan --- */
+const brW=words($('#tBridge'));
+shot(2.6,.9,1,540,675);
+wordsIn(brW,$('#tBridge'),2.85,{st:.06});
+lineOut($('#tBridge'),brW,4.3,-1);
+
+/* --- 4,6–17,1 lima kartu mendarat --- */
+const SPOT=[[0,-60,-3],[16,-30,2.4],[-14,-4,-1.8],[12,24,2.8],[-8,-40,-1.2]];
+const T0=4.6, STEP=2.5;
+const cardWords=CARDS.map((c,i)=>words($(`#c${i} .front p`)));
+ini('.card',{opacity:0});
+CARDS.forEach((c,i)=>{
+  const at=T0+i*STEP, el=`#c${i}`, [dx,dy,rot]=SPOT[i];
+  tl.set(el,{opacity:1,x:dx+(i%2?-160:160),y:dy-980,rotation:rot*3,scale:1.12,zIndex:10+i},at-.02);
+  ini(`${el} .flip`,{rotationY:0});
+  ini(`${el} .front p .w`,{opacity:.14});
+  tl.to(el,{x:dx,y:dy,rotation:rot,scale:1,duration:.46,ease:'power3.in'},at);
+  tl.fromTo(el,{'--sy':'130px','--sb':'90px','--so':.12},{'--sy':'26px','--sb':'46px','--so':.5,duration:.46,ease:'power3.in',immediateRender:false},at);
+  /* hentakan: pantul kecil sesudah mendarat */
+  tl.to(el,{y:dy-10,duration:.12,ease:'power2.out'},at+.46);
+  tl.to(el,{y:dy,duration:.18,ease:'power2.in'},at+.58);
+  tl.to(CAM,{s:'+=0.012',duration:.08,yoyo:true,repeat:1,ease:'power1.inOut'},at+.46);
+  /* kata per kata: redup → penuh */
+  tl.to(cardWords[i],{opacity:1,duration:.25,ease:'power1.out',stagger:Math.min(.07,1.05/cardWords[i].length)},at+.42);
+  if(i>0) tl.to(`#c${i-1} .dim`,{opacity:.35,duration:.4},at+.3);
+  /* ukuran shot bergantian: medium ↔ lebih dekat */
+  shot(at+.1,.8, i%2?1.12:1.05, 540+dx*.6, 675+dy*.6);
+});
+/* HP kembali di poin 5, mendarat di sudut kartu */
+const p5=T0+4*STEP;
+tl.set('#phone',{x:380,y:-220,rotation:18,scale:.78},p5+.3);
+tl.set('.bub',{opacity:1,y:0},p5+.3);
+tl.to('#phone',{x:300,y:250,rotation:9,duration:.5,ease:'power3.out'},p5+.35);
+tl.to(PH,{amp:1.25,duration:.2},p5+.6);
+shot(p5+.5,1.2,1.02,600,760,'sine.inOut');
+
+/* --- 17,1–20,6 jawaban: kartu berbaris lalu berbalik berantai --- */
+const TA=17.1, COLY=[245,457,669,881,1093];
+gsap.set('.flip',{transformPerspective:1700});
+tl.to(PH,{lit:1,duration:1.1,ease:'power2.inOut'},TA+.3);
+tl.fromTo('#sweep',{opacity:0,x:-1000,y:-400,rotation:18},{opacity:1,x:1500,y:-400,rotation:18,duration:1.2,ease:'power1.inOut',immediateRender:false},TA+.25);
+tl.to('#sweep',{opacity:0,duration:.2},TA+1.3);
+shot(TA,.8,1,540,675);
+ini('.front p',{scale:1}); ini('.front .ic',{scale:1});
+CARDS.forEach((c,i)=>{
+  const el=`#c${i}`;
+  tl.to(`${el} .dim`,{opacity:0,duration:.3},TA);
+  tl.to(el,{x:0,y:COLY[i]-675,rotation:0,width:920,height:190,duration:.62,ease:'power3.inOut'},TA+i*.05);
+  tl.to(`${el} .front p`,{scale:.4,y:-78,x:70,duration:.62,ease:'power3.inOut'},TA+i*.05);
+  tl.to(`${el} .front .ic`,{scale:.8,y:-18,x:-18,duration:.62,ease:'power3.inOut'},TA+i*.05);
+  tl.to(el,{'--sy':'12px','--sb':'30px','--so':.22,duration:.62},TA);
+  /* ✦ domino */
+  const f=TA+.72+i*.34;
+  tl.to(`${el} .flip`,{rotationY:180,duration:.56,ease:'power2.inOut'},f);
+  tl.to(el,{scale:1.05,duration:.28,ease:'power1.out',yoyo:true,repeat:1},f);
+  tl.to([`${el} .front p`,`${el} .front .ic`],{opacity:0,duration:.16},f);
+});
+ini('.front p',{x:0,y:0,opacity:1}); ini('.front .ic',{opacity:1}); ini('.front .ic',{x:0,y:0});
+ini('#phone',{zIndex:30});
+tl.to('#phone',{x:410,y:-590,rotation:6,scale:.34,duration:.62,ease:'power3.inOut'},TA);
+shot(TA+.8,2.6,1.04,540,690,'sine.inOut');
+
+/* --- 20,6–23,2 penutup cerita: kartu jadi satu tumpukan, HP diam --- */
+const TC=20.6, STK=(i)=>({x:(i-2)*7,y:-20-(4-i)*9,scale:.52,rotation:-3+i*.6});
+const c1W=words($('#tClose1')), c2W=words($('#tClose2'));
+CARDS.forEach((c,i)=>tl.to(`#c${i}`,{...STK(i),duration:.7,ease:'power3.inOut'},TC-.15+i*.03));
+tl.to('#phone',{x:0,y:190,scale:.95,rotation:-3,duration:.75,ease:'power3.inOut'},TC-.1);
+wordsIn(c1W,$('#tClose1'),TC+.3,{st:.06});
+wordsIn(c2W,$('#tClose2'),TC+.85,{st:.06});
+tl.to(PH,{amp:0,duration:.9,ease:'power2.out'},TC+.95);
+tl.to('.bub',{opacity:0,y:-20,duration:.4,stagger:.08},TC+1.2);
+tl.to('#phone .scr',{filter:'brightness(.6)',duration:.6},TC+1.3);
+tl.fromTo('.moon',{opacity:0,scale:.6},{opacity:1,scale:1,duration:.5,ease:'back.out(2)',immediateRender:false},TC+1.6);
+ini('#phone .scr',{filter:'none'}); ini('.moon',{opacity:0});
+shot(TC,1,1.04,540,760); shot(TC+1.1,1.5,1.13,540,900,'sine.inOut');
+
+/* --- 23,2–27,6 produk + dua tools --- */
+const TP=23.2;
+lineOut($('#tClose1'),c1W,TP-.05); lineOut($('#tClose2'),c2W,TP);
+tl.to('#phone',{y:1250,rotation:12,duration:.5,ease:'power3.in'},TP);
+CARDS.forEach((c,i)=>tl.to(`#c${i}`,{x:(i-2)*7,y:-120-(4-i)*9,scale:.5,rotation:-2+i*.5,duration:.7,ease:'power3.inOut'},TP+i*.03));
+const nameW=words($('#tName')), cntW=words($('#tCount'));
+shot(TP,.9,1.02,540,700);
+wordsIn(nameW,$('#tName'),TP+.4,{st:.08});
+wordsIn(cntW,$('#tCount'),TP+.8,{st:.06});
+tl.fromTo('#tool',{opacity:0,y:420,rotation:4},{opacity:1,y:0,rotation:0,duration:.8,ease:'power4.out',immediateRender:false},TP+.55);
+ini('#tool',{opacity:0}); ini('#toolFlip',{rotationY:0});
+const SC={v:0};
+tl.fromTo(SC,{v:0},{v:77,duration:.9,ease:'power2.out',immediateRender:false,onUpdate(){
+  $('#scoreN').textContent=Math.round(SC.v); $('#arc').setAttribute('stroke-dashoffset',(326.7*(1-SC.v/100)).toFixed(1));}},TP+.7);
+ini(SC,{v:0});
+tl.fromTo(['#verdict','#vsub'],{opacity:0,x:-30},{opacity:1,x:0,duration:.45,stagger:.12,ease:'power3.out',immediateRender:false},TP+1.35);
+tl.fromTo('.fix',{opacity:0,y:24},{opacity:1,y:0,duration:.4,stagger:.12,ease:'power3.out',immediateRender:false},TP+1.55);
+ini(['#verdict','#vsub'],{opacity:0});
+shot(TP+1,1.3,1.05,540,720,'sine.inOut');
+/* tool kedua: kartu UI berbalik (tanda tangan gerak) */
+const TF=TP+2.55;
+tl.to('#toolFlip',{rotationY:180,duration:.7,ease:'power2.inOut'},TF);
+tl.to('#tool',{scale:1.04,duration:.35,yoyo:true,repeat:1,ease:'power1.out'},TF);
+tl.fromTo('#tlBar i',{scaleX:0},{scaleX:1,duration:.35,stagger:.14,ease:'power2.out',immediateRender:false},TF+.55);
+ini('#tlBar i',{scaleX:0});
+shot(TF,1.6,1.03,540,700,'sine.inOut');
+
+/* --- 27,6–30 CTA: tombol ditekan --- */
+const TT=27.6;
+tl.to('#tool',{y:900,rotation:-5,opacity:0,duration:.5,ease:'power3.in'},TT);
+tl.to(PH,{lit:0,duration:.6,ease:'power2.inOut'},TT+.1);
+tl.to('#tName',{color:'#F6FAFA',duration:.6},TT+.1);
+tl.to('#tCount',{color:'#F6FAFA',duration:.6},TT+.1);
+ini(['#tName','#tCount'],{color:'#16292B'});
+CARDS.forEach((c,i)=>tl.to(`#c${i}`,{x:(i-2)*8,y:-130-(4-i)*11,scale:.62,rotation:-2+i*.5,duration:.7,ease:'power3.inOut'},TT+i*.03));
+tl.fromTo('#cta',{opacity:0,y:160,scale:.9},{opacity:1,y:0,scale:1,duration:.7,ease:'back.out(1.6)',immediateRender:false},TT+.35);
+ini('#cta',{opacity:0});
+ini('#tap',{x:470,y:30,opacity:0,scale:.6});
+tl.to('#tap',{opacity:1,scale:1,duration:.3,ease:'power2.out'},TT+1.1);
+tl.to('#cta .btn',{scale:.93,duration:.12,ease:'power2.in'},TT+1.35);
+tl.to('#cta .btn',{scale:1,duration:.3,ease:'back.out(3)'},TT+1.47);
+tl.to('#tap',{scale:2.4,opacity:0,duration:.6,ease:'power2.out'},TT+1.4);
+shot(TT,.8,1,540,675); shot(TT+.9,1.5,1.05,540,760,'sine.inOut');
+tl.set({},{},DURATION);
+
+/* ================= render per frame (hanya fungsi dari t) ================= */
+const world=$('#world'), phone=$('#phone'), lamp=$('#lamp'), lit=$('#deskLit'),
+      ringA=$('#ringA'), ringB=$('#ringB'), buzz=$$('.buzz');
+function render(){
+  const t=tl.time();
+  /* kamera + napas halus */
+  const s=CAM.s*(1+.006*Math.sin(t*.8));
+  let tx=W/2-CAM.fx*s, ty=H/2-CAM.fy*s;
+  tx=Math.min(420*s,Math.max(W-1500*s,tx)); ty=Math.min(420*s,Math.max(H-1770*s,ty));
+  world.style.transform=`translate(${tx.toFixed(2)}px,${ty.toFixed(2)}px) scale(${s.toFixed(4)})`;
+  /* latar: cincin berputar, lampu bergeser */
+  ringA.style.transform=`rotate(${(t*12).toFixed(2)}deg)`;
+  ringB.style.transform=`rotate(${(-t*9).toFixed(2)}deg)`;
+  lamp.style.transform=`translate(${(210+120*Math.sin(t*.35)).toFixed(1)}px,${(260+90*Math.cos(t*.28)).toFixed(1)}px)`;
+  lit.style.opacity=PH.lit.toFixed(3);
+  /* getar HP: sinus frekuensi tinggi, pola dua kali getar lalu jeda */
+  const pulse=Math.max(0,Math.sin(t*Math.PI*1.6))**2*PH.amp;
+  const jig=Math.sin(t*95)*6*pulse, rot=Math.sin(t*83)*2.2*pulse;
+  phone.style.translate=`${jig.toFixed(2)}px 0`; phone.style.rotate=`${rot.toFixed(2)}deg`;
+  buzz.forEach(b=>b.style.opacity=(pulse*.95).toFixed(3));
+}
+tl.eventCallback('onUpdate',render);
+
+/* ================= panggung, player tersembunyi, loop ================= */
+const stage=$('#stage');
+function fit(){const k=Math.min(innerWidth/W,innerHeight/H);stage.style.transform=`translate(-50%,-50%) scale(${k})`;}
+addEventListener('resize',fit); fit();
+if(Q.has('debug'))$('#ui').classList.add('on');
+tl.eventCallback('onComplete',()=>tl.play(0));
+const seek=t=>{tl.pause();tl.time(t,false);render();};
+window.OPENER={tl,DURATION,W,H,seek,ready:false};
+addEventListener('keydown',e=>{if(e.key==='r'||e.key==='R')tl.play(0);if(e.code==='Space'){e.preventDefault();tl.paused()?tl.play():tl.pause();}});
+$('#bPlay').onclick=()=>{tl.paused()?tl.play():tl.pause();$('#bPlay').textContent=tl.paused()?'Play':'Pause';};
+$('#bRe').onclick=()=>tl.play(0);
+$('#scrub').oninput=e=>seek(e.target.value/1000*DURATION);
+gsap.ticker.add(()=>{$('#clock').textContent=tl.time().toFixed(2)+'s';if(!tl.paused())$('#scrub').value=tl.time()/DURATION*1000;});
+Promise.all([document.fonts.load('600 88px Fraunces'),document.fonts.load('500 64px Fraunces'),
+  document.fonts.load('600 50px "Plus Jakarta Sans"'),document.fonts.load('800 60px "Plus Jakarta Sans"'),
+  document.fonts.load('600 30px Inter')]).then(()=>document.fonts.ready).then(()=>{
+  fitBacks(); seek(0); window.OPENER.ready=true; if(!Q.has('clean'))tl.play(0);});
+})();
+</script>
+</body>
+</html>

@@ -17,17 +17,17 @@ bergetar; di penutup cerita HP itu diam.
 
 | Detik | Babak | Teks layar | Visual |
 |---|---|---|---|
-| 0–3 | Hook | Pegang urusan legal perusahaan sendirian? | kartu pertama sudah jatuh di frame 1 |
-| 3–5 | Jembatan | Definisi 'sendirian' tuh biasanya begini: | |
-| 5–7,6 | Poin 1 | Bos nanya "si A kalau di-PHK kena berapa?", kamu masih buka PP 35 Pasal 40. | kartu 1 mendarat |
-| 7,6–10,2 | Poin 2 | Kontrak vendor mandek 9 hari, karena gak jelas siapa yang harus tanda tangan. | kartu 2 menimpa |
-| 10,2–12,8 | Poin 3 | Izin usaha mati diam-diam. Ketahuannya pas auditor datang. | kartu 3 |
-| 12,8–15,4 | Poin 4 | Freelancer udah kerja 2 minggu, perjanjiannya masih di chat WhatsApp. | kartu 4 |
-| 15,4–18 | Poin 5 | Cuti 3 hari, HP tetap bunyi terus. Soalnya cuma kamu yang tahu alurnya. | HP bergetar di atas tumpukan |
-| 18–22 | Jawaban | label di balik tiap kartu | kartu berbalik berurutan (lihat tabel jawaban) |
-| 22–25 | Penutup cerita | Semua alurnya tertulis. Cuti 3 hari, HP gak bunyi lagi. | HP berhenti bergetar |
-| 25–28 | Produk | Legal Management System · 201 file + 2 tool online (label: paket PRO PLUS) | tumpukan kartu merapat jadi satu paket |
-| 28–30 | CTA | Dapatkan Sekarang | |
+| 0–2,8 | Hook | Pegang urusan legal perusahaan sendirian? | HP sudah bergetar di frame 1 |
+| 2,8–4,6 | Jembatan | Definisi 'sendirian' tuh biasanya begini: | |
+| 4,6–7,1 | Poin 1 | Bos nanya "si A kalau di-PHK kena berapa?", kamu masih buka PP 35 Pasal 40. | kartu 1 mendarat |
+| 7,1–9,6 | Poin 2 | Kontrak vendor mandek 9 hari, karena gak jelas siapa yang harus tanda tangan. | kartu 2 menimpa |
+| 9,6–12,1 | Poin 3 | Izin usaha mati diam-diam. Ketahuannya pas auditor datang. | kartu 3 |
+| 12,1–14,6 | Poin 4 | Freelancer udah kerja 2 minggu, perjanjiannya masih di chat WhatsApp. | kartu 4 |
+| 14,6–17,1 | Poin 5 | Cuti 3 hari, HP tetap bunyi terus. Soalnya cuma kamu yang tahu alurnya. | HP bergetar di atas tumpukan |
+| 17,1–20,6 | Jawaban | label di balik tiap kartu | kartu berbaris lalu berbalik berantai (lihat tabel jawaban) |
+| 20,6–23,2 | Penutup cerita | Semua alurnya tertulis. Cuti 3 hari, HP gak bunyi lagi. | kartu jadi satu tumpukan, HP di atasnya berhenti bergetar |
+| 23,2–27,6 | Produk + tools | Legal Management System · 201 file + 2 tool online (label: paket PRO PLUS) | kartu UI Skor Kontrak, lalu berbalik ke Cek Status PKWT |
+| 27,6–30 | CTA | Dapatkan Sekarang | tombol oranye ditekan |
 
 ## Jawaban per kartu (sumber: masterlist EXT-LGL)
 
@@ -42,3 +42,12 @@ bergetar; di penutup cerita HP itu diam.
 ## Larangan kata
 
 Jangan menyebut produk sebagai "template dokumen", "bundle dokumen", "template SOP", dan sejenisnya.
+
+## Tools di video (hasil menjalankan tools asli, bukan karangan)
+
+Header seperti landing page di tools tidak ditampilkan; hanya hasil dan isinya.
+
+| Tool | Skenario input | Hasil yang tampil |
+|---|---|---|
+| Skor Kontrak | kontrak jasa; denda keterlambatan dan batas tanggung jawab belum ada; rincian objek, serah terima, dan pengakhiran baru sebagian; sisanya Ya; HKI & data pribadi N/A | 77 dari 100 · "Revisi dulu" · "Sanksi keterlambatan…" Belum ada −6 · "Ada batas tanggung jawab…" Belum ada −6 |
+| Cek Status PKWT | upah Rp6.000.000; sifat sementara; kontrak 1 Apr 2022–31 Mar 2023, 1 Apr 2023–31 Mar 2025, 1 Apr 2025–31 Okt 2026; sudah dicatatkan; kompensasi dibayar; dicek per 25 Sep 2026 | PERLU TINDAKAN · "Masih PKWT, tapi ada yang harus dibereskan" · 4 tahun 7 bulan total · 5 bulan sisa ke batas 5 tahun · garis waktu 3 kontrak + batas |
