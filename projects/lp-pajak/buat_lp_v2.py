@@ -125,3 +125,12 @@ for a,b in [
 ]:
   assert s.count(a)==1,a; s=s.replace(a,b)
 open(OUT,'w').write(s)
+# --- revisi: hero tinggal 1 tombol (Cek 12 Kategori jadi tombol utama), hapus baris 93/12/US Letter
+s=open(OUT).read()
+a=s.index('    <div style="margin-top:32px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">')
+b=s.index('  </div>\n</header>',a)
+s=s[:a]+'''    <div style="margin-top:32px;text-align:center;">
+      <a href="#isi-paket" class="btn btn-primary focus-ring">Cek 12 Kategori Dokumen ↓</a>
+    </div>
+'''+s[b:]
+open(OUT,'w').write(s)
