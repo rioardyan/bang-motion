@@ -118,12 +118,12 @@ function build(){
   CONTENT=roll.offsetHeight;
 
   /* --- 0–3,5 hook --- */
-  const h1=$('#hk h1');const chs=[];h1.childNodes.forEach(n=>{if(n.nodeType===3){const f=document.createDocumentFragment();
+  const h1=$('#hk h1');const chs=[];[...h1.childNodes].forEach(n=>{if(n.nodeType===3){const f=document.createDocumentFragment();
     [...n.textContent].forEach(ch=>{const s=document.createElement('span');s.className='ch';s.textContent=ch;f.appendChild(s);chs.push(s);});n.replaceWith(f);}});
-  ini('#hk h3',{opacity:0,letterSpacing:'.6em'});
+  ini('#hk h3',{opacity:.5,letterSpacing:'.6em'});
   tl.to('#hk h3',{opacity:.92,letterSpacing:'.34em',duration:.9,ease:'power3.out'},0);
-  ini(chs,{opacity:i=>i<2?1:0,yPercent:i=>i<2?0:60});
-  tl.to(chs.slice(2),{opacity:1,yPercent:0,duration:.6,ease:'power4.out',stagger:.045},.1);
+  ini(chs,{opacity:0,yPercent:60});
+  tl.to(chs,{opacity:1,yPercent:0,duration:.6,ease:'power4.out',stagger:.045},.1);
   blurTween(tl,h1,.1,18,0,.9);
   ini('#hk',{scale:1.04,y:0,opacity:1});
   tl.to('#hk',{scale:1,duration:3.2,ease:'sine.out'},0);
@@ -139,7 +139,8 @@ function build(){
   tl.to('#cnt',{opacity:1,y:0,duration:.5},4.2);
   /* --- 30,5–33 manfaat --- */
   tl.to(['#win','#cnt','#dock'],{opacity:0,y:-40,duration:.5,ease:'power2.in'},30.2);
-  ini(['#win','#cnt','#dock'],{y:0});ini('#win',{opacity:1});
+  ini(['#win','#cnt','#dock'],{y:0});ini('#win',{opacity:0});
+  tl.to('#win',{opacity:1,duration:.4},3.9);
   const bw=words($('#ben'));ini(bw,{opacity:0});
   tl.fromTo(bw,{opacity:0,y:30},{opacity:1,y:0,duration:.5,ease:'power4.out',stagger:.07,immediateRender:false},30.55);
   blurTween(tl,$('#ben'),30.55,14,0,1);
