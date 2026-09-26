@@ -4,11 +4,12 @@
 - Headline (C3H #20, direvisi user: callout + kata jelas):
   "Staf Legal & HR, kesel gak sih: kontrak sudah ditandatangani, baru sadar ada pasal yang merugikan perusahaan?"
 - Angka dan teks di UI diambil dari menjalankan tool asli (skenario di bawah). Tool hanya ada di paket PRO PLUS.
-- Format: 4:5, ±35 detik, tanpa audio.
+- Format: 4:5, ±37 detik, tanpa audio. Babak setelah hook bergeser +3 detik (revisi hook: sisipan "dua jalan buntu").
 
 | Detik | Teks layar | Visual |
 |---|---|---|
-| 0–4 | Headline | Kartu kontrak; tanda tangan tergores, lalu satu pasal menyala merah |
+| 0–3,6 | Headline | Kartu kontrak; tanda tangan tergores, lalu satu pasal menyala merah |
+| 3,6–6,9 | Mau diubah, harus minta persetujuan pihak lawan. Kalau dibiarkan, kamu yang dimintai penjelasan oleh atasan. | Gembok muncul di pasal merah; avatar "Atasan" dengan tanda tanya |
 | 4–5,5 | Cek dulu drafnya: jawab 19 pertanyaan | Kartu Skor Kontrak naik; "Jasa / konsultan" diklik |
 | 5,5–9,5 | — | Kursor klik Ya/Sebagian/Tidak, progres 0/19 → 19/19, tombol "Lihat skor kontrak" |
 | 9,5–13 | Keluar skor 0–100 dan bagian yang harus diperbaiki | Cincin 77 · "Revisi dulu" · "Belum ada · −6" |

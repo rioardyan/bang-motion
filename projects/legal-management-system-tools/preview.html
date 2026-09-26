@@ -65,6 +65,14 @@ html,body{width:100%;height:100%;background:#DCE7E9;overflow:hidden}
   border:4px solid var(--red);transform-origin:0 50%;transform:scaleX(0)}
 #doc .bang{position:absolute;right:-34px;top:-26px;width:64px;height:64px;border-radius:50%;background:var(--red);color:#fff;
   display:grid;place-items:center;font:800 40px var(--fh);opacity:0}
+#hook2{top:420px;font:500 44px/1.22 var(--fh);color:var(--ink-2)}
+#hook2 b{font-weight:800;color:var(--ink)}
+#doc .lock{position:absolute;right:30px;top:-30px;width:58px;height:58px;opacity:0}
+#boss{position:absolute;right:-40px;top:-60px;display:flex;align-items:center;gap:12px;background:#fff;border-radius:999px;padding:8px 22px 8px 8px;box-shadow:0 14px 34px rgba(10,90,97,.18);opacity:0}
+#boss i{width:62px;height:62px;border-radius:50%;background:var(--teal-d);display:grid;place-items:center}
+#boss i svg{width:40px;height:40px}
+#boss span{font:700 30px var(--fh)}
+#boss b{width:44px;height:44px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;font:800 30px var(--fh)}
 #sig{position:absolute;left:64px;bottom:60px;width:300px;height:120px}
 #sig path{fill:none;stroke:#1D3F8F;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
 #doc .sl{position:absolute;left:64px;bottom:60px;width:300px;height:3px;background:var(--ink-2)}
@@ -173,7 +181,8 @@ html,body{width:100%;height:100%;background:#DCE7E9;overflow:hidden}
       <h4>PERJANJIAN KERJA SAMA</h4><div class="sub"></div>
       <div class="ps"><i style="width:94%"></i><i style="width:88%"></i><i style="width:62%"></i></div>
       <div class="ps"><i style="width:90%"></i><i style="width:96%"></i><i style="width:48%"></i></div>
-      <div class="ps" id="bad"><em></em><i style="width:92%"></i><i style="width:84%"></i><i style="width:70%"></i><span class="bang">!</span></div>
+      <div class="ps" id="bad"><em></em><i style="width:92%"></i><i style="width:84%"></i><i style="width:70%"></i><span class="bang">!</span><svg class="lock" viewBox="0 0 40 40"><rect x="7" y="17" width="26" height="19" rx="4" fill="#16292B"/><path d="M12 17v-5a8 8 0 0 1 16 0v5" fill="none" stroke="#16292B" stroke-width="4"/><circle cx="20" cy="26" r="3" fill="#fff"/></svg></div>
+      <div id="boss"><i><svg viewBox="0 0 40 40"><circle cx="20" cy="14" r="7" fill="#fff"/><path d="M7 36c1-8 6-12 13-12s12 4 13 12" fill="#fff"/></svg></i><span>Atasan</span><b>?</b></div>
       <div class="ps"><i style="width:86%"></i><i style="width:58%"></i></div>
       <div class="sl"></div>
       <svg id="sig" viewBox="0 0 300 120"><path id="sigp" d="M12 92 C40 20 58 18 60 70 S86 110 104 54 S128 12 140 70 S170 96 186 50 C196 26 214 38 206 70 C200 92 240 60 290 40"/></svg>
@@ -254,6 +263,7 @@ html,body{width:100%;height:100%;background:#DCE7E9;overflow:hidden}
   <div id="hud">
     <div id="band"></div>
     <div class="say" id="hook"><span class="call">Staf Legal &amp; HR,</span>kesel gak sih: kontrak sudah ditandatangani, baru sadar ada <span class="red">pasal yang merugikan perusahaan?</span></div>
+    <div class="say" id="hook2"><b>Mau diubah,</b> harus minta persetujuan pihak lawan. <b>Kalau dibiarkan,</b> kamu yang dimintai penjelasan oleh atasan.</div>
     <div class="say" id="s1">Cek dulu drafnya: jawab 19 pertanyaan</div>
     <div class="say" id="s2">Keluar skor 0–100 dan bagian yang harus diperbaiki</div>
     <div class="say" id="s3">Lengkap dengan contoh klausul dan dasar hukumnya</div>
@@ -272,7 +282,7 @@ html,body{width:100%;height:100%;background:#DCE7E9;overflow:hidden}
 Promise.all(['800 60px "Plus Jakarta Sans"','700 50px "Plus Jakarta Sans"','700 38px "Plus Jakarta Sans"','800 40px "Plus Jakarta Sans"','600 30px Inter','500 30px Inter'].map(f=>document.fonts.load(f))).then(()=>document.fonts.ready).then(function(){
 "use strict";
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
-const W=1080,H=1350,DURATION=35,Q=new URLSearchParams(location.search),NS='http://www.w3.org/2000/svg';
+const W=1080,H=1350,DURATION=37,Q=new URLSearchParams(location.search),NS='http://www.w3.org/2000/svg';
 
 /* 9 pertanyaan pertama tool Skor Kontrak (teks asli) + jawaban skenario; sisanya dipercepat sampai 19/19 (hasil 77, Revisi dulu) */
 const QS=[['Nama badan hukum, alamat, dan NIB atau nomor akta kedua pihak ditulis lengkap dan sama persis dengan dokumen legalitasnya?','y'],
@@ -339,7 +349,7 @@ gsap.set('#cta',{xPercent:-50,yPercent:-50});
 ini(cur,{x:760,y:1400,opacity:0,scale:1,transformOrigin:'8px 4px'});
 ini('#ripple',{opacity:0});
 
-/* --- 0–4 hook: tanda tangan tergores, pasal menyala merah --- */
+/* --- 0–3,6 hook: tanda tangan tergores, pasal menyala merah --- */
 const sig=$('#sigp'),SL=sig.getTotalLength();sig.style.strokeDasharray=SL;
 ini(sig,{strokeDashoffset:SL*.55});
 tl.to(sig,{strokeDashoffset:0,duration:.8,ease:'power1.inOut'},0);
@@ -351,24 +361,34 @@ tl.to('#doc',{x:8,duration:.05,yoyo:true,repeat:5,ease:'sine.inOut'},2.5);
 ini(SAYS.hook,{opacity:i=>i<3?1:0,y:0});
 tl.fromTo(SAYS.hook.slice(3),{opacity:0,y:26},{opacity:1,y:0,duration:.5,ease:'power4.out',stagger:.075,immediateRender:false},.05);
 ini(CAM,{s:1.02,fx:540,fy:760}); shot(2,1.1,1.06,540,pt('#bad').y-40);
-sayOut('hook',3.9);
+/* 3,6–6,9 kenapa kesel: diubah butuh persetujuan pihak lawan, dibiarkan jadi urusan atasan */
+tl.to(SAYS.hook,{opacity:.5,duration:.4},3.5);
+shot(3.4,.8,1,540,675);
+tl.to('#doc',{y:230,rotation:-1,duration:.8,ease:'power3.inOut'},3.4);
+sayIn('hook2',3.7,.05);
+ini('#doc .lock',{opacity:0,scale:.3}); ini('#boss',{opacity:0,scale:.4,y:20});
+tl.to('#bad .bang',{opacity:0,duration:.2},4.1);
+tl.to('#doc .lock',{opacity:1,scale:1,duration:.4,ease:'back.out(3)'},4.2);
+tl.to('#boss',{opacity:1,scale:1,y:0,duration:.45,ease:'back.out(2.4)'},5.3);
+tl.to('#boss b',{scale:1.25,duration:.18,yoyo:true,repeat:3,ease:'sine.inOut'},5.8);
+sayOut('hook',6.9); sayOut('hook2',6.9);
 
 /* --- 4–9,5 Skor Kontrak dipakai --- */
-tl.to('#doc',{y:1100,rotation:6,duration:.6,ease:'power3.in'},3.9);
+tl.to('#doc',{y:1300,rotation:6,duration:.6,ease:'power3.in'},6.9);
 ini('#sk',{x:0,y:1200,rotation:0,opacity:1}); ini('#pk',{y:1200,scale:1,opacity:1});
-tl.to('#sk',{y:0,duration:.75,ease:'power4.out'},4.1);
-shot(4,.8,1,540,675);
-sayIn('s1',4.3);
-tl.to(cur,{opacity:1,duration:.2},4.6);
-aim(4.6,'#chJasa',.5); click(5.15,'#chJasa');
-ini('#chJasa',{className:'chip'}); tl.set('#chJasa',{className:'chip on'},5.2);
+tl.to('#sk',{y:0,duration:.75,ease:'power4.out'},7.1);
+shot(7,.8,1,540,675);
+sayIn('s1',7.3);
+tl.to(cur,{opacity:1,duration:.2},7.6);
+aim(7.6,'#chJasa',.5); click(8.15,'#chJasa');
+ini('#chJasa',{className:'chip'}); tl.set('#chJasa',{className:'chip on'},8.2);
 /* jawab: 3 pertanyaan pertama diklik kursor, sisanya dipercepat */
 const ansCol={y:0,s:1,n:2,x:3}, QH=252;
 ini('#ql',{y:0});
 const prog={v:0};ini(prog,{v:0});
 const setProg=()=>{$('#pgt').textContent=Math.round(prog.v)+'/19';$('#pgb').style.transform=`scaleX(${(prog.v/19).toFixed(3)})`;};
 setProg();
-let t0=5.5;
+let t0=8.5;
 QS.forEach(([t,a],i)=>{const btn=$$('.q')[i].querySelectorAll('u')[ansCol[a]];
   ini(btn,{className:''}); const fast=i>=3;
   if(!fast){const p=pt(btn,0,-i*QH);moveTo(t0,p.x-8,p.y-4,.3);tipAt(t0+.3,p.x-8,p.y-4);click(t0+.32,btn);}
