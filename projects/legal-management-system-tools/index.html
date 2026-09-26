@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="id">
+<!-- Made with the Bang Motion skill (https://github.com/bangtutorial/bang-motion) - MIT -->
+<head>
+<meta charset="utf-8">
+<title>Demo Tool Legal Management</title>
+<!--
+  STYLE BRIEF (catatan; naskah + visual disetujui user) — promo 5, demo 2 tool
+  Konsep             : satu fitur didemo penuh ×2 (klaim → cara → hasil), UI tool asli dirakit ulang sebagai komponen
+  Sidik jari         : demo tool · 11 babak · kontrak ditandatangani + pasal merah / Skor Kontrak dipakai / skor 77 /
+                       contoh klausul disalin / Cek PKWT dipakai / status + garis waktu / uang dipertaruhkan /
+                       dokumen lanjutan jadi 201 petak / tombol · tanda tangan tergores di frame 1 · tombol ditekan
+  Palet (dari tools) : latar #F6FAFA + blob #EEF7F8 / #FFF6DB; teal #0E7C86 / #0A5A61; tombol #FFA200; status merah/kuning/hijau tools
+  Font               : Plus Jakarta Sans + Inter — font UI tool sendiri (pengecualian konsep klaim → cara → hasil)
+  Tanda tangan gerak : kursor sebagai aktor: tiba, jeda, klik tertekan, kamera mendekat pada klik penting
+  Gerak latar        : blob warna lembut mengambang (§7c #3)
+-->
+<link rel="stylesheet" href="vendor/fonts.css">
+<script src="vendor/gsap.min.js"></script>
+<style>
+:root{--teal:#0E7C86;--teal-d:#0A5A61;--teal-50:#EEF7F8;--teal-100:#D9EDEF;--ink:#16292B;--ink-2:#4F6365;--line:#DCE7E9;--bg:#F6FAFA;
+  --red:#C8312F;--red-50:#FDF1F1;--amber:#9A6200;--amber-50:#FFF6DB;--green:#157F48;--btn:#FFA200;--btn-ink:#1D2B2D;
+  --fh:"Plus Jakarta Sans",system-ui,sans-serif;--fb:"Inter",system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#DCE7E9;overflow:hidden}
+#filters{position:fixed;width:0;height:0;opacity:0;pointer-events:none}
+#stage{position:fixed;left:50%;top:50%;width:1080px;height:1350px;overflow:hidden;background:var(--bg);transform:translate(-50%,-50%);color:var(--ink)}
+.blob{position:absolute;border-radius:50%;pointer-events:none}
+#b1{width:1100px;height:1100px;background:radial-gradient(circle,#D9EDEF,transparent 66%)}
+#b2{width:900px;height:900px;background:radial-gradient(circle,#FFF0C9,transparent 64%)}
+#world{position:absolute;left:0;top:0;width:1080px;height:1350px;transform-origin:0 0;will-change:transform}
+.card{position:absolute;left:80px;top:292px;width:920px;height:1030px;background:#fff;border-radius:34px;
+  box-shadow:0 40px 90px rgba(10,90,97,.16),0 2px 0 rgba(10,90,97,.04);overflow:hidden}
+.view{position:absolute;inset:0;padding:44px 48px}
+.step{display:flex;align-items:center;gap:16px;margin-bottom:22px}
+.step b{width:46px;height:46px;border-radius:50%;background:var(--teal-d);color:#fff;display:grid;place-items:center;font:800 26px var(--fh)}
+.step span{font:800 36px var(--fh);letter-spacing:-.01em}
+.btn{height:92px;border-radius:20px;background:var(--btn);color:var(--btn-ink);display:grid;place-items:center;font:700 38px var(--fh)}
+/* dokumen kontrak (hook) */
+#doc{position:absolute;left:170px;top:540px;width:740px;height:880px;background:#fff;border-radius:18px;padding:60px 64px;
+  box-shadow:0 40px 90px rgba(10,90,97,.18)}
+#doc h4{font:800 34px var(--fh);letter-spacing:.08em;text-align:center;margin-bottom:12px}
+#doc .sub{height:14px;width:46%;margin:0 auto 44px;border-radius:7px;background:var(--line)}
+#doc .ps{margin-bottom:30px;position:relative}
+#doc .ps i{display:block;height:16px;border-radius:8px;background:#E4EDEE;margin-bottom:14px}
+#doc .ps em{position:absolute;left:-18px;right:-18px;top:-12px;bottom:0;border-radius:12px;background:rgba(200,49,47,.12);
+  border:4px solid var(--red);transform-origin:0 50%;transform:scaleX(0)}
+#doc .bang{position:absolute;right:-34px;top:-26px;width:64px;height:64px;border-radius:50%;background:var(--red);color:#fff;
+  display:grid;place-items:center;font:800 40px var(--fh);opacity:0}
+#sig{position:absolute;left:64px;bottom:60px;width:300px;height:120px}
+#sig path{fill:none;stroke:#1D3F8F;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+#doc .sl{position:absolute;left:64px;bottom:60px;width:300px;height:3px;background:var(--ink-2)}
+/* Skor Kontrak: form */
+.chips{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:34px}
+.chip{height:66px;border:3px solid var(--line);border-radius:16px;display:flex;align-items:center;gap:12px;padding:0 18px;font:600 30px var(--fb)}
+.chip i{width:26px;height:26px;border-radius:50%;border:3px solid #B9C8CA;flex:0 0 auto}
+.chip.on{border-color:var(--teal);background:var(--teal-50)}
+.chip.on i{border:8px solid var(--teal)}
+.prog{display:flex;align-items:center;gap:16px;margin-bottom:22px;font:600 30px var(--fb);color:var(--ink-2)}
+.prog .bar{flex:1;height:16px;border-radius:8px;background:var(--teal-100);overflow:hidden}
+.prog .bar i{display:block;height:100%;width:100%;background:var(--teal);transform-origin:0 50%;transform:scaleX(0)}
+.prog span{font-variant-numeric:tabular-nums;min-width:3.4ch;text-align:right}
+.qv{height:318px;overflow:hidden;position:relative;margin-bottom:26px}
+.ql{position:absolute;left:0;right:0;top:0}
+.q{border:3px solid var(--line);border-radius:20px;padding:20px 22px;margin-bottom:16px;height:236px}
+.q p{font:600 30px/1.3 var(--fb);height:78px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;margin-bottom:16px}
+.opts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.opts u{text-decoration:none;height:70px;border:3px solid var(--line);border-radius:14px;display:grid;place-items:center;font:600 28px var(--fb)}
+.opts u.y{background:#ECF8F1;border-color:var(--green);color:var(--green)}
+.opts u.s{background:var(--amber-50);border-color:var(--amber);color:var(--amber)}
+.opts u.n{background:var(--red-50);border-color:var(--red);color:var(--red)}
+.opts u.x{background:var(--teal-50);border-color:var(--teal);color:var(--teal-d)}
+/* Skor Kontrak: hasil */
+.score{display:flex;gap:30px;align-items:center;margin-bottom:22px}
+.ring{position:relative;width:190px;height:190px;flex:0 0 auto}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .n{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.ring .n b{display:block;font:800 76px/1 var(--fh);font-variant-numeric:tabular-nums}
+.ring .n small{font:500 28px var(--fb);color:var(--ink-2)}
+.verdict{font:800 56px/1.05 var(--fh);color:var(--amber)}
+.vsub{font:500 30px/1.3 var(--fb);color:var(--ink-2);margin-top:12px}
+.h2{font:800 36px var(--fh);margin-bottom:16px}
+.fix{border:3px solid var(--line);border-radius:22px;padding:24px}
+.fix .t{display:flex;gap:16px;align-items:flex-start;margin-bottom:16px}
+.fix .t p{flex:1;font:700 30px/1.3 var(--fh)}
+.lost{flex:0 0 auto;font:700 28px var(--fb);color:var(--red);background:var(--red-50);border-radius:999px;padding:6px 16px;white-space:nowrap}
+.clause{background:var(--teal-50);border-radius:18px;padding:20px 22px;font:500 29px/1.42 var(--fb)}
+.clause .lbl{display:block;font:800 26px var(--fh);letter-spacing:.06em;color:var(--teal-d);margin-bottom:8px}
+.copy{display:inline-block;margin-top:14px;border:3px solid var(--line);background:#fff;color:var(--teal-d);border-radius:12px;padding:8px 18px;font:700 28px var(--fb)}
+.basis{font:500 30px/1.35 var(--fb);color:var(--ink-2);margin-top:16px}
+/* PKWT: form */
+.lbl2{font:700 30px var(--fh);margin-bottom:10px}
+.inp{height:78px;border:3px solid var(--line);border-radius:16px;display:flex;align-items:center;padding:0 22px;font:500 34px var(--fb);margin-bottom:30px}
+.inp .cur{display:inline-block;width:3px;height:40px;background:var(--teal);margin-left:3px}
+.per{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.per .pl{grid-column:1/-1;font:700 28px var(--fh);color:var(--teal-d)}
+.per .inp{margin:0;font-size:30px;height:70px;color:var(--ink)}
+/* PKWT: hasil */
+.status{border-radius:24px;padding:26px 28px;background:var(--amber-50);border:4px solid var(--amber);margin-bottom:26px}
+.status .lab{font:800 28px var(--fh);letter-spacing:.06em;color:var(--amber)}
+.status h4{font:800 40px/1.15 var(--fh);color:var(--amber);margin-top:6px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}
+.stat{background:#fff;border-radius:16px;padding:14px 18px}
+.stat b{display:block;font:800 40px/1.15 var(--fh)}
+.stat span{font:500 28px/1.2 var(--fb);color:var(--ink-2)}
+.tl{position:relative;height:56px;border-radius:14px;background:var(--teal-50);margin:8px 0 18px}
+.tl i{position:absolute;top:0;bottom:0;background:var(--teal);border-right:5px solid #fff;transform-origin:0 50%}
+.tl i.cur{background:var(--teal-d)}
+.tl .cap{position:absolute;top:-12px;bottom:-12px;left:calc(100% - 4px);border-left:6px dashed var(--red)}
+.tl .now{position:absolute;top:-14px;bottom:-14px;width:5px;background:var(--ink)}
+.find{display:flex;gap:16px;border:3px solid var(--line);border-radius:18px;padding:20px 22px}
+.find i{flex:0 0 22px;height:22px;border-radius:50%;background:var(--amber);margin-top:8px}
+.find b{font:700 32px/1.3 var(--fh)}
+.money{display:grid;gap:18px}
+.mbox{border-radius:22px;padding:24px 26px;background:var(--teal-50)}
+.mbox.alt{background:var(--red-50)}
+.mbox p{font:700 30px/1.3 var(--fh)}
+.mbox .big{font:800 64px/1.1 var(--fh);margin-top:8px;font-variant-numeric:tabular-nums}
+.diff{font:800 36px/1.3 var(--fh);color:var(--red);margin-top:22px}
+.next li{list-style:none;display:flex;gap:16px;align-items:center;font:600 31px/1.25 var(--fb);padding:18px 0;border-bottom:3px solid var(--line)}
+.next li i{flex:0 0 18px;height:18px;border-radius:5px;background:var(--teal)}
+/* 201 petak */
+#tiles{position:absolute;left:0;top:0;width:1080px;height:1350px;pointer-events:none}
+#tiles i{position:absolute;width:34px;height:34px;border-radius:8px;opacity:0}
+/* kursor */
+#cursor{position:absolute;left:0;top:0;width:70px;height:70px;opacity:0;z-index:20;pointer-events:none}
+#ripple{position:absolute;left:0;top:0;width:90px;height:90px;margin:-45px 0 0 -45px;border-radius:50%;border:6px solid var(--teal);opacity:0;z-index:19}
+/* HUD */
+#hud{position:absolute;inset:0;pointer-events:none}
+#band{position:absolute;left:0;right:0;top:0;height:330px;background:linear-gradient(#F6FAFA 0%,rgba(246,250,250,.96) 62%,rgba(246,250,250,0) 100%)}
+.say{position:absolute;left:70px;right:70px;top:78px;font:700 50px/1.16 var(--fh);letter-spacing:-.018em}
+.w{display:inline-block;opacity:0}
+#hook{top:84px;font:800 60px/1.14 var(--fh);letter-spacing:-.022em}
+#hook .call{display:block;font:800 40px var(--fh);color:var(--teal);letter-spacing:.01em;margin-bottom:14px}
+#hook .red{color:var(--red)}
+#end{position:absolute;left:0;right:0;top:250px;text-align:center}
+#end h2{font:800 76px/1 var(--fh);letter-spacing:-.025em;opacity:0}
+#end p{font:600 40px var(--fb);margin-top:22px;color:var(--ink-2);opacity:0}
+#end small{display:inline-block;margin-top:22px;font:800 30px var(--fh);letter-spacing:.08em;color:#fff;background:var(--teal-d);border-radius:10px;padding:6px 18px;opacity:0}
+#cta{position:absolute;left:540px;top:1010px;width:720px;height:150px;opacity:0}
+#cta .b{position:absolute;inset:0;border-radius:75px;background:var(--btn);display:grid;place-items:center;font:800 62px var(--fh);color:var(--btn-ink);
+  box-shadow:0 0 0 14px rgba(255,162,0,.2),0 30px 60px rgba(10,90,97,.25)}
+#ui{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);display:none;gap:12px;align-items:center;padding:10px 16px;
+  border-radius:14px;background:rgba(6,20,22,.92);color:#9fb;font:13px system-ui;z-index:99}
+#ui.on{display:flex} #ui button{background:#1d3a3c;color:#fff;border:0;padding:7px 14px;border-radius:8px;cursor:pointer}
+#scrub{width:340px} #clock{font-variant-numeric:tabular-nums;min-width:5.5ch;text-align:right}
+</style>
+</head>
+<body>
+<svg id="filters"><defs></defs></svg>
+<div id="stage">
+  <i class="blob" id="b1"></i><i class="blob" id="b2"></i>
+  <div id="world">
+    <div id="doc">
+      <h4>PERJANJIAN KERJA SAMA</h4><div class="sub"></div>
+      <div class="ps"><i style="width:94%"></i><i style="width:88%"></i><i style="width:62%"></i></div>
+      <div class="ps"><i style="width:90%"></i><i style="width:96%"></i><i style="width:48%"></i></div>
+      <div class="ps" id="bad"><em></em><i style="width:92%"></i><i style="width:84%"></i><i style="width:70%"></i><span class="bang">!</span></div>
+      <div class="ps"><i style="width:86%"></i><i style="width:58%"></i></div>
+      <div class="sl"></div>
+      <svg id="sig" viewBox="0 0 300 120"><path id="sigp" d="M12 92 C40 20 58 18 60 70 S86 110 104 54 S128 12 140 70 S170 96 186 50 C196 26 214 38 206 70 C200 92 240 60 290 40"/></svg>
+    </div>
+
+    <div class="card" id="sk">
+      <div class="view" id="skForm">
+        <div class="step"><b>1</b><span>Jenis kontraknya apa?</span></div>
+        <div class="chips">
+          <div class="chip" id="chJasa"><i></i>Jasa / konsultan</div><div class="chip"><i></i>Pengadaan barang</div>
+          <div class="chip"><i></i>Sewa-menyewa</div><div class="chip"><i></i>Kerja sama / distribusi</div>
+        </div>
+        <div class="step"><b>3</b><span>Periksa isi drafnya</span></div>
+        <div class="prog"><div class="bar"><i id="pgb"></i></div><span id="pgt">0/19</span></div>
+        <div class="qv"><div class="ql" id="ql"></div></div>
+        <div class="btn" id="skBtn">Lihat skor kontrak</div>
+      </div>
+      <div class="view" id="skRes" style="opacity:0">
+        <div class="score">
+          <div class="ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="#D9EDEF" stroke-width="12"/>
+            <circle id="arc" cx="60" cy="60" r="52" fill="none" stroke="#9A6200" stroke-width="12" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7"/></svg>
+            <div class="n"><div><b id="scoreN">0</b><small>dari 100</small></div></div></div>
+          <div><div class="verdict" id="vd">Revisi dulu</div><div class="vsub" id="vs">Kerangkanya ada, tapi masih ada celah yang bisa merugikan saat terjadi masalah.</div></div>
+        </div>
+        <div class="h2" id="fxh">Yang perlu diperbaiki</div>
+        <div class="fix" id="fx">
+          <div class="t"><p>Sanksi keterlambatan atau ingkar janji diatur, lengkap dengan besaran per hari dan batas maksimumnya?</p><span class="lost">Belum ada · −6</span></div>
+          <div class="clause" id="cl"><span class="lbl">CONTOH KLAUSUL</span>Atas keterlambatan pemenuhan kewajiban, Pihak yang terlambat dikenakan denda sebesar [0,1]% dari nilai bagian yang terlambat untuk setiap hari kalender keterlambatan, dengan jumlah keseluruhan paling banyak [5]% dari nilai Perjanjian.<br><span class="copy" id="cp">Salin klausul</span></div>
+          <div class="basis" id="bs">Dasar hukum: Pasal 1243 dan Pasal 1304–1312 KUHPerdata (ganti rugi dan janji denda).</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="pk">
+      <div class="view" id="pkForm">
+        <div class="step"><b>1</b><span>Karyawan &amp; upah</span></div>
+        <div class="lbl2">Upah bulanan (Rp)</div>
+        <div class="inp"><span id="upah"></span><span class="cur" id="caret"></span></div>
+        <div class="step"><b>3</b><span>Riwayat kontrak</span></div>
+        <div class="per" id="per0"><div class="pl">Kontrak pertama</div><div class="inp">01/04/2022</div><div class="inp">31/03/2023</div></div>
+        <div class="per" id="per1"><div class="pl">Perpanjangan ke-1</div><div class="inp">01/04/2023</div><div class="inp">31/03/2025</div></div>
+        <div class="per" id="per2"><div class="pl">Perpanjangan ke-2</div><div class="inp">01/04/2025</div><div class="inp">31/10/2026</div></div>
+        <div class="btn" id="pkBtn" style="margin-top:24px">Cek status PKWT</div>
+      </div>
+      <div class="view" id="pkRes" style="opacity:0">
+        <div class="status"><div class="lab">PERLU TINDAKAN</div><h4>Masih PKWT, tapi ada yang harus dibereskan</h4>
+          <div class="stats"><div class="stat"><b>4 tahun 7 bulan</b><span>Total masa semua kontrak</span></div>
+            <div class="stat"><b>5 bulan</b><span>Sisa ke batas 5 tahun</span></div></div></div>
+        <div class="h2">Garis waktu kontrak</div>
+        <div class="tl" id="tlBar"></div>
+        <div class="find"><i></i><b>Tinggal 5 bulan menuju batas 5 tahun</b></div>
+      </div>
+      <div class="view" id="pkMoney" style="opacity:0">
+        <div class="h2">Kalau hubungan kerja diakhiri per 25 September 2026</div>
+        <div class="money">
+          <div class="mbox"><p>Kalau PKWT-nya sah dan diakhiri lebih cepat</p><div class="big" id="mA">Rp0</div></div>
+          <div class="mbox alt"><p>Kalau dinilai karyawan tetap</p><div class="big" id="mB">Rp0</div></div>
+        </div>
+        <div class="diff" id="df">Selisih yang dipertaruhkan: Rp25.922.043 untuk satu karyawan.</div>
+      </div>
+      <div class="view" id="pkNext" style="opacity:0">
+        <div class="h2">Lanjutkan dengan dokumen di paketmu</div>
+        <ul class="next" id="nx">
+          <li><i></i>Tracker PKWT Karyawan</li>
+          <li><i></i>Kalkulator Kompensasi PKWT</li>
+          <li><i></i>Kalkulator Pesangon PHK</li>
+          <li><i></i>SOP Penyusunan Kontrak Kerja</li>
+          <li><i></i>SOP Proses PHK</li>
+          <li><i></i>Surat PHK dan Perjanjian Bersama</li>
+        </ul>
+      </div>
+    </div>
+    <div id="tiles"></div>
+    <div id="ripple"></div>
+    <svg id="cursor" viewBox="0 0 70 70"><path d="M8 4 L8 56 L22 43 L32 64 L42 59 L32 39 L52 39 Z" fill="#16292B" stroke="#fff" stroke-width="4" stroke-linejoin="round"/></svg>
+  </div>
+
+  <div id="hud">
+    <div id="band"></div>
+    <div class="say" id="hook"><span class="call">Staf Legal &amp; HR,</span>kesel gak sih: kontrak sudah ditandatangani, baru sadar ada <span class="red">pasal yang merugikan perusahaan?</span></div>
+    <div class="say" id="s1">Cek dulu drafnya: jawab 19 pertanyaan</div>
+    <div class="say" id="s2">Keluar skor 0–100 dan bagian yang harus diperbaiki</div>
+    <div class="say" id="s3">Lengkap dengan contoh klausul dan dasar hukumnya</div>
+    <div class="say" id="s4">Karyawan kontrak mau diperpanjang? Cek statusnya dulu</div>
+    <div class="say" id="s5">Langsung tahu: aman, perlu tindakan, atau berisiko jadi karyawan tetap</div>
+    <div class="say" id="s6">Plus hitungan uang yang dipertaruhkan</div>
+    <div class="say" id="s7">Hasil cek langsung menunjuk dokumen lanjutannya. Semuanya ada di paket yang sama.</div>
+    <div id="end"><h2>Legal Management System</h2><p>201 file + 2 tool online</p><small>PAKET PRO PLUS</small></div>
+    <div id="cta"><div class="b">Dapatkan Sekarang</div></div>
+  </div>
+</div>
+<div id="ui"><button id="bPlay">Pause</button><button id="bRe">Restart</button>
+  <input id="scrub" type="range" min="0" max="1000" value="0"><span id="clock">0.00s</span></div>
+
+<script>
+Promise.all(['800 60px "Plus Jakarta Sans"','700 50px "Plus Jakarta Sans"','700 38px "Plus Jakarta Sans"','800 40px "Plus Jakarta Sans"','600 30px Inter','500 30px Inter'].map(f=>document.fonts.load(f))).then(()=>document.fonts.ready).then(function(){
+"use strict";
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const W=1080,H=1350,DURATION=35,Q=new URLSearchParams(location.search),NS='http://www.w3.org/2000/svg';
+
+/* 9 pertanyaan pertama tool Skor Kontrak (teks asli) + jawaban skenario; sisanya dipercepat sampai 19/19 (hasil 77, Revisi dulu) */
+const QS=[['Nama badan hukum, alamat, dan NIB atau nomor akta kedua pihak ditulis lengkap dan sama persis dengan dokumen legalitasnya?','y'],
+['Orang yang tanda tangan berwenang mewakili perusahaannya: direksi menurut anggaran dasar, atau pemegang surat kuasa tertulis?','y'],
+['Persetujuan internal yang disyaratkan sudah didapat: dewan komisaris atau RUPS menurut anggaran dasar?','y'],
+['Perjanjian dibuat dalam bahasa Indonesia, atau dwibahasa dengan versi bahasa Indonesia?','y'],
+['Barang atau jasa yang diperjanjikan dirinci: spesifikasi, jumlah, lokasi, dan hasil akhir yang diserahkan?','s'],
+['Harga, termin pembayaran, rekening tujuan, dan perlakuan pajak tertulis jelas?','y'],
+['Ada tenggat pelaksanaan dan cara serah terima: kapan diserahkan, bagaimana diperiksa, kapan dianggap diterima?','s'],
+['Sanksi keterlambatan atau ingkar janji diatur, lengkap dengan besaran per hari dan batas maksimumnya?','n'],
+['Ada batas tanggung jawab maksimal, dan kerugian tidak langsung dikecualikan?','n']];
+const ql=$('#ql');
+QS.forEach(([t,a],i)=>{const d=document.createElement('div');d.className='q';
+  d.innerHTML=`<p>${i+1}. ${t}</p><div class="opts"><u data-v="y">Ya</u><u data-v="s">Sebagian</u><u data-v="n">Tidak</u><u data-v="x">N/A</u></div>`;ql.appendChild(d);});
+
+/* garis waktu PKWT (hasil tool) */
+(function(){const bar=$('#tlBar'),d=s=>Date.UTC(...s.split('-').map((v,i)=>i===1?v-1:+v));
+  const a=d('2022-04-01'),b=d('2027-03-31'),p=x=>((x-a)/(b-a)*100).toFixed(2)+'%';
+  [['2022-04-01','2023-04-01'],['2023-04-01','2025-04-01'],['2025-04-01','2026-11-01']].forEach((s,i)=>{const e=document.createElement('i');
+    e.style.left=p(d(s[0]));e.style.width=`calc(${p(d(s[1]))} - ${p(d(s[0]))})`;if(i===2)e.className='cur';bar.appendChild(e);});
+  const c=document.createElement('div');c.className='cap';bar.appendChild(c);
+  const n=document.createElement('div');n.className='now';n.style.left=p(d('2026-09-25'));bar.appendChild(n);})();
+
+/* 201 petak: 162 Word + 39 Excel */
+const tilesEl=$('#tiles'),TILES=[];
+for(let k=0;k<201;k++){const e=document.createElement('i');e.style.background=k<162?'#0E7C86':'#157F48';
+  const c=k%15,r=Math.floor(k/15);e.style.left=(118+c*58)+'px';e.style.top=(420+r*58)+'px';tilesEl.appendChild(e);TILES.push(e);}
+
+function words(el){const out=[];const walk=n=>{[...n.childNodes].forEach(c=>{if(c.nodeType===3){const f=document.createDocumentFragment();
+  c.textContent.split(/(\s+)/).forEach(p=>{if(!p)return;if(/^\s+$/.test(p)){f.appendChild(document.createTextNode(' '));return;}
+  const s=document.createElement('span');s.className='w';s.textContent=p;f.appendChild(s);out.push(s);});n.replaceChild(f,c);}
+  else if(c.nodeType===1)walk(c);});};walk(el);return out;}
+const defs=$('#filters defs');let fc=0;
+function blurTween(tl,el,at,from,to,dur,ease='power3.out'){const id='mb'+(fc++),f=document.createElementNS(NS,'filter');f.id=id;
+  ['x','y'].forEach(k=>f.setAttribute(k,'-40%'));['width','height'].forEach(k=>f.setAttribute(k,'180%'));
+  const g=document.createElementNS(NS,'feGaussianBlur');g.setAttribute('stdDeviation','0 0');f.appendChild(g);defs.appendChild(f);
+  const o={v:from};tl.set(el,{filter:`url(#${id})`},at);
+  tl.to(o,{v:to,duration:dur,ease,onUpdate(){g.setAttribute('stdDeviation',`${(o.v*.12).toFixed(2)} ${o.v.toFixed(2)}`);}},at);
+  tl.set(el,{filter:'none'},at+dur+.01);}
+
+const tl=gsap.timeline({paused:true});
+const ini=(t,v)=>{gsap.set(t,v);tl.set(t,v,0);};
+const CAM={s:1,fx:540,fy:675};
+const shot=(at,dur,s,fx,fy,ease='power2.inOut')=>tl.to(CAM,{s,fx,fy,duration:dur,ease},at);
+const SAYS={};
+$$('#hud .say').forEach(el=>{SAYS[el.id]=words(el);});
+Object.keys(SAYS).filter(k=>k!=='hook').forEach(k=>ini(SAYS[k],{opacity:0}));
+const sayIn=(id,at,st=.045)=>{tl.fromTo(SAYS[id],{opacity:0,y:26},{opacity:1,y:0,duration:.5,ease:'power4.out',stagger:st,immediateRender:false},at);
+  blurTween(tl,$('#'+id),at,14,0,.5+st*Math.min(SAYS[id].length,8));};
+const sayOut=(id,at)=>{tl.to(SAYS[id],{opacity:0,y:-26,duration:.3,ease:'power2.in',stagger:.008},at);blurTween(tl,$('#'+id),at,0,16,.36,'power2.in');};
+
+/* kursor: tiba (ease-out), jeda, klik tertekan, riak */
+const cur=$('#cursor'),worldEl=$('#world');
+const pt=(el,dx=0,dy=0)=>{el=typeof el==='string'?$(el):el;let x=0,y=0,n=el;while(n&&n!==worldEl){x+=n.offsetLeft;y+=n.offsetTop;n=n.offsetParent;}
+  return {x:x+el.offsetWidth/2+dx,y:y+el.offsetHeight/2+dy};};
+const moveTo=(at,x,y,dur=.45)=>tl.to(cur,{x,y,duration:dur,ease:'power3.out'},at);
+const tipAt=(at,x,y)=>tl.set('#ripple',{x:x+8,y:y+4},at);
+const aim=(at,el,dur=.45)=>{const p=pt(el);moveTo(at,p.x-8,p.y-4,dur);tipAt(at+dur,p.x-8,p.y-4);return p;};
+const click=(at,target)=>{tl.to(cur,{scale:.82,duration:.08,ease:'power2.in'},at);tl.to(cur,{scale:1,duration:.16,ease:'back.out(3)'},at+.08);
+  tl.fromTo('#ripple',{opacity:.9,scale:.3},{opacity:0,scale:1.5,duration:.45,ease:'power2.out',immediateRender:false},at);
+  if(target){tl.to(target,{scale:.94,duration:.08},at);tl.to(target,{scale:1,duration:.2,ease:'back.out(3)'},at+.08);}};
+
+gsap.set('#cta',{xPercent:-50,yPercent:-50});
+ini(cur,{x:760,y:1400,opacity:0,scale:1,transformOrigin:'8px 4px'});
+ini('#ripple',{opacity:0});
+
+/* --- 0–4 hook: tanda tangan tergores, pasal menyala merah --- */
+const sig=$('#sigp'),SL=sig.getTotalLength();sig.style.strokeDasharray=SL;
+ini(sig,{strokeDashoffset:SL*.55});
+tl.to(sig,{strokeDashoffset:0,duration:.8,ease:'power1.inOut'},0);
+ini('#doc',{x:0,y:0,rotation:-2,opacity:1});
+ini('#bad em',{scaleX:0});ini('#bad .bang',{opacity:0,scale:.3});
+tl.to('#bad em',{scaleX:1,duration:.5,ease:'power3.out'},2.1);
+tl.to('#bad .bang',{opacity:1,scale:1,duration:.35,ease:'back.out(3)'},2.45);
+tl.to('#doc',{x:8,duration:.05,yoyo:true,repeat:5,ease:'sine.inOut'},2.5);
+ini(SAYS.hook,{opacity:i=>i<3?1:0,y:0});
+tl.fromTo(SAYS.hook.slice(3),{opacity:0,y:26},{opacity:1,y:0,duration:.5,ease:'power4.out',stagger:.075,immediateRender:false},.05);
+ini(CAM,{s:1.02,fx:540,fy:760}); shot(2,1.1,1.06,540,pt('#bad').y-40);
+sayOut('hook',3.9);
+
+/* --- 4–9,5 Skor Kontrak dipakai --- */
+tl.to('#doc',{y:1100,rotation:6,duration:.6,ease:'power3.in'},3.9);
+ini('#sk',{x:0,y:1200,rotation:0,opacity:1}); ini('#pk',{y:1200,scale:1,opacity:1});
+tl.to('#sk',{y:0,duration:.75,ease:'power4.out'},4.1);
+shot(4,.8,1,540,675);
+sayIn('s1',4.3);
+tl.to(cur,{opacity:1,duration:.2},4.6);
+aim(4.6,'#chJasa',.5); click(5.15,'#chJasa');
+ini('#chJasa',{className:'chip'}); tl.set('#chJasa',{className:'chip on'},5.2);
+/* jawab: 3 pertanyaan pertama diklik kursor, sisanya dipercepat */
+const ansCol={y:0,s:1,n:2,x:3}, QH=252;
+ini('#ql',{y:0});
+const prog={v:0};ini(prog,{v:0});
+const setProg=()=>{$('#pgt').textContent=Math.round(prog.v)+'/19';$('#pgb').style.transform=`scaleX(${(prog.v/19).toFixed(3)})`;};
+setProg();
+let t0=5.5;
+QS.forEach(([t,a],i)=>{const btn=$$('.q')[i].querySelectorAll('u')[ansCol[a]];
+  ini(btn,{className:''}); const fast=i>=3;
+  if(!fast){const p=pt(btn,0,-i*QH);moveTo(t0,p.x-8,p.y-4,.3);tipAt(t0+.3,p.x-8,p.y-4);click(t0+.32,btn);}
+  const tset=t0+(fast?0:.34);
+  tl.set(btn,{className:a},tset);
+  tl.to(prog,{v:i+1,duration:.15,onUpdate:setProg},tset);
+  if(i<QS.length-1) tl.to('#ql',{y:-(i+1)*QH,duration:fast?.14:.3,ease:'power2.inOut'},t0+(fast?.05:.45));
+  t0+=fast?.16:.75;});
+tl.to(prog,{v:19,duration:.8,ease:'power1.inOut',onUpdate:setProg},t0);
+t0+=.85;
+/* tombol lihat skor: kamera mendekat, klik */
+{const p=pt('#skBtn');shot(t0-.35,.4,1.18,540,p.y-20);aim(t0-.3,'#skBtn',.35);} click(t0+.1,'#skBtn');
+const TR=t0+.35;
+shot(TR,.6,1,540,675);
+
+/* --- hasil skor --- */
+ini('#skRes',{opacity:0}); ini('#skForm',{opacity:1});
+tl.to('#skForm',{opacity:0,duration:.12},TR);
+tl.to('#skRes',{opacity:1,duration:.3},TR+.1);
+sayOut('s1',TR-.2); sayIn('s2',TR+.2);
+const SC={v:0};ini(SC,{v:0});
+tl.to(SC,{v:77,duration:1,ease:'power2.out',onUpdate(){$('#scoreN').textContent=Math.round(SC.v);$('#arc').setAttribute('stroke-dashoffset',(326.7*(1-SC.v/100)).toFixed(1));}},TR+.2);
+ini(['#vd','#vs','#fxh','#fx'],{opacity:0,y:24});
+tl.to(['#vd','#vs'],{opacity:1,y:0,duration:.45,stagger:.12,ease:'power3.out'},TR+.9);
+tl.to(['#fxh','#fx'],{opacity:1,y:0,duration:.45,stagger:.12,ease:'power3.out'},TR+1.3);
+tl.to(cur,{x:900,y:1300,duration:.5,ease:'power2.inOut'},TR);
+/* contoh klausul + salin */
+const TC=TR+3.3;
+sayOut('s2',TC-.2); sayIn('s3',TC+.1);
+shot(TC,.8,1.18,540,pt('#cl').y);
+aim(TC+.6,'#cp',.45); click(TC+1.1,'#cp');
+ini('#cp',{textContent:'Salin klausul'}); tl.set('#cp',{textContent:'Tersalin ✓'},TC+1.2);
+ini('#cl',{backgroundColor:'#EEF7F8'}); tl.to('#cl',{backgroundColor:'#D9EDEF',duration:.2,yoyo:true,repeat:1},TC+1.15);
+ini('#bs',{color:'#4F6365'}); tl.to('#bs',{color:'#0A5A61',duration:.3},TC+1.6);
+shot(TC+1.4,1.2,1.12,540,pt('#cl').y+60,'sine.inOut');
+
+/* --- 16–21,5 Cek PKWT dipakai --- */
+const TP=TC+3;
+sayOut('s3',TP-.2); sayIn('s4',TP+.1);
+tl.to('#sk',{x:-1100,rotation:-4,duration:.7,ease:'power3.inOut'},TP);
+tl.to('#pk',{y:0,duration:.75,ease:'power4.out'},TP+.15);
+shot(TP,.8,1,540,675);
+{const p=pt('#upah');tl.to(cur,{x:p.x+140,y:p.y+10,duration:.5,ease:'power3.out'},TP+.7);}
+const UP='6000000';ini('#upah',{textContent:''});
+[...UP].forEach((c,i)=>tl.set('#upah',{textContent:UP.slice(0,i+1)},TP+1.2+i*.09));
+tl.set('#upah',{textContent:'6.000.000'},TP+1.2+UP.length*.09+.1);
+ini('#caret',{opacity:1});tl.to('#caret',{opacity:0,duration:.1},TP+2.1);
+ini(['#per0','#per1','#per2'],{opacity:.25});
+['#per0','#per1','#per2'].forEach((p,i)=>tl.to(p,{opacity:1,duration:.25},TP+2+i*.35));
+shot(TP+2.75,.4,1.15,540,pt('#pkBtn').y-20); aim(TP+2.8,'#pkBtn',.4); click(TP+3.3,'#pkBtn');
+const TS=TP+3.6;
+sayOut('s4',TS-.3); sayIn('s5',TS+.1);
+shot(TS,.6,1,540,675);
+ini('#pkForm',{opacity:1});ini(['#pkRes','#pkMoney','#pkNext'],{opacity:0,y:0});
+tl.to('#pkForm',{opacity:0,duration:.12},TS);tl.to('#pkRes',{opacity:1,duration:.3},TS+.12);
+tl.to(cur,{x:980,y:1320,duration:.5},TS);
+ini('#tlBar i',{scaleX:0});
+tl.to('#tlBar i',{scaleX:1,duration:.4,stagger:.18,ease:'power2.out'},TS+.6);
+shot(TS+1.3,1.8,1.1,540,pt('#tlBar').y,'sine.inOut');
+/* uang yang dipertaruhkan */
+const TM=TS+4.1;
+sayOut('s5',TM-.2); sayIn('s6',TM+.1);
+shot(TM,.6,1,540,675);
+tl.to('#pkRes',{opacity:0,y:-40,duration:.3},TM);
+tl.fromTo('#pkMoney',{opacity:0,y:60},{opacity:1,y:0,duration:.45,ease:'power3.out',immediateRender:false},TM+.15);
+const rp=n=>'Rp'+Math.round(n).toLocaleString('id-ID');const MA={a:0,b:0};ini(MA,{a:0,b:0});
+const drawMoney=()=>{$('#mA').textContent=rp(MA.a);$('#mB').textContent=rp(MA.b);};drawMoney();
+tl.to(MA,{a:16077957,duration:.9,ease:'power2.out',onUpdate:drawMoney},TM+.4);
+tl.to(MA,{b:42000000,duration:1,ease:'power2.out',onUpdate:drawMoney},TM+.7);
+ini('#df',{opacity:0,y:20});tl.to('#df',{opacity:1,y:0,duration:.45,ease:'power3.out'},TM+1.8);
+shot(TM+1.6,1.3,1.08,540,pt('#df').y-120,'sine.inOut');
+
+/* --- 28–31 jembatan: dokumen lanjutan → 201 petak --- */
+const TB=TM+3.5;
+sayOut('s6',TB-.2); sayIn('s7',TB+.1,.04);
+shot(TB,.6,1,540,675);
+tl.to('#pkMoney',{opacity:0,duration:.12},TB);tl.to('#pkNext',{opacity:1,duration:.3},TB+.12);
+const LIS=$$('#nx li');ini(LIS,{opacity:0,x:-30});
+tl.to(LIS,{opacity:1,x:0,duration:.35,stagger:.1,ease:'power3.out'},TB+.3);
+tl.to('#pk',{scale:.3,opacity:0,y:-160,duration:.6,ease:'power3.in'},TB+1.6);
+ini(TILES,{opacity:0,scale:.2,x:0,y:0});
+tl.fromTo(TILES,{opacity:0,scale:.2,x:(i)=>540-(118+(i%15)*58)-17,y:(i)=>560-(420+Math.floor(i/15)*58)-17},
+  {opacity:1,scale:1,x:0,y:0,duration:.6,ease:'power3.out',stagger:.004,immediateRender:false},TB+1.9);
+
+/* --- 31–35 CTA --- */
+const TT=TB+3;
+sayOut('s7',TT-.15);
+tl.to(TILES,{opacity:.28,duration:.4},TT);
+ini(['#end h2','#end p','#end small'],{opacity:0,y:30});
+tl.to(['#end h2','#end p','#end small'],{opacity:1,y:0,duration:.55,stagger:.15,ease:'power4.out'},TT+.1);
+ini('#cta',{opacity:0,y:140,scale:.9});
+tl.to('#cta',{opacity:1,y:0,scale:1,duration:.6,ease:'back.out(1.6)'},TT+.5);
+moveTo(TT+1.2,760,1070,.5); tipAt(TT+1.7,760,1070); click(TT+1.8,'#cta .b');
+shot(TT,.8,1,540,675);
+tl.set({},{},DURATION);
+
+/* ================= render ================= */
+const world=$('#world');
+function render(){const t=tl.time();const s=CAM.s*(1+.004*Math.sin(t*.8));
+  let tx=W/2-CAM.fx*s,ty=H/2-CAM.fy*s;tx=Math.min(0,Math.max(W-W*s,tx));ty=Math.min(0,Math.max(H-H*s,ty));
+  world.style.transform=`translate(${tx.toFixed(2)}px,${ty.toFixed(2)}px) scale(${s.toFixed(4)})`;
+  const a=t*2*Math.PI/13;
+  $('#b1').style.transform=`translate(${(-380+220*Math.sin(a)).toFixed(1)}px,${(-300+200*Math.cos(a*.8)).toFixed(1)}px)`;
+  $('#b2').style.transform=`translate(${(420+180*Math.cos(a*.9)).toFixed(1)}px,${(760+160*Math.sin(a*1.1)).toFixed(1)}px)`;}
+tl.eventCallback('onUpdate',render);
+
+const stage=$('#stage');function fit(){const k=Math.min(innerWidth/W,innerHeight/H);stage.style.transform=`translate(-50%,-50%) scale(${k})`;}
+addEventListener('resize',fit);fit();
+if(Q.has('debug'))$('#ui').classList.add('on');
+tl.eventCallback('onComplete',()=>tl.play(0));
+const seek=t=>{tl.pause();tl.time(t,false);render();};
+window.OPENER={tl,DURATION,W,H,seek,ready:false};
+addEventListener('keydown',e=>{if(e.key==='r'||e.key==='R')tl.play(0);if(e.code==='Space'){e.preventDefault();tl.paused()?tl.play():tl.pause();}});
+$('#bPlay').onclick=()=>{tl.paused()?tl.play():tl.pause();$('#bPlay').textContent=tl.paused()?'Play':'Pause';};
+$('#bRe').onclick=()=>tl.play(0);$('#scrub').oninput=e=>seek(e.target.value/1000*DURATION);
+gsap.ticker.add(()=>{$('#clock').textContent=tl.time().toFixed(2)+'s';if(!tl.paused())$('#scrub').value=tl.time()/DURATION*1000;});
+seek(0);window.OPENER.ready=true;if(!Q.has('clean'))tl.play(0);
+window.__T={TR,TC,TP,TS,TM,TB,TT};
+});
+</script>
+</body>
+</html>
