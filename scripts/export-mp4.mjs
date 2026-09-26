@@ -46,7 +46,10 @@ await page.setViewport({ width: W, height: H, deviceScaleFactor: 1 });
 await page.goto(url, { waitUntil: 'networkidle0' });
 await page.waitForFunction('window.OPENER && window.OPENER.ready', { timeout: 60000 });
 /* document.fonts.check bisa "lolos" palsu — pastikan setiap font benar-benar berstatus loaded */
-const fonts = await page.evaluate(() => [...document.fonts].map(f => `${f.family} ${f.weight}:${f.status}`));
+const fonts = await page.evaluate(async () => {
+  /* muat paksa semua font yang dideklarasikan: yang tidak dipakai halaman tetap "unloaded" kalau tidak dipaksa */
+  await Promise.all([...document.fonts].map(f => f.load().catch(() => {})));
+  return [...document.fonts].map(f => `${f.family} ${f.weight}:${f.status}`); });
 const notLoaded = fonts.filter(f => !f.endsWith(':loaded'));
 console.log('font:', fonts.join(' | '));
 if (notLoaded.length) { console.error('FONT BELUM TERMUAT:', notLoaded.join(', ')); process.exit(1); }
