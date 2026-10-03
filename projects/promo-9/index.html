@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="id">
+<!-- Made with the Bang Motion skill by Bang Tutorial (https://youtube.com/bangtutorial) - MIT - https://github.com/bangtutorial/bang-motion -->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Daftar Berjalan 93 Dokumen — Promo 4:5</title>
+<!--
+  =====  STYLE BRIEF  =====
+  Tema/produk + 3 kata sifat : Practice Management Konsultan Pajak (93 dokumen, 12 kategori + 2 tool online) — lengkap, tertata, meyakinkan
+  Konsep                      : tipografi murni (credit title) + angka hidup (penghitung "N dari 93 dokumen"), mengikuti referensi user:
+                                judul tetap di atas, daftar dokumen berjalan ke atas di jendela berpudar, penghitung + bar di bawah
+  Sidik jari struktur         : tipografi · 4 momen · judul besar → judul mengecil ke atas + daftar bergulir + penghitung →
+                                kalimat penutup → kartu paket + tombol
+  Palet                       : teal #0E7C86 → #0A5A61 → #07474D (brand tools, gradien gelap) · aksen kuning kunyit #F2B33D
+                                (turunan: tembaga #B8763E dari tools, dicerahkan agar terbaca di atas teal gelap)
+  Font                        : Outfit (judul, header kategori, angka) + IBM Plex Sans (daftar dokumen, font produk)
+  Penekanan                   : `color` kuning pada angka/kata kunci, chip jumlah dokumen di tiap kategori
+  Latar                       : gradien teal gelap + dua cahaya berpindah + 16 titik halus naik pelan (§7c gradien berpindah + partikel naik)
+  Tanda tangan gerak          : gulir credit title linear (kecepatan tetap), judul kategori + chip jumlah menyusul
+  Momen istimewa              : penghitung mencapai 93 tepat saat dokumen terakhir lewat, lalu tool online muncul sebagai bonus
+  Render ringan               : tanpa butiran/noise dan tanpa filter blur
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<style>
+:root{--am:#F2B33D;--am-d:#3A2A05;--wh:#FFFFFF;--out:"Outfit",system-ui,sans-serif;--plex:"IBM Plex Sans",system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var(--plex)}
+#stage{position:fixed;left:50%;top:50%;width:1080px;height:1350px;transform:translate(-50%,-50%);overflow:hidden;background:#0A5A61}
+#bg{position:absolute;inset:0;background:linear-gradient(180deg,#0C7480 0%,#0A5A61 48%,#07474D 100%)}
+#bg i{position:absolute;border-radius:50%}
+#g1{left:-300px;top:-260px;width:1200px;height:1200px;background:radial-gradient(circle,rgba(63,193,201,.30),transparent 62%)}
+#g2{left:300px;top:760px;width:1100px;height:1100px;background:radial-gradient(circle,rgba(242,179,61,.13),transparent 62%)}
+.dot{position:absolute;width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.2)}
+
+/* ---------- hook besar ---------- */
+#hook{position:absolute;left:0;right:0;top:0;height:1350px;text-align:center;transform-origin:50% 0}
+#hk{position:absolute;left:0;right:0;top:455px;font:600 38px/1 var(--out);letter-spacing:.34em;color:#CDEBEE;opacity:0}
+.hl{position:absolute;left:0;right:0;overflow:hidden;height:176px}
+#hl1{top:535px}#hl2{top:700px}
+.hl span{display:block;font:800 156px/176px var(--out);color:var(--wh);letter-spacing:.005em}
+#hbar{position:absolute;left:390px;top:910px;width:300px;height:8px;border-radius:4px;background:var(--am);transform:scaleX(0)}
+
+/* ---------- judul kecil + jendela daftar ---------- */
+#head{position:absolute;left:0;right:0;top:64px;text-align:center;opacity:0}
+#head b{display:block;font:600 32px/1 var(--out);letter-spacing:.34em;color:#CDEBEE}
+#head h1{margin-top:16px;font:800 92px/1 var(--out);color:var(--wh)}
+#win{position:absolute;left:0;right:0;top:268px;height:880px;overflow:hidden;opacity:0;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 110px,#000 770px,transparent 880px);
+  mask-image:linear-gradient(to bottom,transparent 0,#000 110px,#000 770px,transparent 880px)}
+#roll{position:absolute;left:86px;right:86px;top:0;will-change:transform}
+.cat{margin-bottom:46px}
+.cat h2{display:flex;align-items:center;flex-wrap:wrap;gap:6px 16px;margin-bottom:22px;font:700 40px/1.2 var(--out);color:var(--wh)}
+.cat h2 em{font-style:normal;padding:2px 16px;border-radius:9px;background:var(--am);color:var(--am-d);font:700 32px/1.3 var(--out)}
+.cat p{position:relative;padding-left:46px;margin-bottom:16px;font:500 37px/1.3 var(--plex);color:rgba(255,255,255,.93)}
+.cat p:before{content:"";position:absolute;left:0;top:.62em;width:24px;height:4px;border-radius:2px;background:var(--am)}
+.cat.bonus h2 em{background:#fff;color:#0A5A61}
+
+/* ---------- penghitung ---------- */
+#count{position:absolute;left:86px;right:86px;top:1196px;display:flex;align-items:center;gap:22px;opacity:0}
+#count b{font:800 78px/1 var(--out);color:var(--wh);font-variant-numeric:tabular-nums;min-width:112px}
+#count span{font:500 36px/1 var(--out);color:#CDEBEE;white-space:nowrap}
+#bar{flex:1;height:12px;border-radius:6px;background:rgba(255,255,255,.18);overflow:hidden}
+#bar i{display:block;height:100%;width:0;border-radius:6px;background:var(--am)}
+
+/* ---------- penutup ---------- */
+#say{position:absolute;left:90px;right:90px;top:430px;text-align:center}
+#say .ln{display:block;overflow:hidden;height:92px}
+#say .ln span{display:block;font:600 66px/92px var(--out);color:var(--wh)}
+#say .ln span em{font-style:normal;color:var(--am)}
+#fin{position:absolute;left:0;right:0;top:300px;text-align:center;opacity:0}
+#fin .tag{display:inline-block;padding:8px 26px;border-radius:10px;background:var(--am);color:var(--am-d);font:700 34px/1.3 var(--out);letter-spacing:.12em}
+#fin h1{margin-top:44px;font:800 100px/1.06 var(--out);color:var(--wh)}
+#fin h1 em{font-style:normal;color:var(--am)}
+#fin p{margin-top:36px;font:600 46px/1.2 var(--out);color:#CDEBEE}
+#cta{position:absolute;left:50%;top:850px;width:660px;height:116px;margin-left:-330px;border-radius:999px;background:var(--am);color:var(--am-d);
+  display:flex;align-items:center;justify-content:center;gap:18px;font:800 46px/1 var(--out);opacity:0;box-shadow:0 26px 54px -16px rgba(242,179,61,.55)}
+#cta svg{width:44px;height:44px}
+#ui{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);display:none;align-items:center;gap:14px;padding:11px 18px;border-radius:16px;background:rgba(14,16,22,.9);font-size:13px;color:#A0A6B4;z-index:90}
+#ui.on{display:flex}#scrub{width:340px}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="bg"><i id="g1"></i><i id="g2"></i><div id="dots"></div></div>
+
+  <div id="hook">
+    <div id="hk">PRACTICE MANAGEMENT</div>
+    <div class="hl" id="hl1"><span>KONSULTAN</span></div>
+    <div class="hl" id="hl2"><span>PAJAK</span></div>
+    <i id="hbar"></i>
+  </div>
+
+  <div id="head"><b>PRACTICE MANAGEMENT</b><h1>KONSULTAN PAJAK</h1></div>
+  <div id="win"><div id="roll"></div></div>
+  <div id="count"><b id="cN">0</b><span>dari 93 dokumen</span><div id="bar"><i id="barI"></i></div></div>
+
+  <div id="say">
+    <div class="ln"><span>Klien baru, deadline, SPT,</span></div>
+    <div class="ln"><span>sampai penagihan fee:</span></div>
+    <div class="ln"><span>alurnya sudah tertulis.</span></div>
+    <div class="ln"><span>Tinggal isi nama klien,</span></div>
+    <div class="ln"><span><em>langsung pakai.</em></span></div>
+  </div>
+  <div id="fin"><span class="tag">PAKET LENGKAP ULTIMA</span><h1>Practice Management <em>Konsultan Pajak</em></h1><p>93 dokumen + 2 tool online</p></div>
+  <div id="cta">Dapatkan Sekarang<svg viewBox="0 0 40 40"><path d="M8 20h22M21 10l10 10-10 10" fill="none" stroke="#3A2A05" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+</div>
+<div id="ui"><input id="scrub" type="range" min="0" max="1000" value="0"><span id="clock">0.00s</span></div>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const W=1080,H=1350,DURATION=37.5;
+/* 12 kategori · 93 dokumen (daftar final paket) + 2 tool online bonus */
+const CATS=[
+['A','Seleksi & Onboarding Klien',['Seleksi & Penerimaan Klien Baru','Pengumpulan & Verifikasi Dokumen Onboarding','Penyusunan & Eksekusi Surat Perikatan Jasa (SPK)','Formulir Pre-Assessment Kesehatan Data Klien','Formulir Profil & KYC Klien','Template Surat Perikatan Jasa (SPK) Konsultasi Pajak','Checklist Dokumen Onboarding Klien','Tracker Pipeline Klien Baru & Master Database Klien']],
+['B','Manajemen Deadline & Beban Kerja',['Pengelolaan Tax Calendar Praktik','Protokol Eskalasi Klien Tidak Responsif','Manajemen Beban Kerja & Kapasitas Peak Season','Standar Komunikasi Proaktif ke Klien','Master Tax Calendar Praktik','Dashboard Kapasitas Kerja Praktik','Template Pesan Reminder & Permintaan Dokumen ke Klien']],
+['C','Eksekusi Pekerjaan Pajak',['Alur Kerja SPT Tahunan PPh Orang Pribadi','Alur Kerja SPT Tahunan PPh Badan','Pengelolaan SPT Masa Bulanan (PPh 21/23/25/PPN)','Penanganan Kendala Teknis Coretax','Prosedur Pembetulan SPT','Checklist Review Internal Sebelum Submit SPT','Workpaper Rekonsiliasi Fiskal PPh Badan','Formulir Persetujuan Klien atas Draft SPT']],
+['D','Hubungan dengan DJP & Sengketa',['Respons & Tindak Lanjut SP2DK','Pendampingan Pemeriksaan Pajak (Tax Audit)','Penanganan SKP & Surat Tagihan Pajak (STP)','Template Surat Tanggapan ke KPP','Surat Kuasa Khusus (SKK) Perpajakan']],
+['E','Penagihan Fee & Perlindungan Finansial',['Sistem Penagihan Fee Jasa Konsultasi','Pengelolaan Bukti Potong PPh 23 dari Klien','Template Invoice Jasa Konsultasi Pajak','Tracker Piutang & Bukti Potong PPh 23','Berita Acara Serah Terima Hasil Pekerjaan']],
+['F','Tax Planning & Advisory',['Alur Kerja Tax Review & Health Check Klien','Penyusunan Laporan Tax Planning','Prosedur Pemberian Opini Pajak (Tax Opinion)','Template Laporan Tax Health Check Klien','Template Tax Opinion Letter','Kalkulator Fee & Estimasi Skenario Tax Planning']],
+['G','Arsip, Keamanan Data & Offboarding Klien',['Sistem Pengarsipan Dokumen Pajak Klien','Protokol Keamanan Data & Kerahasiaan Klien','Offboarding Klien','Penanganan Klien Bermasalah & Pemutusan Kontrak','Berita Acara Serah Terima Dokumen — Offboarding','Checklist Audit Keamanan Data Praktik (Kuartalan)','Kepatuhan UU Pelindungan Data Pribadi (UU PDP) atas Data Klien']],
+['H','Kepatuhan Profesi & Pengembangan Praktik',['Pengelolaan Izin Praktik Konsultan Pajak','Pemenuhan Kewajiban CPD','Monitoring & Sosialisasi Perubahan Regulasi Perpajakan','Tracker Kewajiban Profesi per Konsultan','Template Catatan Konsultasi & Evaluasi Kolaborator Lepas']],
+['I','Kolaborator Lepas & Pengembangan Praktik',['Seleksi & Onboarding Kolaborator Lepas Pajak','Onboarding Singkat Kolaborator Lepas','Pengaturan Jadwal & Ketersediaan Kolaborator Lepas','Penanganan Masalah Kualitas & Pengakhiran Kerja Sama Kolaborator','Evaluasi Kinerja Diri & Kolaborator Lepas','Pengembangan Kompetensi Diri & Kolaborator Lepas','Pengakhiran Kerja Sama dengan Kolaborator Lepas','Panduan Peran: Konsultan Pajak sebagai Pemilik Praktik','Panduan Peran: Kolaborator Lepas Pelaksana Teknis','Kesepakatan Kerja & Standar Perilaku Kolaborator Lepas','Formulir Self-Assessment Praktik & Kolaborator Lepas','Formulir Catatan Masalah Kerja Sama Kolaborator','Template Perjanjian Kerja Sama dengan Kolaborator Lepas','Matriks Evaluasi Kolaborator Lepas per Proyek']],
+['J','Keamanan Data, Risiko & Kepatuhan Praktik',['Keamanan Siber, Hak Akses & Perlindungan Data Klien (UU PDP)','Backup & Pemulihan Data Digital','Keamanan Fisik & Kesiapsiagaan Darurat Ruang Kerja','Media Handling saat Krisis Reputasi Praktik','Audit Internal Berkala','Penilaian & Mitigasi Risiko Operasional','Pelaporan & Penanganan Insiden Internal','Investigasi Insiden & Root Cause Analysis (RCA)','Tindak Lanjut CAPA','Retensi, Pengarsipan & Pemusnahan Dokumen Praktik','Kode Etik Praktik & Standar Integritas Profesional','Form NDA / Pakta Integritas Kerahasiaan Kolaborator Lepas','Form Laporan Kronologis Insiden Internal','Checklist Masa Berlaku Perizinan & Legalitas Praktik','Checklist Kepatuhan Pajak Praktik Sendiri (PPh 21, 23, PPN)']],
+['K','Keuangan Internal Praktik',['Pengelolaan & Pertanggungjawaban Kas Kecil Praktik','Pencatatan Pendapatan & Pengeluaran Harian Praktik','Pembayaran ke Vendor & Kolaborator','Dashboard Keuangan Harian Praktik','Kalkulator Honor Kolaborator Lepas & Bagi Hasil Proyek','Template Budgeting & Perencanaan Anggaran Tahunan Praktik','Template Forecast Pendapatan 12 Bulan Praktik']],
+['L','Pengembangan Bisnis & Kemitraan Praktik',['Program Kemitraan & Rujukan Profesional','Konversi Inquiry Klien menjadi Kontrak Jasa','Kerja Sama B2B (Korporat, Notaris, Firma Hukum)','Penanganan Ulasan Negatif & Reputasi Digital','Strategi Retensi Klien & Mencegah Pindah ke Konsultan Lain','Template Analisis SWOT & Action Plan Praktik']]];
+CATS.push(['★','Bonus · Tool Online (akses web)',['Pre-Assessment Klien','Kalkulator Fee'],true]);
+const roll=$('#roll');
+CATS.forEach(c=>{const d=document.createElement('div');d.className='cat'+(c[3]?' bonus':'');
+  d.innerHTML=`<h2>${c[1]}<em>${c[2].length}</em></h2>`+c[2].map(t=>`<p${c[3]?' data-tool="1"':''}>${t}</p>`).join('');roll.appendChild(d);});
+/* titik halus naik pelan — deterministik dari t */
+const DOTS=Array.from({length:16},(_,i)=>{const d=document.createElement('i');d.className='dot';$('#dots').appendChild(d);
+  return {el:d,x:(i*173+60)%1040,sp:22+(i*37)%30,ph:(i*211)%1500,sz:.6+(i%4)*.25};});
+
+let TIT=[],RH=0;const WH=880,LINE=WH*.5,START=WH*.74;
+function measure(){TIT=$$('#roll p:not([data-tool])').map(p=>p.offsetTop+p.offsetHeight/2);RH=roll.offsetHeight;}
+const ROLL={p:0};
+const g1=$('#g1'),g2=$('#g2'),cN=$('#cN'),barI=$('#barI');
+function render(t){
+  g1.style.transform=`translate(${(Math.sin(t*.28)*110).toFixed(1)}px,${(Math.cos(t*.22)*90).toFixed(1)}px)`;
+  g2.style.transform=`translate(${(Math.cos(t*.25)*100).toFixed(1)}px,${(Math.sin(t*.31)*80).toFixed(1)}px)`;
+  DOTS.forEach(o=>{const y=((o.ph-t*o.sp)%1500+1500)%1500-70;o.el.style.transform=`translate(${o.x}px,${y.toFixed(1)}px) scale(${o.sz})`;});
+  if(!RH)return;
+  const y=START-ROLL.p*(RH+START);
+  roll.style.transform=`translate3d(0,${y.toFixed(2)}px,0)`;
+  let n=0;for(const ty of TIT){if(ty+y<LINE)n++;else break;}
+  cN.textContent=n;barI.style.width=(n/93*100).toFixed(2)+'%';
+}
+const Q=new URLSearchParams(location.search);
+const tl=gsap.timeline({paused:true});
+const lines=sel=>$$(sel+' .ln>span');
+
+function build(){
+tl.clear();
+/* keadaan awal — eksplisit supaya tiap putaran bersih */
+tl.set(ROLL,{p:0},0);
+tl.set(['#hk','#head','#win','#count','#fin','#cta'],{opacity:0},0);
+tl.set('#hook',{y:0,scale:1,opacity:1},0);tl.set('#hbar',{scaleX:0},0);
+tl.set(['#hl1 span','#hl2 span'],{yPercent:110,letterSpacing:'.2em'},0);
+tl.set(lines('#say'),{yPercent:110},0);tl.set(['#fin','#cta'],{y:0,scale:1},0);
+
+/* ===== 0–4,6 HOOK: judul besar ===== */
+tl.fromTo('#hk',{opacity:0,letterSpacing:'.8em'},{opacity:1,letterSpacing:'.34em',duration:1.0,ease:'power3.out',immediateRender:false},.2);
+tl.to('#hl1 span',{yPercent:0,letterSpacing:'.005em',duration:.9,ease:'power4.out'},.55);
+tl.to('#hl2 span',{yPercent:0,letterSpacing:'.005em',duration:.9,ease:'power4.out'},.85);
+tl.to('#hbar',{scaleX:1,duration:.7,ease:'power3.out'},1.5);
+// judul naik dan mengecil jadi header tetap
+tl.to('#hook',{y:-470,scale:.42,opacity:0,duration:.9,ease:'power3.inOut'},3.6);
+tl.to('#head',{opacity:1,duration:.6,ease:'power2.out'},4.1);
+tl.to(['#win','#count'],{opacity:1,duration:.5,ease:'power2.out'},4.2);
+
+/* ===== 4,6–29,4 DAFTAR BERGULIR (credit title, kecepatan tetap) ===== */
+tl.to(ROLL,{p:1,duration:24.8,ease:'none'},4.6);
+tl.to(['#win','#count'],{opacity:0,duration:.5,ease:'power2.in'},29.0);
+tl.to('#head',{opacity:0,duration:.5,ease:'power2.in'},29.0);
+
+/* ===== 29,6–33,4 KALIMAT PENUTUP ===== */
+lines('#say').forEach((l,i)=>tl.to(l,{yPercent:0,duration:.55,ease:'power4.out'},29.8+i*.42));
+tl.to(lines('#say'),{yPercent:-110,duration:.4,ease:'power2.in',stagger:.05},33.2);
+
+/* ===== 33,6–37,5 KARTU PAKET + TOMBOL ===== */
+tl.fromTo('#fin',{opacity:0,y:50},{opacity:1,y:0,duration:.6,ease:'power3.out',immediateRender:false},33.7);
+tl.fromTo('#cta',{opacity:0,y:40,scale:.92},{opacity:1,y:0,scale:1,duration:.55,ease:'back.out(1.8)',immediateRender:false},34.5);
+tl.to('#cta',{scale:1.05,duration:.3,ease:'sine.inOut',yoyo:true,repeat:3},35.3);
+tl.to({},{duration:.01},DURATION-.01);
+}
+build();
+
+/* ============ perekat ============ */
+const stage=$('#stage');const fit=()=>{stage.style.transform=`translate(-50%,-50%) scale(${Math.min(innerWidth/W,innerHeight/H)})`;};
+addEventListener('resize',fit);fit();
+const clock=$('#clock'),scrub=$('#scrub');let scrubbing=false;
+(function loop(){const t=tl.time();render(t);clock.textContent=t.toFixed(2)+'s';if(!scrubbing)scrub.value=t/DURATION*1000;requestAnimationFrame(loop);})();
+scrub.addEventListener('pointerdown',()=>{scrubbing=true;tl.pause();});addEventListener('pointerup',()=>scrubbing=false);
+scrub.addEventListener('input',()=>{tl.pause();tl.time(scrub.value/1000*DURATION);});
+addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();tl.paused()?tl.play():tl.pause();}if(/^[rR]$/.test(e.key))tl.play(0);});
+if(Q.has('debug'))$('#ui').classList.add('on');
+tl.eventCallback('onComplete',()=>tl.play(0));
+const seek=t=>{tl.pause();tl.time(t,false);if(gsap.ticker.tick)gsap.ticker.tick();render(t);};
+window.OPENER={tl,DURATION,seek,W,H,ready:false};
+document.fonts.addEventListener('loadingdone',measure);
+document.fonts.ready.then(()=>{measure();build();tl.pause(0);window.OPENER.ready=true;if(!Q.has('clean'))tl.play(0);});
+</script>
+</body>
+</html>
