@@ -112,7 +112,7 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var
 
 <script>
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
-const W=1080,H=1350,DURATION=37.5;
+const W=1080,H=1350,DURATION=34.5;
 /* 12 kategori · 93 dokumen (daftar final paket) + 2 tool online bonus */
 const CATS=[
 ['A','Seleksi & Onboarding Klien',['Seleksi & Penerimaan Klien Baru','Pengumpulan & Verifikasi Dokumen Onboarding','Penyusunan & Eksekusi Surat Perikatan Jasa (SPK)','Formulir Pre-Assessment Kesehatan Data Klien','Formulir Profil & KYC Klien','Template Surat Perikatan Jasa (SPK) Konsultasi Pajak','Checklist Dokumen Onboarding Klien','Tracker Pipeline Klien Baru & Master Database Klien']],
@@ -162,29 +162,29 @@ tl.set('#hook',{y:0,scale:1,opacity:1},0);tl.set('#hbar',{scaleX:0},0);
 tl.set(['#hl1 span','#hl2 span'],{yPercent:110,letterSpacing:'.2em'},0);
 tl.set(lines('#say'),{yPercent:110},0);tl.set(['#fin','#cta'],{y:0,scale:1},0);
 
-/* ===== 0–4,6 HOOK: judul besar ===== */
-tl.fromTo('#hk',{opacity:0,letterSpacing:'.8em'},{opacity:1,letterSpacing:'.34em',duration:1.0,ease:'power3.out',immediateRender:false},.2);
-tl.to('#hl1 span',{yPercent:0,letterSpacing:'.005em',duration:.9,ease:'power4.out'},.55);
-tl.to('#hl2 span',{yPercent:0,letterSpacing:'.005em',duration:.9,ease:'power4.out'},.85);
-tl.to('#hbar',{scaleX:1,duration:.7,ease:'power3.out'},1.5);
+/* ===== 0–1,7 HOOK: judul besar (tampil penuh < 1 dtk) ===== */
+tl.fromTo('#hk',{opacity:0,letterSpacing:'.8em'},{opacity:1,letterSpacing:'.34em',duration:.6,ease:'power3.out',immediateRender:false},.05);
+tl.to('#hl1 span',{yPercent:0,letterSpacing:'.005em',duration:.6,ease:'power4.out'},.08);
+tl.to('#hl2 span',{yPercent:0,letterSpacing:'.005em',duration:.6,ease:'power4.out'},.2);
+tl.to('#hbar',{scaleX:1,duration:.4,ease:'power3.out'},.5);
 // judul naik dan mengecil jadi header tetap
-tl.to('#hook',{y:-470,scale:.42,opacity:0,duration:.9,ease:'power3.inOut'},3.6);
-tl.to('#head',{opacity:1,duration:.6,ease:'power2.out'},4.1);
-tl.to(['#win','#count'],{opacity:1,duration:.5,ease:'power2.out'},4.2);
+tl.to('#hook',{y:-470,scale:.42,opacity:0,duration:.7,ease:'power3.inOut'},1.0);
+tl.to('#head',{opacity:1,duration:.5,ease:'power2.out'},1.3);
+tl.to(['#win','#count'],{opacity:1,duration:.4,ease:'power2.out'},1.35);
 
-/* ===== 4,6–29,4 DAFTAR BERGULIR (credit title, kecepatan tetap) ===== */
-tl.to(ROLL,{p:1,duration:24.8,ease:'none'},4.6);
-tl.to(['#win','#count'],{opacity:0,duration:.5,ease:'power2.in'},29.0);
-tl.to('#head',{opacity:0,duration:.5,ease:'power2.in'},29.0);
+/* ===== 1,5–26,3 DAFTAR BERGULIR (credit title, kecepatan tetap) ===== */
+tl.to(ROLL,{p:1,duration:24.8,ease:'none'},1.5);
+tl.to(['#win','#count'],{opacity:0,duration:.5,ease:'power2.in'},25.9);
+tl.to('#head',{opacity:0,duration:.5,ease:'power2.in'},25.9);
 
-/* ===== 29,6–33,4 KALIMAT PENUTUP ===== */
-lines('#say').forEach((l,i)=>tl.to(l,{yPercent:0,duration:.55,ease:'power4.out'},29.8+i*.42));
-tl.to(lines('#say'),{yPercent:-110,duration:.4,ease:'power2.in',stagger:.05},33.2);
+/* ===== 26,5–30,5 KALIMAT PENUTUP ===== */
+lines('#say').forEach((l,i)=>tl.to(l,{yPercent:0,duration:.55,ease:'power4.out'},26.7+i*.42));
+tl.to(lines('#say'),{yPercent:-110,duration:.4,ease:'power2.in',stagger:.05},30.1);
 
-/* ===== 33,6–37,5 KARTU PAKET + TOMBOL ===== */
-tl.fromTo('#fin',{opacity:0,y:50},{opacity:1,y:0,duration:.6,ease:'power3.out',immediateRender:false},33.7);
-tl.fromTo('#cta',{opacity:0,y:40,scale:.92},{opacity:1,y:0,scale:1,duration:.55,ease:'back.out(1.8)',immediateRender:false},34.5);
-tl.to('#cta',{scale:1.05,duration:.3,ease:'sine.inOut',yoyo:true,repeat:3},35.3);
+/* ===== 30,5–34,5 KARTU PAKET + TOMBOL ===== */
+tl.fromTo('#fin',{opacity:0,y:50},{opacity:1,y:0,duration:.6,ease:'power3.out',immediateRender:false},30.5);
+tl.fromTo('#cta',{opacity:0,y:40,scale:.92},{opacity:1,y:0,scale:1,duration:.55,ease:'back.out(1.8)',immediateRender:false},31.3);
+tl.to('#cta',{scale:1.05,duration:.3,ease:'sine.inOut',yoyo:true,repeat:3},32.1);
 tl.to({},{duration:.01},DURATION-.01);
 }
 build();
