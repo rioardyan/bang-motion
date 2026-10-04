@@ -121,6 +121,10 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:"Sc
 .m4 .bar i{position:absolute;top:0;bottom:0;right:0;background:var(--amber)}
 .m4 .r{margin-bottom:34px}
 
+.m5{display:flex;flex-direction:column;align-items:center;gap:12px}
+.m5 .f{height:64px;border-radius:16px;display:flex;align-items:center;justify-content:center;font:700 40px/1 "Schibsted Grotesk";letter-spacing:-.015em}
+.m5 .f:nth-child(1){background:#7CC3CA;color:#06383D}.m5 .f:nth-child(2){background:#0E7C86;color:#fff}.m5 .f:nth-child(3){background:#0A5A61;color:#fff}
+.m5 .ok{margin-top:6px;width:84px;height:84px}
 /* penutup bab 5 & 6 */
 #wide{left:0;right:0;top:78px;text-align:center}
 #wide .wl{font:600 76px/1 "Schibsted Grotesk";letter-spacing:-.02em;color:#fff;opacity:0}
@@ -169,9 +173,12 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:"Sc
     <div class="ptxt al-r" id="p3"><div class="ln" data-t="Barang hilang"></div><div class="ln" data-t="tanpa jejak" data-am="jejak"></div></div>
     <div class="ptxt al-c" id="p4" style="font-size:128px;top:112px"><div class="ln" data-t="Nyetok barang"></div><div class="ln" data-t="masih pakai"></div><div class="ln" data-t="feeling?" data-am="feeling"></div></div>
 
+    <div class="ptxt al-l" id="p5" style="font-size:136px;top:112px"><div class="ln" data-t="Sering"></div><div class="ln" data-t="gonta-ganti" data-am="gonta-ganti"></div><div class="ln" data-t="karyawan?"></div></div>
+
     <div class="phead" id="h1">Uang laci selalu selisih</div>
     <div class="phead" id="h2">Stok selalu selisih</div>
     <div class="phead" id="h3">Barang hilang tanpa jejak</div>
+    <div class="phead" id="h5" style="font-size:56px">Sering gonta-ganti karyawan?</div>
     <div class="phead" id="h4" style="font-size:52px">Nyetok barang masih pakai feeling?</div>
 
     <!-- visual masalah -->
@@ -203,6 +210,15 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:"Sc
         <g fill="#BFE0E3"><rect x="44" y="270" width="104" height="22" rx="9"/><rect x="164" y="290" width="104" height="18" rx="9"/><rect x="288" y="270" width="104" height="22" rx="9"/></g>
       </svg>
     </div>
+    <div class="vis" id="v5" style="top:744px">
+      <svg width="700" height="300" viewBox="0 0 700 300">
+        <g fill="#E6F2F3"><circle cx="95" cy="84" r="44"/><path d="M25 262 Q25 160 95 160 Q165 160 165 262 Z"/></g>
+        <g fill="#3BA1AB"><circle cx="265" cy="84" r="44"/><path d="M195 262 Q195 160 265 160 Q335 160 335 262 Z"/></g>
+        <g fill="#E6F2F3"><circle cx="435" cy="84" r="44"/><path d="M365 262 Q365 160 435 160 Q505 160 505 262 Z"/></g>
+        <g fill="none" stroke="#F4C430" stroke-width="7" stroke-dasharray="15 12"><circle cx="605" cy="84" r="44"/><path d="M535 262 Q535 160 605 160 Q675 160 675 262"/></g>
+        <text x="605" y="108" text-anchor="middle" font-family="Big Shoulders Display" font-weight="900" font-size="80" fill="#F4C430">?</text>
+      </svg>
+    </div>
     <div class="vis" id="v4" style="top:744px">
       <div class="bubble">Lagi rame, order banyak deh</div>
       <svg width="680" height="283" viewBox="0 0 600 250" style="display:block;margin:34px auto 0">
@@ -227,6 +243,10 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:"Sc
         <div class="row" style="top:112px;width:742px;background:#F4C430"></div>
         <div class="row" style="top:194px;width:330px;background:#7CC3CA"></div>
         <div class="tol" style="left:560px"></div><div class="tolt" style="left:468px">Target toleransi</div></div></div></div>
+    <div class="card" id="c5"><div class="chip">Word</div>
+      <h3>SOP Rekrutmen, Seleksi dan Uji Kompetensi Karyawan</h3>
+      <div class="mock m5"><div class="f" style="width:100%">Rekrutmen</div><div class="f" style="width:78%">Seleksi</div><div class="f" style="width:56%">Uji Kompetensi</div>
+        <svg class="ok" viewBox="0 0 84 84"><circle cx="42" cy="42" r="40" fill="#F4C430"/><path d="M24 43 L37 56 L61 29" fill="none" stroke="#06383D" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
     <div class="card" id="c4"><div class="chip">Bonus · Excel</div>
       <h3>Kalkulator Profitabilitas dan Alokasi Modal Terbatas</h3>
       <div class="mock m4">
@@ -285,7 +305,7 @@ function buildGroup(g){const lines=$$('.ln',g).map(l=>build(l,l.dataset.t,l.data
   return {el:g,chars:lines.flatMap(l=>l.chars),words:lines.flatMap(l=>l.words),lines};}
 
 /* ============ DINDING 146 SEL ============ */
-const CATS=[['A1',17,1],['A2',19,2],['A3',21,6],['A4',18,3],['A5',15,0],      /* Bagian A: 90 */
+const CATS=[['A1',17,1],['A3',21,6],['A4',18,3],['A5',15,0],['A2',19,2],      /* Bagian A: 90 */
             ['B3',10,1],['B2',11,3],['B1',10,0],['B4',8,2],['B5',7,1],['B6',9,3], /* Bagian B: 55 */
             ['BX',1,1]];                                                          /* Bonus: 1   */
 const COLS=12,CW=76,CH=92,GX=8,GY=8,X0=(W-(COLS*CW+(COLS-1)*GX))/2,Y0=(H-(13*CH+12*GY))/2;
@@ -302,8 +322,8 @@ const world=$('#world');
 function mk(cls,idx){const e=document.createElement('i');e.className=cls;const p=cellPos(idx);
   e.style.left=p.x+'px';e.style.top=p.y+'px';world.appendChild(e);return e;}
 
-/* dokumen yang diambil (nomor di daftar): #118 Anti-Fraud, #102 Stock Opname, #110 Shrinkage, #146 Kalkulator */
-const PICK=[cellOf('B3',6),cellOf('B2',1),cellOf('B2',9),cellOf('BX',0)];
+/* dokumen yang diambil (nomor di daftar): #118 Anti-Fraud, #102 Stock Opname, #110 Shrinkage, #18 SOP Rekrutmen, #146 Kalkulator */
+const PICK=[cellOf('B3',6),cellOf('B2',1),cellOf('B2',9),cellOf('A2',0),cellOf('BX',0)];
 const marks=PICK.map(i=>mk('mark',i));
 /* kata kunci hook mengetuk satu sel di kluster masing-masing */
 const HOOKCELL=[cellOf('B3',3),cellOf('B2',5),cellOf('B4',3),cellOf('B5',3)];
@@ -325,7 +345,8 @@ function render(t){
 }
 
 /* ============ TIMELINE ============ */
-const DURATION=28.5;
+const DURATION=29.45;
+const TW=21.65, TC=24.45;                          // awal babak "Itu baru 5 dari 146" dan penutup
 const tl=gsap.timeline({paused:true});
 const shot=(at,dur,s,idx,ay,ease='power2.inOut')=>{const p=cellPos(idx);
   tl.to(CAM,{s,fx:p.x+CW/2,fy:p.y+CH/2,ax:540,ay,duration:dur,ease},at);};
@@ -353,37 +374,40 @@ gsap.set($('#callout'),{transformOrigin:'50% 60%'});
 tl.set($('#bgC'),{opacity:0},0);
 
 /* ===== 1. SAPAAN + HOOK (0 – 4,6) ===== */
-tl.to(CAM,{s:1.07,duration:4.5,ease:'sine.inOut'},0);
+tl.to(CAM,{s:1.07,duration:4.3,ease:'sine.inOut'},0);
 tl.set(wall,{opacity:.5},0);
-tl.to(wall,{opacity:1,duration:.7,ease:'power2.inOut'},4.4);
+tl.to(wall,{opacity:1,duration:.7,ease:'power2.inOut'},4.2);
 const call=$('#callout');
 tl.fromTo(call,{opacity:0,scale:1.8,rotate:-9,y:34},{opacity:1,scale:1,rotate:-3,y:0,duration:.22,ease:'power4.in',immediateRender:false},.02);
 blurTween(tl,call,.02,26,0,.3,{ax:.3,ay:1,ease:'power3.out'});
 thump(call,.24,1.07);
 const hook=buildGroup($('#hook'));
-inWords(hook,1.25,{st:.22});
+inWords(hook,1.2,{st:.2});
 // empat kata kunci mengetuk sel di kluster masing-masing
-[1.47,1.69,1.91,2.35].forEach((tt,i)=>{
+[1.4,1.6,1.8,2.2].forEach((tt,i)=>{
   tl.fromTo(pulses[i],{opacity:0,scale:2.3},{opacity:.95,scale:1,duration:.3,ease:'back.out(2.2)',immediateRender:false},tt);
   tl.to(pulses[i],{opacity:.5,duration:.6,ease:'sine.out'},tt+.35);
-  tl.to(pulses[i],{opacity:0,duration:.3},4.35);
+  tl.to(pulses[i],{opacity:0,duration:.3},4.15);
 });
-fadeOut(call,4.35,.3,-40);
-outUp(hook,4.35,{dur:.35});
+fadeOut(call,4.15,.3,-40);
+outUp(hook,4.15,{dur:.35});
 
-/* ===== 2. EMPAT PASANGAN MASALAH → SOLUSI ===== */
+/* ===== 2. LIMA PASANGAN MASALAH → SOLUSI ===== */
 const BAB=[
- {t0:4.6, cell:PICK[0], g:'#p1', kind:inUp,    vis:'#v1', card:'#c1', head:'#h1', mark:0, cat:'B3', mock(ts){
+ {t0:4.4,  cell:PICK[0], g:'#p1', kind:inUp,    vis:'#v1', card:'#c1', head:'#h1', mark:0, cat:'B3', mock(ts){
     tl.fromTo($$('.m1 i'),{backgroundColor:'#E6F2F3',color:'#0A5A61'},{backgroundColor:'#0E7C86',color:'#ffffff',duration:.18,stagger:.1,immediateRender:false},ts+.8);}},
- {t0:8.4, cell:PICK[1], g:'#p2', kind:inLeft,  vis:'#v2', card:'#c2', head:'#h2', mark:1, cat:'B2', mock(ts){
+ {t0:7.85, cell:PICK[1], g:'#p2', kind:inLeft,  vis:'#v2', card:'#c2', head:'#h2', mark:1, cat:'B2', mock(ts){
     tl.fromTo($$('.m2 i'),{scaleY:0},{scaleY:1,duration:.55,ease:'back.out(1.5)',stagger:.16,immediateRender:false},ts+.7);}},
- {t0:12.0,cell:PICK[2], g:'#p3', kind:inRight, vis:'#v3', card:'#c3', head:'#h3', mark:2, cat:'B2', mock(ts){
+ {t0:11.3, cell:PICK[2], g:'#p3', kind:inRight, vis:'#v3', card:'#c3', head:'#h3', mark:2, cat:'B2', mock(ts){
     tl.fromTo($$('.m3 .row'),{scaleX:0},{scaleX:1,duration:.6,ease:'power3.out',stagger:.14,immediateRender:false},ts+.7);
     tl.fromTo($$('.m3 .tol,.m3 .tolt'),{opacity:0},{opacity:1,duration:.3,immediateRender:false},ts+.5);}},
- {t0:15.6,cell:PICK[3], g:'#p4', kind:inDepth, vis:'#v4', card:'#c4', head:'#h4', mark:3, cat:'BX', dur:4.0, mock(ts){
+ {t0:14.75,cell:PICK[3], g:'#p5', kind:inUp,    vis:'#v5', card:'#c5', head:'#h5', mark:3, cat:'A2', mock(ts){
+    tl.fromTo($$('.m5 .f'),{scaleX:0},{scaleX:1,duration:.5,ease:'power3.out',stagger:.15,immediateRender:false},ts+.65);
+    tl.fromTo($('.m5 .ok'),{scale:0},{scale:1,duration:.35,ease:'back.out(2.4)',immediateRender:false},ts+1.15);}},
+ {t0:18.2, cell:PICK[4], g:'#p4', kind:inDepth, vis:'#v4', card:'#c4', head:'#h4', mark:4, cat:'BX', mock(ts){
     tl.fromTo($$('.m4 .bar'),{scaleX:0},{scaleX:1,duration:.6,ease:'power3.out',stagger:.2,immediateRender:false},ts+.7);}}
 ];
-const TS_OFF=1.5;                                  // detik stempel dari awal bab
+const TS_OFF=1.35;                                  // detik stempel dari awal bab
 BAB.forEach((c,i)=>{
   const {t0}=c, ts=t0+TS_OFF, grp=buildGroup($(c.g)), card=$(c.card), vis=$(c.vis), head=$(c.head);
   const prev=BAB[i-1];
@@ -420,48 +444,46 @@ BAB.forEach((c,i)=>{
   tl.fromTo(head,{opacity:0,yPercent:40},{opacity:1,yPercent:0,duration:.5,ease:'power4.out',immediateRender:false},ts+.45);
   c.mock(ts);
   // tahan: dorong pelan supaya tidak mati
-  const nextT=BAB[i+1]?BAB[i+1].t0:19.6;
+  const nextT=BAB[i+1]?BAB[i+1].t0:TW;
   tl.to(card,{scale:1.03,duration:(nextT-.2)-(ts+.9),ease:'sine.inOut'},ts+.9);
 });
 
-/* ===== 3. "ITU BARU 4 DARI 146" (19,6 – 23,0) — momen istimewa ===== */
-const TW=19.6;
+/* ===== 3. "ITU BARU 5 DARI 146" — momen istimewa ===== */
 tl.to($('#c4'),{y:1010-742,scale:.2,opacity:0,duration:.5,ease:'power3.in'},TW-.1);   // kartu pulang ke selnya
 fadeOut($('#h4'),TW-.15,.25,-30);
 tl.to('#pkT',{opacity:0,duration:.3},TW-.1);
 tl.to(CAM,{s:.66,fx:540,fy:675,ax:540,ay:880,duration:1.0,ease:'power2.inOut'},TW-.05);
 const wl=$('#wide .wl'),wnum=$('#num'),wword=$('#wide .wn span');
-const wlg=build(wl,'Itu baru 4 dari','');wlg.words[2].classList.add('am');
-inUp({el:wl,chars:wlg.chars},TW+.7,{dur:.7});
-tl.fromTo(wl,{opacity:0},{opacity:1,duration:.01,immediateRender:false},TW+.7);
-tl.fromTo(wnum,{opacity:0,scale:1.5,transformOrigin:'50% 70%'},{opacity:1,scale:1,duration:.4,ease:'back.out(1.6)',immediateRender:false},TW+1.0);
+const wlg=build(wl,'Itu baru 5 dari','');wlg.words[2].classList.add('am');
+inUp({el:wl,chars:wlg.chars},TW+.55,{dur:.7});
+tl.fromTo(wl,{opacity:0},{opacity:1,duration:.01,immediateRender:false},TW+.55);
+tl.fromTo(wnum,{opacity:0,scale:1.5,transformOrigin:'50% 70%'},{opacity:1,scale:1,duration:.4,ease:'back.out(1.6)',immediateRender:false},TW+.8);
 const cnt={v:0};
-tl.fromTo(cnt,{v:0},{v:146,duration:1.15,ease:'power2.out',immediateRender:false,onUpdate(){wnum.textContent=Math.round(cnt.v);}},TW+1.0);
-tl.fromTo(wword,{opacity:0,yPercent:60},{opacity:1,yPercent:0,duration:.5,ease:'power4.out',immediateRender:false},TW+1.5);
+tl.fromTo(cnt,{v:0},{v:146,duration:1.0,ease:'power2.out',immediateRender:false,onUpdate(){wnum.textContent=Math.round(cnt.v);}},TW+.8);
+tl.fromTo(wword,{opacity:0,yPercent:60},{opacity:1,yPercent:0,duration:.5,ease:'power4.out',immediateRender:false},TW+1.35);
 // gelombang: seluruh sisa dinding menyala dari tengah ke tepi
 {const cx=5.5,cy=6;let maxd=0;cells.forEach((_,i)=>{const p=cellPos(i);maxd=Math.max(maxd,Math.hypot(p.c-cx,p.r-cy));});
- cells.forEach((_,i)=>{const p=cellPos(i);const d=Math.hypot(p.c-cx,p.r-cy)/maxd;lightCell(i,TW+1.0+d*1.15,.35);});}
+ cells.forEach((_,i)=>{const p=cellPos(i);const d=Math.hypot(p.c-cx,p.r-cy)/maxd;lightCell(i,TW+.8+d*1.0,.35);});}
 // bagian teal tetap sampai pindah ke penutup
-fadeOut($('#wide'),22.85,.3,-50);
+fadeOut($('#wide'),TC-.15,.3,-50);
 
-/* ===== 4. PENUTUP (23,0 – 28,5) ===== */
-const TC=23.0;
+/* ===== 4. PENUTUP ===== */
 tl.set($('#bgC'),{opacity:1},TC-.1);
 tl.set(BG,{cx:540,cy:700},TC-.1);
 tl.to(BG,{r:0,duration:.6,ease:'power2.inOut'},TC-.05);                      // teal menyusut, teal gelap terbuka
-tl.to(CAM,{s:.7,duration:5.4,ease:'sine.inOut'},TC);
+tl.to(CAM,{s:.7,duration:5.0,ease:'sine.inOut'},TC);
 tl.to(wall,{opacity:.12,duration:.5},TC-.05);
 const cl=$('#close .cl'),cb=buildGroup($('#close .cb')),btn=$('#btn');
 gsap.set(btn,{transformOrigin:'50% 60%'});
 tl.fromTo(cl,{opacity:0,y:30},{opacity:1,y:0,duration:.6,ease:'power4.out',immediateRender:false},TC+.45);
 const cbl=cb.lines.map(l=>({el:l.words[0].parentNode,chars:l.chars}));
 inLeft(cbl[0],TC+.7,{dur:.7});
-inRight(cbl[1],TC+1.25,{dur:.7});
-inUp(cbl[2],TC+1.8,{dur:.8});
-tl.fromTo(btn,{opacity:0,y:-380,scale:1.18},{opacity:1,y:0,scale:1,duration:.34,ease:'power4.in',immediateRender:false},TC+2.9);
-thump(btn,TC+3.24,1.06);
-tl.fromTo(btn,{boxShadow:'0 12px 0 #B8901A, 0 34px 46px -12px rgba(3,20,24,.6)'},{boxShadow:'0 4px 0 #B8901A, 0 18px 30px -12px rgba(3,20,24,.5)',duration:.07,yoyo:true,repeat:1,immediateRender:false},TC+3.24);
-tl.to(btn,{scale:1.035,duration:.5,yoyo:true,repeat:3,ease:'sine.inOut'},TC+3.5);
+inRight(cbl[1],TC+1.2,{dur:.7});
+inUp(cbl[2],TC+1.7,{dur:.8});
+tl.fromTo(btn,{opacity:0,y:-380,scale:1.18},{opacity:1,y:0,scale:1,duration:.34,ease:'power4.in',immediateRender:false},TC+2.55);
+thump(btn,TC+2.89,1.06);
+tl.fromTo(btn,{boxShadow:'0 12px 0 #B8901A, 0 34px 46px -12px rgba(3,20,24,.6)'},{boxShadow:'0 4px 0 #B8901A, 0 18px 30px -12px rgba(3,20,24,.5)',duration:.07,yoyo:true,repeat:1,immediateRender:false},TC+2.89);
+tl.to(btn,{scale:1.035,duration:.4,yoyo:true,repeat:3,ease:'sine.inOut'},TC+3.15);
 
 tl.to({},{duration:.01},DURATION);
 
