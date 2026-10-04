@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Promo 1 — Retail Manajemen Sistem</title>
+<!--
+  PROMO 1 · RETAIL MANAJEMEN SISTEM · Meta Ads (sales) · 4:5 (1080x1350) · 28,5 dtk · tanpa suara
+  Naskah & style brief: naskah.md
+
+  STYLE BRIEF
+  Tema/perasaan     : toko ritel · tenang, rapi, terkendali
+  Konsep            : masalah → solusi bernama (kandidat: angka hidup / tanya→jawab / makro produk)
+  Sidik jari        : masalah → solusi bernama · 1 dunia (dinding 146 sel) + 8 beat · objek: sel yang terlepas jadi dokumen ·
+                      pembuka: sapaan + hook · penutup: "4 dari 146" + CTA
+  Palet             : teal #0E7C86 (merek) · teal gelap #0A5A61 (merek) · teal muda #E6F2F3 (merek) ·
+                      teal tua #06383D (turunan: teal gelap digelapkan, kantong teks) · kuning marker #F4C430 (turunan: marker/label toko)
+  Font              : Big Shoulders Display (angka, kata besar) + Schibsted Grotesk (kalimat, nama dokumen)
+  Penekanan         : warna kuning pada kata kunci, tanpa pill/garis bawah
+  Bahasa latar      : poster color-block — teal tua (masalah) ⇄ teal merek (solusi), dipicu stempel; teal gelap di penutup
+  Tanda tangan gerak: ketok stempel (benda mendarat dengan sentak kecil)
+  Gerak latar       : dinding sel bergelombang pelan (grid bernapas) + cahaya radial bergeser
+  Permukaan latar   : gradien + cahaya radial + garis nota tipis (tanpa butiran)
+  Gaya objek        : flat kertas bersusun, bayangan lembut
+  Transisi          : kamera meluncur antar kluster; bidang warna mekar/menyusut dari titik stempel; kartu terbang dari/ke sel
+  Momen istimewa    : seluruh dinding menyala bergelombang di "Itu baru 4 dari 146"
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Schibsted+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<style>
+:root{
+  --teal:#0E7C86; --teal-d:#0A5A61; --teal-x:#06383D; --mint:#E6F2F3; --amber:#F4C430;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:"Schibsted Grotesk",system-ui,sans-serif;color:#fff}
+#filters{position:fixed;width:0;height:0;opacity:0;pointer-events:none}
+
+#stage{position:fixed;left:50%;top:50%;width:1080px;height:1350px;transform:translate(-50%,-50%) scale(1);overflow:hidden;background:var(--teal-x)}
+.bg{position:absolute;inset:0;pointer-events:none}
+.lines{position:absolute;inset:0;background:repeating-linear-gradient(180deg,rgba(230,242,243,.05) 0 2px,transparent 2px 54px)}
+#bgD{background:linear-gradient(172deg,#0A4A50 0%,#06383D 55%,#042B2F 100%)}
+#bgC{background:linear-gradient(172deg,#0E7C86 0%,#0A5A61 52%,#08464C 100%);opacity:0}
+#bgT{background:linear-gradient(172deg,#14949F 0%,#0E7C86 55%,#0A6A73 100%);clip-path:circle(0px at 540px 1010px)}
+.glow{position:absolute;left:-300px;top:-300px;width:1300px;height:1300px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(255,255,255,.20) 0%,rgba(255,255,255,.07) 38%,transparent 68%)}
+#bgD .glow{background:radial-gradient(circle,rgba(20,148,159,.55) 0%,rgba(14,124,134,.18) 40%,transparent 68%)}
+#bgC .glow{background:radial-gradient(circle,rgba(40,170,180,.45) 0%,rgba(14,124,134,.14) 42%,transparent 68%)}
+
+#world{position:absolute;left:0;top:0;width:1080px;height:1350px;transform-origin:0 0;will-change:transform}
+#wall{position:absolute;inset:0}
+.cell{position:absolute;width:76px;height:92px;border-radius:9px;color:rgba(230,242,243,.34);
+  background-color:rgba(230,242,243,.12);box-shadow:inset 0 0 0 2px rgba(230,242,243,.24)}
+.cell::after{content:"";position:absolute;left:13px;right:13px;top:17px;bottom:17px;border-radius:2px;
+  background:repeating-linear-gradient(180deg,currentColor 0 4px,transparent 4px 13px)}
+.cell.xl::after{background:
+  linear-gradient(90deg,transparent 0 30%,currentColor 30% 33.5%,transparent 33.5% 64%,currentColor 64% 67.5%,transparent 67.5%),
+  repeating-linear-gradient(180deg,currentColor 0 4px,transparent 4px 15px)}
+.mark,.pulse{position:absolute;width:76px;height:92px;border-radius:9px;background:var(--amber);opacity:0;
+  box-shadow:0 0 0 6px rgba(244,196,48,.28)}
+.mark::after,.pulse::after{content:"";position:absolute;left:13px;right:13px;top:17px;bottom:17px;border-radius:2px;
+  background:repeating-linear-gradient(180deg,rgba(6,56,61,.55) 0 4px,transparent 4px 13px)}
+
+.pocket{position:absolute;left:0;right:0;top:0;height:620px;pointer-events:none;opacity:0}
+#pkD{background:linear-gradient(180deg,rgba(6,56,61,.92) 0,rgba(6,56,61,.78) 300px,rgba(6,56,61,0) 100%)}
+#pkT{background:linear-gradient(180deg,rgba(10,106,115,.95) 0,rgba(10,106,115,.8) 200px,rgba(10,106,115,0) 100%);height:420px}
+#hud{position:absolute;inset:0;pointer-events:none}
+#hud>*{position:absolute}
+.wd{display:inline-block;white-space:nowrap;margin-right:.24em}
+.wd:last-child{margin-right:0}
+.ch{display:inline-block;will-change:transform,opacity,filter;opacity:0}
+.am{color:var(--amber)}
+.ln{display:block;white-space:nowrap}
+
+/* hook */
+#callout{left:0;right:0;top:110px;text-align:center;opacity:0;font:900 176px/1 "Big Shoulders Display";letter-spacing:.005em;color:var(--amber);
+  text-shadow:0 8px 0 rgba(3,30,34,.55)}
+#hook{left:50px;right:50px;top:340px;text-align:center;font:700 94px/1.13 "Schibsted Grotesk";letter-spacing:-.022em;color:#fff;text-shadow:0 3px 22px rgba(3,30,34,.5)}
+
+/* masalah */
+.ptxt{left:50px;right:50px;top:128px;font:900 160px/.96 "Big Shoulders Display";letter-spacing:.002em;color:#fff;text-shadow:0 4px 26px rgba(3,30,34,.55)}
+.al-c{text-align:center}.al-l{text-align:left;padding-left:20px}.al-r{text-align:right;padding-right:20px}
+.phead{left:60px;right:60px;top:118px;text-align:center;font:600 62px/1.1 "Schibsted Grotesk";letter-spacing:-.02em;color:rgba(255,255,255,.88);opacity:0}
+
+.vis{left:540px;top:716px;opacity:0}
+.tags{display:flex;align-items:center;gap:36px}
+.tag{position:relative;width:330px;height:370px;border-radius:28px;background:var(--mint);color:var(--teal-d);text-align:center;padding-top:62px;
+  box-shadow:0 26px 40px -18px rgba(3,20,24,.6)}
+.tag::before{content:"";position:absolute;left:50%;top:20px;width:28px;height:28px;margin-left:-14px;border-radius:50%;background:var(--teal-x)}
+.tag b{display:block;font:900 218px/.92 "Big Shoulders Display"}
+.tag span{display:block;margin-top:14px;font:600 44px/1 "Schibsted Grotesk"}
+.neq{font:900 190px/1 "Big Shoulders Display";color:var(--amber)}
+.bubble{position:relative;background:#fff;color:var(--teal-d);border-radius:34px;padding:30px 44px;font:600 52px/1.1 "Schibsted Grotesk";letter-spacing:-.02em;
+  box-shadow:0 26px 40px -18px rgba(3,20,24,.6);white-space:nowrap}
+.bubble::after{content:"";position:absolute;left:96px;bottom:-26px;width:48px;height:48px;background:#fff;transform:rotate(45deg);border-radius:0 0 10px 0}
+
+/* solusi */
+.card{left:540px;top:742px;width:900px;padding:44px 54px 54px;background:#fff;border-radius:36px;color:var(--teal-d);opacity:0;
+  box-shadow:0 40px 70px -24px rgba(3,30,34,.6)}
+.chip{display:inline-block;font:600 34px/1 "Schibsted Grotesk";padding:11px 24px 12px;border-radius:999px;background:var(--mint);color:var(--teal-d);margin-bottom:22px}
+.card h3{font:700 60px/1.12 "Schibsted Grotesk";letter-spacing:-.022em;margin-bottom:32px}
+.mock{position:relative;height:330px}
+/* m1 */
+.m1{display:grid;grid-template-columns:repeat(5,1fr);gap:20px 20px;padding-top:14px}
+.m1 i{display:flex;align-items:center;justify-content:center;height:120px;border-radius:26px;background:var(--mint);color:var(--teal-d);font:900 74px/1 "Big Shoulders Display";font-style:normal;
+  box-shadow:inset 0 0 0 4px #BFE0E3}
+/* m2 */
+.m2{display:flex;align-items:flex-end;justify-content:space-between;gap:34px;padding:0 24px;height:330px}
+.m2 div{flex:1;text-align:center;font:600 38px/1 "Schibsted Grotesk"}
+.m2 i{display:block;width:100%;border-radius:18px 18px 8px 8px;margin-bottom:16px;transform-origin:50% 100%}
+/* m3 */
+.m3 .lab{font:600 38px/1 "Schibsted Grotesk";color:var(--teal-d)}
+.m3 .track{position:relative;height:300px;margin-top:20px}
+.m3 .row{position:absolute;left:0;height:58px;border-radius:12px;transform-origin:0 50%}
+.m3 .tol{position:absolute;top:-14px;bottom:-4px;width:0;border-left:5px dashed var(--teal-d)}
+.m3 .tolt{position:absolute;top:-52px;font:600 38px/1 "Schibsted Grotesk";white-space:nowrap}
+/* m4 */
+.m4 .lab{font:700 40px/1 "Schibsted Grotesk";margin-bottom:12px}
+.m4 .bar{position:relative;height:66px;border-radius:14px;background:#BFE0E3;overflow:hidden;transform-origin:0 50%}
+.m4 .bar i{position:absolute;top:0;bottom:0;right:0;background:var(--amber)}
+.m4 .r{margin-bottom:34px}
+
+/* penutup bab 5 & 6 */
+#wide{left:0;right:0;top:78px;text-align:center}
+#wide .wl{font:600 76px/1 "Schibsted Grotesk";letter-spacing:-.02em;color:#fff;opacity:0}
+#wide .wn{margin-top:4px;display:flex;justify-content:center;align-items:baseline;gap:20px}
+#wide .wn b{font:900 300px/.9 "Big Shoulders Display";color:var(--amber);min-width:3ch;text-align:right;font-variant-numeric:tabular-nums;text-shadow:0 8px 0 rgba(3,30,34,.28);opacity:0}
+#wide .wn span{font:900 112px/1 "Big Shoulders Display";color:#fff;opacity:0}
+#close{left:0;right:0;top:0;bottom:0}
+#close .cl{position:absolute;left:0;right:0;top:318px;text-align:center;font:600 54px/1 "Schibsted Grotesk";letter-spacing:.04em;color:var(--mint);opacity:0}
+#close .cb{position:absolute;left:30px;right:30px;top:410px;text-align:center;font:900 142px/.98 "Big Shoulders Display";color:#fff;text-shadow:0 5px 0 rgba(3,30,34,.35)}
+#btn{position:absolute;left:50%;top:950px;width:820px;height:150px;margin-left:-410px;border-radius:30px;background:var(--amber);color:#06383D;
+  display:flex;align-items:center;justify-content:center;font:700 70px/1 "Schibsted Grotesk";letter-spacing:-.02em;opacity:0;
+  box-shadow:0 12px 0 #B8901A, 0 34px 46px -12px rgba(3,20,24,.6)}
+
+#ui{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);display:none;align-items:center;gap:12px;padding:9px 14px;border-radius:14px;
+  background:rgba(14,16,22,.92);font-size:13px;color:#A0A6B4;z-index:50}
+#ui.on{display:flex}
+#ui button{background:#262A34;color:#fff;border:none;padding:7px 14px;border-radius:8px;font:inherit;cursor:pointer}
+#scrub{width:300px}
+#clock{font-variant-numeric:tabular-nums;min-width:5ch;text-align:right}
+</style>
+</head>
+<body>
+<svg id="filters"><defs></defs></svg>
+
+<div id="stage">
+  <div class="bg" id="bgD"><div class="glow" id="glowD"></div><div class="lines"></div></div>
+  <div class="bg" id="bgC"><div class="glow" id="glowC"></div><div class="lines"></div></div>
+  <div class="bg" id="bgT"><div class="glow" id="glowT"></div><div class="lines"></div></div>
+
+  <div id="world"><div id="wall"></div></div>
+  <div class="pocket" id="pkD"></div><div class="pocket" id="pkT"></div>
+
+  <div id="hud">
+    <!-- 1. sapaan + hook -->
+    <div id="callout">Owner Toko!</div>
+    <div id="hook">
+      <div class="ln" data-t="Rapikan Kasir, Stok," data-am="Kasir Stok"></div>
+      <div class="ln" data-t="Supplier dan Tim," data-am="Supplier Tim"></div>
+      <div class="ln" data-t="Tanpa Harus Bayar"></div>
+      <div class="ln" data-t="Konsultan Mahal"></div>
+    </div>
+
+    <!-- 2. empat pasangan masalah → solusi -->
+    <div class="ptxt al-c" id="p1"><div class="ln" data-t="Uang laci"></div><div class="ln" data-t="selalu selisih" data-am="selisih"></div></div>
+    <div class="ptxt al-l" id="p2"><div class="ln" data-t="Stok"></div><div class="ln" data-t="selalu selisih" data-am="selisih"></div></div>
+    <div class="ptxt al-r" id="p3"><div class="ln" data-t="Barang hilang"></div><div class="ln" data-t="tanpa jejak" data-am="jejak"></div></div>
+    <div class="ptxt al-c" id="p4" style="font-size:146px"><div class="ln" data-t="Kulakan masih"></div><div class="ln" data-t="pakai feeling" data-am="feeling"></div></div>
+
+    <div class="phead" id="h1">Uang laci selalu selisih</div>
+    <div class="phead" id="h2">Stok selalu selisih</div>
+    <div class="phead" id="h3">Barang hilang tanpa jejak</div>
+    <div class="phead" id="h4">Kulakan masih pakai feeling</div>
+
+    <!-- visual masalah -->
+    <div class="vis" id="v1">
+      <svg width="650" height="482" viewBox="0 0 540 400">
+        <g transform="rotate(-7 160 70)"><rect x="70" y="20" width="200" height="112" rx="12" fill="#BFE0E3"/><circle cx="170" cy="76" r="26" fill="#9CCBD0"/></g>
+        <g transform="rotate(6 360 66)"><rect x="262" y="12" width="200" height="112" rx="12" fill="#E6F2F3"/><circle cx="362" cy="68" r="26" fill="#BFE0E3"/></g>
+        <rect x="26" y="116" width="488" height="150" rx="22" fill="#0E7C86"/>
+        <g fill="#06383D"><rect x="48" y="138" width="100" height="106" rx="12"/><rect x="160" y="138" width="100" height="106" rx="12"/><rect x="272" y="138" width="100" height="106" rx="12"/><rect x="384" y="138" width="106" height="106" rx="12"/></g>
+        <g fill="#F4C430"><circle cx="98" cy="214" r="17"/><circle cx="122" cy="196" r="17"/><circle cx="310" cy="216" r="17"/></g>
+        <g fill="#BFE0E3"><rect x="176" y="156" width="68" height="14" rx="5"/><rect x="176" y="178" width="68" height="14" rx="5"/><rect x="176" y="200" width="68" height="14" rx="5"/></g>
+        <rect x="26" y="248" width="488" height="124" rx="24" fill="#E6F2F3"/>
+        <rect x="200" y="290" width="140" height="22" rx="11" fill="#0E7C86"/>
+        <circle cx="468" cy="58" r="54" fill="#F4C430"/>
+        <text x="468" y="92" text-anchor="middle" font-family="Big Shoulders Display" font-weight="900" font-size="104" fill="#06383D">≠</text>
+      </svg>
+    </div>
+    <div class="vis" id="v2"><div class="tags">
+      <div class="tag"><b>50</b><span>Catatan</span></div><div class="neq">≠</div><div class="tag" style="transform:rotate(-5deg)"><b>43</b><span>Rak</span></div>
+    </div></div>
+    <div class="vis" id="v3">
+      <svg width="720" height="480" viewBox="0 0 600 400">
+        <rect x="20" y="170" width="560" height="22" rx="8" fill="#E6F2F3"/><rect x="20" y="360" width="560" height="22" rx="8" fill="#E6F2F3"/>
+        <g fill="#0E7C86"><rect x="44" y="82" width="104" height="88" rx="9"/><rect x="164" y="102" width="104" height="68" rx="9"/><rect x="448" y="82" width="104" height="88" rx="9"/></g>
+        <g fill="#BFE0E3"><rect x="44" y="82" width="104" height="22" rx="9"/><rect x="164" y="102" width="104" height="18" rx="9"/><rect x="448" y="82" width="104" height="22" rx="9"/></g>
+        <rect x="288" y="82" width="140" height="88" rx="11" fill="none" stroke="#F4C430" stroke-width="6" stroke-dasharray="14 12"/>
+        <text x="358" y="150" text-anchor="middle" font-family="Big Shoulders Display" font-weight="900" font-size="92" fill="#F4C430">?</text>
+        <g fill="#0E7C86"><rect x="44" y="270" width="104" height="90" rx="9"/><rect x="164" y="290" width="104" height="70" rx="9"/><rect x="288" y="270" width="104" height="90" rx="9"/></g>
+        <g fill="#BFE0E3"><rect x="44" y="270" width="104" height="22" rx="9"/><rect x="164" y="290" width="104" height="18" rx="9"/><rect x="288" y="270" width="104" height="22" rx="9"/></g>
+      </svg>
+    </div>
+    <div class="vis" id="v4">
+      <div class="bubble">Lagi rame, order banyak deh</div>
+      <svg width="680" height="283" viewBox="0 0 600 250" style="display:block;margin:34px auto 0">
+        <g fill="#0E7C86"><rect x="40" y="130" width="140" height="110" rx="10"/><rect x="40" y="40" width="140" height="84" rx="10"/><rect x="230" y="150" width="140" height="90" rx="10"/><rect x="420" y="100" width="140" height="140" rx="10"/></g>
+        <g fill="#BFE0E3"><rect x="40" y="130" width="140" height="22" rx="10"/><rect x="40" y="40" width="140" height="20" rx="10"/><rect x="230" y="150" width="140" height="20" rx="10"/><rect x="420" y="100" width="140" height="22" rx="10"/></g>
+        <circle cx="300" cy="70" r="46" fill="#F4C430"/>
+        <text x="300" y="100" text-anchor="middle" font-family="Big Shoulders Display" font-weight="900" font-size="88" fill="#06383D">?</text>
+      </svg>
+    </div>
+
+    <!-- kartu solusi: nama dokumen asli dari daftar -->
+    <div class="card" id="c1"><div class="chip">Word</div>
+      <h3>Panduan Anti-Fraud Kasir: 10 Modus dan Cara Mendeteksinya</h3>
+      <div class="mock m1"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i><i>7</i><i>8</i><i>9</i><i>10</i></div></div>
+    <div class="card" id="c2"><div class="chip">Word</div>
+      <h3>SOP Stock Opname Harian, Mingguan dan Bulanan</h3>
+      <div class="mock m2"><div><i style="height:90px;background:#7CC3CA"></i>Harian</div><div><i style="height:180px;background:#3BA1AB"></i>Mingguan</div><div><i style="height:270px;background:#0E7C86"></i>Bulanan</div></div></div>
+    <div class="card" id="c3"><div class="chip">Excel</div>
+      <h3>Dashboard Shrinkage Monitor: Selisih Stok vs Target Toleransi</h3>
+      <div class="mock m3"><div class="lab">Selisih stok</div><div class="track">
+        <div class="row" style="top:30px;width:470px;background:#3BA1AB"></div>
+        <div class="row" style="top:112px;width:742px;background:#F4C430"></div>
+        <div class="row" style="top:194px;width:330px;background:#7CC3CA"></div>
+        <div class="tol" style="left:560px"></div><div class="tolt" style="left:468px">Target toleransi</div></div></div></div>
+    <div class="card" id="c4"><div class="chip">Bonus · Excel</div>
+      <h3>Kalkulator Profitabilitas dan Alokasi Modal Terbatas</h3>
+      <div class="mock m4">
+        <div class="r"><div class="lab">Rame Tapi Cuan Tipis</div><div class="bar" style="width:100%"><i style="width:9%"></i></div></div>
+        <div class="r"><div class="lab">Hidden Gem</div><div class="bar" style="width:62%"><i style="width:46%"></i></div></div></div></div>
+
+    <!-- 3. "Itu baru 4 dari 146" -->
+    <div id="wide"><div class="wl">Itu baru 4 dari</div><div class="wn"><b id="num">146</b><span>dokumen</span></div></div>
+
+    <!-- 4. penutup -->
+    <div id="close">
+      <div class="cl">RETAIL MANAJEMEN SISTEM</div>
+      <div class="cb"><div class="ln" data-t="Sekali bayar,"></div><div class="ln" data-t="bukan langganan" data-am="langganan bukan"></div></div>
+      <div id="btn">Dapatkan Sekarang</div>
+    </div>
+  </div>
+</div>
+
+<div id="ui"><button id="btn-play">Pause</button><button id="btn-restart">Restart</button>
+  <input id="scrub" type="range" min="0" max="1000" value="0"><span id="clock">0.00s</span></div>
+
+<script>
+(()=>{
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const W=1080,H=1350;
+const Q=new URLSearchParams(location.search);
+
+/* ============ UTIL: blur berarah (hanya pada teks, dilepas begitu selesai) ============ */
+const defs=$('#filters defs'); let fc=0;
+function makeBlur(){
+  const id='mb'+(fc++),NS='http://www.w3.org/2000/svg';
+  const f=document.createElementNS(NS,'filter');f.id=id;
+  f.setAttribute('x','-30%');f.setAttribute('y','-60%');f.setAttribute('width','160%');f.setAttribute('height','220%');
+  const g=document.createElementNS(NS,'feGaussianBlur');g.setAttribute('stdDeviation','0 0');f.appendChild(g);defs.appendChild(f);
+  return {url:`url(#${id})`,node:g};
+}
+function blurTween(tl,targets,at,from,to,dur,{ease='power3.out',ax=1,ay=.08}={}){
+  const b=makeBlur(),o={v:from};
+  tl.set(targets,{filter:b.url},at);
+  tl.to(o,{v:to,duration:dur,ease,onUpdate(){b.node.setAttribute('stdDeviation',`${(o.v*ax).toFixed(2)} ${(o.v*ay).toFixed(2)}`);}},at);
+  tl.set(targets,{filter:'none'},at+dur);
+}
+const VERT={ax:.1,ay:1};
+
+/* kata → huruf; kata kunci diberi kelas .am (kuning) */
+function build(el,text,amber){
+  el.textContent='';const chars=[],words=[];const am=(amber||'').split(' ');
+  text.split(' ').forEach(w=>{
+    const wd=document.createElement('span');wd.className='wd'+(am.includes(w.replace(/[,.!?]/g,''))?' am':'');
+    for(const c of w){const s=document.createElement('span');s.className='ch';s.textContent=c;wd.appendChild(s);chars.push(s);}
+    el.appendChild(wd);words.push(wd);
+  });
+  return {chars,words};
+}
+function buildGroup(g){const lines=$$('.ln',g).map(l=>build(l,l.dataset.t,l.dataset.am));
+  return {el:g,chars:lines.flatMap(l=>l.chars),words:lines.flatMap(l=>l.words),lines};}
+
+/* ============ DINDING 146 SEL ============ */
+const CATS=[['A1',17,1],['A2',19,2],['A3',21,6],['A4',18,3],['A5',15,0],      /* Bagian A: 90 */
+            ['B3',10,1],['B2',11,3],['B1',10,0],['B4',8,2],['B5',7,1],['B6',9,3], /* Bagian B: 55 */
+            ['BX',1,1]];                                                          /* Bonus: 1   */
+const COLS=12,CW=76,CH=92,GX=8,GY=8,X0=(W-(COLS*CW+(COLS-1)*GX))/2,Y0=(H-(13*CH+12*GY))/2;
+const cellPos=i=>{const c=i%COLS,r=Math.floor(i/COLS);return{c,r,x:X0+c*(CW+GX),y:Y0+r*(CH+GY)};};
+const wall=$('#wall'),cells=[],catStart={};
+{let n=0;CATS.forEach(([k,cnt,xl],ci)=>{catStart[k]=[n,cnt];
+  for(let j=0;j<cnt;j++){const e=document.createElement('i');e.className='cell'+(j>=cnt-xl?' xl':'');
+    const p=cellPos(n);e.style.left=p.x+'px';e.style.top=p.y+'px';
+    if(ci%2)e.style.boxShadow='inset 0 0 0 2px rgba(230,242,243,.5)';
+    wall.appendChild(e);cells.push(e);n++;}});
+  console.assert(n===146,'jumlah sel harus 146, dapat '+n);}
+const cellOf=(k,j)=>catStart[k][0]+j;           // indeks sel dokumen ke-j di kategori k
+const world=$('#world');
+function mk(cls,idx){const e=document.createElement('i');e.className=cls;const p=cellPos(idx);
+  e.style.left=p.x+'px';e.style.top=p.y+'px';world.appendChild(e);return e;}
+
+/* dokumen yang diambil (nomor di daftar): #118 Anti-Fraud, #102 Stock Opname, #110 Shrinkage, #146 Kalkulator */
+const PICK=[cellOf('B3',6),cellOf('B2',1),cellOf('B2',9),cellOf('BX',0)];
+const marks=PICK.map(i=>mk('mark',i));
+/* kata kunci hook mengetuk satu sel di kluster masing-masing */
+const HOOKCELL=[cellOf('B3',3),cellOf('B2',5),cellOf('B4',3),cellOf('B5',3)];
+const pulses=HOOKCELL.map(i=>mk('pulse',i));
+
+/* ============ KAMERA + LATAR (semua fungsi murni dari t) ============ */
+const CAM={s:1,fx:W/2,fy:H/2,ax:W/2,ay:H/2};
+const BG={r:0,cx:540,cy:1010};
+const bgT=$('#bgT'),glowD=$('#glowD'),glowT=$('#glowT'),glowC=$('#glowC');
+function render(t){
+  const s=CAM.s;
+  world.style.transform=`translate(${(CAM.ax-CAM.fx*s).toFixed(2)}px,${(CAM.ay-CAM.fy*s).toFixed(2)}px) scale(${s.toFixed(4)})`;
+  bgT.style.clipPath=`circle(${Math.max(0,BG.r).toFixed(1)}px at ${BG.cx}px ${BG.cy}px)`;
+  for(let i=0;i<cells.length;i++){const c=i%COLS,r=(i/COLS)|0;       // dinding bergelombang pelan
+    cells[i].style.translate=`0 ${(Math.sin(t*1.15+c*.62+r*.41)*3.2).toFixed(2)}px`;}
+  glowD.style.transform=`translate(${Math.sin(t*.31)*160}px,${Math.cos(t*.23)*130+120}px)`;
+  glowT.style.transform=`translate(${520+Math.sin(t*.27+1)*150}px,${Math.cos(t*.2)*120+60}px)`;
+  glowC.style.transform=`translate(${300+Math.sin(t*.25)*140}px,${Math.cos(t*.3)*110+240}px)`;
+}
+
+/* ============ TIMELINE ============ */
+const DURATION=28.5;
+const tl=gsap.timeline({paused:true});
+const shot=(at,dur,s,idx,ay,ease='power2.inOut')=>{const p=cellPos(idx);
+  tl.to(CAM,{s,fx:p.x+CW/2,fy:p.y+CH/2,ax:540,ay,duration:dur,ease},at);};
+const LIT='#E6F2F3',LITLN='rgba(14,124,134,.7)';
+const lightCell=(i,at,dur=.32)=>tl.to(cells[i],{backgroundColor:LIT,color:LITLN,duration:dur,ease:'power2.out'},at);
+
+/* pintu teks */
+const inUp=(g,at,{dur=.8,st=.022}={})=>{tl.fromTo(g.chars,{opacity:0,yPercent:60,scaleY:1.45},{opacity:1,yPercent:0,scaleY:1,duration:dur,ease:'power4.out',stagger:st,immediateRender:false},at);blurTween(tl,g.el,at,28,0,dur,VERT);};
+const inLeft=(g,at,{dur=.75,st=.02}={})=>{tl.fromTo(g.chars,{opacity:0,xPercent:-45},{opacity:1,xPercent:0,duration:dur,ease:'power4.out',stagger:st,immediateRender:false},at);blurTween(tl,g.el,at,46,0,dur,{ease:'power4.out'});};
+const inRight=(g,at,{dur=.75,st=.02}={})=>{tl.fromTo(g.chars,{opacity:0,xPercent:45},{opacity:1,xPercent:0,duration:dur,ease:'power4.out',stagger:{each:st,from:'end'},immediateRender:false},at);blurTween(tl,g.el,at,46,0,dur,{ease:'power4.out'});};
+const inDepth=(g,at,{dur:d=.9,st=.016}={})=>{tl.fromTo(g.chars,{opacity:0,scale:2.3},{opacity:1,scale:1,duration:d,ease:'expo.out',stagger:{each:st,from:'center'},immediateRender:false},at);blurTween(tl,g.el,at,20,0,d,{ease:'expo.out',ax:1,ay:1});};
+const inWords=(g,at,{dur=.6,st=.22}={})=>{tl.set(g.chars,{opacity:1},at);
+  tl.fromTo(g.words,{opacity:0,yPercent:42,rotateX:-55},{opacity:1,yPercent:0,rotateX:0,duration:dur,ease:'back.out(1.6)',stagger:st,immediateRender:false},at);};
+const outUp=(g,at,{dur=.38,st=.004}={})=>{tl.to(g.chars,{opacity:0,yPercent:-70,duration:dur,ease:'power2.in',stagger:st},at);blurTween(tl,g.el,at,0,40,dur+.1,{ease:'power2.in',...VERT});};
+const fadeOut=(el,at,dur=.3,y=0)=>tl.to(el,{opacity:0,y,duration:dur,ease:'power2.in'},at);
+/* ketok stempel: benda mendarat, sentak kecil */
+const thump=(el,at,amp=1.06)=>{tl.to(el,{scale:amp,duration:.07,ease:'power2.out'},at);tl.to(el,{scale:1,duration:.16,ease:'power2.inOut'},at+.07);};
+
+/* ----- keadaan awal ----- */
+tl.set(CAM,{s:1,fx:540,fy:675,ax:540,ay:675},0);
+tl.set(BG,{r:0,cx:540,cy:1010},0);
+gsap.set($$('.vis'),{xPercent:-50,yPercent:-50});
+gsap.set($$('.card'),{xPercent:-50,yPercent:-50});
+gsap.set($('#callout'),{transformOrigin:'50% 60%'});
+tl.set($('#bgC'),{opacity:0},0);
+
+/* ===== 1. SAPAAN + HOOK (0 – 4,6) ===== */
+tl.to(CAM,{s:1.07,duration:4.5,ease:'sine.inOut'},0);
+tl.set(wall,{opacity:.5},0);
+tl.to(wall,{opacity:1,duration:.7,ease:'power2.inOut'},4.4);
+const call=$('#callout');
+tl.fromTo(call,{opacity:0,scale:1.8,rotate:-9,y:34},{opacity:1,scale:1,rotate:-3,y:0,duration:.22,ease:'power4.in',immediateRender:false},.02);
+blurTween(tl,call,.02,26,0,.3,{ax:.3,ay:1,ease:'power3.out'});
+thump(call,.24,1.07);
+const hook=buildGroup($('#hook'));
+inWords(hook,1.25,{st:.22});
+// empat kata kunci mengetuk sel di kluster masing-masing
+[1.47,1.69,1.91,2.35].forEach((tt,i)=>{
+  tl.fromTo(pulses[i],{opacity:0,scale:2.3},{opacity:.95,scale:1,duration:.3,ease:'back.out(2.2)',immediateRender:false},tt);
+  tl.to(pulses[i],{opacity:.5,duration:.6,ease:'sine.out'},tt+.35);
+  tl.to(pulses[i],{opacity:0,duration:.3},4.35);
+});
+fadeOut(call,4.35,.3,-40);
+outUp(hook,4.35,{dur:.35});
+
+/* ===== 2. EMPAT PASANGAN MASALAH → SOLUSI ===== */
+const BAB=[
+ {t0:4.6, cell:PICK[0], g:'#p1', kind:inUp,    vis:'#v1', card:'#c1', head:'#h1', mark:0, cat:'B3', mock(ts){
+    tl.fromTo($$('.m1 i'),{backgroundColor:'#E6F2F3',color:'#0A5A61'},{backgroundColor:'#0E7C86',color:'#ffffff',duration:.18,stagger:.1,immediateRender:false},ts+.8);}},
+ {t0:8.4, cell:PICK[1], g:'#p2', kind:inLeft,  vis:'#v2', card:'#c2', head:'#h2', mark:1, cat:'B2', mock(ts){
+    tl.fromTo($$('.m2 i'),{scaleY:0},{scaleY:1,duration:.55,ease:'back.out(1.5)',stagger:.16,immediateRender:false},ts+.7);}},
+ {t0:12.0,cell:PICK[2], g:'#p3', kind:inRight, vis:'#v3', card:'#c3', head:'#h3', mark:2, cat:'B2', mock(ts){
+    tl.fromTo($$('.m3 .row'),{scaleX:0},{scaleX:1,duration:.6,ease:'power3.out',stagger:.14,immediateRender:false},ts+.7);
+    tl.fromTo($$('.m3 .tol,.m3 .tolt'),{opacity:0},{opacity:1,duration:.3,immediateRender:false},ts+.5);}},
+ {t0:15.6,cell:PICK[3], g:'#p4', kind:inDepth, vis:'#v4', card:'#c4', head:'#h4', mark:3, cat:'BX', dur:4.0, mock(ts){
+    tl.fromTo($$('.m4 .bar'),{scaleX:0},{scaleX:1,duration:.6,ease:'power3.out',stagger:.2,immediateRender:false},ts+.7);}}
+];
+const TS_OFF=1.5;                                  // detik stempel dari awal bab
+BAB.forEach((c,i)=>{
+  const {t0}=c, ts=t0+TS_OFF, grp=buildGroup($(c.g)), card=$(c.card), vis=$(c.vis), head=$(c.head);
+  const prev=BAB[i-1];
+  // kamera meluncur ke kluster (ukuran shot: close-up ke sel yang akan diambil)
+  shot(t0-.1,.95,2.4,c.cell,1010);
+  // bab berikutnya: kartu lama keluar, bidang teal menyusut ke titik sel baru → latar kembali gelap
+  if(prev){
+    tl.to($(prev.card),{opacity:0,y:120,duration:.3,ease:'power2.in'},t0-.14);
+    fadeOut($(prev.head),t0-.14,.25,-30);
+    tl.to(BG,{r:0,duration:.6,ease:'power2.inOut'},t0-.1);
+  }
+  // kantong gelap di bawah teks (latar tunduk pada teks)
+  tl.to('#pkT',{opacity:0,duration:.25},t0-.1);
+  tl.to('#pkD',{opacity:1,duration:.3},t0+.1);
+  // masalah
+  tl.set(grp.el,{opacity:1},t0+.2);
+  c.kind(grp,t0+.28);
+  tl.fromTo(vis,{opacity:0,scale:.4,y:70,rotate:-7},{opacity:1,scale:1,y:0,rotate:0,duration:.6,ease:'back.out(1.8)',immediateRender:false},t0+.65);
+  tl.to(vis,{rotation:2.2,duration:.1,yoyo:true,repeat:7,ease:'sine.inOut'},t0+1.05);   // masalah bergetar
+  // ===== STEMPEL =====
+  tl.to('#pkD',{opacity:0,duration:.3},ts);
+  tl.to('#pkT',{opacity:1,duration:.4},ts+.2);
+  tl.to(vis,{scale:.5,opacity:0,duration:.26,ease:'power2.in'},ts);
+  outUp(grp,ts-.05,{dur:.26});
+  tl.set(BG,{cx:540,cy:1010},ts);
+  tl.to(BG,{r:2300,duration:.62,ease:'power2.out'},ts);                              // bidang teal mekar dari sel
+  tl.fromTo(marks[c.mark],{opacity:0,scale:2.4},{opacity:1,scale:1,duration:.34,ease:'back.out(2)',immediateRender:false},ts);
+  // kluster menyala bergelombang dari sel yang diambil
+  const [s0,n]=catStart[c.cat],pk=cellPos(c.cell);
+  for(let j=0;j<n;j++){const k=s0+j,p=cellPos(k);const d=Math.hypot(p.c-pk.c,p.r-pk.r);lightCell(k,ts+.05+d*.045);}
+  // kartu terbang dari sel, mendarat dengan ketok
+  tl.fromTo(card,{opacity:1,y:1010-742,scale:.2,rotate:-9},{y:0,scale:1,rotate:0,duration:.62,ease:'back.out(1.35)',immediateRender:false},ts+.02);
+  thump(card,ts+.65,1.025);
+  tl.fromTo(head,{opacity:0,yPercent:40},{opacity:1,yPercent:0,duration:.5,ease:'power4.out',immediateRender:false},ts+.45);
+  c.mock(ts);
+  // tahan: dorong pelan supaya tidak mati
+  const nextT=BAB[i+1]?BAB[i+1].t0:19.6;
+  tl.to(card,{scale:1.03,duration:(nextT-.2)-(ts+.9),ease:'sine.inOut'},ts+.9);
+});
+
+/* ===== 3. "ITU BARU 4 DARI 146" (19,6 – 23,0) — momen istimewa ===== */
+const TW=19.6;
+tl.to($('#c4'),{y:1010-742,scale:.2,opacity:0,duration:.5,ease:'power3.in'},TW-.1);   // kartu pulang ke selnya
+fadeOut($('#h4'),TW-.15,.25,-30);
+tl.to('#pkT',{opacity:0,duration:.3},TW-.1);
+tl.to(CAM,{s:.66,fx:540,fy:675,ax:540,ay:880,duration:1.0,ease:'power2.inOut'},TW-.05);
+const wl=$('#wide .wl'),wnum=$('#num'),wword=$('#wide .wn span');
+const wlg=build(wl,'Itu baru 4 dari','');wlg.words[2].classList.add('am');
+inUp({el:wl,chars:wlg.chars},TW+.7,{dur:.7});
+tl.fromTo(wl,{opacity:0},{opacity:1,duration:.01,immediateRender:false},TW+.7);
+tl.fromTo(wnum,{opacity:0,scale:1.5,transformOrigin:'50% 70%'},{opacity:1,scale:1,duration:.4,ease:'back.out(1.6)',immediateRender:false},TW+1.0);
+const cnt={v:0};
+tl.fromTo(cnt,{v:0},{v:146,duration:1.15,ease:'power2.out',immediateRender:false,onUpdate(){wnum.textContent=Math.round(cnt.v);}},TW+1.0);
+tl.fromTo(wword,{opacity:0,yPercent:60},{opacity:1,yPercent:0,duration:.5,ease:'power4.out',immediateRender:false},TW+1.5);
+// gelombang: seluruh sisa dinding menyala dari tengah ke tepi
+{const cx=5.5,cy=6;let maxd=0;cells.forEach((_,i)=>{const p=cellPos(i);maxd=Math.max(maxd,Math.hypot(p.c-cx,p.r-cy));});
+ cells.forEach((_,i)=>{const p=cellPos(i);const d=Math.hypot(p.c-cx,p.r-cy)/maxd;lightCell(i,TW+1.0+d*1.15,.35);});}
+// bagian teal tetap sampai pindah ke penutup
+fadeOut($('#wide'),22.85,.3,-50);
+
+/* ===== 4. PENUTUP (23,0 – 28,5) ===== */
+const TC=23.0;
+tl.set($('#bgC'),{opacity:1},TC-.1);
+tl.set(BG,{cx:540,cy:700},TC-.1);
+tl.to(BG,{r:0,duration:.6,ease:'power2.inOut'},TC-.05);                      // teal menyusut, teal gelap terbuka
+tl.to(CAM,{s:.7,duration:5.4,ease:'sine.inOut'},TC);
+tl.to(wall,{opacity:.2,duration:.5},TC-.05);
+const cl=$('#close .cl'),cb=buildGroup($('#close .cb')),btn=$('#btn');
+gsap.set(btn,{transformOrigin:'50% 60%'});
+tl.fromTo(cl,{opacity:0,y:30},{opacity:1,y:0,duration:.6,ease:'power4.out',immediateRender:false},TC+.45);
+inLeft({el:cb.lines[0].words[0].parentNode,chars:cb.lines[0].chars},TC+.7,{dur:.7});
+inRight({el:cb.lines[1].words[0].parentNode,chars:cb.lines[1].chars},TC+1.0,{dur:.7});
+tl.fromTo(btn,{opacity:0,y:-380,scale:1.18},{opacity:1,y:0,scale:1,duration:.34,ease:'power4.in',immediateRender:false},TC+1.9);
+thump(btn,TC+2.24,1.06);
+tl.fromTo(btn,{boxShadow:'0 12px 0 #B8901A, 0 34px 46px -12px rgba(3,20,24,.6)'},{boxShadow:'0 4px 0 #B8901A, 0 18px 30px -12px rgba(3,20,24,.5)',duration:.07,yoyo:true,repeat:1,immediateRender:false},TC+2.24);
+tl.to(btn,{scale:1.035,duration:.6,yoyo:true,repeat:3,ease:'sine.inOut'},TC+3.0);
+
+tl.to({},{duration:.01},DURATION);
+
+/* ============ PEREKAT ============ */
+const stage=$('#stage');
+const fit=()=>{const s=Math.min(innerWidth/W,innerHeight/H);stage.style.transform=`translate(-50%,-50%) scale(${s})`;};
+addEventListener('resize',fit);fit();
+const clock=$('#clock'),scrub=$('#scrub'),btnPlay=$('#btn-play');let scrubbing=false;
+(function frame(){const t=tl.time();render(t);clock.textContent=t.toFixed(2)+'s';
+  if(!scrubbing)scrub.value=String(t/DURATION*1000);requestAnimationFrame(frame);})();
+const toggle=()=>{if(tl.paused()||tl.progress()>=1){if(tl.progress()>=1)tl.progress(0);tl.play();btnPlay.textContent='Pause';}
+  else{tl.pause();btnPlay.textContent='Play';}};
+btnPlay.onclick=toggle;
+$('#btn-restart').onclick=()=>{tl.pause(0);tl.play();btnPlay.textContent='Pause';};
+scrub.addEventListener('pointerdown',()=>{scrubbing=true;tl.pause();btnPlay.textContent='Play';});
+addEventListener('pointerup',()=>scrubbing=false);
+scrub.addEventListener('input',()=>{tl.pause();tl.time(scrub.value/1000*DURATION);});
+addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();toggle();}
+  if(/^[rR]$/.test(e.key)){tl.pause(0);tl.play();}if(/^[hH]$/.test(e.key))$('#ui').classList.toggle('on');});
+if(Q.has('debug'))$('#ui').classList.add('on');
+tl.eventCallback('onComplete',()=>{tl.play(0);});
+
+const seek=t=>{tl.pause();tl.time(t,false);if(gsap.ticker.tick)gsap.ticker.tick();render(t);};
+window.OPENER={W,H,tl,DURATION,seek,ready:false};
+Promise.all(['900 100px "Big Shoulders Display"','800 100px "Big Shoulders Display"','500 40px "Schibsted Grotesk"','600 40px "Schibsted Grotesk"','700 40px "Schibsted Grotesk"']
+  .map(f=>document.fonts.load(f,'Aa0'))).catch(()=>{}).then(()=>document.fonts.ready).then(()=>{
+  window.OPENER.ready=true;if(!Q.has('clean'))tl.play(0);});
+})();
+</script>
+</body>
+</html>
