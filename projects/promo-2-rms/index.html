@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Promo 2 Retail Management System</title>
+<!--
+  PROMO 2 · RETAIL MANAGEMENT SYSTEM · Meta Ads (sales) · 4:5 (1080x1350) · 22,5 dtk · tanpa suara
+  Naskah & style brief: naskah.md
+
+  STYLE BRIEF
+  Perasaan          : tegas, cekatan, terang
+  Konsep            : tanya → jawab diegetik (kandidat: masalah → lenyap / satu shot kontinu)
+  Sidik jari        : tanya → jawab · 1 dunia (rel 5 kartu) + 9 beat · objek: kartu masalah bercentang tiga ·
+                      pembuka: sapaan sendirian + headline pertanyaan · penutup: harga + tombol merah
+  Palet             : teal muda #E6F2F3 (merek, kertas) · teal gelap #0A5A61 (merek, bidang gelap) · teal #0E7C86 (merek, pita) ·
+                      teal tua #06383D (turunan: teks & garis kartu) · kuning stabilo #FFE14D (turunan: stabilo) · merah #C0392B (merek, tombol)
+  Font              : Lilita One (judul, angka) + Figtree (nama dokumen, kalimat)
+  Penekanan         : stabilo kuning menyapu di bawah teks
+  Bahasa latar      : kertas berpola titik (terang) ⇄ bidang gelap bergaris diagonal; gelap menyusut jadi strip atas, kembali menyapu dari bawah
+  Tanda tangan gerak: pita menghantam masuk, centang mengetuk
+  Gerak latar       : pola titik dan cahaya bergeser pelan
+  Gaya objek        : kartu bertepi tebal, bayangan keras
+  Momen istimewa    : kamera mundur, kelima kartu berjajar, 15 centang berdenyut berurutan
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Figtree:wght@600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<style>
+:root{--ink:#06383D;--teal-d:#0A5A61;--teal:#0E7C86;--mint:#E6F2F3;--yel:#FFE14D;--red:#C0392B}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:"Figtree",system-ui,sans-serif;color:#fff}
+#filters{position:fixed;width:0;height:0;opacity:0;pointer-events:none}
+#stage{position:fixed;left:50%;top:50%;width:1080px;height:1350px;transform:translate(-50%,-50%) scale(1);overflow:hidden;background:var(--mint)}
+#shake{position:absolute;inset:0}
+
+/* kertas berpola titik */
+#paper{position:absolute;inset:0;background:linear-gradient(170deg,#F2F9F9 0%,#E6F2F3 45%,#D2EAED 100%)}
+#glowP{position:absolute;left:-260px;top:160px;width:980px;height:980px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,225,77,.40) 0%,rgba(255,225,77,.10) 45%,transparent 68%)}
+#dots{position:absolute;inset:-60px;background-image:radial-gradient(circle,rgba(10,90,97,.22) 2.6px,transparent 3.3px);background-size:40px 40px}
+
+/* dunia: rel lima kartu */
+#world{position:absolute;left:0;top:0;width:0;height:0;transform-origin:0 0;will-change:transform}
+.card{position:absolute;width:820px;height:560px;background:#fff;border:7px solid var(--ink);border-radius:36px;box-shadow:14px 16px 0 var(--ink)}
+.q{position:absolute;left:44px;right:44px;top:30px;height:136px;display:flex;align-items:center;
+  font:400 62px/1.03 "Lilita One";color:var(--ink);letter-spacing:-.004em}
+.rib{position:absolute;left:-34px;top:184px;width:570px;height:68px;background:var(--teal);color:#fff;
+  font:400 46px/68px "Lilita One";padding-left:70px;opacity:0;transform-origin:0 50%;
+  clip-path:polygon(0 0,100% 0,calc(100% - 26px) 50%,100% 100%,0 100%)}
+.it{position:absolute;left:44px;right:44px;height:66px;display:flex;align-items:center;gap:24px;opacity:0;
+  font:800 42px/1 "Figtree";color:var(--ink);letter-spacing:-.015em;white-space:nowrap}
+.bx{width:58px;height:58px;flex:none;border:6px solid var(--ink);border-radius:15px;background:#fff;display:flex;align-items:center;justify-content:center}
+.bx svg{width:36px;height:36px;overflow:visible}
+.bx path{fill:none;stroke:var(--ink);stroke-width:7;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:44;stroke-dashoffset:44}
+
+/* bidang gelap: pembuka, strip atas, harga */
+#dark{position:absolute;inset:0;background:linear-gradient(172deg,#0E6A73 0%,#0A5A61 45%,#07434A 100%);clip-path:inset(0 0 0 0);overflow:hidden}
+#dstripes{position:absolute;inset:-120px;background:repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 3px,transparent 3px 37px)}
+#dglow{position:absolute;left:-200px;top:-200px;width:1100px;height:1100px;border-radius:50%;
+  background:radial-gradient(circle,rgba(40,170,180,.45) 0%,rgba(14,124,134,.14) 42%,transparent 68%)}
+#ybar{position:absolute;left:0;right:0;height:12px;background:var(--yel);opacity:0;top:0}
+
+#hud{position:absolute;inset:0;pointer-events:none}
+#hud>*{position:absolute}
+.t{display:inline-block;white-space:nowrap}
+.mk{position:relative;display:inline-block}
+.mk i{position:absolute;left:-.05em;right:-.05em;bottom:-.1em;height:.17em;background:var(--yel);border-radius:.05em;transform:scaleX(0);transform-origin:0 50%}
+.mk span{position:relative}
+
+#callout{left:0;right:0;top:0;text-align:center;font:400 160px/1.02 "Lilita One";color:var(--yel);text-shadow:0 7px 0 #04252A;transform-origin:50% 50%}
+#hl{left:0;right:0;top:0;text-align:center;font:400 100px/1.06 "Lilita One";color:#fff;transform-origin:50% 50%}
+.hln{display:block;opacity:0}
+
+#note{left:0;right:0;top:70px;text-align:center;font:400 62px/1.1 "Lilita One";color:var(--ink);opacity:0}
+#note .ln{display:block}
+
+#price{left:0;right:0;top:0;bottom:0}
+#price>*{position:absolute;left:0;right:0;text-align:center}
+#price .lab{top:122px;font:700 54px/1 "Figtree";color:var(--mint);opacity:0}
+#price .nm{top:190px;font:400 112px/1 "Lilita One";color:#fff}
+#price .nm .ln{display:block;opacity:0}
+#price .ds{left:70px;right:70px;top:470px;font:600 46px/1.22 "Figtree";color:var(--mint);opacity:0}
+#price .fr{top:668px;font:700 56px/1 "Figtree";color:var(--mint);opacity:0}
+#price .nu{top:730px;font:400 200px/1 "Lilita One";color:var(--yel);text-shadow:0 8px 0 #04252A;opacity:0}
+#price .nu span{display:inline-block;text-align:left}
+#btn{position:absolute;left:90px;width:900px;top:1050px;height:150px;border-radius:34px;background:var(--red);color:#fff;
+  display:flex;align-items:center;justify-content:center;font:400 62px/1 "Lilita One";letter-spacing:.005em;opacity:0;
+  box-shadow:0 12px 0 #7A1F16,0 30px 40px -10px rgba(2,24,28,.55);transform-origin:50% 60%}
+
+#ui{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);display:none;align-items:center;gap:12px;padding:9px 14px;border-radius:14px;
+  background:rgba(14,16,22,.92);font-size:13px;color:#A0A6B4;z-index:50}
+#ui.on{display:flex}
+#ui button{background:#262A34;color:#fff;border:none;padding:7px 14px;border-radius:8px;font:inherit;cursor:pointer}
+#scrub{width:300px}
+#clock{font-variant-numeric:tabular-nums;min-width:5ch;text-align:right}
+</style>
+</head>
+<body>
+<svg id="filters"><defs></defs></svg>
+<div id="stage"><div id="shake">
+  <div id="paper"><div id="glowP"></div><div id="dots"></div></div>
+  <div id="world"></div>
+  <div id="dark"><div id="dstripes"></div><div id="dglow"></div></div>
+  <div id="ybar"></div>
+  <div id="hud">
+    <div id="callout"><span class="t">OWNER TOKO!</span></div>
+    <div id="hl">
+      <div class="hln"><span class="t">MASALAH TOKO MANA</span></div>
+      <div class="hln"><span class="t">YANG MAU ANDA</span></div>
+      <div class="hln"><span class="t"><span class="mk"><i></i><span>RAPIKAN DULU?</span></span></span></div>
+    </div>
+    <div id="note">
+      <div class="ln"><span class="t">Apa pun jawabannya,</span></div>
+      <div class="ln"><span class="t">Anda tidak perlu <span class="mk"><i></i><span>mulai dari nol</span></span></span></div>
+    </div>
+    <div id="price">
+      <div class="lab">Pakai</div>
+      <div class="nm"><div class="ln"><span class="t">Retail Management</span></div><div class="ln"><span class="t">System</span></div></div>
+      <div class="ds">Hingga 146 SOP, form, checklist &amp; Excel untuk seluruh operasional toko</div>
+      <div class="fr">Mulai</div>
+      <div class="nu"><span class="t" id="numv">Rp139.000</span></div>
+    </div>
+    <div id="btn">LIHAT SEMUA DOKUMENNYA →</div>
+  </div>
+</div></div>
+<div id="ui"><button id="btn-play">Pause</button><button id="btn-restart">Restart</button>
+  <input id="scrub" type="range" min="0" max="1000" value="0"><span id="clock">0.00s</span></div>
+
+<script>
+(async()=>{
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const W=1080,H=1350,Q=new URLSearchParams(location.search);
+window.OPENER={W,H,ready:false};
+// ukuran teks diukur setelah font benar-benar termuat
+await Promise.all(['400 100px "Lilita One"','600 40px Figtree','700 40px Figtree','800 40px Figtree'].map(f=>document.fonts.load(f,'Aa0'))).catch(()=>{});
+await document.fonts.ready;
+
+/* ============ UTIL ============ */
+const defs=$('#filters defs');let fc=0;
+function makeBlur(){const id='mb'+(fc++),NS='http://www.w3.org/2000/svg';
+  const f=document.createElementNS(NS,'filter');f.id=id;
+  f.setAttribute('x','-30%');f.setAttribute('y','-60%');f.setAttribute('width','160%');f.setAttribute('height','220%');
+  const g=document.createElementNS(NS,'feGaussianBlur');g.setAttribute('stdDeviation','0 0');f.appendChild(g);defs.appendChild(f);
+  return {url:`url(#${id})`,node:g};}
+function blurTween(tl,targets,at,from,to,dur,{ease='power3.out',ax=1,ay=.08}={}){
+  const b=makeBlur(),o={v:from};
+  tl.set(targets,{filter:b.url},at);
+  tl.to(o,{v:to,duration:dur,ease,onUpdate(){b.node.setAttribute('stdDeviation',`${(o.v*ax).toFixed(2)} ${(o.v*ay).toFixed(2)}`);}},at);
+  tl.set(targets,{filter:'none'},at+dur);}
+// kecilkan font bila baris terpanjang melebihi lebar maksimum
+function fit(el,max,base){el.style.fontSize=base+'px';
+  const w=Math.max(...$$('.t',el).map(s=>s.offsetWidth));
+  if(w>max)el.style.fontSize=(base*max/w).toFixed(1)+'px';
+  return parseFloat(el.style.fontSize);}
+
+/* ============ RAIL LIMA KARTU ============ */
+const CARDS=[
+ {q:'Kasir sering selisih?',        items:['Form Serah Terima Kas','Tracker Selisih Kasir','SOP Kasir'],               pos:[0,0]},
+ {q:'Stok tidak sinkron?',          items:['Kartu Stok Digital','Form Selisih Stok','SOP Stock Opname'],               pos:[1,0]},
+ {q:'Tim kerja tanpa standar?',     items:['Jobdesc Staf Toko','KPI Staf','SOP Pelatihan Kasir'],                      pos:[0,1]},
+ {q:'Supplier sulit dikontrol?',    items:['Evaluasi Supplier','Database Supplier','Kalkulator Margin'],               pos:[1,1]},
+ {q:'Operasional harian berantakan?',items:['SOP Buka & Tutup Toko','Checklist Store Ready','Audit Toko Mingguan'],    pos:[.5,2]}];
+const GX=900,GY=640,CWd=820,CHt=560,world=$('#world');
+CARDS.forEach(c=>{
+  c.x=c.pos[0]*GX;c.y=c.pos[1]*GY;c.cx=c.x+CWd/2;c.cy=c.y+CHt/2;
+  const el=document.createElement('div');el.className='card';el.style.left=c.x+'px';el.style.top=c.y+'px';
+  el.innerHTML='<div class="q"><span></span></div><div class="rib">Solusinya:</div>'+
+    c.items.map((_,k)=>`<div class="it" style="top:${288+k*78}px"><div class="bx"><svg viewBox="0 0 40 40"><path d="M7 21 L17 31 L34 10"/></svg></div><span></span></div>`).join('');
+  $('.q span',el).textContent=c.q;$$('.it > span',el).forEach((s,k)=>s.textContent=c.items[k]);
+  world.appendChild(el);c.el=el;});
+
+/* ============ KAMERA, BIDANG GELAP, GETAR (semua fungsi murni dari t) ============ */
+const CAM={s:1,fx:0,fy:0},DK={t:0,b:0},SH={a:0};
+const dark=$('#dark'),ybar=$('#ybar'),dots=$('#dots'),glowP=$('#glowP'),dstr=$('#dstripes'),dglow=$('#dglow'),shake=$('#shake');
+function render(t){
+  const s=CAM.s;
+  world.style.transform=`translate(${(540-CAM.fx*s).toFixed(2)}px,${(800-CAM.fy*s).toFixed(2)}px) scale(${s.toFixed(4)})`;
+  dark.style.clipPath=`inset(${DK.t.toFixed(1)}px 0 ${DK.b.toFixed(1)}px 0)`;
+  const strip=DK.b>.5&&DK.b<H-1,wipe=DK.t>.5&&DK.t<H-1;
+  ybar.style.opacity=(strip||wipe)?1:0;ybar.style.top=(strip?H-DK.b:DK.t-12).toFixed(1)+'px';
+  dots.style.transform=`translate(${((t*9)%40).toFixed(2)}px,${((t*6)%40).toFixed(2)}px)`;
+  glowP.style.transform=`translate(${(Math.sin(t*.33)*180).toFixed(1)}px,${(Math.cos(t*.27)*140).toFixed(1)}px)`;
+  dstr.style.transform=`translate(${((t*18)%52.33).toFixed(2)}px,0)`;
+  dglow.style.transform=`translate(${(Math.sin(t*.3)*170+120).toFixed(1)}px,${(Math.cos(t*.24)*130+60).toFixed(1)}px)`;
+  shake.style.transform=`translate(${(Math.sin(t*95)*SH.a).toFixed(2)}px,${(Math.cos(t*83)*SH.a*.8).toFixed(2)}px)`;
+}
+
+/* ============ TIMELINE ============ */
+const DURATION=22.5;
+const tl=gsap.timeline({paused:true});
+const pulse=(at,a)=>tl.fromTo(SH,{a},{a:0,duration:.28,ease:'power2.out',immediateRender:false},at);
+const thump=(el,at,amp=1.06)=>{tl.to(el,{scale:amp,duration:.07,ease:'power2.out'},at);tl.to(el,{scale:1,duration:.16,ease:'power2.inOut'},at+.07);};
+
+/* ----- 0:00–0:03  pembuka ----- */
+const callout=$('#callout'),hl=$('#hl'),lines=$$('.hln',hl),hlMark=$('.mk i',hl);
+const fC=fit(callout,940,170),fH=fit(hl,950,104);
+const hC=callout.offsetHeight,hH=hl.offsetHeight;
+gsap.set(callout,{y:675-hC/2});gsap.set(hl,{y:590});
+tl.fromTo(callout,{scale:1.1},{scale:1,duration:.22,ease:'power3.out',immediateRender:false},0);
+pulse(0,12);
+tl.to(callout,{y:430-hC/2,duration:.3,ease:'power3.out'},.6);                         // callout naik sedikit
+lines.forEach((ln,i)=>{const at=.6+i*.25;                                              // tiga ketukan: satu baris per hantaman
+  tl.fromTo(ln,{opacity:0,scale:1.8,y:-30},{opacity:1,scale:1,y:0,duration:.16,ease:'power4.in',immediateRender:false},at);
+  blurTween(tl,ln,at,22,0,.2,{ax:.2,ay:1});
+  thump(ln,at+.16,1.05);pulse(at+.16,8);});
+tl.fromTo(hlMark,{scaleX:0},{scaleX:1,duration:.5,ease:'power3.out',immediateRender:false},1.4);   // stabilo menyapu
+tl.to(callout,{scale:62/fC,y:60-hC/2,duration:.3,ease:'power3.inOut'},3.0);           // mengecil ke strip atas
+tl.to(hl,{scale:38/fH,y:165-hH/2,duration:.3,ease:'power3.inOut'},3.0);
+tl.to(DK,{b:H-250,duration:.3,ease:'power3.inOut'},3.0);                              // bidang gelap menyusut jadi strip
+
+/* ----- 0:03–0:15,5  lima kartu: tanya → solusinya → tiga centang ----- */
+const T0=[3.3,5.8,8.3,10.8,13.3];
+tl.set(CAM,{s:1.06,fx:CARDS[0].cx-1400,fy:CARDS[0].cy},0);
+CARDS.forEach((c,i)=>{
+  const t0=T0[i],el=c.el,q=$('.q',el),rib=$('.rib',el),its=$$('.it',el);
+  gsap.set(q,{y:180});gsap.set(rib,{y:146});
+  // desir masuk: kamera menyusuri rel ke kartu ini
+  if(i===0)tl.to(CAM,{fx:c.cx,fy:c.cy,duration:.4,ease:'power3.out'},3.0);
+  else tl.to(CAM,{fx:c.cx,fy:c.cy,duration:.4,ease:'power3.inOut'},t0-.05);
+  // hentakan pita
+  tl.fromTo(rib,{opacity:1,x:-1100},{opacity:1,x:0,duration:.2,ease:'power4.in',immediateRender:false},t0+.4);
+  tl.fromTo(rib,{scaleY:1.2},{scaleY:1,duration:.16,ease:'power2.out',immediateRender:false},t0+.6);
+  pulse(t0+.58,5);
+  // desir balik: pertanyaan dan pita naik, memberi tempat untuk tiga item
+  tl.to(q,{y:0,duration:.28,ease:'power3.out'},t0+.72);
+  tl.to(rib,{y:0,duration:.28,ease:'power3.out'},t0+.72);
+  // tiga centang mengetuk
+  its.forEach((it,k)=>{const at=t0+1.0+k*.3,bx=$('.bx',it),pth=$('path',it);
+    tl.fromTo(it,{opacity:0,x:70},{opacity:1,x:0,duration:.22,ease:'power3.out',immediateRender:false},at);
+    tl.to(pth,{strokeDashoffset:0,duration:.16,ease:'power2.out'},at+.14);
+    tl.to(bx,{backgroundColor:'#FFE14D',duration:.1},at+.14);
+    tl.fromTo(bx,{scale:1.38},{scale:1,duration:.22,ease:'back.out(3)',immediateRender:false},at+.14);});
+});
+
+/* ----- 0:15,5–0:17,5  strip hilang, kamera mundur, lima kartu berjajar ----- */
+tl.to(DK,{b:H,duration:.3,ease:'power2.in'},15.5);
+tl.to([callout,hl],{y:'-=240',opacity:0,duration:.3,ease:'power2.in'},15.5);
+tl.to(CAM,{s:.535,fx:860,fy:920,duration:.9,ease:'power3.inOut'},15.55);
+const note=$('#note'),noteLn=$$('.ln',note);fit(note,960,62);
+tl.set(note,{opacity:1},16.3);
+noteLn.forEach((ln,i)=>{tl.fromTo(ln,{opacity:0,y:40},{opacity:1,y:0,duration:.5,ease:'power4.out',immediateRender:false},16.3+i*.3);
+  blurTween(tl,ln,16.3+i*.3,24,0,.5,{ax:.2,ay:1});});
+tl.fromTo($('.mk i',note),{scaleX:0},{scaleX:1,duration:.5,ease:'power3.out',immediateRender:false},17.0);
+tl.fromTo($$('.bx'),{scale:1},{scale:1.3,duration:.14,yoyo:true,repeat:1,ease:'sine.inOut',stagger:.04,immediateRender:false},16.1);   // 15 centang berdenyut
+tl.to(note,{opacity:0,duration:.25},17.25);
+
+/* ----- 0:17,5–0:20,5  harga ----- */
+const nm=$$('#price .nm .ln'),nmBox=$('#price .nm');fit(nmBox,960,112);fit(note,960,62);
+const ds=$('#price .ds'),lab=$('#price .lab'),fr=$('#price .fr'),nu=$('#price .nu'),nv=$('#numv');
+fit(nu,920,200);nv.style.width=nv.offsetWidth+'px';nv.textContent='Rp0';
+tl.set(DK,{t:H,b:0},17.4);
+tl.to(DK,{t:0,duration:.45,ease:'power3.inOut'},17.4);                                // bidang gelap menyapu naik dari bawah
+tl.fromTo(lab,{opacity:0,y:30},{opacity:1,y:0,duration:.4,ease:'power4.out',immediateRender:false},17.8);
+nm.forEach((ln,i)=>{const at=17.9+i*.18;
+  tl.fromTo(ln,{opacity:0,scale:1.5,y:-24},{opacity:1,scale:1,y:0,duration:.16,ease:'power4.in',immediateRender:false},at);
+  blurTween(tl,ln,at,18,0,.2,{ax:.2,ay:1});thump(ln,at+.16,1.04);pulse(at+.16,6);});
+tl.fromTo(ds,{opacity:0,y:30},{opacity:1,y:0,duration:.5,ease:'power4.out',immediateRender:false},18.5);
+tl.fromTo(fr,{opacity:0,y:20},{opacity:1,y:0,duration:.4,ease:'power4.out',immediateRender:false},18.9);
+tl.fromTo(nu,{opacity:0},{opacity:1,duration:.1,immediateRender:false},18.95);
+const cnt={v:0};
+tl.fromTo(cnt,{v:0},{v:139000,duration:.9,ease:'power3.out',immediateRender:false,
+  onUpdate(){nv.textContent='Rp'+String(Math.round(cnt.v)).replace(/\B(?=(\d{3})+(?!\d))/g,'.');}},18.95);
+tl.set(nu,{transformOrigin:'50% 60%'},18.9);
+thump(nu,19.85,1.1);pulse(19.85,10);                                                   // hentakan saat angka berhenti
+
+/* ----- 0:20,5–0:22,5  tombol merah ----- */
+const btn=$('#btn');
+tl.fromTo(btn,{opacity:0,y:-560},{opacity:1,y:0,duration:.26,ease:'power4.in',immediateRender:false},20.5);
+thump(btn,20.76,1.07);pulse(20.76,8);
+tl.to(btn,{scale:1.045,duration:.375,yoyo:true,repeat:3,ease:'sine.inOut'},21.0);
+
+tl.to({},{duration:.01},DURATION);
+
+/* ============ PEREKAT ============ */
+const stage=$('#stage');
+const fitStage=()=>{const s=Math.min(innerWidth/W,innerHeight/H);stage.style.transform=`translate(-50%,-50%) scale(${s})`;};
+addEventListener('resize',fitStage);fitStage();
+const clock=$('#clock'),scrub=$('#scrub'),btnPlay=$('#btn-play');let scrubbing=false;
+(function frame(){const t=tl.time();render(t);clock.textContent=t.toFixed(2)+'s';
+  if(!scrubbing)scrub.value=String(t/DURATION*1000);requestAnimationFrame(frame);})();
+const toggle=()=>{if(tl.paused()||tl.progress()>=1){if(tl.progress()>=1)tl.progress(0);tl.play();btnPlay.textContent='Pause';}
+  else{tl.pause();btnPlay.textContent='Play';}};
+btnPlay.onclick=toggle;
+$('#btn-restart').onclick=()=>{tl.pause(0);tl.play();btnPlay.textContent='Pause';};
+scrub.addEventListener('pointerdown',()=>{scrubbing=true;tl.pause();btnPlay.textContent='Play';});
+addEventListener('pointerup',()=>scrubbing=false);
+scrub.addEventListener('input',()=>{tl.pause();tl.time(scrub.value/1000*DURATION);});
+addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();toggle();}
+  if(/^[rR]$/.test(e.key)){tl.pause(0);tl.play();}if(/^[hH]$/.test(e.key))$('#ui').classList.toggle('on');});
+if(Q.has('debug'))$('#ui').classList.add('on');
+tl.eventCallback('onComplete',()=>{tl.play(0);});
+const seek=t=>{tl.pause();tl.time(t,false);if(gsap.ticker.tick)gsap.ticker.tick();render(t);};
+Object.assign(window.OPENER,{tl,DURATION,seek,ready:true});
+if(!Q.has('clean'))tl.play(0);
+})();
+</script>
+</body>
+</html>
