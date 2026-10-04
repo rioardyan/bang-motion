@@ -18,9 +18,9 @@ jadi dokumen · pembuka: sapaan + hook · penutup: "4 dari 146" + CTA`
 | 4,6–8,4 | Uang laci selalu selisih | Panduan Anti-Fraud Kasir: 10 Modus dan Cara Mendeteksinya (#118, Word) |
 | 8,4–12,0 | Stok selalu selisih | SOP Stock Opname Harian, Mingguan dan Bulanan (#102, Word) |
 | 12,0–15,6 | Barang hilang tanpa jejak | Dashboard Shrinkage Monitor: Selisih Stok vs Target Toleransi (#110, Excel) |
-| 15,6–19,6 | Kulakan masih pakai feeling | Kalkulator Profitabilitas dan Alokasi Modal Terbatas (#146, Excel, bonus) |
+| 15,6–19,6 | Nyetok barang masih pakai feeling? | Kalkulator Profitabilitas dan Alokasi Modal Terbatas (#146, Excel, bonus) |
 | 19,6–23,0 | Itu baru 4 dari 146 dokumen | dinding 146 sel menyala semua |
-| 23,0–28,5 | label: Retail Manajemen Sistem · besar: Sekali bayar, bukan langganan | tombol Dapatkan Sekarang |
+| 23,0–28,5 | label: Retail Manajemen Sistem · besar, tiga baris bergantian: Toko lebih rapi / Untung lebih terjaga / Anda lebih tenang | tombol Dapatkan Sekarang |
 
 Catatan hook: ejaan "Suplier" dibetulkan jadi "Supplier" (sesuai ejaan di daftar dokumen).
 Sumber angka: master list dokumen (146 = 90 Bagian A + 55 Bagian B + 1 bonus).
@@ -37,3 +37,7 @@ Sumber angka: master list dokumen (146 = 90 Bagian A + 55 Bagian B + 1 bonus).
 - Permukaan latar: gradien teal + cahaya radial + garis tipis kertas nota. Tanpa butiran.
 - Gaya objek: flat kertas bersusun, bayangan lembut.
 - Momen istimewa: seluruh dinding menyala bergelombang di "4 dari 146".
+
+## Revisi
+- Bab 4: "Kulakan masih pakai feeling" → "Nyetok barang masih pakai feeling?" (kata-kata dari user).
+- Penutup: "Sekali bayar, bukan langganan" dibuang (sifat produk, bukan manfaat). Diganti tiga manfaat menyeluruh: toko (rapi), bisnis (untung terjaga), pemilik (tenang). Sumber: daftar manfaat di dokumen produk ("uang tidak bocor, keuntungan terjaga"; "tenang").

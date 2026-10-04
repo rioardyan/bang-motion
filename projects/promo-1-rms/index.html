@@ -128,8 +128,8 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:"Sc
 #wide .wn b{font:900 300px/.9 "Big Shoulders Display";color:var(--amber);min-width:3ch;text-align:right;font-variant-numeric:tabular-nums;text-shadow:0 8px 0 rgba(3,30,34,.28);opacity:0}
 #wide .wn span{font:900 112px/1 "Big Shoulders Display";color:#fff;opacity:0}
 #close{left:0;right:0;top:0;bottom:0}
-#close .cl{position:absolute;left:0;right:0;top:318px;text-align:center;font:600 54px/1 "Schibsted Grotesk";letter-spacing:.04em;color:var(--mint);opacity:0}
-#close .cb{position:absolute;left:30px;right:30px;top:410px;text-align:center;font:900 142px/.98 "Big Shoulders Display";color:#fff;text-shadow:0 5px 0 rgba(3,30,34,.35)}
+#close .cl{position:absolute;left:0;right:0;top:262px;text-align:center;font:600 54px/1 "Schibsted Grotesk";letter-spacing:.04em;color:var(--mint);opacity:0}
+#close .cb{position:absolute;left:30px;right:30px;top:340px;text-align:center;font:900 120px/1.05 "Big Shoulders Display";color:#fff;text-shadow:0 5px 0 rgba(3,30,34,.35)}
 #btn{position:absolute;left:50%;top:950px;width:820px;height:150px;margin-left:-410px;border-radius:30px;background:var(--amber);color:#06383D;
   display:flex;align-items:center;justify-content:center;font:700 70px/1 "Schibsted Grotesk";letter-spacing:-.02em;opacity:0;
   box-shadow:0 12px 0 #B8901A, 0 34px 46px -12px rgba(3,20,24,.6)}
@@ -167,12 +167,12 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:"Sc
     <div class="ptxt al-c" id="p1"><div class="ln" data-t="Uang laci"></div><div class="ln" data-t="selalu selisih" data-am="selisih"></div></div>
     <div class="ptxt al-l" id="p2"><div class="ln" data-t="Stok"></div><div class="ln" data-t="selalu selisih" data-am="selisih"></div></div>
     <div class="ptxt al-r" id="p3"><div class="ln" data-t="Barang hilang"></div><div class="ln" data-t="tanpa jejak" data-am="jejak"></div></div>
-    <div class="ptxt al-c" id="p4" style="font-size:146px"><div class="ln" data-t="Kulakan masih"></div><div class="ln" data-t="pakai feeling" data-am="feeling"></div></div>
+    <div class="ptxt al-c" id="p4" style="font-size:128px;top:112px"><div class="ln" data-t="Nyetok barang"></div><div class="ln" data-t="masih pakai"></div><div class="ln" data-t="feeling?" data-am="feeling"></div></div>
 
     <div class="phead" id="h1">Uang laci selalu selisih</div>
     <div class="phead" id="h2">Stok selalu selisih</div>
     <div class="phead" id="h3">Barang hilang tanpa jejak</div>
-    <div class="phead" id="h4">Kulakan masih pakai feeling</div>
+    <div class="phead" id="h4" style="font-size:52px">Nyetok barang masih pakai feeling?</div>
 
     <!-- visual masalah -->
     <div class="vis" id="v1">
@@ -203,7 +203,7 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:"Sc
         <g fill="#BFE0E3"><rect x="44" y="270" width="104" height="22" rx="9"/><rect x="164" y="290" width="104" height="18" rx="9"/><rect x="288" y="270" width="104" height="22" rx="9"/></g>
       </svg>
     </div>
-    <div class="vis" id="v4">
+    <div class="vis" id="v4" style="top:744px">
       <div class="bubble">Lagi rame, order banyak deh</div>
       <svg width="680" height="283" viewBox="0 0 600 250" style="display:block;margin:34px auto 0">
         <g fill="#0E7C86"><rect x="40" y="130" width="140" height="110" rx="10"/><rect x="40" y="40" width="140" height="84" rx="10"/><rect x="230" y="150" width="140" height="90" rx="10"/><rect x="420" y="100" width="140" height="140" rx="10"/></g>
@@ -239,7 +239,7 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:"Sc
     <!-- 4. penutup -->
     <div id="close">
       <div class="cl">RETAIL MANAJEMEN SISTEM</div>
-      <div class="cb"><div class="ln" data-t="Sekali bayar,"></div><div class="ln" data-t="bukan langganan" data-am="langganan bukan"></div></div>
+      <div class="cb"><div class="ln" data-t="Toko lebih rapi" data-am="rapi"></div><div class="ln" data-t="Untung lebih terjaga" data-am="terjaga"></div><div class="ln" data-t="Anda lebih tenang" data-am="tenang"></div></div>
       <div id="btn">Dapatkan Sekarang</div>
     </div>
   </div>
@@ -450,16 +450,18 @@ tl.set($('#bgC'),{opacity:1},TC-.1);
 tl.set(BG,{cx:540,cy:700},TC-.1);
 tl.to(BG,{r:0,duration:.6,ease:'power2.inOut'},TC-.05);                      // teal menyusut, teal gelap terbuka
 tl.to(CAM,{s:.7,duration:5.4,ease:'sine.inOut'},TC);
-tl.to(wall,{opacity:.2,duration:.5},TC-.05);
+tl.to(wall,{opacity:.12,duration:.5},TC-.05);
 const cl=$('#close .cl'),cb=buildGroup($('#close .cb')),btn=$('#btn');
 gsap.set(btn,{transformOrigin:'50% 60%'});
 tl.fromTo(cl,{opacity:0,y:30},{opacity:1,y:0,duration:.6,ease:'power4.out',immediateRender:false},TC+.45);
-inLeft({el:cb.lines[0].words[0].parentNode,chars:cb.lines[0].chars},TC+.7,{dur:.7});
-inRight({el:cb.lines[1].words[0].parentNode,chars:cb.lines[1].chars},TC+1.0,{dur:.7});
-tl.fromTo(btn,{opacity:0,y:-380,scale:1.18},{opacity:1,y:0,scale:1,duration:.34,ease:'power4.in',immediateRender:false},TC+1.9);
-thump(btn,TC+2.24,1.06);
-tl.fromTo(btn,{boxShadow:'0 12px 0 #B8901A, 0 34px 46px -12px rgba(3,20,24,.6)'},{boxShadow:'0 4px 0 #B8901A, 0 18px 30px -12px rgba(3,20,24,.5)',duration:.07,yoyo:true,repeat:1,immediateRender:false},TC+2.24);
-tl.to(btn,{scale:1.035,duration:.6,yoyo:true,repeat:3,ease:'sine.inOut'},TC+3.0);
+const cbl=cb.lines.map(l=>({el:l.words[0].parentNode,chars:l.chars}));
+inLeft(cbl[0],TC+.7,{dur:.7});
+inRight(cbl[1],TC+1.25,{dur:.7});
+inUp(cbl[2],TC+1.8,{dur:.8});
+tl.fromTo(btn,{opacity:0,y:-380,scale:1.18},{opacity:1,y:0,scale:1,duration:.34,ease:'power4.in',immediateRender:false},TC+2.9);
+thump(btn,TC+3.24,1.06);
+tl.fromTo(btn,{boxShadow:'0 12px 0 #B8901A, 0 34px 46px -12px rgba(3,20,24,.6)'},{boxShadow:'0 4px 0 #B8901A, 0 18px 30px -12px rgba(3,20,24,.5)',duration:.07,yoyo:true,repeat:1,immediateRender:false},TC+3.24);
+tl.to(btn,{scale:1.035,duration:.5,yoyo:true,repeat:3,ease:'sine.inOut'},TC+3.5);
 
 tl.to({},{duration:.01},DURATION);
 
