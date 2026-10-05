@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="id">
+<!-- Made with the Bang Motion skill (https://github.com/bangtutorial/bang-motion) - MIT -->
+<head>
+<meta charset="utf-8">
+<title>Kontrak Nyangkut Legal</title>
+<!--
+  STYLE BRIEF (catatan; naskah + visual disetujui user) — promo 6, Ring 1 Hello
+  Konsep             : masalah → lenyap: jendela kerja menumpuk menimbun kartu kontrak, lalu menutup sekaligus;
+                       kartu yang sama berjalan lewat SOP → Matriks Approval → Register Kontrak
+  Sidik jari         : masalah → lenyap · 9 babak · kartu kontrak dilempar antar jendela / chip terkirim / 3 pertanyaan /
+                       jendela menimbun / bilah kontrol menipis / jendela menutup / 3 panel sistem / register penuh / tombol ·
+                       jendela sudah terbuka di frame 1 · tombol "Lihat Sistem Kerjanya" ditekan
+  Palet (mode gelap tools) : latar #0D1B1C, panel #132526, garis #27403F, teal terang #4FC3CC, kuning #FFC75A,
+                       merah #FF7B73, hijau #6FD69C, tombol #FFA200
+  Font               : Manrope 500/600/700/800
+  Tanda tangan gerak : jendela menumpuk lalu menutup sekaligus
+  Gerak latar        : cahaya teal lembut bergeser pelan
+-->
+<link rel="stylesheet" href="vendor/fonts.css">
+<script src="vendor/gsap.min.js"></script>
+<style>
+:root{--bg:#0D1B1C;--card:#132526;--line:#27403F;--ink:#E7F0F0;--ink2:#A9BDBE;--teal:#4FC3CC;--teal-50:#12302F;--teal-100:#1D4442;
+  --amber:#FFC75A;--red:#FF7B73;--green:#6FD69C;--btn:#FFA200;--btn-ink:#1D2B2D;--ff:"Manrope",system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#0D1B1C;overflow:hidden}
+#filters{position:fixed;width:0;height:0;opacity:0;pointer-events:none}
+#stage{position:fixed;left:50%;top:50%;width:1080px;height:1350px;overflow:hidden;background:var(--bg);transform:translate(-50%,-50%);color:var(--ink);font-family:var(--ff)}
+.glow{position:absolute;border-radius:50%;pointer-events:none}
+#g1{width:1200px;height:1200px;background:radial-gradient(circle,rgba(79,195,204,.16),transparent 64%)}
+#g2{width:1000px;height:1000px;background:radial-gradient(circle,rgba(29,68,66,.7),transparent 64%)}
+#world{position:absolute;left:0;top:0;width:1080px;height:1350px;transform-origin:0 0;will-change:transform}
+/* jendela kerja */
+.win{position:absolute;width:760px;height:540px;border-radius:24px;background:var(--card);border:2px solid var(--line);
+  box-shadow:0 30px 70px rgba(0,0,0,.5);overflow:hidden}
+.win .bar{height:64px;display:flex;align-items:center;gap:12px;padding:0 22px;background:#183031;border-bottom:2px solid var(--line)}
+.win .bar i{width:16px;height:16px;border-radius:50%;background:#3B5557}
+.win .bar b{margin-left:10px;font:800 30px var(--ff);color:var(--ink2)}
+.win .body{padding:26px}
+.bub{height:56px;border-radius:18px;background:#1D4442;margin-bottom:14px}
+.bub.me{background:#245A55;margin-left:28%}
+.mail{display:flex;gap:14px;align-items:center;height:62px;border-bottom:2px solid var(--line)}
+.mail i{width:34px;height:34px;border-radius:50%;background:#2B4446}
+.mail u{flex:1;height:16px;border-radius:8px;background:#2B4446;text-decoration:none}
+.fold{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.fold i{height:96px;border-radius:12px;background:#1D4442}
+.sheet{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.sheet i{height:52px;background:#183031}
+.mini{position:absolute;z-index:45;width:420px;height:300px;border-radius:20px;background:var(--card);border:2px solid var(--line);box-shadow:0 24px 50px rgba(0,0,0,.5)}
+.mini .bar{height:46px;border-bottom:2px solid var(--line);background:#183031;border-radius:18px 18px 0 0}
+/* kartu kontrak */
+#kc{position:absolute;left:0;top:0;width:380px;height:150px;margin:-75px 0 0 -190px;border-radius:22px;background:#fff;color:#16292B;
+  display:flex;align-items:center;gap:20px;padding:0 26px;box-shadow:0 24px 50px rgba(0,0,0,.45);z-index:40}
+#kc svg{width:62px;height:74px;flex:0 0 auto}
+#kc b{display:block;font:800 36px var(--ff)}
+#kc span{display:block;font:600 28px var(--ff);color:#4F6365}
+.chipx{position:absolute;font:800 30px var(--ff);padding:8px 18px;border-radius:999px;white-space:nowrap;z-index:41}
+#sent{left:236px;top:-58px;background:var(--green);color:#0D1B1C}
+.qm{position:absolute;width:64px;height:64px;border-radius:50%;background:var(--amber);color:#0D1B1C;display:grid;place-items:center;font:800 40px var(--ff);z-index:41}
+#ctl{position:absolute;right:60px;top:372px;width:300px;opacity:0;z-index:45}
+#ctl span{font:700 30px var(--ff);color:var(--ink2)}
+#ctl .tr{height:20px;border-radius:10px;background:#1D2F30;margin-top:10px;overflow:hidden}
+#ctl .tr i{display:block;height:100%;width:100%;background:var(--teal);transform-origin:0 50%}
+/* panel sistem */
+.pn{position:absolute;left:60px;width:960px;border-radius:26px;background:var(--card);border:2px solid var(--line);padding:24px 28px}
+.pn h5{font:800 30px var(--ff);color:var(--teal);letter-spacing:.02em;margin-bottom:16px}
+#p1{top:372px;height:190px}
+.rail{display:flex;gap:8px;align-items:center}
+.rail span{flex:auto;padding:0 14px;white-space:nowrap;height:64px;border-radius:14px;background:var(--teal-50);border:2px solid var(--line);display:grid;place-items:center;font:700 28px var(--ff);color:var(--ink2)}
+.rail span.on{background:var(--teal);color:#0D1B1C;border-color:var(--teal)}
+#p2{top:584px;height:300px}
+.mx{display:grid;grid-template-columns:1.1fr 1fr 1.2fr;gap:8px}
+.mx .hd{font:700 28px var(--ff);color:var(--ink2);padding:6px 4px}
+.mx i{height:46px;border-radius:10px;background:#183031}
+.mx i.hit{background:var(--teal-100);border:3px solid var(--teal);position:relative}
+.mx i.hit em{position:absolute;right:12px;top:4px;font:800 26px var(--ff);font-style:normal;color:#0D1B1C;background:var(--teal);padding:2px 12px;border-radius:999px;white-space:nowrap}
+#p3{top:906px;height:400px}
+.rg{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:8px;align-items:center}
+.rg .hd{font:700 28px var(--ff);color:var(--ink2);padding:4px}
+.rg i{height:44px;border-radius:10px;background:#183031}
+.rg .nm{font:700 30px var(--ff);color:var(--ink)}
+.st{font:800 26px var(--ff);padding:6px 14px;border-radius:999px;justify-self:start;white-space:nowrap}
+.st.ok{background:rgba(111,214,156,.18);color:var(--green)}
+.st.rv{background:rgba(79,195,204,.18);color:var(--teal)}
+.st.wn{background:rgba(255,199,90,.18);color:var(--amber)}
+.st.ap{background:rgba(255,162,0,.2);color:#FFB53D}
+/* HUD */
+#hud{position:absolute;inset:0;pointer-events:none}
+#band{position:absolute;left:0;right:0;top:0;height:350px;background:linear-gradient(#0D1B1C 0%,rgba(13,27,28,.95) 66%,rgba(13,27,28,0) 100%)}
+.say{position:absolute;left:66px;right:66px;top:84px;font:700 54px/1.16 var(--ff);letter-spacing:-.018em}
+.say.sm{font-size:48px}
+.w{display:inline-block;opacity:0}
+#qlist{position:absolute;left:66px;right:66px;top:72px;display:flex;flex-direction:column;gap:10px}
+#qlist p{font:700 46px/1.15 var(--ff);display:flex;gap:16px;align-items:center;opacity:0}
+#qlist p i{flex:0 0 52px;height:52px;border-radius:50%;background:var(--amber);color:#0D1B1C;display:grid;place-items:center;font:800 32px var(--ff);font-style:normal}
+#hl{top:430px;text-align:center;font:800 76px/1.08 var(--ff);letter-spacing:-.028em}
+#hl .k{color:var(--teal)}
+#end{position:absolute;left:0;right:0;top:360px;text-align:center}
+#end h2{font:800 80px/1 var(--ff);letter-spacing:-.03em;opacity:0}
+#end p{font:600 38px var(--ff);color:var(--ink2);margin-top:22px;opacity:0}
+#cta{position:absolute;left:540px;top:820px;width:760px;height:150px;opacity:0}
+#cta .b{position:absolute;inset:0;border-radius:75px;background:var(--btn);display:grid;place-items:center;font:800 56px var(--ff);color:var(--btn-ink);
+  box-shadow:0 0 0 14px rgba(255,162,0,.18),0 30px 60px rgba(0,0,0,.45)}
+#tap{position:absolute;left:0;top:0;width:120px;height:120px;border-radius:50%;border:6px solid #fff;opacity:0}
+#ui{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);display:none;gap:12px;align-items:center;padding:10px 16px;
+  border-radius:14px;background:rgba(6,20,22,.92);color:#9fb;font:13px system-ui;z-index:99}
+#ui.on{display:flex} #ui button{background:#1d3a3c;color:#fff;border:0;padding:7px 14px;border-radius:8px;cursor:pointer}
+#scrub{width:340px} #clock{font-variant-numeric:tabular-nums;min-width:5.5ch;text-align:right}
+</style>
+</head>
+<body>
+<svg id="filters"><defs></defs></svg>
+<div id="stage">
+  <i class="glow" id="g1"></i><i class="glow" id="g2"></i>
+  <div id="world">
+    <div class="win" id="wChat"><div class="bar"><i></i><i></i><i></i><b>Chat</b></div><div class="body">
+      <div class="bub"></div><div class="bub me"></div><div class="bub" style="width:60%"></div><div class="bub me"></div><div class="bub" style="width:70%"></div></div></div>
+    <div class="win" id="wMail"><div class="bar"><i></i><i></i><i></i><b>Email</b></div><div class="body">
+      <div class="mail"><i></i><u></u></div><div class="mail"><i></i><u style="flex:.7"></u></div><div class="mail"><i></i><u></u></div><div class="mail"><i></i><u style="flex:.5"></u></div><div class="mail"><i></i><u></u></div></div></div>
+    <div class="win" id="wFold"><div class="bar"><i></i><i></i><i></i><b>Folder</b></div><div class="body"><div class="fold">
+      <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div>
+    <div class="win" id="wXls"><div class="bar"><i></i><i></i><i></i><b>Spreadsheet</b></div><div class="body"><div class="sheet">
+      <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div>
+    <div id="minis"></div>
+
+    <div class="pn" id="p1"><h5>SOP SIKLUS KONTRAK</h5><div class="rail" id="rail">
+      <span>Permintaan</span><span>Review</span><span>Negosiasi</span><span>Approval</span><span>Tanda tangan</span></div></div>
+    <div class="pn" id="p2"><h5>MATRIKS KEWENANGAN APPROVAL</h5><div class="mx" id="mx">
+      <div class="hd">Nilai transaksi</div><div class="hd">Jenis dokumen</div><div class="hd">Yang wajib approve</div>
+      <i></i><i></i><i></i><i></i><i></i><i class="hit" id="hit"><em>✓</em></i><i></i><i></i><i></i></div></div>
+    <div class="pn" id="p3"><h5>REGISTER KONTRAK</h5><div class="rg" id="rg">
+      <div class="hd">Kontrak</div><div class="hd">Status</div><div class="hd">Jatuh tempo</div>
+      <div class="nm" id="rowNm">Kontrak Vendor</div><span class="st ap" id="rowSt">Menunggu approval</span><i></i>
+      <i class="r2"></i><span class="st ok r2">Aktif</span><i class="r2"></i>
+      <i class="r2"></i><span class="st rv r2">Review</span><i class="r2"></i>
+      <i class="r2"></i><span class="st wn r2">Mendekati jatuh tempo</span><i class="r2"></i>
+      <i class="r2"></i><span class="st ok r2">Aktif</span><i class="r2"></i>
+    </div></div>
+
+    <div id="kc"><svg viewBox="0 0 62 74"><path d="M6 4h34l16 16v50H6z" fill="#EEF7F8" stroke="#0E7C86" stroke-width="4"/><path d="M40 4v16h16M16 36h30M16 46h30M16 56h20" stroke="#0E7C86" stroke-width="4" fill="none"/></svg>
+      <div><b>Kontrak Vendor</b><span>draf v3.docx</span></div>
+      <span class="chipx" id="sent">Terkirim ✓</span>
+      <span class="qm" id="q1" style="left:-30px;top:-34px">?</span><span class="qm" id="q2" style="right:-30px;top:-34px">?</span><span class="qm" id="q3" style="left:160px;bottom:-40px">?</span>
+    </div>
+    <div id="ctl"><span>Kontrol atas kontrak</span><div class="tr"><i id="ctli"></i></div></div>
+  </div>
+
+  <div id="hud">
+    <div id="band"></div>
+    <div class="say" id="s0">Kontrak ini sebenarnya sudah sampai mana?</div>
+    <div class="say" id="s1">Kontrak sudah dikirim.</div>
+    <div id="qlist"><p><i>?</i>Tapi sudah direview siapa?</p><p><i>?</i>Sudah di-approve belum?</p><p><i>?</i>Masa berlakunya sampai kapan?</p></div>
+    <div class="say sm" id="s2">Kalau semuanya masih dilacak dari chat, email, dan ingatan,</div>
+    <div class="say sm" id="s3">kerja legal makin banyak, kontrolnya malah makin tipis.</div>
+    <div class="say" id="hl">Jangan biarkan kontrak <span class="k">nyangkut</span> cuma karena gak jelas siapa yang harus approve</div>
+    <div class="say sm" id="s4">Legal Management System menyatukan alur kontrak lewat SOP, matriks approval, sampai register kontrak.</div>
+    <div class="say sm" id="s5">Tahu kontrak sudah di tahap mana dan siapa yang harus approve. Tanpa bongkar chat satu per satu.</div>
+    <div id="end"><h2>Legal Management System</h2><p>SOP · Matriks Approval · Register Kontrak</p></div>
+    <div id="cta"><div class="b">Lihat Sistem Kerjanya →</div><div id="tap"></div></div>
+  </div>
+</div>
+<div id="ui"><button id="bPlay">Pause</button><button id="bRe">Restart</button>
+  <input id="scrub" type="range" min="0" max="1000" value="0"><span id="clock">0.00s</span></div>
+
+<script>
+Promise.all(['800 76px Manrope','700 54px Manrope','600 30px Manrope','500 30px Manrope'].map(f=>document.fonts.load(f))).then(()=>document.fonts.ready).then(function(){
+"use strict";
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const W=1080,H=1350,DURATION=25,Q=new URLSearchParams(location.search),NS='http://www.w3.org/2000/svg';
+
+/* jendela kecil yang menimbun kartu */
+const minis=$('#minis'),MINI=[[40,560,-8],[620,520,7],[300,700,-4],[80,860,5],[600,880,-6],[340,980,3],[20,1060,-5],[640,1050,6]];
+MINI.forEach((m,i)=>{const e=document.createElement('div');e.className='mini';e.style.left=m[0]+'px';e.style.top=m[1]+'px';e.innerHTML='<div class="bar"></div>';minis.appendChild(e);});
+
+function words(el){const out=[];const walk=n=>{[...n.childNodes].forEach(c=>{if(c.nodeType===3){const f=document.createDocumentFragment();
+  c.textContent.split(/(\s+)/).forEach(p=>{if(!p)return;if(/^\s+$/.test(p)){f.appendChild(document.createTextNode(' '));return;}
+  const s=document.createElement('span');s.className='w';s.textContent=p;f.appendChild(s);out.push(s);});n.replaceChild(f,c);}
+  else if(c.nodeType===1)walk(c);});};walk(el);return out;}
+const defs=$('#filters defs');let fc=0;
+function blurTween(tl,el,at,from,to,dur,ease='power3.out'){const id='mb'+(fc++),f=document.createElementNS(NS,'filter');f.id=id;
+  ['x','y'].forEach(k=>f.setAttribute(k,'-40%'));['width','height'].forEach(k=>f.setAttribute(k,'180%'));
+  const g=document.createElementNS(NS,'feGaussianBlur');g.setAttribute('stdDeviation','0 0');f.appendChild(g);defs.appendChild(f);
+  const o={v:from};tl.set(el,{filter:`url(#${id})`},at);
+  tl.to(o,{v:to,duration:dur,ease,onUpdate(){g.setAttribute('stdDeviation',`${(o.v*.12).toFixed(2)} ${o.v.toFixed(2)}`);}},at);
+  tl.set(el,{filter:'none'},at+dur+.01);}
+
+const tl=gsap.timeline({paused:true});
+const ini=(t,v)=>{gsap.set(t,v);tl.set(t,v,0);};
+const CAM={s:1,fx:540,fy:675};
+const shot=(at,dur,s,fx,fy,ease='power2.inOut')=>tl.to(CAM,{s,fx,fy,duration:dur,ease},at);
+const SAYS={};$$('#hud .say').forEach(el=>{SAYS[el.id]=words(el);});
+Object.keys(SAYS).filter(k=>k!=='s0').forEach(k=>ini(SAYS[k],{opacity:0}));
+const sayIn=(id,at,st=.045)=>{tl.fromTo(SAYS[id],{opacity:0,y:26},{opacity:1,y:0,duration:.5,ease:'power4.out',stagger:st,immediateRender:false},at);
+  blurTween(tl,$('#'+id),at,14,0,.5+st*Math.min(SAYS[id].length,8));};
+const sayOut=(id,at)=>{tl.to(SAYS[id],{opacity:0,y:-26,duration:.3,ease:'power2.in',stagger:.008},at);blurTween(tl,$('#'+id),at,0,16,.36,'power2.in');};
+gsap.set('#cta',{xPercent:-50,yPercent:-50});
+
+/* posisi jendela besar */
+const WINS=['#wChat','#wMail','#wFold','#wXls'], WP=[[70,400,-4],[250,520,3],[110,650,-2],[260,760,4]];
+WINS.forEach((w,i)=>ini(w,{x:WP[i][0],y:WP[i][1],rotation:WP[i][2],opacity:0,scale:.9,zIndex:10+i}));
+ini('#wChat',{opacity:1,scale:1});
+const KP=WINS.map((w,i)=>({x:WP[i][0]+380,y:WP[i][1]+300}));
+
+/* --- 0–3 hook: kartu dilempar antar jendela --- */
+ini(SAYS.s0,{opacity:i=>i<2?1:0,y:0});
+tl.fromTo(SAYS.s0.slice(2),{opacity:0,y:26},{opacity:1,y:0,duration:.5,ease:'power4.out',stagger:.07,immediateRender:false},.05);
+ini('#kc',{x:KP[0].x,y:KP[0].y,rotation:-3,scale:1});
+[1,2,3].forEach((k,j)=>{const at=.55+j*.62;
+  tl.to(WINS[k],{opacity:1,scale:1,duration:.3,ease:'back.out(1.6)'},at);
+  tl.to('#kc',{x:KP[k].x,y:KP[k].y,rotation:(j%2?4:-4),duration:.42,ease:'power3.inOut'},at+.05);});
+/* kembali ke email: terkirim */
+tl.to(WINS[1],{zIndex:20,duration:.01},2.6);
+tl.to('#kc',{x:KP[1].x,y:KP[1].y,rotation:0,duration:.45,ease:'power3.inOut'},2.65);
+ini(CAM,{s:1,fx:540,fy:780});
+sayOut('s0',2.85);
+sayIn('s1',3.05);
+ini('#sent',{opacity:0,scale:.4});tl.to('#sent',{opacity:1,scale:1,duration:.35,ease:'back.out(3)'},3.2);
+shot(2.7,.8,1.12,KP[1].x,KP[1].y-60);
+
+/* --- 4,8–8,5 tiga pertanyaan --- */
+sayOut('s1',4.65);
+const QL=$$('#qlist p');ini(QL,{opacity:0,x:-30});
+ini(['#q1','#q2','#q3'],{opacity:0,scale:.3});
+QL.forEach((p,i)=>{const at=4.85+i*1.1;tl.to(p,{opacity:1,x:0,duration:.45,ease:'power4.out'},at);blurTween(tl,p,at,16,0,.45);
+  tl.to('#q'+(i+1),{opacity:1,scale:1,duration:.35,ease:'back.out(3)'},at+.1);});
+tl.to('#sent',{opacity:0,duration:.25},4.8);
+shot(4.8,3.4,1.06,KP[1].x,KP[1].y-120,'sine.inOut');
+tl.to(QL,{opacity:0,y:-24,duration:.3,stagger:.05},8.3);
+
+/* --- 8,5–13 jendela menimbun, kontrol menipis --- */
+sayIn('s2',8.6,.04);
+shot(8.5,1,1,540,700);
+const MS=$$('.mini');ini(MS,{opacity:0,scale:.6,y:60});
+tl.to(MS,{opacity:1,scale:1,y:0,duration:.35,ease:'back.out(1.6)',stagger:.28},8.7);
+tl.to('#kc',{opacity:.35,scale:.9,duration:1.6},9.4);
+tl.to(['#q1','#q2','#q3'],{opacity:0,duration:.4},9);
+sayOut('s2',10.65); sayIn('s3',10.85,.04);
+ini('#ctl',{opacity:0,y:-20});ini('#ctli',{scaleX:1});
+tl.to('#ctl',{opacity:1,y:0,duration:.35},10.9);
+tl.to('#ctli',{scaleX:.08,duration:1.8,ease:'power2.in'},11.1);
+tl.to('#ctli',{backgroundColor:'#FF7B73',duration:1},11.8);ini('#ctli',{backgroundColor:'#4FC3CC'});
+shot(10.8,2.2,1.05,540,760,'sine.inOut');
+
+/* --- 13–15,5 semua jendela menutup sekaligus: headline --- */
+sayOut('s3',12.95);
+tl.to(MS.concat(WINS.map(w=>$(w))),{scale:.05,opacity:0,duration:.45,ease:'power3.in',stagger:{each:.02,from:'random'}},13.05);
+tl.to('#ctl',{opacity:0,duration:.3},13.05);
+tl.to('#kc',{x:540,y:1020,rotation:0,opacity:1,scale:1.1,duration:.6,ease:'power3.inOut'},13.25);
+sayIn('hl',13.4,.06);
+shot(13,.8,1,540,675);
+
+/* --- 15,5–19 sistem: SOP → matriks → register --- */
+sayOut('hl',15.35); sayIn('s4',15.55,.04);
+const PN=['#p1','#p2','#p3'];ini(PN,{opacity:0,y:50});
+tl.to(PN,{opacity:1,y:0,duration:.5,ease:'power3.out',stagger:.12},15.5);
+tl.to('#kc',{scale:.5,x:860,y:404,duration:.55,ease:'power3.inOut'},15.6);
+const RS=$$('#rail span');ini(RS,{className:''});
+RS.forEach((r,i)=>tl.set(r,{className:'on'},16.1+i*.22));
+tl.to('#kc',{x:470,y:790,duration:.5,ease:'power3.inOut'},17.2);
+ini('#hit',{opacity:.2});tl.to('#hit',{opacity:1,duration:.3},17.5);
+ini('#hit em',{opacity:0,y:10});tl.to('#hit em',{opacity:1,y:0,duration:.3},17.6);
+tl.to('#kc',{x:300,y:1022,scale:.4,opacity:0,duration:.55,ease:'power3.in'},18.2);
+ini(['#rowNm','#rowSt'],{opacity:0,x:-30});
+tl.to(['#rowNm','#rowSt'],{opacity:1,x:0,duration:.35,stagger:.08},18.6);
+ini('#rowSt',{textContent:'Menunggu approval',className:'st ap'});
+tl.set('#rowSt',{textContent:'Disetujui',className:'st ok'},19.4);
+ini('.r2',{opacity:0});
+
+/* --- 19–22 register penuh --- */
+sayOut('s4',18.95); sayIn('s5',19.15,.04);
+tl.to('.r2',{opacity:1,duration:.3,stagger:.06},19.4);
+const wn=$$('#rg .st.wn');tl.to(wn,{scale:1.12,duration:.25,yoyo:true,repeat:3,ease:'sine.inOut'},20.5);
+shot(19.2,1.2,1.06,540,1080,'sine.inOut');
+
+/* --- 22–25 CTA --- */
+sayOut('s5',21.85);
+tl.to(PN,{opacity:0,y:-40,duration:.4,stagger:.05},21.9);
+ini(['#end h2','#end p'],{opacity:0,y:30});
+tl.to(['#end h2','#end p'],{opacity:1,y:0,duration:.55,stagger:.15,ease:'power4.out'},22.15);
+ini('#cta',{opacity:0,y:120,scale:.9});
+tl.to('#cta',{opacity:1,y:0,scale:1,duration:.6,ease:'back.out(1.6)'},22.5);
+ini('#tap',{x:560,y:20,opacity:0,scale:.6});
+tl.to('#tap',{opacity:1,scale:1,duration:.25},23.3);
+tl.to('#cta .b',{scale:.93,duration:.12,ease:'power2.in'},23.5);
+tl.to('#cta .b',{scale:1,duration:.3,ease:'back.out(3)'},23.62);
+tl.to('#tap',{scale:2.4,opacity:0,duration:.55},23.55);
+shot(21.9,.8,1,540,675);
+tl.set({},{},DURATION);
+
+/* ================= render ================= */
+const world=$('#world');
+function render(){const t=tl.time();const s=CAM.s*(1+.004*Math.sin(t*.8));
+  let tx=W/2-CAM.fx*s,ty=H/2-CAM.fy*s;tx=Math.min(0,Math.max(W-W*s,tx));ty=Math.min(0,Math.max(H-H*s,ty));
+  world.style.transform=`translate(${tx.toFixed(2)}px,${ty.toFixed(2)}px) scale(${s.toFixed(4)})`;
+  const a=t*2*Math.PI/12;
+  $('#g1').style.transform=`translate(${(-200+240*Math.sin(a)).toFixed(1)}px,${(200+220*Math.cos(a*.8)).toFixed(1)}px)`;
+  $('#g2').style.transform=`translate(${(400+180*Math.cos(a*.9)).toFixed(1)}px,${(700+160*Math.sin(a*1.1)).toFixed(1)}px)`;}
+tl.eventCallback('onUpdate',render);
+const stage=$('#stage');function fit(){const k=Math.min(innerWidth/W,innerHeight/H);stage.style.transform=`translate(-50%,-50%) scale(${k})`;}
+addEventListener('resize',fit);fit();
+if(Q.has('debug'))$('#ui').classList.add('on');
+tl.eventCallback('onComplete',()=>tl.play(0));
+const seek=t=>{tl.pause();tl.time(t,false);render();};
+window.OPENER={tl,DURATION,W,H,seek,ready:false};
+addEventListener('keydown',e=>{if(e.key==='r'||e.key==='R')tl.play(0);if(e.code==='Space'){e.preventDefault();tl.paused()?tl.play():tl.pause();}});
+$('#bPlay').onclick=()=>{tl.paused()?tl.play():tl.pause();$('#bPlay').textContent=tl.paused()?'Play':'Pause';};
+$('#bRe').onclick=()=>tl.play(0);$('#scrub').oninput=e=>seek(e.target.value/1000*DURATION);
+gsap.ticker.add(()=>{$('#clock').textContent=tl.time().toFixed(2)+'s';if(!tl.paused())$('#scrub').value=tl.time()/DURATION*1000;});
+seek(0);window.OPENER.ready=true;if(!Q.has('clean'))tl.play(0);
+});
+</script>
+</body>
+</html>
