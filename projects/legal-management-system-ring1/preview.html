@@ -62,7 +62,19 @@ html,body{width:100%;height:100%;background:#0D1B1C;overflow:hidden}
 .sheet{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
 .sheet i{height:52px;background:#183031}
 .mini{position:absolute;z-index:45;width:420px;height:300px;border-radius:20px;background:var(--card);border:2px solid var(--line);box-shadow:0 24px 50px rgba(0,0,0,.5)}
-.mini .bar{height:46px;border-bottom:2px solid var(--line);background:#183031;border-radius:18px 18px 0 0}
+.mini .bar{height:46px;border-bottom:2px solid var(--line);background:#183031;border-radius:18px 18px 0 0;display:flex;align-items:center;gap:8px;padding:0 16px}
+.mini .bar i{width:11px;height:11px;border-radius:50%;background:#3B5557}
+.mini .bar b{margin-left:6px;font:800 24px var(--ff);color:var(--ink2)}
+.mini .mb{padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.mini .tx{font:700 26px/1.2 var(--ff);color:var(--ink);background:#1D4442;border-radius:14px;padding:10px 14px;align-self:flex-start;white-space:nowrap}
+.mini .tx.me{background:#245A55;align-self:flex-end}
+.mini .ml{display:flex;gap:10px;align-items:center;font:700 25px var(--ff);color:var(--ink);white-space:nowrap;border-bottom:2px solid var(--line);padding-bottom:10px}
+.mini .ml i{flex:0 0 26px;height:26px;border-radius:50%;background:#2B4446}
+.mini .fl{display:flex;gap:12px;align-items:center;font:700 25px var(--ff);color:var(--ink);white-space:nowrap}
+.mini .fl i{flex:0 0 28px;height:34px;border-radius:5px;background:#4FC3CC;opacity:.75}
+.mini .gr{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.mini .gr i{height:40px;background:#183031;display:grid;place-items:center;font:800 24px var(--ff);font-style:normal;color:var(--amber)}
+.mini .ln{height:14px;border-radius:7px;background:#2B4446}
 /* kartu kontrak */
 #kc{position:absolute;left:0;top:0;width:380px;height:150px;margin:-75px 0 0 -190px;border-radius:22px;background:#fff;color:#16292B;
   display:flex;align-items:center;gap:20px;padding:0 26px;box-shadow:0 24px 50px rgba(0,0,0,.45);z-index:40}
@@ -189,7 +201,18 @@ const W=1080,H=1350,DURATION=25,Q=new URLSearchParams(location.search),NS='http:
 
 /* jendela kecil yang menimbun kartu */
 const minis=$('#minis'),MINI=[[40,560,-8],[620,520,7],[300,700,-4],[80,860,5],[600,880,-6],[340,980,3],[20,1060,-5],[640,1050,6]];
-MINI.forEach((m,i)=>{const e=document.createElement('div');e.className='mini';e.style.left=m[0]+'px';e.style.top=m[1]+'px';e.innerHTML='<div class="bar"></div>';minis.appendChild(e);});
+/* isi jendela kecil: potongan chat, email, file, dan sel yang menggambarkan kontrak tercecer */
+const MB=[
+  ['Chat','<span class="tx">Sudah di-approve?</span><span class="tx me">Nanti aku cek dulu</span><span class="tx">Kontraknya yang mana ya?</span>'],
+  ['Email','<div class="ml"><i></i>Re: Kontrak Vendor</div><div class="ml"><i></i>Fwd: revisi draf v2</div><div class="ml"><i></i>Re: Re: tanda tangan?</div>'],
+  ['Folder','<div class="fl"><i></i>draf_final_rev.docx</div><div class="fl"><i></i>Kontrak (1).docx</div><div class="fl"><i></i>Kontrak_FIX_2.docx</div>'],
+  ['Spreadsheet','<div class="gr"><i></i><i></i><i></i><i></i><i></i><i>?</i><i></i><i></i><i></i><i></i><i>?</i><i></i></div><div class="ln" style="width:70%"></div>'],
+  ['Chat','<span class="tx me">Approve-nya siapa?</span><span class="tx">Coba tanya atasan</span><span class="tx me">Masih nunggu…</span>'],
+  ['Email','<div class="ml"><i></i>Fwd: Fwd: kontrak</div><div class="ml"><i></i>Re: masa berlaku?</div><div class="ml"><i></i>Lampiran tertinggal</div>'],
+  ['Folder','<div class="fl"><i></i>scan_ttd.pdf</div><div class="fl"><i></i>Kontrak_lama.docx</div><div class="fl"><i></i>Copy of draf.docx</div>'],
+  ['Catatan','<div class="ln" style="width:90%"></div><div class="ln" style="width:64%"></div><span class="tx">Jatuh tempo kapan?</span><div class="ln" style="width:78%"></div>']];
+MINI.forEach((m,i)=>{const e=document.createElement('div');e.className='mini';e.style.left=m[0]+'px';e.style.top=m[1]+'px';
+  e.innerHTML=`<div class="bar"><i></i><i></i><i></i><b>${MB[i][0]}</b></div><div class="mb">${MB[i][1]}</div>`;e.style.overflow='hidden';minis.appendChild(e);});
 
 function words(el){const out=[];const walk=n=>{[...n.childNodes].forEach(c=>{if(c.nodeType===3){const f=document.createDocumentFragment();
   c.textContent.split(/(\s+)/).forEach(p=>{if(!p)return;if(/^\s+$/.test(p)){f.appendChild(document.createTextNode(' '));return;}
