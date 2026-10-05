@@ -74,10 +74,10 @@ html,body{width:100%;height:100%;background:#0D1B1C;overflow:hidden}
 .mx i{height:46px;border-radius:10px;background:#183031}
 .mx i.hit{background:var(--teal-100);border:3px solid var(--teal);position:relative}
 .mx i.hit em{position:absolute;right:12px;top:4px;font:800 26px var(--ff);font-style:normal;color:#0D1B1C;background:var(--teal);padding:2px 12px;border-radius:999px;white-space:nowrap}
-#p3{top:906px;height:400px}
+#p3{top:906px;height:356px}
 .rg{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:8px;align-items:center}
 .rg .hd{font:700 28px var(--ff);color:var(--ink2);padding:4px}
-.rg i{height:44px;border-radius:10px;background:#183031}
+.rg i{height:38px;border-radius:10px;background:#183031}
 .rg .nm{font:700 30px var(--ff);color:var(--ink)}
 .st{font:800 26px var(--ff);padding:6px 14px;border-radius:999px;justify-self:start;white-space:nowrap}
 .st.ok{background:rgba(111,214,156,.18);color:var(--green)}
@@ -86,13 +86,14 @@ html,body{width:100%;height:100%;background:#0D1B1C;overflow:hidden}
 .st.ap{background:rgba(255,162,0,.2);color:#FFB53D}
 /* HUD */
 #hud{position:absolute;inset:0;pointer-events:none}
-#band{position:absolute;left:0;right:0;top:0;height:350px;background:linear-gradient(#0D1B1C 0%,rgba(13,27,28,.95) 66%,rgba(13,27,28,0) 100%)}
-.say{position:absolute;left:66px;right:66px;top:84px;font:700 54px/1.16 var(--ff);letter-spacing:-.018em}
-.say.sm{font-size:48px}
+#band{position:absolute;left:0;right:0;top:0;height:470px;background:linear-gradient(#0D1B1C 0%,#0D1B1C 62%,rgba(13,27,28,0) 100%)}
+#veil{position:absolute;inset:0;background:#0D1B1C;opacity:0;pointer-events:none}
+.say{position:absolute;left:60px;right:60px;top:70px;font:800 70px/1.12 var(--ff);letter-spacing:-.022em;text-shadow:0 4px 24px rgba(0,0,0,.6)}
+.say.sm{font-size:62px}
 .w{display:inline-block;opacity:0}
-#qlist{position:absolute;left:66px;right:66px;top:72px;display:flex;flex-direction:column;gap:10px}
-#qlist p{font:700 46px/1.15 var(--ff);display:flex;gap:16px;align-items:center;opacity:0}
-#qlist p i{flex:0 0 52px;height:52px;border-radius:50%;background:var(--amber);color:#0D1B1C;display:grid;place-items:center;font:800 32px var(--ff);font-style:normal}
+#qlist{position:absolute;left:60px;right:60px;top:62px;display:flex;flex-direction:column;gap:12px}
+#qlist p{font:800 56px/1.12 var(--ff);display:flex;gap:16px;align-items:center;opacity:0}
+#qlist p i{flex:0 0 60px;height:60px;border-radius:50%;background:var(--amber);color:#0D1B1C;display:grid;place-items:center;font:800 32px var(--ff);font-style:normal}
 #hl{top:430px;text-align:center;font:800 76px/1.08 var(--ff);letter-spacing:-.028em}
 #hl .k{color:var(--teal)}
 #end{position:absolute;left:0;right:0;top:360px;text-align:center}
@@ -134,7 +135,6 @@ html,body{width:100%;height:100%;background:#0D1B1C;overflow:hidden}
       <i class="r2"></i><span class="st ok r2">Aktif</span><i class="r2"></i>
       <i class="r2"></i><span class="st rv r2">Review</span><i class="r2"></i>
       <i class="r2"></i><span class="st wn r2">Mendekati jatuh tempo</span><i class="r2"></i>
-      <i class="r2"></i><span class="st ok r2">Aktif</span><i class="r2"></i>
     </div></div>
 
     <div id="kc"><svg viewBox="0 0 62 74"><path d="M6 4h34l16 16v50H6z" fill="#EEF7F8" stroke="#0E7C86" stroke-width="4"/><path d="M40 4v16h16M16 36h30M16 46h30M16 56h20" stroke="#0E7C86" stroke-width="4" fill="none"/></svg>
@@ -145,6 +145,7 @@ html,body{width:100%;height:100%;background:#0D1B1C;overflow:hidden}
     <div id="ctl"><span>Kontrol atas kontrak</span><div class="tr"><i id="ctli"></i></div></div>
   </div>
 
+  <div id="veil"></div>
   <div id="hud">
     <div id="band"></div>
     <div class="say" id="s0">Kontrak ini sebenarnya sudah sampai mana?</div>
@@ -190,7 +191,8 @@ const CAM={s:1,fx:540,fy:675};
 const shot=(at,dur,s,fx,fy,ease='power2.inOut')=>tl.to(CAM,{s,fx,fy,duration:dur,ease},at);
 const SAYS={};$$('#hud .say').forEach(el=>{SAYS[el.id]=words(el);});
 Object.keys(SAYS).filter(k=>k!=='s0').forEach(k=>ini(SAYS[k],{opacity:0}));
-const sayIn=(id,at,st=.045)=>{tl.fromTo(SAYS[id],{opacity:0,y:26},{opacity:1,y:0,duration:.5,ease:'power4.out',stagger:st,immediateRender:false},at);
+const veil=(at)=>{tl.to('#veil',{opacity:.6,duration:.25,ease:'power2.out'},at);tl.to('#veil',{opacity:.12,duration:.6,ease:'power2.inOut'},at+1.25);};
+const sayIn=(id,at,st=.045)=>{veil(at);tl.fromTo(SAYS[id],{opacity:0,y:26},{opacity:1,y:0,duration:.5,ease:'power4.out',stagger:st,immediateRender:false},at);
   blurTween(tl,$('#'+id),at,14,0,.5+st*Math.min(SAYS[id].length,8));};
 const sayOut=(id,at)=>{tl.to(SAYS[id],{opacity:0,y:-26,duration:.3,ease:'power2.in',stagger:.008},at);blurTween(tl,$('#'+id),at,0,16,.36,'power2.in');};
 gsap.set('#cta',{xPercent:-50,yPercent:-50});
@@ -203,6 +205,7 @@ const KP=WINS.map((w,i)=>({x:WP[i][0]+380,y:WP[i][1]+300}));
 
 /* --- 0–3 hook: kartu dilempar antar jendela --- */
 ini(SAYS.s0,{opacity:i=>i<2?1:0,y:0});
+ini('#veil',{opacity:.6}); tl.to('#veil',{opacity:.12,duration:.6,ease:'power2.inOut'},1.4);
 tl.fromTo(SAYS.s0.slice(2),{opacity:0,y:26},{opacity:1,y:0,duration:.5,ease:'power4.out',stagger:.07,immediateRender:false},.05);
 ini('#kc',{x:KP[0].x,y:KP[0].y,rotation:-3,scale:1});
 [1,2,3].forEach((k,j)=>{const at=.55+j*.62;
@@ -221,7 +224,7 @@ shot(2.7,.8,1.12,KP[1].x,KP[1].y-60);
 sayOut('s1',4.65);
 const QL=$$('#qlist p');ini(QL,{opacity:0,x:-30});
 ini(['#q1','#q2','#q3'],{opacity:0,scale:.3});
-QL.forEach((p,i)=>{const at=4.85+i*1.1;tl.to(p,{opacity:1,x:0,duration:.45,ease:'power4.out'},at);blurTween(tl,p,at,16,0,.45);
+QL.forEach((p,i)=>{const at=4.85+i*1.1;veil(at);tl.to(p,{opacity:1,x:0,duration:.45,ease:'power4.out'},at);blurTween(tl,p,at,16,0,.45);
   tl.to('#q'+(i+1),{opacity:1,scale:1,duration:.35,ease:'back.out(3)'},at+.1);});
 tl.to('#sent',{opacity:0,duration:.25},4.8);
 shot(4.8,3.4,1.06,KP[1].x,KP[1].y-120,'sine.inOut');
@@ -270,7 +273,7 @@ ini('.r2',{opacity:0});
 sayOut('s4',18.95); sayIn('s5',19.15,.04);
 tl.to('.r2',{opacity:1,duration:.3,stagger:.06},19.4);
 const wn=$$('#rg .st.wn');tl.to(wn,{scale:1.12,duration:.25,yoyo:true,repeat:3,ease:'sine.inOut'},20.5);
-shot(19.2,1.2,1.06,540,1080,'sine.inOut');
+shot(19.2,1.2,1.03,540,980,'sine.inOut');
 
 /* --- 22–25 CTA --- */
 sayOut('s5',21.85);
@@ -291,6 +294,7 @@ tl.set({},{},DURATION);
 const world=$('#world');
 function render(){const t=tl.time();const s=CAM.s*(1+.004*Math.sin(t*.8));
   let tx=W/2-CAM.fx*s,ty=H/2-CAM.fy*s;tx=Math.min(0,Math.max(W-W*s,tx));ty=Math.min(0,Math.max(H-H*s,ty));
+  ty+=72; /* visual digeser ke bawah: ruang untuk teks besar */
   world.style.transform=`translate(${tx.toFixed(2)}px,${ty.toFixed(2)}px) scale(${s.toFixed(4)})`;
   const a=t*2*Math.PI/12;
   $('#g1').style.transform=`translate(${(-200+240*Math.sin(a)).toFixed(1)}px,${(200+220*Math.cos(a*.8)).toFixed(1)}px)`;
