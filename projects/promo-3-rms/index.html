@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Promo 3 Retail Management System</title>
+<!--
+  PROMO 3 · RETAIL MANAGEMENT SYSTEM · Meta Ads (sales) · 4:5 (1080x1350) · 22,5 dtk · tanpa suara
+  Isi sama dengan Promo 2 (hook, lima pasangan, harga, tombol). Visual mengikuti gambar iklan statis dari user:
+  latar putih, judul teal besar, lima kartu berwarna dengan ikon, tombol teal berpanah.
+  Naskah & style brief: naskah.md
+
+  STYLE BRIEF
+  Perasaan          : jelas, ramah, teratur
+  Konsep            : tanya → jawab diegetik (isi sama dengan Promo 2); kartu infografis jadi dunia yang disusuri kamera
+  Sidik jari        : tanya → jawab · 1 dunia (grid 5 kartu) + 9 beat · objek: kartu kategori berikon yang terisi tiga centang ·
+                      pembuka: sapaan sendirian + judul · penutup: kartu harga + tombol teal berpanah
+  Palet             : teal #0E7C86 / teal gelap #0A5A61 (merek) · putih #FFFFFF · hijau #3E9B2F, biru #1F63C9, jingga #F08A1C, ungu #5B3FB5 (dari gambar user, warna tiap kategori)
+  Font              : Plus Jakarta Sans (semua teks; bobot 500–800)
+  Penekanan         : warna kategori + garis bawah yang menggambar; kilatan garis di sisi judul
+  Bahasa latar      : editorial terang: putih bergradasi + siluet rak toko tipis yang bergeser pelan
+  Tanda tangan gerak: pop elastis (back.out) + garis dan centang yang digambar
+  Gerak latar       : siluet rak/truk melayang pelan, cahaya teal bergeser
+  Gaya objek        : flat bersih, kartu putih berbingkai warna, ikon garis putih di dalam ubin warna
+  Momen istimewa    : kamera mundur, kelima kartu terisi berjajar, 15 centang berdenyut berurutan
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<style>
+:root{--teal:#0E7C86;--teal-d:#0A5A61;--ink:#0B3E43;--txt:#1B2A2D;--white:#fff}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:"Plus Jakarta Sans",system-ui,sans-serif;color:var(--txt)}
+#filters{position:fixed;width:0;height:0;opacity:0;pointer-events:none}
+#stage{position:fixed;left:50%;top:50%;width:1080px;height:1350px;transform:translate(-50%,-50%) scale(1);overflow:hidden;background:#fff}
+
+/* latar: putih bergradasi + cahaya teal + siluet rak toko */
+#bg{position:absolute;inset:0;background:linear-gradient(176deg,#FFFFFF 0%,#F6FAFA 55%,#EAF4F4 100%)}
+#glow{position:absolute;left:-300px;top:380px;width:1000px;height:1000px;border-radius:50%;
+  background:radial-gradient(circle,rgba(14,124,134,.10) 0%,rgba(14,124,134,.04) 45%,transparent 68%)}
+.sil{position:absolute;color:#0E7C86;opacity:.09}
+#silL{left:-40px;top:560px}#silR{right:-50px;top:470px}#silT{left:-20px;bottom:-30px}
+
+#world{position:absolute;left:0;top:0;width:1080px;height:700px;transform-origin:0 0;will-change:transform}
+.cd{position:absolute;width:352px;height:330px;background:#fff;border:4px solid var(--c);border-radius:26px;opacity:0;
+  box-shadow:0 10px 26px -8px rgba(11,62,67,.22)}
+.hd{position:absolute;left:18px;top:18px;right:18px;height:100px}
+.tile{position:absolute;left:0;top:0;width:96px;height:96px;border-radius:24px;background:var(--c);
+  box-shadow:inset 0 -5px 0 rgba(0,0,0,.14)}
+.tile svg{position:absolute;inset:14px;width:68px;height:68px;fill:none;stroke:#fff;stroke-width:4.2;stroke-linecap:round;stroke-linejoin:round}
+.ttl{position:absolute;left:112px;top:8px;font:800 46px/1 "Plus Jakarta Sans";color:var(--cd);letter-spacing:-.02em}
+.ul{position:absolute;left:112px;right:0;top:66px;height:5px;border-radius:3px;background:var(--cd);transform-origin:0 50%}
+.its{position:absolute;left:18px;right:12px;top:134px}
+.it{position:relative;height:56px;display:flex;align-items:center;gap:10px;opacity:0;font:600 23px/1 "Plus Jakarta Sans";color:var(--txt);white-space:nowrap}
+.ck{width:32px;height:32px;flex:none;border-radius:50%;background:var(--c);display:flex;align-items:center;justify-content:center}
+.ck svg{width:20px;height:20px;overflow:visible}
+.ck path{fill:none;stroke:#fff;stroke-width:5.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:30;stroke-dashoffset:30}
+
+#hud{position:absolute;inset:0;pointer-events:none}
+#hud>*{position:absolute}
+.wd{display:inline-block;white-space:nowrap}
+.t{display:inline-block;white-space:nowrap}
+
+/* pembuka + strip atas */
+#strip{left:0;right:0;top:0;height:236px;background:#fff;box-shadow:0 8px 24px -10px rgba(11,62,67,.28);border-bottom:5px solid var(--teal)}
+#callout{left:0;right:0;top:0;text-align:center;font:800 168px/1 "Plus Jakarta Sans";color:var(--teal);letter-spacing:-.03em;transform-origin:50% 50%}
+#hl{left:0;right:0;top:0;text-align:center;font:800 110px/1.06 "Plus Jakarta Sans";color:var(--ink);letter-spacing:-.03em;transform-origin:50% 50%}
+.hln{display:block;opacity:0}
+#burst{left:0;top:0;width:1080px;height:600px;overflow:visible;opacity:1}
+#burst path{fill:none;stroke:var(--teal);stroke-width:9;stroke-linecap:round;stroke-dasharray:60;stroke-dashoffset:60}
+
+/* pertanyaan + chip "Solusinya:" */
+#qbg{left:0;right:0;top:232px;height:232px;opacity:0;background:linear-gradient(180deg,#fff 0,#fff 72%,rgba(255,255,255,0) 100%)}
+#qlayer{inset:0}
+.qn,.chip{position:absolute}
+.qn{opacity:0;left:0;right:0;top:268px;text-align:center;font:800 78px/1 "Plus Jakarta Sans";letter-spacing:-.03em;color:var(--cd)}
+.qn .qu{position:absolute;left:50%;bottom:-16px;height:8px;border-radius:4px;background:var(--cd);transform-origin:0 50%}
+.chip{left:50%;top:376px;margin-left:-130px;width:260px;height:58px;border-radius:29px;background:var(--c);color:#fff;text-align:center;
+  font:800 32px/58px "Plus Jakarta Sans";letter-spacing:-.01em;opacity:0;box-shadow:0 6px 0 rgba(0,0,0,.16)}
+
+#note{left:60px;right:60px;top:92px;text-align:center;font:800 58px/1.12 "Plus Jakarta Sans";color:var(--ink);letter-spacing:-.03em;opacity:0}
+#note .ln{display:block}
+#note .am{color:var(--teal)}
+
+/* harga */
+#price{left:0;right:0;top:0;bottom:0}
+#price>*{position:absolute;left:0;right:0;text-align:center}
+#price .lab{top:92px;font:700 46px/1 "Plus Jakarta Sans";color:var(--teal);opacity:0}
+#price .nm{top:150px;font:800 104px/1.04 "Plus Jakarta Sans";color:var(--ink);letter-spacing:-.035em}
+#price .nm .ln{display:block;opacity:0}
+#price .tiles{top:408px;height:96px;display:flex;justify-content:center;gap:20px}
+#price .tl2{width:96px;height:96px;border-radius:24px;position:relative;opacity:0;box-shadow:inset 0 -5px 0 rgba(0,0,0,.14)}
+#price .tl2 svg{position:absolute;inset:14px;width:68px;height:68px;fill:none;stroke:#fff;stroke-width:4.2;stroke-linecap:round;stroke-linejoin:round}
+#price .ds{left:80px;right:80px;top:548px;font:600 42px/1.25 "Plus Jakarta Sans";color:var(--txt);opacity:0}
+#price .pc{left:130px;right:130px;top:732px;height:262px;border:6px solid var(--teal);border-radius:44px;background:#fff;opacity:0;
+  box-shadow:0 18px 0 -2px rgba(14,124,134,.16),0 26px 40px -16px rgba(11,62,67,.3)}
+#price .pc .fr{position:absolute;left:0;right:0;top:28px;font:700 50px/1 "Plus Jakarta Sans";color:var(--txt)}
+#price .pc .nu{position:absolute;left:0;right:0;top:86px;font:800 150px/1 "Plus Jakarta Sans";color:var(--teal);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+#price .pc .nu span{display:inline-block}
+#btn{left:90px;width:900px;top:1090px;height:140px;border-radius:70px;background:linear-gradient(180deg,#12929D,#0A6E77);color:#fff;
+  display:flex;align-items:center;justify-content:flex-start;gap:26px;padding-left:34px;font:800 52px/1 "Plus Jakarta Sans";letter-spacing:-.01em;opacity:0;
+  box-shadow:0 10px 0 #07484E,0 26px 36px -10px rgba(11,62,67,.45);transform-origin:50% 60%}
+#btn .ar{width:84px;height:84px;flex:none;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center}
+#btn .ar svg{width:46px;height:46px;fill:none;stroke:#0A6E77;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+
+#ui{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);display:none;align-items:center;gap:12px;padding:9px 14px;border-radius:14px;
+  background:rgba(14,16,22,.92);font-size:13px;color:#A0A6B4;z-index:50}
+#ui.on{display:flex}
+#ui button{background:#262A34;color:#fff;border:none;padding:7px 14px;border-radius:8px;font:inherit;cursor:pointer}
+#scrub{width:300px}
+#clock{font-variant-numeric:tabular-nums;min-width:5ch;text-align:right}
+</style>
+</head>
+<body>
+<svg id="filters"><defs></defs></svg>
+<div id="stage">
+  <div id="bg"><div id="glow"></div>
+    <svg id="silL" class="sil" width="300" height="360" viewBox="0 0 300 360" fill="currentColor"><rect x="10" y="8" width="14" height="344" rx="3"/><rect x="276" y="8" width="14" height="344" rx="3"/><rect x="10" y="108" width="280" height="12" rx="3"/><rect x="10" y="228" width="280" height="12" rx="3"/><rect x="10" y="340" width="280" height="12" rx="3"/><rect x="40" y="52" width="50" height="56" rx="6"/><rect x="104" y="68" width="40" height="40" rx="6"/><rect x="160" y="44" width="56" height="64" rx="6"/><rect x="40" y="168" width="70" height="60" rx="6"/><rect x="128" y="150" width="48" height="78" rx="6"/><rect x="192" y="176" width="60" height="52" rx="6"/><rect x="40" y="284" width="46" height="56" rx="6"/><rect x="100" y="270" width="64" height="70" rx="6"/><rect x="180" y="292" width="80" height="48" rx="6"/></svg>
+    <svg id="silR" class="sil" width="300" height="420" viewBox="0 0 300 420" fill="currentColor"><rect x="10" y="8" width="14" height="404" rx="3"/><rect x="276" y="8" width="14" height="404" rx="3"/><rect x="10" y="118" width="280" height="12" rx="3"/><rect x="10" y="238" width="280" height="12" rx="3"/><rect x="10" y="400" width="280" height="12" rx="3"/><rect x="36" y="60" width="58" height="58" rx="6"/><rect x="112" y="40" width="44" height="78" rx="6"/><rect x="176" y="70" width="86" height="48" rx="6"/><rect x="36" y="170" width="46" height="68" rx="6"/><rect x="100" y="188" width="70" height="50" rx="6"/><rect x="190" y="160" width="66" height="78" rx="6"/><rect x="36" y="330" width="80" height="70" rx="6"/><rect x="134" y="300" width="50" height="100" rx="6"/><rect x="202" y="340" width="62" height="60" rx="6"/></svg>
+    <svg id="silT" class="sil" width="420" height="230" viewBox="0 0 420 230" fill="currentColor"><rect x="10" y="60" width="210" height="110" rx="10"/><path d="M220 96 h74 l44 44 v30 h-118z"/><circle cx="80" cy="180" r="30"/><circle cx="290" cy="180" r="30"/><rect x="40" y="86" width="60" height="30" rx="5" fill="#fff"/><rect x="116" y="86" width="60" height="30" rx="5" fill="#fff"/></svg>
+  </div>
+  <div id="world"></div>
+  <div id="hud">
+    <div id="strip"></div>
+    <svg id="burst" viewBox="0 0 1080 600"></svg>
+    <div id="callout"><span class="t">Owner Toko!</span></div>
+    <div id="hl">
+      <div class="hln"><span class="t">Masalah Toko</span></div>
+      <div class="hln"><span class="t">Mana yang Mau</span></div>
+      <div class="hln"><span class="t">Anda Rapikan Dulu?</span></div>
+    </div>
+    <div id="qbg"></div>
+    <div id="qlayer"></div>
+    <div id="note">
+      <div class="ln"><span class="t">Apa pun jawabannya,</span></div>
+      <div class="ln"><span class="t">Anda tidak perlu <span class="am">mulai dari nol</span></span></div>
+    </div>
+    <div id="price">
+      <div class="lab">Pakai</div>
+      <div class="nm"><div class="ln"><span class="t">Retail Management</span></div><div class="ln"><span class="t">System</span></div></div>
+      <div class="tiles"></div>
+      <div class="ds">Hingga 146 SOP, form, checklist &amp; Excel untuk seluruh operasional toko</div>
+      <div class="pc"><div class="fr">Mulai</div><div class="nu"><span class="t" id="numv">Rp139.000</span></div></div>
+    </div>
+    <div id="btn"><div class="ar"><svg viewBox="0 0 40 40"><path d="M6 20 H31 M21 9 L32 20 L21 31"/></svg></div><span class="t" id="btnt">LIHAT SEMUA DOKUMENNYA</span></div>
+  </div>
+</div>
+<div id="ui"><button id="btn-play">Pause</button><button id="btn-restart">Restart</button>
+  <input id="scrub" type="range" min="0" max="1000" value="0"><span id="clock">0.00s</span></div>
+
+<script>
+(async()=>{
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const W=1080,H=1350,Q=new URLSearchParams(location.search);
+window.OPENER={W,H,ready:false};
+await Promise.all(['500 40px "Plus Jakarta Sans"','600 40px "Plus Jakarta Sans"','700 40px "Plus Jakarta Sans"','800 40px "Plus Jakarta Sans"'].map(f=>document.fonts.load(f,'Aa0'))).catch(()=>{});
+await document.fonts.ready;
+
+/* ============ UTIL ============ */
+const defs=$('#filters defs');let fc=0;
+function makeBlur(){const id='mb'+(fc++),NS='http://www.w3.org/2000/svg';
+  const f=document.createElementNS(NS,'filter');f.id=id;
+  f.setAttribute('x','-30%');f.setAttribute('y','-60%');f.setAttribute('width','160%');f.setAttribute('height','220%');
+  const g=document.createElementNS(NS,'feGaussianBlur');g.setAttribute('stdDeviation','0 0');f.appendChild(g);defs.appendChild(f);
+  return {url:`url(#${id})`,node:g};}
+function blurTween(tl,targets,at,from,to,dur,{ease='power3.out',ax=1,ay=.08}={}){
+  const b=makeBlur(),o={v:from};
+  tl.set(targets,{filter:b.url},at);
+  tl.to(o,{v:to,duration:dur,ease,onUpdate(){b.node.setAttribute('stdDeviation',`${(o.v*ax).toFixed(2)} ${(o.v*ay).toFixed(2)}`);}},at);
+  tl.set(targets,{filter:'none'},at+dur);}
+function fit(el,max,base){el.style.fontSize=base+'px';
+  const w=Math.max(...$$('.t',el).map(s=>s.offsetWidth));
+  if(w>max)el.style.fontSize=(base*max/w).toFixed(1)+'px';
+  return parseFloat(el.style.fontSize);}
+const words=(el)=>{const txt=el.textContent;el.textContent='';
+  return txt.split(' ').map((w,i,a)=>{const s=document.createElement('span');s.className='wd';s.style.display='inline-block';s.textContent=w+(i<a.length-1?' ':'');el.appendChild(s);return s;});};
+
+/* ============ IKON KATEGORI (garis putih di ubin warna) ============ */
+const ICON={
+ kasir:'<svg viewBox="0 0 64 64"><path d="M22 8h20v18H22z"/><path d="M27 14h10M27 19h10"/><path d="M14 40l5-14h26l5 14"/><rect x="8" y="40" width="48" height="16" rx="3"/><path d="M42 48h8"/></svg>',
+ stok:'<svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" rx="4"/><path d="M8 32h48M32 8v0"/><rect x="14" y="14" width="16" height="12" rx="2"/><rect x="34" y="14" width="16" height="12" rx="2"/><rect x="14" y="38" width="16" height="12" rx="2"/><rect x="34" y="38" width="16" height="12" rx="2"/></svg>',
+ tim:'<svg viewBox="0 0 64 64"><circle cx="32" cy="20" r="8"/><path d="M16 50c0-9 7-15 16-15s16 6 16 15"/><circle cx="13" cy="28" r="6"/><path d="M3 48c0-6 4-10 10-10"/><circle cx="51" cy="28" r="6"/><path d="M61 48c0-6-4-10-10-10"/></svg>',
+ supplier:'<svg viewBox="0 0 64 64"><path d="M5 18h32v26H5z"/><path d="M37 28h12l9 9v7H37z"/><circle cx="18" cy="46" r="6"/><circle cx="48" cy="46" r="6"/></svg>',
+ ops:'<svg viewBox="0 0 64 64"><rect x="12" y="10" width="40" height="48" rx="6"/><rect x="24" y="5" width="16" height="9" rx="3"/><path d="M20 26l4 4 7-8M20 40l4 4 7-8"/><path d="M37 28h9M37 42h9"/></svg>'};
+const CATS=[
+ {k:'kasir',    name:'Kasir',       c:'#0E7C86',cd:'#0A6E77',q:'Kasir sering selisih?',          items:['Form Serah Terima Kas','Tracker Selisih Kasir','SOP Kasir'],        pos:[0,0]},
+ {k:'stok',     name:'Stok',        c:'#3E9B2F',cd:'#2E7D22',q:'Stok tidak sinkron?',            items:['Kartu Stok Digital','Form Selisih Stok','SOP Stock Opname'],        pos:[1,0]},
+ {k:'tim',      name:'Tim',         c:'#1F63C9',cd:'#1F63C9',q:'Tim kerja tanpa standar?',       items:['Jobdesc Staf Toko','KPI Staf','SOP Pelatihan Kasir'],               pos:[2,0]},
+ {k:'supplier', name:'Supplier',    c:'#F08A1C',cd:'#D06A06',q:'Supplier sulit dikontrol?',      items:['Evaluasi Supplier','Database Supplier','Kalkulator Margin'],        pos:[.5,1]},
+ {k:'ops',      name:'Operasional', c:'#5B3FB5',cd:'#5B3FB5',q:'Operasional harian berantakan?', items:['SOP Buka & Tutup Toko','Checklist Store Ready','Audit Toko Mingguan'],pos:[1.5,1]}];
+const CW=352,CHt=330,GAP=12,world=$('#world'),qlayer=$('#qlayer');
+CATS.forEach(c=>{
+  c.x=c.pos[0]*(CW+GAP);c.y=c.pos[1]*(CHt+GAP+2);c.cx=c.x+CW/2;c.cy=c.y+CHt/2;
+  const el=document.createElement('div');el.className='cd';el.style.cssText=`left:${c.x}px;top:${c.y}px;--c:${c.c};--cd:${c.cd}`;
+  el.innerHTML=`<div class="hd"><div class="tile">${ICON[c.k]}</div><div class="ttl">${c.name}</div><div class="ul"></div></div><div class="its">`+
+    c.items.map(()=>`<div class="it"><div class="ck"><svg viewBox="0 0 20 20"><path d="M3 10.5 L8.5 16 L17.5 4.5"/></svg></div><span></span></div>`).join('')+'</div>';
+  $$('.it > span',el).forEach((s,i)=>s.textContent=c.items[i]);
+  // nama dokumen terpanjang harus muat di kartu
+  world.appendChild(el);c.el=el;
+  // pertanyaan + chip (di lapisan layar, di luar rig)
+  const q=document.createElement('div');q.className='qn';q.style.cssText=`--cd:${c.cd}`;q.innerHTML=`<span class="t">${c.q}</span><i class="qu"></i>`;
+  const chip=document.createElement('div');chip.className='chip';chip.style.cssText=`--c:${c.c}`;chip.textContent='Solusinya:';
+  qlayer.appendChild(q);qlayer.appendChild(chip);c.qn=q;c.chip=chip;});
+// judul kategori harus muat di sebelah ubin ikon
+CATS.forEach(c=>{const t=$('.ttl',c.el);let fs=46;t.style.fontSize=fs+'px';while(t.offsetWidth>206&&fs>26){fs-=1;t.style.fontSize=fs+'px';}
+  t.style.top=(8+(46-fs)*.5).toFixed(1)+'px';});
+// perkecil teks item bila tidak muat
+CATS.forEach(c=>{$$('.it > span',c.el).forEach(s=>{const room=CW-8-18-12-32-10-4;let fs=23;s.style.fontSize=fs+'px';
+  while(s.offsetWidth>room&&fs>16){fs-=.5;s.style.fontSize=fs+'px';}});
+  const q=$('.t',c.qn);fit(c.qn,960,78);$('.qu',c.qn).style.width=q.offsetWidth+'px';
+  $('.qu',c.qn).style.marginLeft=(-q.offsetWidth/2)+'px';});
+
+/* ubin ikon untuk adegan harga */
+$('#price .tiles').innerHTML=CATS.map(c=>`<div class="tl2" style="background:${c.c}">${ICON[c.k]}</div>`).join('');
+
+/* kilatan garis di sisi judul */
+{const NS='http://www.w3.org/2000/svg',b=$('#burst');
+ const L=[[88,330,128,352],[70,396,116,404],[102,462,140,440]],R=[[992,330,952,352],[1010,396,964,404],[978,462,940,440]];
+ [...L,...R].forEach(([x1,y1,x2,y2])=>{const p=document.createElementNS(NS,'path');p.setAttribute('d',`M${x1} ${y1} L${x2} ${y2}`);b.appendChild(p);});}
+
+/* ============ KAMERA + LATAR (fungsi murni dari t) ============ */
+const CAM={s:1,fx:540,fy:337,ax:540,ay:700};
+const glow=$('#glow'),silL=$('#silL'),silR=$('#silR'),silT=$('#silT');
+function render(t){
+  const s=CAM.s;
+  world.style.transform=`translate(${(CAM.ax-CAM.fx*s).toFixed(2)}px,${(CAM.ay-CAM.fy*s).toFixed(2)}px) scale(${s.toFixed(4)})`;
+  glow.style.transform=`translate(${(Math.sin(t*.3)*200).toFixed(1)}px,${(Math.cos(t*.22)*150).toFixed(1)}px)`;
+  silL.style.transform=`translate(${(Math.sin(t*.35)*16).toFixed(1)}px,${(Math.cos(t*.28)*20).toFixed(1)}px)`;
+  silR.style.transform=`translate(${(Math.cos(t*.31)*16).toFixed(1)}px,${(Math.sin(t*.26)*18).toFixed(1)}px)`;
+  silT.style.transform=`translate(${(Math.sin(t*.27+1)*22).toFixed(1)}px,${(Math.cos(t*.3)*10).toFixed(1)}px)`;
+}
+
+/* ============ TIMELINE ============ */
+const DURATION=22.5;
+const tl=gsap.timeline({paused:true});
+const pop=(el,at,{from=.55,dur=.5,y=24}={})=>tl.fromTo(el,{opacity:0,scale:from,y},{opacity:1,scale:1,y:0,duration:dur,ease:'back.out(2.2)',immediateRender:false},at);
+const bump=(el,at,amp=1.05)=>{tl.to(el,{scale:amp,duration:.08,ease:'power2.out'},at);tl.to(el,{scale:1,duration:.2,ease:'back.out(3)'},at+.08);};
+
+/* ----- 0:00–0:03  pembuka ----- */
+const callout=$('#callout'),hl=$('#hl'),lines=$$('.hln',hl),strip=$('#strip'),burst=$$('#burst path');
+const fC=fit(callout,940,176),fH=fit(hl,960,118);
+const hC=callout.offsetHeight,hH=hl.offsetHeight;
+gsap.set(callout,{y:675-hC/2});gsap.set(hl,{y:640});gsap.set(strip,{y:-250});
+tl.fromTo(callout,{opacity:0,scale:.6},{opacity:1,scale:1,duration:.5,ease:'back.out(2.4)',immediateRender:false},0);
+blurTween(tl,callout,0,14,0,.3,{ax:.2,ay:1});
+tl.to(callout,{y:300-hC/2,duration:.4,ease:'power3.out'},.6);
+lines.forEach((ln,i)=>{const at=.7+i*.25;
+  tl.fromTo(ln,{opacity:0,scale:.6,y:44},{opacity:1,scale:1,y:0,duration:.45,ease:'back.out(2.2)',immediateRender:false},at);});
+tl.to(burst,{strokeDashoffset:0,duration:.35,ease:'power2.out',stagger:.07},1.4);       // kilatan garis menggambar
+tl.to(burst,{opacity:1,duration:.01},1.4);
+// pembuka selesai → menyusut ke strip atas
+tl.to(callout,{scale:60/fC,y:56-hC/2,duration:.3,ease:'power3.inOut'},3.0);
+tl.to(hl,{scale:38/fH,y:148-hH/2,duration:.3,ease:'power3.inOut'},3.0);
+tl.to(burst,{opacity:0,duration:.2},2.95);
+tl.to(strip,{y:0,duration:.3,ease:'power3.inOut'},3.0);
+tl.to('#qbg',{opacity:1,duration:.3},3.2);
+tl.to('#qbg',{opacity:0,duration:.25},15.3);
+
+/* ----- 0:03–0:15,5  lima kartu: tanya → Solusinya → tiga centang ----- */
+const T0=[3.3,5.8,8.3,10.8,13.3],FS=2.3,FAY=830;
+const cds=CATS.map(c=>c.el);
+tl.set(cds,{opacity:0,scale:.7},0);
+cds.forEach((el,i)=>tl.fromTo(el,{opacity:0,scale:.7,y:30},{opacity:1,scale:1,y:0,duration:.5,ease:'back.out(2)',immediateRender:false},3.05+i*.08));
+tl.set(CAM,{s:1,fx:540,fy:337,ax:540,ay:700},0);
+CATS.forEach((c,i)=>{
+  const t0=T0[i],q=c.qn,chip=c.chip,its=$$('.it',c.el),ul=$('.ul',c.el),qu=$('.qu',q);
+  const qw=words($('.t',q));
+  // kamera meluncur ke kartu; kartu lain meredup
+  tl.to(CAM,{s:FS,fx:c.cx,fy:c.cy,ax:540,ay:FAY,duration:.5,ease:'power3.inOut'},t0-.05);
+  CATS.forEach((o,j)=>{if(j!==i)tl.to(o.el,{opacity:.35,duration:.3},t0);});
+  tl.to(c.el,{opacity:1,duration:.2},t0);
+  tl.fromTo(ul,{scaleX:0},{scaleX:1,duration:.4,ease:'power3.out',immediateRender:false},t0+.35);
+  // pertanyaan: kata-kata pop elastis; garis bawah menggambar
+  tl.set(q,{opacity:1},t0+.2);
+  tl.fromTo(qw,{opacity:0,scale:.5,y:34},{opacity:1,scale:1,y:0,duration:.45,ease:'back.out(2.4)',stagger:.07,immediateRender:false},t0+.2);
+  tl.fromTo(qu,{scaleX:0},{scaleX:1,duration:.4,ease:'power3.out',immediateRender:false},t0+.55);
+  // chip Solusinya:
+  tl.fromTo(chip,{opacity:0,scale:.4,y:20},{opacity:1,scale:1,y:0,duration:.4,ease:'back.out(2.6)',immediateRender:false},t0+.7);
+  // tiga centang
+  its.forEach((it,k)=>{const at=t0+1.0+k*.3,pth=$('path',it);
+    tl.fromTo(it,{opacity:0,x:-40},{opacity:1,x:0,duration:.25,ease:'power3.out',immediateRender:false},at);
+    tl.to(pth,{strokeDashoffset:0,duration:.18,ease:'power2.out'},at+.14);
+    tl.fromTo($('.ck',it),{scale:1.5},{scale:1,duration:.25,ease:'back.out(3)',immediateRender:false},at+.12);});
+  // keluar: pertanyaan dan chip naik, memberi tempat bab berikutnya
+  tl.to([q,chip],{opacity:0,y:-30,duration:.2,ease:'power2.in'},t0+2.28);
+});
+
+/* ----- 0:15,5–0:17,5  strip hilang, kamera mundur, lima kartu berjajar ----- */
+tl.to(strip,{y:-250,duration:.3,ease:'power2.in'},15.5);
+tl.to([callout,hl],{y:'-=260',opacity:0,duration:.3,ease:'power2.in'},15.5);
+tl.to(CAM,{s:1,fx:540,fy:337,ax:540,ay:760,duration:.9,ease:'power3.inOut'},15.5);
+tl.to(cds,{opacity:1,duration:.4},15.6);
+const note=$('#note'),noteLn=$$('.ln',note);fit(note,960,58);
+tl.set(note,{opacity:1},16.2);
+noteLn.forEach((ln,i)=>{tl.fromTo(ln,{opacity:0,scale:.7,y:40},{opacity:1,scale:1,y:0,duration:.5,ease:'back.out(2)',immediateRender:false},16.2+i*.28);});
+tl.fromTo($$('.ck'),{scale:1},{scale:1.35,duration:.14,yoyo:true,repeat:1,ease:'sine.inOut',stagger:.04,immediateRender:false},16.1);   // 15 centang berdenyut
+tl.to(note,{opacity:0,duration:.25},17.2);
+
+/* ----- 0:17,5–0:20,5  harga ----- */
+const nm=$$('#price .nm .ln'),nmBox=$('#price .nm'),ds=$('#price .ds'),lab=$('#price .lab'),pc=$('#price .pc'),nu=$('#price .nu'),nv=$('#numv');
+fit(nmBox,960,104);fit(nu,700,150);nv.style.width=nv.offsetWidth+'px';nv.textContent='Rp0';
+tl.to(cds,{opacity:0,y:60,duration:.35,ease:'power2.in'},17.2);
+tl.fromTo(lab,{opacity:0,y:30},{opacity:1,y:0,duration:.4,ease:'back.out(2)',immediateRender:false},17.7);
+nm.forEach((ln,i)=>tl.fromTo(ln,{opacity:0,scale:.7,y:40},{opacity:1,scale:1,y:0,duration:.5,ease:'back.out(2.2)',immediateRender:false},17.8+i*.18));
+$$('#price .tl2').forEach((el,i)=>tl.fromTo(el,{opacity:0,scale:.3,rotate:-20},{opacity:1,scale:1,rotate:0,duration:.45,ease:'back.out(2.6)',immediateRender:false},18.15+i*.09));
+tl.fromTo(ds,{opacity:0,y:30},{opacity:1,y:0,duration:.5,ease:'power4.out',immediateRender:false},18.5);
+tl.fromTo(pc,{opacity:0,scale:.7,y:50},{opacity:1,scale:1,y:0,duration:.5,ease:'back.out(2)',immediateRender:false},18.9);
+const cnt={v:0};
+tl.fromTo(cnt,{v:0},{v:139000,duration:.9,ease:'power3.out',immediateRender:false,
+  onUpdate(){nv.textContent='Rp'+String(Math.round(cnt.v)).replace(/\B(?=(\d{3})+(?!\d))/g,'.');}},19.0);
+gsap.set(nu,{transformOrigin:'50% 60%'});
+bump(nu,19.9,1.12);                                                                     // hentakan saat angka berhenti
+
+/* ----- 0:20,5–0:22,5  tombol ----- */
+const btn=$('#btn'),btnT=$('#btnt');fit($('#btn'),0,52);
+{const room=900-34-84-26-40;let fs=52;btnT.style.fontSize=fs+'px';while(btnT.offsetWidth>room&&fs>30){fs-=1;btnT.style.fontSize=fs+'px';}}
+tl.fromTo(btn,{opacity:0,y:200,scale:.8},{opacity:1,y:0,scale:1,duration:.5,ease:'back.out(2.2)',immediateRender:false},20.5);
+tl.to($('#btn .ar'),{x:10,duration:.3,yoyo:true,repeat:3,ease:'sine.inOut'},21.1);
+tl.to(btn,{scale:1.035,duration:.375,yoyo:true,repeat:3,ease:'sine.inOut'},21.0);
+
+tl.to({},{duration:.01},DURATION);
+
+/* ============ PEREKAT ============ */
+const stage=$('#stage');
+const fitStage=()=>{const s=Math.min(innerWidth/W,innerHeight/H);stage.style.transform=`translate(-50%,-50%) scale(${s})`;};
+addEventListener('resize',fitStage);fitStage();
+const clock=$('#clock'),scrub=$('#scrub'),btnPlay=$('#btn-play');let scrubbing=false;
+(function frame(){const t=tl.time();render(t);clock.textContent=t.toFixed(2)+'s';
+  if(!scrubbing)scrub.value=String(t/DURATION*1000);requestAnimationFrame(frame);})();
+const toggle=()=>{if(tl.paused()||tl.progress()>=1){if(tl.progress()>=1)tl.progress(0);tl.play();btnPlay.textContent='Pause';}
+  else{tl.pause();btnPlay.textContent='Play';}};
+btnPlay.onclick=toggle;
+$('#btn-restart').onclick=()=>{tl.pause(0);tl.play();btnPlay.textContent='Pause';};
+scrub.addEventListener('pointerdown',()=>{scrubbing=true;tl.pause();btnPlay.textContent='Play';});
+addEventListener('pointerup',()=>scrubbing=false);
+scrub.addEventListener('input',()=>{tl.pause();tl.time(scrub.value/1000*DURATION);});
+addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();toggle();}
+  if(/^[rR]$/.test(e.key)){tl.pause(0);tl.play();}if(/^[hH]$/.test(e.key))$('#ui').classList.toggle('on');});
+if(Q.has('debug'))$('#ui').classList.add('on');
+tl.eventCallback('onComplete',()=>{tl.play(0);});
+const seek=t=>{tl.pause();tl.time(t,false);if(gsap.ticker.tick)gsap.ticker.tick();render(t);};
+Object.assign(window.OPENER,{tl,DURATION,seek,ready:true});
+if(!Q.has('clean'))tl.play(0);
+})();
+</script>
+</body>
+</html>
