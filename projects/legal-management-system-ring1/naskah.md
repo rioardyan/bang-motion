@@ -9,7 +9,7 @@
 
 | Detik | Teks layar | Visual |
 |---|---|---|
-| 0–3 | Kontrak ini sebenarnya sudah sampai mana? | Kartu "Kontrak Vendor" dilempar antar jendela Chat → Email → Folder → Spreadsheet |
+| 0–3 | (0–1,5: eyebrow LEGAL MANAGEMENT SYSTEM) Kontrak ini sebenarnya sudah sampai mana? | Kartu "Kontrak Vendor" dilempar antar jendela Chat → Email → Folder → Spreadsheet |
 | 3–4,8 | Kontrak sudah dikirim. | Chip "Terkirim ✓" di kartu |
 | 4,8–8,5 | Tapi sudah direview siapa? / Sudah di-approve belum? / Masa berlakunya sampai kapan? | Tiga tanda "?" menempel di kartu |
 | 8,5–10,8 | Kalau semuanya masih dilacak dari chat, email, dan ingatan, | Jendela kecil menimbun kartu |
