@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Promo 6 Retail Management System</title>
+<!--
+  PROMO 6 · RETAIL MANAGEMENT SYSTEM · "Bagi yang mau tokonya jadi tersistem & bisa ditinggal" · Meta Ads (sales) · 4:5 (1080x1350) · 22,5 dtk · tanpa suara
+  Terjemahan motion dari iklan statis winning (headline & isi persis sama). Naskah: naskah.md
+
+  STYLE BRIEF
+  Konsep            : iklan statis "dirakit" — tiap elemen masuk sesuai urutan baca, toko isometrik di kanan ikut hidup
+  Sidik jari        : dirakit · 1 dunia (toko isometrik) + 6 beat · objek: toko isometrik (rak, kasir, lampu) · pembuka: pil sapaan + headline menghantam · penutup: tombol
+  Palet             : putih bersih #FFFFFF · navy #031A34 (judul) · hijau tua #016A67 (bar, centang, tombol) · krem rak #F3EDE4 · kayu #F0D4A8 (dari iklan asli)
+  Font              : Anton (judul, bar) + Figtree (pil, isi, manfaat, tombol)
+  Bahasa latar      : putih bersih, bercak mint pucat bergeser pelan; lantai toko isometrik memudar ke putih di kiri
+  Tanda tangan gerak: teks naik dari balik topeng (mask-reveal) + elemen meletup back.out
+  Gerak latar       : lampu berayun, daun bergoyang, bercak latar bergeser
+  Gaya objek        : isometrik flat (balok bernaungan 3 sisi), rak berisi barang, meja kasir bersekat hijau
+  Momen istimewa    : rak terisi barang satu per satu; staf muncul di balik kasir dan struk keluar saat "toko tetap jalan"
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Figtree:wght@600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<style>
+:root{--navy:#031A34;--grn:#016A67;--grn-d:#01403F;--ink:#0A1236;--teal:#0F6C6D}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:"Figtree",system-ui,sans-serif;color:var(--ink)}
+#stage{position:fixed;left:50%;top:50%;width:1080px;height:1350px;transform:translate(-50%,-50%) scale(1);overflow:hidden;background:#fff}
+#bg{position:absolute;inset:0;overflow:hidden}
+#bg i{position:absolute;border-radius:50%;background:radial-gradient(circle at 50% 50%,rgba(1,106,103,.08) 0,rgba(1,106,103,.03) 55%,rgba(1,106,103,0) 72%)}
+#b1{left:520px;top:-180px;width:760px;height:760px}
+#b2{left:-300px;top:760px;width:560px;height:560px;opacity:.5}
+#store{position:absolute;left:0;top:0;width:1080px;height:1350px}
+#hud{position:absolute;inset:0;pointer-events:none}
+#hud>*{position:absolute}
+.t{display:inline-block;white-space:nowrap}
+.mk{display:block;overflow:hidden;padding:.08em 0 .24em;margin:-.08em 0 -.24em}
+.mk .in{display:block;white-space:nowrap}
+#pill{left:48px;top:62px;height:76px;padding:0 38px 0 16px;border-radius:38px;background:#EEF9FA;border:3px solid var(--teal);display:flex;align-items:center;gap:16px;
+  font:800 31px/1 Figtree;letter-spacing:.005em;color:#080B4C;white-space:nowrap}
+#pill .ic{width:46px;height:46px;flex:none}
+#kick{left:52px;top:170px;font:800 34px/1 Figtree;letter-spacing:10px;color:var(--teal);white-space:nowrap}
+#hd{left:48px;top:226px;font:400 150px/1 Anton;color:var(--navy);text-transform:uppercase;letter-spacing:.005em}
+#bar{left:48px;top:560px;width:984px;height:112px;border-radius:22px;overflow:hidden}
+#bar .bg{position:absolute;inset:0;background:var(--grn);transform-origin:0 50%}
+#bar .tx{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:400 78px/1 Anton;color:#fff;text-transform:uppercase;letter-spacing:.01em}
+#bar .sh{position:absolute;top:-20%;bottom:-20%;left:0;width:150px;background:linear-gradient(100deg,rgba(255,255,255,0) 0,rgba(255,255,255,.55) 50%,rgba(255,255,255,0) 100%);transform:skewX(-18deg);opacity:0}
+#body{left:48px;top:706px;font:600 36px/46px Figtree;color:var(--ink)}
+.hm{position:relative;display:inline-block}
+.hm i{position:absolute;left:-.16em;right:-.16em;top:.1em;bottom:-.02em;background:#BFE9DD;border-radius:.22em;transform-origin:0 50%}
+.hm span{position:relative}
+.bn{width:340px;display:flex;gap:20px;align-items:flex-start}
+.bn .ck{position:relative;flex:none;width:58px;height:58px;margin-top:2px}
+.bn .ck svg{position:absolute;inset:0;width:58px;height:58px;overflow:visible}
+.bn .ck .rg{position:absolute;inset:0;border-radius:50%;border:4px solid var(--grn);opacity:0}
+.bn .tx{font:700 31px/38px Figtree;color:var(--ink)}
+#bn1{left:48px;top:932px}#bn2{left:372px;top:932px}#bn3{left:48px;top:1070px}#bn4{left:372px;top:1070px}
+#cta{left:48px;top:1204px;width:984px;height:102px;border-radius:30px;background:#016563;color:#fff;display:flex;align-items:center;justify-content:center;gap:28px;
+  font:800 45px/1 Figtree;letter-spacing:.005em;text-transform:uppercase;box-shadow:0 10px 0 var(--grn-d),0 26px 40px -14px rgba(1,60,58,.55);opacity:0;transform-origin:50% 60%}
+#cta .ar{width:64px;height:64px;flex:none;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center}
+#cta .ar svg{width:36px;height:36px;fill:none;stroke:#016563;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+
+#ui{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);display:none;align-items:center;gap:12px;padding:9px 14px;border-radius:14px;
+  background:rgba(14,16,22,.92);font-size:13px;color:#A0A6B4;z-index:50}
+#ui.on{display:flex}
+#ui button{background:#262A34;color:#fff;border:none;padding:7px 14px;border-radius:8px;font:inherit;cursor:pointer}
+#scrub{width:300px}
+#clock{font-variant-numeric:tabular-nums;min-width:5ch;text-align:right}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="bg"><i id="b1"></i><i id="b2"></i></div>
+  <svg id="store" viewBox="0 0 1080 1350"></svg>
+  <div id="hud">
+    <div id="pill"><svg class="ic" viewBox="0 0 32 32"><path d="M4 12l3-7h18l3 7z" fill="#0F6C6D"/><path d="M4 12h24v2.5a4 4 0 0 1-8 0 4 4 0 0 1-8 0 4 4 0 0 1-8 0z" fill="#0F6C6D"/><path d="M6 17v10h20V17z" fill="#0F6C6D"/><rect x="13" y="20" width="6" height="7" fill="#EEF9FA"/></svg><span>Khusus Owner Toko &amp; Kepala Toko</span></div>
+    <div id="kick">RETAIL MANAGEMENT SYSTEM</div>
+    <div id="hd"><span class="mk"><span class="in t" id="h1">Bagi yang mau</span></span><span class="mk"><span class="in t" id="h2">tokonya jadi</span></span></div>
+    <div id="bar"><div class="bg"></div><div class="tx"><span class="mk" style="padding:.1em 0 .2em;margin:-.1em 0 -.2em"><span class="in t" id="bt">Tersistem &amp; bisa ditinggal</span></span></div><div class="sh"></div></div>
+    <div id="body">
+      <span class="mk"><span class="in">SOP, form, checklist, dan spreadsheet</span></span>
+      <span class="mk"><span class="in">untuk kasir, stok, tim, supplier, sampai</span></span>
+      <span class="mk"><span class="in"><span class="hm"><i></i><span>operasional harian. Semua standar</span></span></span></span>
+      <span class="mk"><span class="in"><span class="hm"><i></i><span>kerjanya sudah tertulis.</span></span></span></span>
+    </div>
+    <div class="bn" id="bn1"><div class="ck"><div class="rg"></div><svg viewBox="0 0 58 58"><circle cx="29" cy="29" r="29" fill="#016A67"/><path d="M16 30l9 9 17-19" fill="none" stroke="#fff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="tx"><span class="mk"><span class="in">Selisih kasir bisa</span></span><span class="mk"><span class="in">dilacak per shift</span></span></div></div>
+    <div class="bn" id="bn2"><div class="ck"><div class="rg"></div><svg viewBox="0 0 58 58"><circle cx="29" cy="29" r="29" fill="#016A67"/><path d="M16 30l9 9 17-19" fill="none" stroke="#fff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="tx"><span class="mk"><span class="in">Stok tercatat,</span></span><span class="mk"><span class="in">barang mati</span></span><span class="mk"><span class="in">ketahuan lebih awal</span></span></div></div>
+    <div class="bn" id="bn3"><div class="ck"><div class="rg"></div><svg viewBox="0 0 58 58"><circle cx="29" cy="29" r="29" fill="#016A67"/><path d="M16 30l9 9 17-19" fill="none" stroke="#fff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="tx"><span class="mk"><span class="in">Karyawan baru</span></span><span class="mk"><span class="in">belajar dari SOP,</span></span><span class="mk"><span class="in">bukan dari Anda</span></span></div></div>
+    <div class="bn" id="bn4"><div class="ck"><div class="rg"></div><svg viewBox="0 0 58 58"><circle cx="29" cy="29" r="29" fill="#016A67"/><path d="M16 30l9 9 17-19" fill="none" stroke="#fff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="tx"><span class="mk"><span class="in">Toko tetap jalan</span></span><span class="mk"><span class="in">saat Anda libur</span></span></div></div>
+    <div id="cta"><span class="t" id="ctat">Sistemkan toko Anda sekarang</span><div class="ar"><svg viewBox="0 0 40 40"><path d="M6 20 H31 M21 9 L32 20 L21 31"/></svg></div></div>
+  </div>
+</div>
+<div id="ui"><button id="btn-play">Pause</button><button id="btn-restart">Restart</button>
+  <input id="scrub" type="range" min="0" max="1000" value="0"><span id="clock">0.00s</span></div>
+
+<script>
+(async()=>{
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const W=1080,H=1350,Q=new URLSearchParams(location.search);
+window.OPENER={W,H,ready:false};
+await Promise.all(['400 100px Anton','600 40px Figtree','700 40px Figtree','800 40px Figtree'].map(f=>document.fonts.load(f,'Aa0'))).catch(()=>{});
+await document.fonts.ready;
+const NS='http://www.w3.org/2000/svg';
+const svgAdd=(p,tag,at,html)=>{const e=document.createElementNS(NS,tag);for(const k in at)e.setAttribute(k,at[k]);if(html)e.innerHTML=html;p.appendChild(e);return e;};
+
+/* ============ TEKS: pas lebar ============ */
+const fitW=(el,target,base,max=1e9)=>{el.style.fontSize=base+'px';const w=el.scrollWidth||el.offsetWidth;const s=Math.min(max,base*target/w);el.style.fontSize=s.toFixed(1)+'px';return s;};
+{const h=$('#hd');h.style.fontSize='150px';const w=Math.max($('#h1').offsetWidth,$('#h2').offsetWidth);
+ // lebar baris 1 jadi 930 px
+ const s=Math.min(172,150*930/$('#h1').offsetWidth);h.style.fontSize=s.toFixed(1)+'px';}
+{const bt=$('#bt'),bx=$('#bar .tx');let fs=78;bx.style.fontSize=fs+'px';while(bt.offsetWidth>920&&fs>40){fs--;bx.style.fontSize=fs+'px';}
+ while(bt.offsetWidth<890&&fs<96){fs++;bx.style.fontSize=fs+'px';}}
+{const c=$('#cta'),ct=$('#ctat');let fs=45;c.style.fontSize=fs+'px';while(ct.offsetWidth>780&&fs>30){fs--;c.style.fontSize=fs+'px';}}
+
+/* ============ TOKO ISOMETRIK ============ */
+const S=$('#store');
+const OX=905,OY=1000,HW=330;
+const iso=(a,b,z)=>[OX+(a-b),OY+(a+b)*.5-z];
+const P=pts=>pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
+const clamp=v=>Math.max(0,Math.min(255,Math.round(v)));
+const tone=(hex,f)=>{const n=parseInt(hex.slice(1),16);return '#'+[(n>>16)&255,(n>>8)&255,n&255].map(c=>clamp(c*f).toString(16).padStart(2,'0')).join('');};
+const poly=(g,pts,fill,ex={})=>svgAdd(g,'polygon',{points:P(pts),fill,...ex});
+const G=(parent,id)=>svgAdd(parent,'g',id?{id}:{});
+const box=(g,a0,b0,z0,da,db,dz,c,o={})=>{
+  const top=o.top||tone(c,1.1),L=o.L||c,R=o.R||tone(c,.84);
+  const k=svgAdd(g,'g',{});
+  poly(k,[iso(a0,b0+db,z0),iso(a0+da,b0+db,z0),iso(a0+da,b0+db,z0+dz),iso(a0,b0+db,z0+dz)],L);
+  poly(k,[iso(a0+da,b0,z0),iso(a0+da,b0+db,z0),iso(a0+da,b0+db,z0+dz),iso(a0+da,b0,z0+dz)],R);
+  poly(k,[iso(a0,b0,z0+dz),iso(a0+da,b0,z0+dz),iso(a0+da,b0+db,z0+dz),iso(a0,b0+db,z0+dz)],top);
+  return k;};
+
+/* defs: pudar kiri, kerucut lampu */
+S.innerHTML=`<defs>
+ <linearGradient id="gf" x1="640" y1="0" x2="840" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#000"/><stop offset="1" stop-color="#fff"/></linearGradient>
+ <mask id="mf" maskUnits="userSpaceOnUse" x="0" y="0" width="1080" height="1350"><rect width="1080" height="1350" fill="url(#gf)"/></mask>
+ <linearGradient id="gc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE9A8" stop-opacity=".55"/><stop offset="1" stop-color="#FFE9A8" stop-opacity="0"/></linearGradient>
+</defs>`;
+const store=svgAdd(S,'g',{mask:'url(#mf)'});
+
+const gFloor=G(store),gWallL=G(store),gWallR=G(store),gCorner=G(store);
+{ // lantai
+ const f=gFloor;poly(f,[iso(0,0,0),iso(240,0,0),iso(240,240,0),iso(0,240,0)],'#F2E9E0');
+ for(let s=40;s<240;s+=40){svgAdd(f,'line',{x1:iso(s,0,0)[0],y1:iso(s,0,0)[1],x2:iso(s,240,0)[0],y2:iso(s,240,0)[1],stroke:'#E3D7CA','stroke-width':1.6});
+   svgAdd(f,'line',{x1:iso(0,s,0)[0],y1:iso(0,s,0)[1],x2:iso(240,s,0)[0],y2:iso(240,s,0)[1],stroke:'#E3D7CA','stroke-width':1.6});}
+ // bayangan meja
+}
+poly(gWallL,[iso(0,0,0),iso(0,210,0),iso(0,210,HW),iso(0,0,HW)],'#E7EDEE');
+poly(gWallL,[iso(0,0,0),iso(0,210,0),iso(0,210,14),iso(0,0,14)],'#D5DEDF');
+poly(gWallR,[iso(0,0,0),iso(240,0,0),iso(240,0,HW),iso(0,0,HW)],'#F3F6F6');
+poly(gWallR,[iso(0,0,0),iso(240,0,0),iso(240,0,14),iso(0,0,14)],'#E1E8E8');
+box(gCorner,0,0,0,40,40,HW,'#EFE9E0');
+
+/* rak */
+const CREAM='#F1EBE1',CL={top:'#F8F4EC',L:'#E4DACB',R:'#CFC3B2'};
+const COL=['#1F7F7A','#F1A144','#F4E6C8','#1D3B54','#FAFAFA','#8DB486','#E56B3E','#2E8B8B'];
+const BOT=['#7FB38A','#F7F7F7','#F0C14B','#5BA9A0'];
+const HGT=[30,38,26,42,34],WID=[13,12,14,12];
+const LEV=[50,130,210],TOPZ=290,NIT=7;
+const units=[];   // {axis, planks:[g], items:[[{g,top}]], back, frame}
+const buildUnit=(axis)=>{
+  const U={axis,planks:[],items:[],pre:null};
+  const g=G(store);U.g=g;
+  const bx=(s0,d0,z0,ds,dd,dz,c,o)=>axis==='a'?box(U.cur,s0,d0,z0,ds,dd,dz,c,o):box(U.cur,d0,s0,z0,dd,ds,dz,c,o);
+  const pt=(s,d,z)=>axis==='a'?iso(s,d,z):iso(d,s,z);
+  U.cur=G(g);U.base=U.cur;
+  bx(40,0,0,150,36,44,CREAM,CL);                    // lemari bawah
+  U.cur=G(g);U.back=U.cur;bx(40,0,44,150,3,TOPZ-44,'#DCD2C3',{top:'#E6DED1',L:'#D5CBBB',R:'#C6BBA9'});
+  U.cur=G(g);U.upL=U.cur;bx(40,0,44,5,36,TOPZ-44,CREAM,CL);
+  for(let li=0;li<LEV.length;li++){
+    const z=LEV[li];
+    U.cur=G(g);U.planks.push(U.cur);bx(40,0,z,150,36,7,CREAM,CL);
+    const row=[];
+    for(let i=0;i<NIT;i++){
+      const s=50+i*19,k=(i*3+li)%5,w=WID[(i+li)%4],h=HGT[k];
+      const bottle=((i+li+(axis==='a'?0:2))%4)===1;
+      const c=bottle?BOT[(i+li)%4]:COL[(i*5+li*3+(axis==='a'?0:2))%8];
+      const d=bottle?11:17,s0=s,d0=11;
+      const grp=G(g);U.cur=grp;
+      if(bottle){bx(s0+1,d0+2,z+7,w-3,d,h+12,c);bx(s0+3,d0+5,z+7+h+12,w-7,d-6,7,'#2C3A46');}
+      else{bx(s0,d0,z+7,w,d,h,c);bx(s0,d0,z+7+h-5,w,d,5,tone(c,.92));}
+      const topP=pt(s0+w/2,d0+d/2,z+7+h+(bottle?19:0));
+      row.push({g:grp,top:topP,s0,d0,w,d,h:h+(bottle?19:0),z:z+7,bottle,c});
+    }
+    U.items.push(row);
+  }
+  U.cur=G(g);U.topP=U.cur;bx(40,0,TOPZ,150,36,8,CREAM,CL);
+  U.cur=G(g);U.upR=U.cur;bx(185,0,44,5,36,TOPZ-44,CREAM,CL);
+  units.push(U);return U;};
+const UR=buildUnit('a'),UL=buildUnit('b');
+// susun ulang: unit kiri di bawah unit kanan (kiri lebih jauh di layar) — urutan DOM sudah kanan dulu; pindahkan kiri ke depan
+store.insertBefore(UL.g,UR.g);
+
+/* meja kasir */
+const gCounter=G(store);
+const CA0=62,CB0=108,CDA=178,CDB=62,CH=100;
+const gStaff=G(store);  // dirapikan di bawah (digambar sebelum meja)
+store.insertBefore(gStaff,gCounter);
+{
+ const g=gCounter;
+ svgAdd(gCounter,'ellipse',{cx:iso(160,150,0)[0],cy:iso(160,150,0)[1]+6,rx:150,ry:44,fill:'rgba(30,40,40,.10)'});
+ const base=box(g,CA0,CB0,0,CDA,CDB,CH,'#3F6B5A',{top:'#4A7A67',L:'#3F6B5A',R:'#335747'});
+ for(let a=CA0+10;a<CA0+CDA;a+=10){const p1=iso(a,CB0+CDB,4),p2=iso(a,CB0+CDB,CH-3);
+   svgAdd(g,'line',{x1:p1[0],y1:p1[1],x2:p2[0],y2:p2[1],stroke:'rgba(10,40,30,.22)','stroke-width':2});}
+ for(let b=CB0+10;b<CB0+CDB;b+=10){const p1=iso(CA0+CDA,b,4),p2=iso(CA0+CDA,b,CH-3);
+   svgAdd(g,'line',{x1:p1[0],y1:p1[1],x2:p2[0],y2:p2[1],stroke:'rgba(10,40,30,.25)','stroke-width':2});}
+ box(g,CA0-4,CB0-4,CH,CDA+8,CDB+8,9,'#F0D4A8',{top:'#F6E1BE',L:'#DDB985',R:'#C7A16C'});
+}
+const TZ=CH+9;
+const gPos=G(gCounter),gReader=G(gCounter),gBag=G(gCounter),gBot=G(gCounter),gClip=G(gCounter),gOpen=G(gCounter);
+// POS
+box(gPos,124,124,TZ,16,22,4,'#2A2F36');box(gPos,128,132,TZ+4,6,6,14,'#3A414A');
+box(gPos,118,116,TZ+18,6,50,44,'#20252B',{top:'#2D343C',L:'#20252B',R:'#161A1F'});
+const SCR=[iso(124.5,122,TZ+23),iso(124.5,160,TZ+23),iso(124.5,160,TZ+59),iso(124.5,122,TZ+59)];
+poly(gPos,SCR,'#0F3038');
+const posRows=[];
+[['#35D0A0',0],['#F5C451',1],['#35D0A0',2]].forEach(([c,i])=>{
+  const z0=TZ+52-i*11;const q=[iso(124.6,126,z0),iso(124.6,[150,138,146][i],z0),iso(124.6,[150,138,146][i],z0-6),iso(124.6,126,z0-6)];
+  posRows.push(poly(gPos,q,c,{opacity:.28}));});
+// pembaca kartu
+box(gReader,168,138,TZ,18,20,12,'#2B2F36');
+poly(gReader,[iso(171,141,TZ+14),iso(183,141,TZ+14),iso(183,153,TZ+14),iso(171,153,TZ+14)],'#9BE5C9');
+// tas kertas
+box(gBag,205,122,TZ,20,26,34,'#C79F78',{top:'#D8B38F',L:'#C79F78',R:'#A9825E'});
+box(gBag,206,123,TZ+34,18,22,3,'#B08760');
+// botol
+box(gBot,196,152,TZ,8,8,22,'#E8F2EC');box(gBot,197,153,TZ+22,6,6,5,'#2C3A46');
+box(gBot,186,148,TZ,8,8,22,'#9CC9A5');box(gBot,187,149,TZ+22,6,6,5,'#2C3A46');
+// papan klip (SOP)
+{const A=[78,128],B=[100,152],z=TZ+.5;
+ poly(gClip,[iso(A[0],A[1],z),iso(B[0],A[1],z),iso(B[0],B[1],z),iso(A[0],B[1],z)],'#FFFFFF',{stroke:'#B9C4C4','stroke-width':1.5});
+ poly(gClip,[iso(A[0]+3,A[1]+3,z+.2),iso(B[0]-3,A[1]+3,z+.2),iso(B[0]-3,A[1]+7,z+.2),iso(A[0]+3,A[1]+7,z+.2)],'#016A67');
+ var clipTicks=[];
+ [0,1,2].forEach(i=>{const bb=A[1]+10+i*5.4;
+   poly(gClip,[iso(A[0]+11,bb,z+.2),iso(B[0]-3,bb,z+.2),iso(B[0]-3,bb+2,z+.2),iso(A[0]+11,bb+2,z+.2)],'#C9D4D4');
+   const c=iso(A[0]+6,bb+1,z+.3);clipTicks.push(svgAdd(gClip,'circle',{cx:c[0],cy:c[1],r:2.6,fill:'#016A67',opacity:0}));});
+}
+// papan BUKA (lampu hijau)
+box(gOpen,222,118,TZ,8,30,14,'#1B6E56',{top:'#25936F'});
+const openLamp=svgAdd(gOpen,'ellipse',{cx:iso(226,133,TZ+8)[0],cy:iso(226,133,TZ+8)[1],rx:9,ry:4,fill:'#7CFFC8',opacity:.8});
+
+/* staf di balik meja */
+{const sx=iso(165,66,0)[0],sy=iso(165,66,0)[1];
+ gStaff.setAttribute('transform',`translate(${sx} ${sy})`);
+ var staffIn=svgAdd(gStaff,'g',{});
+ svgAdd(staffIn,'rect',{x:-26,y:-96,width:52,height:96,rx:20,fill:'#FFFFFF',stroke:'#D5DEDF','stroke-width':2});
+ svgAdd(staffIn,'rect',{x:-18,y:-70,width:36,height:70,rx:9,fill:'#016A67'});
+ svgAdd(staffIn,'rect',{x:-9,y:-60,width:18,height:10,rx:3,fill:'#fff',opacity:.9});
+ var staffHead=svgAdd(staffIn,'g',{});
+ svgAdd(staffHead,'circle',{cx:0,cy:-118,r:21,fill:'#F2C7A5'});
+ svgAdd(staffHead,'path',{d:'M-22 -120 a22 22 0 0 1 44 0 q-10 -8 -22 -8 q-12 0 -22 8z',fill:'#2A1F1B'});
+ svgAdd(staffHead,'circle',{cx:-7,cy:-116,r:2.4,fill:'#2A1F1B'});svgAdd(staffHead,'circle',{cx:7,cy:-116,r:2.4,fill:'#2A1F1B'});
+ svgAdd(staffHead,'path',{d:'M-6 -107 q6 6 12 0',stroke:'#8A4B3A','stroke-width':2.4,fill:'none','stroke-linecap':'round'});
+}
+/* tanaman */
+const gPlant=G(store);
+const leaves=[];
+{const px=iso(46,172,0)[0],py=iso(46,172,0)[1];
+ box(gPlant,38,164,0,16,16,22,'#8A5A44',{top:'#9E6B52'});
+ const base=svgAdd(gPlant,'g',{});
+ [[-58,'#4C9A57',46,15],[-30,'#67B36C',58,16],[0,'#4C9A57',64,17],[30,'#67B36C',56,16],[56,'#4C9A57',44,14]].forEach(([r,c,l,w],i)=>{
+   const lg=svgAdd(gPlant,'g',{});lg._r=r;lg._o=[px,py-24];
+   svgAdd(lg,'ellipse',{cx:px,cy:py-24-l/2,rx:w,ry:l/2+4,fill:c});leaves.push(lg);});
+}
+/* lampu gantung */
+const gLampDrop=G(S),gLamp=G(gLampDrop);
+const LX=1008,LY=666;
+svgAdd(gLamp,'polygon',{points:`${LX-32},${LY+66} ${LX+32},${LY+66} ${LX+120},${LY+260} ${LX-120},${LY+260}`,fill:'url(#gc)',id:'cone'});
+svgAdd(gLamp,'line',{x1:LX,y1:LY-60,x2:LX,y2:LY+36,stroke:'#1C2430','stroke-width':3});
+svgAdd(gLamp,'path',{d:`M${LX-34} ${LY+66} Q${LX-30} ${LY+30} ${LX} ${LY+30} Q${LX+30} ${LY+30} ${LX+34} ${LY+66} Z`,fill:'#1C2430'});
+svgAdd(gLamp,'ellipse',{cx:LX,cy:LY+66,rx:34,ry:6,fill:'#FFE7A0'});
+const cone=$('#cone');
+/* slip struk & kertas SOP & titik stok & cincin */
+const gFx=G(S);
+const slips=[0,1,2].map(i=>{const g=G(gFx);const [x,y]=iso(135,140,TZ+70);
+  svgAdd(g,'rect',{x:x-12,y:y-16,width:24,height:32,rx:3,fill:'#fff',stroke:'#AEBBBB','stroke-width':1.6});
+  [-8,-1,6].forEach(dy=>svgAdd(g,'rect',{x:x-7,y:y+dy-4,width:14,height:2.6,rx:1.3,fill:'#9FB0B0'}));
+  svgAdd(g,'circle',{cx:x+5,cy:y+10,r:3,fill:'#016A67'});g._x=x;g._y=y;return g;});
+const sheet=G(gFx);const SHP=iso(88,140,TZ+6);
+svgAdd(sheet,'rect',{x:-19,y:-25,width:38,height:50,rx:5,fill:'#fff',stroke:'#016A67','stroke-width':3});
+[-12,-3,6].forEach(dy=>svgAdd(sheet,'rect',{x:-11,y:dy-2,width:22,height:3.4,rx:1.7,fill:'#9FB0B0'}));
+svgAdd(sheet,'circle',{cx:11,cy:17,r:6,fill:'#016A67'});svgAdd(sheet,'path',{d:'M8 17l2.6 2.6 4.4-5',stroke:'#fff','stroke-width':1.8,fill:'none','stroke-linecap':'round'});
+const rings=[0,1,2].map(i=>{const [x,y]=iso(177,148,TZ+7);return svgAdd(gFx,'ellipse',{cx:x,cy:y,rx:10,ry:5,fill:'none',stroke:'#16B58A','stroke-width':3,opacity:0});});
+// titik stok (rak kanan, level 2 dan 3) + penanda barang mati
+const dots=[];const gDots=G(S);
+[1,2].forEach(li=>UR.items[li].forEach((it,i)=>{const [x,y]=it.top;
+  const d=G(gDots);svgAdd(d,'circle',{cx:x,cy:y-12,r:9.5,fill:'#016A67',stroke:'#fff','stroke-width':2.4});svgAdd(d,'path',{d:`M${x-4} ${y-12}l3 3 5.4-6`,stroke:'#fff','stroke-width':2.2,fill:'none','stroke-linecap':'round','stroke-linejoin':'round'});
+  d._li=li;d._i=i;dots.push(d);}));
+const dead=[[1,5],[2,2]].map(([li,i])=>{const it=UR.items[li][i];const [x,y]=it.top;
+  const g=G(gDots);
+  // selimut abu di atas barang
+  const s0=it.s0,d0=it.d0,w=it.w,d=it.d,z=it.z,h=it.h;
+  const gr=svgAdd(g,'g',{});
+  poly(gr,[iso(s0,d0+d,z),iso(s0+w,d0+d,z),iso(s0+w,d0+d,z+h),iso(s0,d0+d,z+h)],'rgba(236,240,242,.82)');
+  poly(gr,[iso(s0+w,d0,z),iso(s0+w,d0+d,z),iso(s0+w,d0+d,z+h),iso(s0+w,d0,z+h)],'rgba(222,228,231,.85)');
+  poly(gr,[iso(s0,d0,z+h),iso(s0+w,d0,z+h),iso(s0+w,d0+d,z+h),iso(s0,d0+d,z+h)],'rgba(244,246,247,.85)');
+  const tg=G(g);svgAdd(tg,'circle',{cx:x,cy:y-14,r:11,fill:'#FF8A3D',stroke:'#fff','stroke-width':2.4});
+  svgAdd(tg,'rect',{x:x-1.6,y:y-20,width:3.2,height:8,rx:1.6,fill:'#fff'});svgAdd(tg,'circle',{cx:x,cy:y-9,r:1.8,fill:'#fff'});
+  g._gr=gr;g._tg=tg;g._li=li;g._i=i;return g;});
+// hapus titik hijau pada barang mati
+dots.forEach(d=>{if(dead.some(x=>x._li===d._li&&x._i===d._i))d.style.display='none';});
+
+/* ============ TIMELINE ============ */
+const DURATION=22.5;
+const tl=gsap.timeline({paused:true});
+const rv=(el,at,{dur=.55,ease='expo.out',skew=0}={})=>{gsap.set(el,{yPercent:150,skewY:skew});tl.to(el,{yPercent:0,skewY:0,duration:dur,ease},at);};
+const popIn=(el,at,{dur=.4,ease='back.out(2.6)',from=0,origin='50% 100%'}={})=>{gsap.set(el,{scale:from,opacity:0,transformOrigin:origin});tl.to(el,{scale:1,opacity:1,duration:dur,ease},at);};
+
+/* 1. pil + kicker */
+gsap.set('#pill',{opacity:0,y:-50,scale:.92,transformOrigin:'0% 50%'});tl.to('#pill',{opacity:1,y:0,scale:1,duration:.5,ease:'back.out(2)'},.1);
+gsap.set('#pill .ic',{scale:0,rotation:-40});tl.to('#pill .ic',{scale:1,rotation:0,duration:.45,ease:'back.out(3)'},.35);
+gsap.set('#kick',{opacity:0,letterSpacing:'26px'});tl.to('#kick',{opacity:1,letterSpacing:'10px',duration:.75,ease:'power3.out'},.55);
+/* 2. headline menghantam */
+rv('#h1',.95,{dur:.6,skew:5});rv('#h2',1.22,{dur:.6,skew:5});
+tl.fromTo('#hd',{scale:1},{scale:1.012,duration:.12,yoyo:true,repeat:1,ease:'sine.inOut',transformOrigin:'0% 50%',immediateRender:false},1.55);
+/* bar hijau menyapu */
+gsap.set('#bar .bg',{scaleX:0});tl.to('#bar .bg',{scaleX:1,duration:.55,ease:'power4.out'},1.75);
+rv('#bt',1.95,{dur:.5,ease:'power4.out'});
+gsap.set('#bar',{transformOrigin:'0% 50%'});
+tl.fromTo('#bar .sh',{x:-200,opacity:1},{x:1180,duration:.7,ease:'power2.inOut',immediateRender:false},2.4);
+/* 3. toko dirakit 2.1–4.9 */
+gsap.set(gFloor,{opacity:0,scale:.82,svgOrigin:`${OX} ${OY+110}`});tl.to(gFloor,{opacity:1,scale:1,duration:.6,ease:'power3.out'},2.1);
+gsap.set(gWallL,{scaleY:0,svgOrigin:`${OX-100} ${OY+50}`});tl.to(gWallL,{scaleY:1,duration:.55,ease:'expo.out'},2.3);
+gsap.set(gWallR,{scaleY:0,svgOrigin:`${OX+110} ${OY+55}`});tl.to(gWallR,{scaleY:1,duration:.55,ease:'expo.out'},2.4);
+gsap.set(gCorner,{scaleY:0,svgOrigin:`${OX} ${OY}`});tl.to(gCorner,{scaleY:1,duration:.4,ease:'expo.out'},2.35);
+units.forEach((U,ui)=>{const t0=2.55+ui*.12;
+  [U.base,U.back,U.upL,U.upR,U.topP].forEach((e,i)=>{gsap.set(e,{opacity:0,y:30});tl.to(e,{opacity:1,y:0,duration:.4,ease:'power3.out'},t0+i*.05);});
+  U.planks.forEach((p,li)=>{gsap.set(p,{opacity:0,y:-26});tl.to(p,{opacity:1,y:0,duration:.35,ease:'back.out(2)'},t0+.15+li*.16);});
+  U.items.forEach((row,li)=>row.forEach((it,i)=>popIn(it.g,t0+.4+li*.22+i*.04+(ui?.1:0),{dur:.3,ease:'back.out(3)'})));
+});
+// lampu jatuh
+gsap.set(gLampDrop,{y:-170,opacity:0});tl.to(gLampDrop,{y:0,opacity:1,duration:.7,ease:'bounce.out'},3.55);
+gsap.set(cone,{opacity:0});tl.to(cone,{opacity:1,duration:.5},4.2);
+// meja + isinya
+gsap.set(gCounter,{x:170,y:0,opacity:0});tl.to(gCounter,{x:0,opacity:1,duration:.65,ease:'back.out(1.5)'},3.85);
+[gPos,gReader,gBag,gBot,gOpen].forEach((e,i)=>{gsap.set(e,{opacity:0,y:-26});tl.to(e,{opacity:1,y:0,duration:.35,ease:'back.out(2.4)'},4.35+i*.1);});
+gsap.set(gClip,{opacity:0,y:-24});
+gsap.set(gPlant,{opacity:0,scale:.6,svgOrigin:`${iso(46,172,0)[0]} ${iso(46,172,0)[1]}`});tl.to(gPlant,{opacity:1,scale:1,duration:.5,ease:'back.out(2.2)'},4.5);
+
+/* 4. isi: baris naik, stabilo, papan klip */
+$$('#body .mk .in').forEach((e,i)=>rv(e,5.0+i*.22,{dur:.55,ease:'power4.out'}));
+gsap.set($$('.hm i'),{scaleX:0});
+tl.to($$('.hm i')[0],{scaleX:1,duration:.5,ease:'power3.out'},6.35);
+tl.to($$('.hm i')[1],{scaleX:1,duration:.45,ease:'power3.out'},6.8);
+tl.to(gClip,{opacity:1,y:0,duration:.4,ease:'back.out(2.4)'},6.7);
+clipTicks.forEach((c,i)=>{gsap.set(c,{scale:0,svgOrigin:`${c.getAttribute('cx')} ${c.getAttribute('cy')}`});tl.to(c,{opacity:1,scale:1,duration:.22,ease:'back.out(3)'},7.1+i*.22);});
+
+/* 5. empat manfaat */
+gsap.set($$('.bn .ck svg'),{scale:0});
+$$('.bn .ck svg path').forEach(p=>{p.style.strokeDasharray='46';gsap.set(p,{strokeDashoffset:46});});
+const BTS=[8.2,10.35,12.5,14.65];
+$$('.bn').forEach((b,i)=>{const t0=BTS[i];
+  tl.to($('.ck svg',b),{scale:1,duration:.4,ease:'back.out(3)'},t0);
+  tl.to($('.ck svg path',b),{strokeDashoffset:0,duration:.3,ease:'power2.out'},t0+.14);
+  gsap.set($('.ck .rg',b),{scale:1,opacity:0});
+  tl.fromTo($('.ck .rg',b),{scale:1,opacity:.7},{scale:1.9,opacity:0,duration:.55,ease:'power2.out',immediateRender:false},t0+.2);
+  $$('.mk .in',b).forEach((e,j)=>rv(e,t0+.1+j*.14,{dur:.5,ease:'power4.out'}));
+});
+// B1 selisih kasir: layar kasir menyala, kartu "bip"
+posRows.forEach((r,i)=>tl.to(r,{opacity:1,duration:.2},8.5+i*.3));
+rings.forEach((r,i)=>{gsap.set(r,{opacity:0,scale:.4,svgOrigin:`${r.getAttribute('cx')} ${r.getAttribute('cy')}`});
+  tl.fromTo(r,{opacity:.9,scale:.4},{opacity:0,scale:3.4,duration:.7,ease:'power2.out',immediateRender:false},8.55+i*.32);});
+// B2 stok: titik hijau + barang mati
+dots.forEach(d=>{gsap.set(d,{opacity:0,scale:0,svgOrigin:`${d.querySelector('circle').getAttribute('cx')} ${d.querySelector('circle').getAttribute('cy')}`});
+  tl.to(d,{opacity:1,scale:1,duration:.25,ease:'back.out(3)'},10.6+(d._li-1)*.7+d._i*.07);});
+dead.forEach((d,k)=>{gsap.set(d._gr,{opacity:0});gsap.set(d._tg,{opacity:0,scale:0,svgOrigin:`${d._tg.querySelector('circle').getAttribute('cx')} ${d._tg.querySelector('circle').getAttribute('cy')}`});
+  tl.to(d._gr,{opacity:1,duration:.4},11.5+k*.4);tl.to(d._tg,{opacity:1,scale:1,duration:.4,ease:'back.out(3)'},11.6+k*.4);});
+tl.to([...dots,...dead.map(d=>d._gr),...dead.map(d=>d._tg)],{opacity:0,duration:.35},13.9);
+// B3 karyawan baru belajar dari SOP: staf muncul, kertas SOP melayang
+gsap.set(staffIn,{y:60,opacity:0});tl.to(staffIn,{y:0,opacity:1,duration:.5,ease:'back.out(1.8)'},12.6);
+gsap.set(sheet,{opacity:0,x:SHP[0],y:SHP[1],scale:.4});
+tl.to(sheet,{opacity:1,scale:1,duration:.3,ease:'back.out(2)'},12.95);
+tl.to(sheet,{x:SHP[0]-70,y:SHP[1]-120,duration:.7,ease:'power2.inOut'},13.2);
+tl.to(sheet,{opacity:0,scale:.6,duration:.3},15.6);
+// B4 toko tetap jalan: struk keluar, lampu terang
+slips.forEach((s,i)=>{gsap.set(s,{opacity:0,x:0,y:0,rotation:0,svgOrigin:`${s._x} ${s._y}`});
+  tl.to(s,{opacity:1,duration:.2},14.85+i*.38);
+  tl.to(s,{y:-110,x:(i-1)*18,rotation:(i-1)*9,duration:.9,ease:'power1.out'},14.85+i*.38);
+  tl.to(s,{opacity:0,duration:.3},15.45+i*.38);});
+tl.to(cone,{opacity:1.6,duration:.4,yoyo:true,repeat:1},14.8);
+
+/* 6. penegas */
+$$('.bn .ck svg').forEach((e,i)=>tl.to(e,{scale:1.22,duration:.16,yoyo:true,repeat:1,ease:'sine.inOut'},16.7+i*.16));
+tl.fromTo('#bar .sh',{x:-200,opacity:1},{x:1180,duration:.7,ease:'power2.inOut',immediateRender:false},17.4);
+tl.fromTo('#bar',{scale:1},{scale:1.03,duration:.14,yoyo:true,repeat:1,ease:'sine.inOut',immediateRender:false},17.5);
+
+/* 7. tombol */
+gsap.set('#cta',{y:240,opacity:0});
+tl.to('#cta',{y:0,opacity:1,duration:.6,ease:'back.out(1.8)'},19.2);
+tl.to('#cta',{scale:1.035,duration:.26,yoyo:true,repeat:5,ease:'sine.inOut'},20.0);
+tl.to('#cta .ar',{x:10,duration:.26,yoyo:true,repeat:5,ease:'sine.inOut'},20.0);
+tl.to({},{duration:.01},DURATION);
+
+/* ============ GERAK BERKELANJUTAN ============ */
+const smooth=x=>Math.max(0,Math.min(1,x));
+const render=t=>{
+  const env=smooth((t-4.1)/.5);
+  gsap.set(gLamp,{rotation:Math.sin(t*1.7)*2.6*env,svgOrigin:`${LX} ${LY-60}`});
+  leaves.forEach((lg,i)=>gsap.set(lg,{rotation:lg._r*.12+Math.sin(t*1.5+i*1.3)*3.2,svgOrigin:`${lg._o[0]} ${lg._o[1]}`}));
+  gsap.set(staffHead,{y:Math.sin(t*2.2)*2.2,rotation:Math.sin(t*1.1)*2,svgOrigin:'0 -100'});
+  gsap.set(openLamp,{opacity:.55+.35*Math.sin(t*3)});
+  gsap.set('#b1',{x:Math.sin(t*.45)*40,y:Math.cos(t*.38)*30});
+  gsap.set('#b2',{x:Math.cos(t*.4)*36,y:Math.sin(t*.33)*28});
+};
+
+/* ============ PEREKAT ============ */
+const stage=$('#stage');
+const fitStage=()=>{const s=Math.min(innerWidth/W,innerHeight/H);stage.style.transform=`translate(-50%,-50%) scale(${s})`;};
+addEventListener('resize',fitStage);fitStage();
+const clock=$('#clock'),scrub=$('#scrub'),btnPlay=$('#btn-play');let scrubbing=false;
+(function frame(){const t=tl.time();render(t);clock.textContent=t.toFixed(2)+'s';
+  if(!scrubbing)scrub.value=String(t/DURATION*1000);requestAnimationFrame(frame);})();
+const toggle=()=>{if(tl.paused()||tl.progress()>=1){if(tl.progress()>=1)tl.progress(0);tl.play();btnPlay.textContent='Pause';}
+  else{tl.pause();btnPlay.textContent='Play';}};
+btnPlay.onclick=toggle;
+$('#btn-restart').onclick=()=>{tl.pause(0);tl.play();btnPlay.textContent='Pause';};
+scrub.addEventListener('pointerdown',()=>{scrubbing=true;tl.pause();btnPlay.textContent='Play';});
+addEventListener('pointerup',()=>scrubbing=false);
+scrub.addEventListener('input',()=>{tl.pause();tl.time(scrub.value/1000*DURATION);});
+addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();toggle();}
+  if(/^[rR]$/.test(e.key)){tl.pause(0);tl.play();}if(/^[hH]$/.test(e.key))$('#ui').classList.toggle('on');});
+if(Q.has('debug'))$('#ui').classList.add('on');
+tl.eventCallback('onComplete',()=>{tl.play(0);});
+const seek=t=>{tl.pause();tl.time(t,false);if(gsap.ticker.tick)gsap.ticker.tick();render(t);};
+Object.assign(window.OPENER,{tl,DURATION,seek,ready:true});
+render(0);
+if(!Q.has('clean'))tl.play(0);
+})();
+</script>
+</body>
+</html>
