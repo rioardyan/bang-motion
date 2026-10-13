@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Promo 6B Retail Management System</title>
 <!--
-  PROMO 6B · RETAIL MANAGEMENT SYSTEM · "Satu ide satu layar" · Meta Ads (sales) · 4:5 (1080x1350) · 22,5 dtk · tanpa suara
+  PROMO 6B · RETAIL MANAGEMENT SYSTEM · "Satu ide satu layar" · Meta Ads (sales) · 4:5 (1080x1350) · 15,9 dtk · tanpa suara
   Isi, urutan, dan palet sama dengan Promo 6. Tata letak dan gerak dirancang baru (tidak menganimasikan gambar iklan). Naskah: naskah.md
 
   STYLE BRIEF
   Konsep            : tiap tingkat isi mendapat satu layar penuh: callout → produk → headline → sub-headline → manfaat → CTA
-  Sidik jari        : satu layar satu ide · 6 layar + 5 sapuan · objek: tipografi besar, label dokumen, kartu manfaat · pembuka: ikon toko beriak + callout besar · penutup: tombol berdenyut
+  Sidik jari        : satu layar satu ide · 4 layar + 3 sapuan · objek: tipografi besar, ikon dokumen, kartu manfaat · pembuka: callout + produk + headline dalam satu layar (selesai ±2,4 dtk) · penutup: tombol berdenyut
   Palet             : putih bersih · navy #031A34 (judul) · hijau tua #016A67 (bidang, centang, tombol) · mint #BFE9DD (sorot) · tint #EAF6F3 (kartu)
   Font              : Anton (judul, besar) + Figtree (teks, manfaat, tombol)
   Bahasa latar      : putih bergaris tipis diagonal, dua lingkaran hijau pucat melayang; layar produk berlatar hijau penuh
@@ -40,27 +40,19 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:"Fi
 .mk{display:block;overflow:hidden;padding:.1em 0 .26em;margin:-.1em 0 -.26em}
 .in{display:inline-block;white-space:nowrap}
 
-/* 1 callout */
-#s1 .rg,#s6 .rg{left:430px;top:260px;width:220px;height:220px;border-radius:50%;border:6px solid var(--grn);opacity:0}
-#ico,#ico2{left:430px;top:260px;width:220px;height:220px;border-radius:50%;background:var(--navy);box-shadow:0 12px 0 var(--grn);display:flex;align-items:center;justify-content:center}
-#ico svg,#ico2 svg{width:120px;height:120px}
-#ku{top:560px;font:800 46px/1 Figtree;letter-spacing:.42em;color:var(--teal);padding-left:.42em}
-#o1{top:626px;color:var(--navy)}
-#o2{top:890px;color:var(--grn)}
-#ul{left:480px;top:1090px;width:120px;height:12px;border-radius:6px;background:var(--navy);transform-origin:50% 50%}
-
-/* 2 produk */
-#s2{background:var(--grn)}
-#s2 .rr{left:140px;top:285px;width:800px;height:800px;border-radius:50%;border:3px solid rgba(255,255,255,.14)}
-#s2 .rr.b{left:40px;top:185px;width:1000px;height:1000px}
-#pr{left:0;width:1080px;top:250px;color:#fff;text-align:center}
-#pr .an{display:block}
+/* 1 pembuka */
+#pl{left:48px;top:84px;height:92px;padding:0 38px 0 12px;border-radius:46px;background:var(--navy);display:flex;align-items:center;gap:18px;color:#fff;font:800 38px/1 Figtree;letter-spacing:.02em;white-space:nowrap;box-shadow:0 8px 0 var(--grn);transform-origin:0 50%}
+#pl .pi{width:68px;height:68px;flex:none;border-radius:50%;background:var(--grn);display:flex;align-items:center;justify-content:center}
+#pl .pi svg{width:38px;height:38px}
+#pb{left:0;top:218px;width:1080px;height:146px;overflow:hidden}
+#pb .bg{position:absolute;inset:0;background:var(--grn);transform-origin:0 50%}
+#pb .tx{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff}
 
 /* 3 headline */
-#hd{left:48px;top:276px;width:984px}
+#hd{left:48px;top:408px;width:984px}
 #hd .ln{display:block;text-align:center;color:var(--navy);white-space:nowrap}
 .w{display:inline-block}
-#gb{position:relative;margin-top:40px;background:var(--grn);border-radius:28px;padding:36px 20px 50px;text-align:center;box-shadow:0 14px 0 var(--grn-d);overflow:hidden;transform-origin:50% 100%}
+#gb{position:relative;margin-top:34px;background:var(--grn);border-radius:28px;padding:30px 20px 44px;text-align:center;box-shadow:0 14px 0 var(--grn-d);overflow:hidden;transform-origin:50% 100%}
 #gb .ln{color:#fff}
 #gb .sh{position:absolute;top:-20%;bottom:-20%;left:0;width:170px;background:linear-gradient(100deg,rgba(255,255,255,0),rgba(255,255,255,.5) 50%,rgba(255,255,255,0));transform:skewX(-18deg);opacity:0}
 
@@ -84,7 +76,9 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:"Fi
 .cd .ln2{position:absolute;left:160px;top:0;bottom:0;width:8px;background:var(--mint)}
 
 /* 6 CTA */
-#s6 .rg,#ico2{top:300px}
+#s6 .rg{left:430px;top:300px;width:220px;height:220px;border-radius:50%;border:6px solid var(--grn);opacity:0}
+#ico2{left:430px;top:300px;width:220px;height:220px;border-radius:50%;background:var(--navy);box-shadow:0 12px 0 var(--grn);display:flex;align-items:center;justify-content:center}
+#ico2 svg{width:120px;height:120px}
 #tg{top:690px;font:800 40px/1 Figtree;letter-spacing:.3em;color:var(--teal);padding-left:.3em;opacity:0}
 #cta{left:48px;top:796px;width:984px;height:230px;border-radius:52px;background:#016563;color:#fff;display:flex;align-items:center;justify-content:center;gap:34px;
   font:800 62px/1 Figtree;letter-spacing:.005em;text-transform:uppercase;box-shadow:0 14px 0 var(--grn-d),0 36px 50px -16px rgba(1,60,58,.5);opacity:0;transform-origin:50% 60%}
@@ -111,28 +105,10 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:"Fi
 <div id="stage">
   <div id="bgd"><i id="c1"></i><i id="c2"></i></div>
 
-  <!-- 1 CALLOUT -->
+  <!-- 1 PEMBUKA: callout + produk + headline dalam satu layar -->
   <div class="sc" id="s1">
-    <div class="abs rg"></div><div class="abs rg"></div><div class="abs rg"></div>
-    <div class="abs" id="ico"><svg viewBox="0 0 32 32"><path d="M4 12l3-7h18l3 7z" fill="#fff"/><path d="M4 12h24v2.5a4 4 0 0 1-8 0 4 4 0 0 1-8 0 4 4 0 0 1-8 0z" fill="#fff"/><path d="M6 17v10h20V17z" fill="#fff"/><rect x="13" y="20" width="6" height="7" fill="#031A34"/></svg></div>
-    <div class="abs ctr" id="ku">KHUSUS</div>
-    <div class="abs ctr an" id="o1"><span class="mk"><span class="in t" id="o1t">Owner Toko</span></span></div>
-    <div class="abs ctr an" id="o2"><span class="mk"><span class="in t" id="o2t">&amp; Kepala Toko</span></span></div>
-    <div class="abs" id="ul"></div>
-  </div>
-
-  <!-- 2 PRODUK -->
-  <div class="sc" id="s2">
-    <div class="abs rr"></div><div class="abs rr b"></div>
-    <div class="abs" id="pr">
-      <span class="mk an"><span class="in t" id="p1">Retail</span></span>
-      <span class="mk an"><span class="in t" id="p2">Management</span></span>
-      <span class="mk an"><span class="in t" id="p3">System</span></span>
-    </div>
-  </div>
-
-  <!-- 3 HEADLINE -->
-  <div class="sc" id="s3">
+    <div class="abs" id="pl"><div class="pi"><svg viewBox="0 0 32 32"><path d="M4 12l3-7h18l3 7z" fill="#fff"/><path d="M4 12h24v2.5a4 4 0 0 1-8 0 4 4 0 0 1-8 0 4 4 0 0 1-8 0z" fill="#fff"/><path d="M6 17v10h20V17z" fill="#fff"/><rect x="13" y="20" width="6" height="7" fill="#016A67"/></svg></div><span class="t" id="plt">KHUSUS OWNER TOKO &amp; KEPALA TOKO</span></div>
+    <div class="abs" id="pb"><div class="bg"></div><div class="tx an"><span class="mk" style="padding:.1em 0 .2em;margin:-.1em 0 -.2em"><span class="in t" id="pbt">Retail Management System</span></span></div></div>
     <div class="abs" id="hd">
       <div class="ln an" id="h1"><span class="t"><span class="w">Bagi</span> <span class="w">yang</span> <span class="w">mau</span></span></div>
       <div class="ln an" id="h2"><span class="t"><span class="w">Tokonya</span> <span class="w">jadi</span></span></div>
@@ -180,7 +156,7 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:"Fi
     <div class="abs" id="cta"><span class="t" id="ctat">Sistemkan toko Anda sekarang</span><div class="ar"><svg viewBox="0 0 40 40"><path d="M6 20 H31 M21 9 L32 20 L21 31"/></svg></div></div>
   </div>
 
-  <div class="abs" id="pg"><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i></div>
+  <div class="abs" id="pg"><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i></div>
   <div id="wipe"></div>
 </div>
 <div id="ui"><button id="btn-play">Pause</button><button id="btn-restart">Restart</button>
@@ -196,13 +172,11 @@ await document.fonts.ready;
 
 /* ============ PAS UKURAN TEKS ============ */
 const fitW=(el,target,max=1e9,min=10)=>{el.style.fontSize='100px';const t=$('.t',el)||el;const w=t.offsetWidth;const s=Math.max(min,Math.min(max,100*target/w));el.style.fontSize=s.toFixed(1)+'px';return s;};
-// layar 1
-fitW($('#o1'),984,250);fitW($('#o2'),984,250);{const a=parseFloat($('#o1').style.fontSize),b=parseFloat($('#o2').style.fontSize);}
-// layar 2: tiga baris, lebar 920, tinggi dibatasi
-['#p1','#p2','#p3'].forEach(s=>{const el=$(s).closest('.an');fitW(el,920,310);});
-// layar 3
-{const s=Math.min(fitW($('#h1'),984,200),fitW($('#h2'),984,200));$('#h1').style.fontSize=s+'px';$('#h2').style.fontSize=s+'px';
- fitW($('#g1'),880,300);fitW($('#g2'),880,190);}
+// pembuka
+{const pl=$('#pl');let fs=38;pl.style.fontSize=fs+'px';while(pl.offsetWidth>984&&fs>24){fs--;pl.style.fontSize=fs+'px';}
+ fitW($('#pb .tx'),950,110);
+ const q=Math.min(fitW($('#h1'),984,178),fitW($('#h2'),984,178));$('#h1').style.fontSize=q+'px';$('#h2').style.fontSize=q+'px';
+ fitW($('#g1'),860,300);fitW($('#g2'),860,190);}
 // layar 6
 {const c=$('#cta'),ct=$('#ctat');let fs=62;c.style.fontSize=fs+'px';while(ct.offsetWidth>760&&fs>30){fs--;c.style.fontSize=fs+'px';}}
 
@@ -211,63 +185,52 @@ const PARA=[['SOP',',','kd'],['form',',','kd'],['checklist',',','kd'],['dan','',
 {const pp=$('#pp');pp.innerHTML=PARA.map(([w,p,c])=>`<span class="pw ${c}">${c?`<span class="kk"><b></b><span>${w}</span></span>`:w}${p}</span>`).join(' ');}
 
 /* ============ TIMELINE ============ */
-const DURATION=22.5;
+const DURATION=15.9;
 const tl=gsap.timeline({paused:true});
-const TS=[0,3.4,5.7,10.2,13.9,19.3,DURATION];           // batas layar
-const SC=['#s1','#s2','#s3','#s4','#s5','#s6'];
+const TS=[0,3.6,7.3,12.7,DURATION];           // batas layar
+const SC=['#s1','#s4','#s5','#s6'];
 SC.forEach((s,i)=>{gsap.set(s,{opacity:i===0?1:0});if(i>0){tl.set(s,{opacity:1},TS[i]);tl.set(SC[i-1],{opacity:0},TS[i]);}});
 // sapuan antar layar
 gsap.set('#wipe',{x:-1800});
-for(let i=1;i<6;i++){const T=TS[i];
+for(let i=1;i<4;i++){const T=TS[i];
   tl.fromTo('#wipe',{x:-1800},{x:-330,duration:.3,ease:'power3.in',immediateRender:false},T-.3);
   tl.to('#wipe',{x:1500,duration:.34,ease:'power3.out'},T);}
 // progres
 $$('#pg i b').forEach((b,i)=>tl.fromTo(b,{scaleX:0},{scaleX:1,duration:TS[i+1]-TS[i],ease:'none',immediateRender:false},TS[i]));
-tl.set('#pg',{'--pg':'#ffffff','--pt':'rgba(255,255,255,.28)'},TS[1]);
-tl.set('#pg',{'--pg':'#031A34','--pt':'rgba(3,26,52,.16)'},TS[2]);
-
 const slam=(el,at,{dy=-70,from=1.55,dur=.36}={})=>{gsap.set(el,{opacity:0,y:dy,scale:from,transformOrigin:'50% 100%'});tl.to(el,{opacity:1,y:0,scale:1,duration:dur,ease:'back.out(2.2)'},at);};
 const rise=(el,at,dur=.55)=>{gsap.set(el,{yPercent:150});tl.to(el,{yPercent:0,duration:dur,ease:'power4.out'},at);};
 const shake=(el,at,a=7)=>tl.fromTo(el,{x:0},{x:a,duration:.045,yoyo:true,repeat:3,ease:'sine.inOut',immediateRender:false},at);
 
-/* --- 1. callout 0–3.4 --- */
-gsap.set('#ico',{scale:0,rotation:-30});tl.to('#ico',{scale:1,rotation:0,duration:.55,ease:'back.out(2.4)'},.15);
-gsap.set('#ku',{opacity:0,letterSpacing:'.9em'});tl.to('#ku',{opacity:1,letterSpacing:'.42em',duration:.7,ease:'power3.out'},.55);
-rise('#o1t',.85,.55);rise('#o2t',1.2,.55);
-gsap.set('#ul',{scaleX:0});tl.to('#ul',{scaleX:1,duration:.4,ease:'power3.out'},1.8);
-tl.to('#ul',{width:984,left:48,duration:.5,ease:'power3.inOut'},2.3);
-shake('#s1',1.35,4);
-
-/* --- 2. produk 3.4–5.7 --- */
-rise('#p1',3.65,.5);rise('#p2',3.85,.5);rise('#p3',4.05,.5);
-gsap.set('#s2 .rr',{scale:.8,opacity:0});tl.to('#s2 .rr',{scale:1,opacity:1,duration:.9,ease:'power3.out',stagger:.15},3.55);
-
-/* --- 3. headline 5.7–10.2 --- */
-const bw=$$('#h1 .w'),tw=$$('#h2 .w');
-bw.forEach((w,i)=>slam(w,5.95+i*.15));tw.forEach((w,i)=>slam(w,6.55+i*.15));
-gsap.set('#gb',{scaleY:0,opacity:1});tl.to('#gb',{scaleY:1,duration:.38,ease:'back.out(1.6)'},7.15);
-slam('#g1 .w',7.5,{from:1.8,dur:.42});shake('#s3',7.75,8);
-$$('#g2 .w').forEach((w,i)=>slam(w,8.1+i*.17));
-tl.fromTo('#gb .sh',{x:-220,opacity:1},{x:1250,duration:.8,ease:'power2.inOut',immediateRender:false},8.95);
-tl.fromTo('#gb',{scale:1},{scale:1.025,duration:.14,yoyo:true,repeat:1,ease:'sine.inOut',immediateRender:false},9.1);
+/* --- 1. pembuka 0–3.6: semua masuk dalam ±2,4 dtk, lalu tahan --- */
+gsap.set('#pl',{scaleX:0,opacity:0});tl.to('#pl',{scaleX:1,opacity:1,duration:.45,ease:'back.out(1.7)'},.08);
+gsap.set('#pl .pi',{scale:0,rotation:-60});tl.to('#pl .pi',{scale:1,rotation:0,duration:.45,ease:'back.out(2.6)'},.2);
+gsap.set('#pb .bg',{scaleX:0});tl.to('#pb .bg',{scaleX:1,duration:.4,ease:'power4.out'},.38);
+rise('#pbt',.5,.45);
+$$('#h1 .w').forEach((w,i)=>slam(w,.75+i*.1,{dy:-60,dur:.3}));
+$$('#h2 .w').forEach((w,i)=>slam(w,1.05+i*.1,{dy:-60,dur:.3}));
+gsap.set('#gb',{scaleY:0,opacity:1});tl.to('#gb',{scaleY:1,duration:.3,ease:'back.out(1.6)'},1.32);
+slam('#g1 .w',1.52,{from:1.8,dur:.34});shake('#s1',1.68,7);
+$$('#g2 .w').forEach((w,i)=>slam(w,1.85+i*.12,{dur:.3}));
+tl.fromTo('#gb .sh',{x:-220,opacity:1},{x:1250,duration:.7,ease:'power2.inOut',immediateRender:false},2.45);
+tl.fromTo('#gb',{scale:1},{scale:1.025,duration:.14,yoyo:true,repeat:1,ease:'sine.inOut',immediateRender:false},2.6);
 
 /* --- 4. sub-headline 10.2–13.9 --- */
-$$('#pp .pw').forEach((e,i)=>tl.fromTo(e,{opacity:0,y:26},{opacity:1,y:0,duration:.3,ease:'power3.out',immediateRender:false},10.35+i*.04));
+$$('#pp .pw').forEach((e,i)=>tl.fromTo(e,{opacity:0,y:26},{opacity:1,y:0,duration:.3,ease:'power3.out',immediateRender:false},3.75+i*.04));
 gsap.set($$('#pp .kk b'),{scaleX:0});
 const KD=$$('#pp .kd'),AC=$$('#pp .ac');
 const IC=['#i1','#i2','#i3','#i4'],ROT=[-4,3,-3,4];
-KD.forEach((k,i)=>{const t0=11.0+i*.3;
+KD.forEach((k,i)=>{const t0=4.2+i*.28;
   tl.to($('b',k),{scaleX:1,duration:.3,ease:'power3.out'},t0);
   tl.to($('.kk span',k),{color:'#ffffff',duration:.2},t0+.06);
   gsap.set(IC[i],{opacity:0,scale:.4,y:50,rotation:ROT[i]*2.5,transformOrigin:'50% 100%'});
   tl.to(IC[i],{opacity:1,scale:1,y:0,rotation:ROT[i],duration:.5,ease:'back.out(2.2)'},t0);});
-AC.forEach((k,j)=>tl.to($('b',k),{scaleX:1,duration:.28,ease:'power3.out'},12.3+j*.18));
+AC.forEach((k,j)=>tl.to($('b',k),{scaleX:1,duration:.28,ease:'power3.out'},5.25+j*.15));
 gsap.set('#sf',{opacity:0,scale:2.2,rotation:5});
-tl.to('#sf',{opacity:1,scale:1,rotation:-1.2,duration:.3,ease:'power3.in'},13.0);
-shake('#s4',13.3,6);
+tl.to('#sf',{opacity:1,scale:1,rotation:-1.2,duration:.3,ease:'power3.in'},5.9);
+shake('#s4',6.2,6);
 
 /* --- 5. manfaat 13.9–19.3 --- */
-const MS=['#m1','#m2','#m3','#m4'],MT=[14.25,15.45,16.65,17.85];
+const MS=['#m1','#m2','#m3','#m4'],MT=[7.5,8.6,9.7,10.8];
 MS.forEach((m,i)=>{const dir=i%2?1:-1;
   gsap.set(m,{x:dir*1100,opacity:0,rotation:dir*2});
   tl.to(m,{x:0,opacity:1,rotation:0,duration:.6,ease:'back.out(1.5)'},MT[i]);
@@ -276,21 +239,19 @@ MS.forEach((m,i)=>{const dir=i%2?1:-1;
   tl.fromTo($('.ck',$(m)),{backgroundColor:'#0BA39E'},{backgroundColor:'#016A67',duration:.5,immediateRender:false},MT[i]+.4);});
 
 /* --- 6. CTA 19.3–22.5 --- */
-gsap.set('#ico2',{scale:0,rotation:-30});tl.to('#ico2',{scale:1,rotation:0,duration:.55,ease:'back.out(2.4)'},19.6);
-gsap.set('#tg',{y:24});tl.to('#tg',{opacity:1,y:0,duration:.5,ease:'power3.out'},20.0);
-gsap.set('#cta',{y:300,opacity:0});tl.to('#cta',{y:0,opacity:1,duration:.6,ease:'back.out(1.8)'},20.25);
-tl.to('#cta',{scale:1.035,duration:.26,yoyo:true,repeat:4,ease:'sine.inOut'},20.95);
-tl.to('#cta .ar',{x:12,duration:.26,yoyo:true,repeat:4,ease:'sine.inOut'},20.95);
+gsap.set('#ico2',{scale:0,rotation:-30});tl.to('#ico2',{scale:1,rotation:0,duration:.55,ease:'back.out(2.4)'},12.85);
+gsap.set('#tg',{y:24});tl.to('#tg',{opacity:1,y:0,duration:.5,ease:'power3.out'},13.1);
+gsap.set('#cta',{y:300,opacity:0});tl.to('#cta',{y:0,opacity:1,duration:.6,ease:'back.out(1.8)'},13.3);
+tl.to('#cta',{scale:1.035,duration:.26,yoyo:true,repeat:4,ease:'sine.inOut'},14.05);
+tl.to('#cta .ar',{x:12,duration:.26,yoyo:true,repeat:4,ease:'sine.inOut'},14.05);
 tl.to({},{duration:.01},DURATION);
 
 /* ============ GERAK BERKELANJUTAN ============ */
 const render=t=>{
   gsap.set('#c1',{x:Math.sin(t*.45)*42,y:Math.cos(t*.38)*30});
   gsap.set('#c2',{x:Math.cos(t*.4)*36,y:Math.sin(t*.33)*28});
-  $$('#s1 .rg').forEach((r,k)=>{const ph=(((t-.55)*.55)+k/3)%1;const on=t>.55&&t<3.4;gsap.set(r,{scale:on?1+ph*2.3:1,opacity:on?(1-ph)*.55:0});});
-  $$('#s2 .rr').forEach((r,k)=>{if(t>=3.4)gsap.set(r,{scale:1+.025*Math.sin(t*1.3+k*1.7)});});
-  $$('#s6 .rg').forEach((r,k)=>{const ph=(((t-19.8)*.55)+k/3)%1;const on=t>19.8&&t>=19.3;gsap.set(r,{scale:on?1+ph*1.6:1,opacity:on?(1-ph)*.55:0});});
-  $$('#s6 .pr').forEach((r,k)=>{const ph=(((t-20.9)*.8)+k/2)%1;const on=t>20.9&&t>=19.3;gsap.set(r,{scale:on?1+ph*.28:1,opacity:on?(1-ph)*.5:0});});
+  $$('#s6 .rg').forEach((r,k)=>{const ph=(((t-13.0)*.55)+k/3)%1;const on=t>13.0&&t>=12.7;gsap.set(r,{scale:on?1+ph*1.6:1,opacity:on?(1-ph)*.55:0});});
+  $$('#s6 .pr').forEach((r,k)=>{const ph=(((t-14.0)*.8)+k/2)%1;const on=t>14.0&&t>=12.7;gsap.set(r,{scale:on?1+ph*.28:1,opacity:on?(1-ph)*.5:0});});
 };
 
 /* ============ PEREKAT ============ */
