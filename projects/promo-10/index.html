@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="id">
+<!-- Made with the Bang Motion skill by Bang Tutorial (https://youtube.com/bangtutorial) - MIT - https://github.com/bangtutorial/bang-motion -->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fee Berdasarkan Skor — Promo 4:5</title>
+<!--
+  =====  STYLE BRIEF  =====
+  Tema/produk + 3 kata sifat : versi motion dari iklan gambar user yang winning (isi sama persis) — Pre-Assessment Klien
+                                untuk konsultan pajak — jelas, terukur, meyakinkan
+  Konsep                      : satu halaman panjang yang dituruni kamera (gaya scroll halaman), tiap bagian iklan hidup saat
+                                kamera tiba: headline → form diisi → skor diklik & dijumlah → baris fee menyala → tips → checklist + tombol
+  Palet (dari iklan user)     : navy #0B1F5C (bar judul tabel) · biru #1A3FD1 (kata kunci, nilai fee) · latar putih kebiruan #F3F6FC
+                                · biru muda #EAF0FF (sorotan baris, kotak tips)
+  Font (dari iklan user)      : Oswald (headline kondensasi tebal) + Plus Jakarta Sans (badan, tabel)
+  Penekanan                   : `color` biru pada kata kunci, sama seperti iklan
+  Latar                       : gradien putih kebiruan + dua cahaya biru lembut berpindah + grid titik yang ikut kamera (parallax)
+  Tanda tangan gerak          : kamera turun halaman, lalu dorong pelan ke bagian yang sedang "dikerjakan"
+  Momen istimewa              : chip "12" terbang dari Total Skor ke baris "12 – 15 · Tinggi", lalu Rp 14.000.000 menyala
+  Render ringan               : tanpa butiran/noise dan tanpa filter blur
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<style>
+:root{--navy:#0B1F5C;--blue:#1A3FD1;--lb:#EAF0FF;--ink:#0E1324;--mute:#4A5168;--line:#E1E5EF;--soft:#8A92A6;
+  --head:"Oswald",Impact,sans-serif;--body:"Plus Jakarta Sans",system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var(--body)}
+#stage{position:fixed;left:50%;top:50%;width:1080px;height:1350px;transform:translate(-50%,-50%);overflow:hidden;background:#F3F6FC}
+#bg{position:absolute;inset:0;background:linear-gradient(180deg,#F7F9FE 0%,#EEF2FB 100%)}
+#bg i{position:absolute;border-radius:50%}
+#g1{left:-300px;top:-200px;width:1100px;height:1100px;background:radial-gradient(circle,rgba(26,63,209,.10),transparent 64%)}
+#g2{left:420px;top:700px;width:1000px;height:1000px;background:radial-gradient(circle,rgba(26,63,209,.08),transparent 64%)}
+#world{position:absolute;left:0;top:0;width:1080px;height:5000px;transform-origin:0 0}
+#dots{position:absolute;left:-600px;top:-600px;width:2280px;height:6200px;background-image:radial-gradient(rgba(11,31,92,.10) 2px,transparent 2.4px);background-size:40px 40px}
+
+/* ---------- hook ---------- */
+.hl{position:absolute;left:64px;overflow:hidden;height:124px;white-space:nowrap}
+.hl span{display:block;font:700 118px/124px var(--head);color:var(--ink);letter-spacing:-.005em}
+.hl.b span{color:var(--blue)}
+#hbar{position:absolute;left:66px;top:780px;width:150px;height:10px;border-radius:5px;background:var(--blue);transform-origin:0 50%}
+#sub{position:absolute;left:66px;top:830px;width:930px;font:500 46px/1.32 var(--body);color:var(--ink)}
+#sub .w{display:inline-block;opacity:0}
+#sub b{font-weight:700;color:var(--blue)}
+
+/* ---------- kartu ---------- */
+.card{position:absolute;left:52px;width:976px;border-radius:26px;background:#fff;box-shadow:0 30px 70px -36px rgba(11,31,92,.35),0 0 0 1px rgba(11,31,92,.05);overflow:hidden}
+.bar{height:84px;margin:20px 20px 0;border-radius:16px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font:700 36px/1 var(--body);letter-spacing:.01em}
+.sec{margin:34px 36px 18px;font:800 30px/1 var(--body);color:var(--navy)}
+.fr{display:flex;align-items:center;margin:0 36px 14px}
+.fr .k{width:360px;font:500 30px/1.2 var(--body);color:var(--ink)}
+.fr .v{flex:1;height:66px;border-radius:12px;border:2px solid var(--line);display:flex;align-items:center;padding:0 22px;font:500 30px/1 var(--body);color:var(--ink);white-space:nowrap}
+.fr .v i{display:inline-block;width:3px;height:34px;margin-left:3px;background:var(--blue)}
+
+/* tabel komponen */
+.tb{margin:0 28px;border:2px solid var(--line);border-radius:14px;overflow:hidden}
+.tr{display:grid;border-top:2px solid var(--line);align-items:center}
+.tr:first-child{border-top:0}
+#tk .tr{grid-template-columns:54px 210px 300px 82px 82px 82px 1fr}
+#tk .th{background:#F4F6FB;font:700 21px/1.2 var(--body);color:var(--ink);text-align:center}
+#tk .th>div{padding:10px 6px}
+#tk .rw{min-height:118px}
+#tk .rw>div{padding:10px 8px}
+.no{text-align:center;font:600 24px/1 var(--body);color:var(--ink)}
+.km{font:600 24px/1.25 var(--body);color:var(--ink)}
+.kr{font:500 22px/1.3 var(--body);color:var(--mute)}
+.rd{display:flex;justify-content:center}
+.rd i{position:relative;width:34px;height:34px;border-radius:50%;border:3px solid #9AA3B5;display:block}
+.rd i b{position:absolute;left:4px;top:4px;width:20px;height:20px;border-radius:50%;background:var(--blue);transform:scale(0)}
+.rd.on i{border-color:var(--blue)}
+.sk{text-align:center;font:800 32px/1 var(--body);color:var(--ink)}
+.tot{display:flex;align-items:center;justify-content:space-between;margin:0 28px 28px;border:2px solid var(--line);border-top:0;border-radius:0 0 14px 14px;background:var(--lb);height:96px;padding:0 0 0 24px}
+.tot b{font:800 30px/1 var(--body);color:var(--navy)}
+#totN{width:120px;height:100%;display:flex;align-items:center;justify-content:center;border-left:2px solid var(--line);font:800 48px/1 var(--body);color:var(--blue)}
+#tk{border-radius:14px 14px 0 0}
+
+/* tabel fee */
+#tf .tr{grid-template-columns:140px 190px 1fr 270px;text-align:center}
+#tf .th{font:700 24px/1.2 var(--body);color:var(--ink)}
+#tf .th>div{padding:20px 8px}
+#tf .rw{min-height:104px;position:relative}
+#tf .rw>div{padding:10px 8px;font:500 26px/1.3 var(--body);color:var(--ink);position:relative;z-index:1}
+#tf .rw .ts{font:800 30px/1 var(--body)}
+#tf .rw .rk{font:800 29px/1 var(--body);color:var(--blue);white-space:nowrap}
+#tf .rw .hi{position:absolute;inset:0;background:var(--lb);border-left:8px solid var(--blue);opacity:0;z-index:0;padding:0}
+#chip{position:absolute;z-index:20;width:96px;height:96px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;
+  font:800 46px/1 var(--body);box-shadow:0 18px 30px -12px rgba(26,63,209,.6);opacity:0}
+
+/* tips */
+#tip{position:absolute;left:52px;width:976px;border-radius:26px;background:var(--lb);display:flex;align-items:center;gap:30px;padding:40px 46px}
+#tip svg{flex:none;width:110px;height:110px}
+#tip p{font:500 40px/1.38 var(--body);color:var(--ink)}
+#tip p .w{display:inline-block;opacity:0}
+
+/* checklist + tombol */
+.ck{position:absolute;left:70px;right:70px;display:flex;gap:30px;align-items:flex-start}
+.ck .c{flex:none;width:92px;height:92px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;transform:scale(0)}
+.ck .c svg{width:52px;height:52px}
+.ck h3{font:800 50px/1.1 var(--body);color:var(--ink)}
+.ck p{margin-top:8px;font:500 34px/1.3 var(--body);color:var(--mute)}
+.ck .t{opacity:0}
+#btn{position:absolute;left:70px;width:640px;height:132px;border-radius:22px;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:space-between;
+  padding:0 30px 0 50px;font:700 50px/1 var(--body);box-shadow:0 26px 50px -18px rgba(26,63,209,.65);opacity:0}
+#btn span.ar{width:84px;height:84px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center}
+#btn svg{width:46px;height:46px}
+#cursor{position:absolute;z-index:30;left:900px;top:2300px;width:50px;height:60px;opacity:0;filter:drop-shadow(0 6px 8px rgba(0,0,0,.25))}
+#ui{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);display:none;align-items:center;gap:14px;padding:11px 18px;border-radius:16px;background:rgba(14,16,22,.9);font-size:13px;color:#A0A6B4;z-index:90}
+#ui.on{display:flex}#scrub{width:340px}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="bg"><i id="g1"></i><i id="g2"></i></div>
+  <div id="world">
+    <div id="dots"></div>
+
+    <!-- headline -->
+    <div class="hl" id="l1" style="top:150px"><span>Konsultan Pajak,</span></div>
+    <div class="hl" id="l2" style="top:274px"><span>Masih Menentukan</span></div>
+    <div class="hl b" id="l3" style="top:398px"><span>Fee Jasa Hanya</span></div>
+    <div class="hl" id="l4" style="top:522px"><span>Berdasarkan</span></div>
+    <div class="hl b" id="l5" style="top:646px"><span>Feeling?</span></div>
+    <i id="hbar"></i>
+    <p id="sub">Gunakan sistem pre-assessment yang membantu menentukan ruang lingkup pekerjaan dan penyesuaian fee <b>sebelum menerima klien.</b></p>
+
+    <!-- form pre-assessment -->
+    <div class="card" id="form" style="top:1300px">
+      <div class="bar">FORM PRE ASSESSMENT KLIEN</div>
+      <div class="sec">A. INFORMASI UMUM</div>
+      <div class="fr"><div class="k">Nama Klien</div><div class="v" data-t="PT Maju Bersama"></div></div>
+      <div class="fr"><div class="k">Jenis Usaha</div><div class="v" data-t="Perdagangan"></div></div>
+      <div class="fr"><div class="k">Tahun Buku</div><div class="v" data-t="2024"></div></div>
+      <div class="fr"><div class="k">Omzet Tahunan (Estimasi)</div><div class="v" data-t="Rp 25.000.000.000"></div></div>
+      <div class="fr"><div class="k">Jumlah Karyawan</div><div class="v" data-t="25 Orang"></div></div>
+      <div class="fr"><div class="k">Jumlah Transaksi / Bulan</div><div class="v" data-t="500+ Transaksi"></div></div>
+      <div class="sec" style="margin-top:44px">B. KOMPONEN PENILAIAN</div>
+      <div class="tb" id="tk">
+        <div class="tr th"><div>No.</div><div>Komponen</div><div>Kriteria Penilaian</div><div>Rendah (1)</div><div>Sedang (2)</div><div>Tinggi (3)</div><div>Skor Terpilih</div></div>
+      </div>
+      <div class="tot"><b>TOTAL SKOR</b><span id="totN">0</span></div>
+    </div>
+
+    <!-- rekomendasi fee -->
+    <div class="card" id="fee" style="top:2990px">
+      <div class="bar">REKOMENDASI FEE BERDASARKAN SKOR</div>
+      <div class="tb" id="tf" style="margin:24px 28px 28px">
+        <div class="tr th"><div>Total Skor</div><div>Kategori Kompleksitas</div><div>Rentang Fee (per bulan)</div><div>Rekomendasi Fee</div></div>
+      </div>
+    </div>
+    <div id="chip">12</div>
+
+    <!-- tips -->
+    <div id="tip" style="top:3720px">
+      <svg viewBox="0 0 110 110"><g fill="none" stroke="#1A3FD1" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+        <path id="bulb" d="M40 66 C30 58 28 48 30 40 C33 28 44 22 55 22 C66 22 77 28 80 40 C82 48 80 58 70 66 C66 70 66 74 66 78 H44 C44 74 44 70 40 66 Z"/>
+        <path d="M45 86 H65 M48 94 H62"/>
+        <g id="rays"><path d="M55 4 V12 M18 18 L24 24 M92 18 L86 24 M4 50 H12 M98 50 H106"/></g></g></svg>
+      <p id="tipP">Dasar yang jelas membuat Anda tidak underprice, lebih konsisten, dan klien lebih menghargai jasa Anda.</p>
+    </div>
+
+    <!-- checklist + tombol -->
+    <div class="ck" id="k1" style="top:4060px"><div class="c"><svg viewBox="0 0 52 52"><path d="M12 27 L22 37 L41 16" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="t"><h3>Form Pre Assessment</h3><p>Kumpulkan informasi penting klien secara terstruktur.</p></div></div>
+    <div class="ck" id="k2" style="top:4240px"><div class="c"><svg viewBox="0 0 52 52"><path d="M12 27 L22 37 L41 16" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="t"><h3>Scoring</h3><p>Hitung kompleksitas pekerjaan secara objektif.</p></div></div>
+    <div class="ck" id="k3" style="top:4420px"><div class="c"><svg viewBox="0 0 52 52"><path d="M12 27 L22 37 L41 16" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="t"><h3>Rekomendasi Fee</h3><p>Dapatkan rentang fee yang sesuai untuk setiap klien.</p></div></div>
+    <div class="ck" id="k4" style="top:4600px"><div class="c"><svg viewBox="0 0 52 52"><path d="M12 27 L22 37 L41 16" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="t"><h3>Template SPK</h3><p>Gunakan template siap pakai untuk kesepakatan kerja.</p></div></div>
+    <div id="btn" style="top:4800px">Lihat Cara Kerjanya<span class="ar"><svg viewBox="0 0 46 46"><path d="M10 23 H34 M24 13 L34 23 L24 33" fill="none" stroke="#1A3FD1" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+
+    <svg id="cursor" viewBox="0 0 44 54"><path d="M4 3 L4 42 L14 33 L22 50 L30 46 L22 30 L37 30 Z" fill="#0E1324" stroke="#fff" stroke-width="3" stroke-linejoin="round"/></svg>
+  </div>
+</div>
+<div id="ui"><input id="scrub" type="range" min="0" max="1000" value="0"><span id="clock">0.00s</span></div>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const W=1080,H=1350,DURATION=26;
+/* isi persis dari iklan gambar */
+const KOMP=[['Kompleksitas Transaksi','Semakin banyak jenis transaksi dan pihak terlibat',3],['Jumlah Entitas','Semakin banyak entitas yang dikelola',2],
+  ['Lokasi / Cabang','Semakin banyak lokasi / cabang operasional',3],['Kepatuhan Pajak','Riwayat kepatuhan dan kelengkapan dokumen',2],
+  ['Kebutuhan Laporan','Kebutuhan laporan manajerial dan custom report',2]];
+const FEE=[['5 – 7','Rendah','Rp 2.500.000 – Rp 5.000.000','Rp 3.500.000'],['8 – 11','Sedang','Rp 5.000.000 – Rp 10.000.000','Rp 7.500.000'],
+  ['12 – 15','Tinggi','Rp 10.000.000 – Rp 20.000.000','Rp 14.000.000'],['16 – 18','Sangat Tinggi','Rp 20.000.000+','Rp 22.000.000+']];
+KOMP.forEach((k,i)=>{const r=document.createElement('div');r.className='tr rw';
+  r.innerHTML=`<div class="no">${i+1}</div><div class="km">${k[0]}</div><div class="kr">${k[1]}</div>`+[1,2,3].map(v=>`<div class="rd" data-v="${v}"><i><b></b></i></div>`).join('')+`<div class="sk">${k[2]}</div>`;
+  $('#tk').appendChild(r);});
+FEE.forEach(f=>{const r=document.createElement('div');r.className='tr rw';
+  r.innerHTML=`<div class="hi"></div><div class="ts">${f[0]}</div><div>${f[1]}</div><div>${f[2].replace(' – ',' –<br>')}</div><div class="rk">${f[3]}</div>`;$('#tf').appendChild(r);});
+const wrapWords=el=>{const html=el.innerHTML;el.innerHTML=html.replace(/(<b>.*?<\/b>)|([^\s<]+)/g,(m,b,w)=>b?b.replace(/>(.*?)</,(x,t)=>'>'+t.split(' ').map(s=>`<span class="w">${s}</span>`).join(' ')+'<'):`<span class="w">${w}</span>`);};
+wrapWords($('#sub'));wrapWords($('#tipP'));
+
+const FV=$$('.fr .v');const TY=FV.map(()=>({n:0}));
+const N={tot:0};
+const CAM={s:1,fx:540,fy:675,ax:540,ay:675};
+const world=$('#world'),g1=$('#g1'),g2=$('#g2');
+function render(t){
+  world.style.transform=`translate(${(CAM.ax-CAM.fx*CAM.s).toFixed(2)}px,${(CAM.ay-CAM.fy*CAM.s).toFixed(2)}px) scale(${CAM.s.toFixed(4)})`;
+  g1.style.transform=`translate(${(Math.sin(t*.3)*90).toFixed(1)}px,${(Math.cos(t*.24)*70).toFixed(1)}px)`;
+  g2.style.transform=`translate(${(Math.cos(t*.27)*80).toFixed(1)}px,${(Math.sin(t*.33)*60).toFixed(1)}px)`;
+  FV.forEach((v,i)=>{const s=v.dataset.t,n=Math.round(TY[i].n*s.length);const typing=TY[i].n>0&&TY[i].n<1;
+    const html=s.slice(0,n)+(typing&&Math.floor(t*6)%2===0?'<i></i>':'');if(v.innerHTML!==html)v.innerHTML=html;});
+  $('#totN').textContent=Math.round(N.tot);
+}
+const Q=new URLSearchParams(location.search);
+const tl=gsap.timeline({paused:true});
+const shot=(at,dur,o,ease='power3.inOut')=>tl.to(CAM,{...o,duration:dur,ease},at);
+const pos=el=>{let x=0,y=0,n=el;while(n&&n!==world){x+=n.offsetLeft;y+=n.offsetTop;n=n.offsetParent;}return {x,y,w:el.offsetWidth,h:el.offsetHeight,cx:x+el.offsetWidth/2,cy:y+el.offsetHeight/2};};
+const words=sel=>$$(sel+' .w');
+
+function build(){
+tl.clear();
+/* keadaan awal — eksplisit supaya tiap putaran bersih */
+tl.set(CAM,{s:1,fx:540,fy:470,ax:540,ay:675},0);tl.set(N,{tot:0},0);TY.forEach(o=>tl.set(o,{n:0},0));
+tl.set($$('.hl span'),{yPercent:110},0);tl.set('#hbar',{scaleX:0},0);tl.set([...words('#sub'),...words('#tipP')],{opacity:0,y:20},0);
+tl.set('#form',{opacity:0,y:60},0);tl.set('#fee',{opacity:0,y:60},0);tl.set('#tip',{opacity:0,y:60},0);
+tl.set($$('#tk .rd b'),{scale:0},0);tl.set($$('#tk .rd'),{className:'rd'},0);tl.set($$('#tk .sk'),{opacity:0,scale:.4},0);
+tl.set($$('#tf .rw'),{opacity:0,y:20},0);tl.set($$('#tf .hi'),{opacity:0},0);tl.set('#tf .rw:nth-child(4)',{scale:1},0);
+tl.set('#chip',{opacity:0,scale:1},0);tl.set('#rays',{opacity:.2},0);
+tl.set($$('.ck .c'),{scale:0},0);tl.set($$('.ck .t'),{opacity:0,x:-30},0);tl.set('#btn',{opacity:0,y:40,scale:1},0);
+tl.set('#cursor',{opacity:0,scale:1},0);
+
+/* ===== 0–3 HOOK: headline menghantam masuk per baris ===== */
+['#l1','#l2','#l3','#l4','#l5'].forEach((id,i)=>tl.to(id+' span',{yPercent:0,duration:.45,ease:'power4.out'},.08+i*.28));
+tl.fromTo('#l5 span',{scale:1.18},{scale:1,duration:.4,ease:'back.out(3)',transformOrigin:'0% 60%',immediateRender:false},1.2);
+tl.to('#hbar',{scaleX:1,duration:.5,ease:'power3.out'},1.7);
+/* ===== 2,3–6 subjudul per kata ===== */
+tl.to(words('#sub'),{opacity:1,y:0,duration:.35,ease:'power2.out',stagger:.09},2.3);
+shot(2.15,.9,{fy:640},'power2.inOut');shot(3.1,2.7,{s:1.02,fy:660},'sine.inOut');
+
+/* ===== 6–9,6 FORM: informasi umum diketik ===== */
+tl.to('#form',{opacity:1,y:0,duration:.6,ease:'power3.out'},5.9);
+shot(5.9,1.0,{s:1,fx:540,fy:1650,ay:675});
+TY.forEach((o,i)=>tl.to(o,{n:1,duration:.42,ease:'none'},6.75+i*.46));
+
+/* ===== 9,6–14 KOMPONEN: radio diklik, skor terpilih muncul, total 12 ===== */
+shot(9.5,.9,{s:1.06,fx:540,fy:2420,ay:690});
+const rows=$$('#tk .rw');let tot=0;
+tl.to('#cursor',{opacity:1,duration:.2},10.2);
+rows.forEach((r,i)=>{const v=KOMP[i][2],rd=$(`.rd[data-v="${v}"]`,r),p=pos($('i',rd)),at=10.3+i*.56;
+  tl.to('#cursor',{left:p.cx-6,top:p.cy-6,duration:.36,ease:'power3.inOut'},at);
+  tl.to('#cursor',{scale:.85,duration:.07,yoyo:true,repeat:1},at+.38);
+  tl.set(rd,{className:'rd on'},at+.38);tl.to($('b',rd),{scale:1,duration:.22,ease:'back.out(3)'},at+.38);
+  tl.to($('.sk',r),{opacity:1,scale:1,duration:.25,ease:'back.out(3)'},at+.44);tot+=v;});
+tl.to('#cursor',{opacity:0,duration:.2},13.2);
+tl.to(N,{tot:12,duration:.6,ease:'power2.out'},13.1);
+shot(13.0,.6,{s:1.3,fx:700,fy:2720,ay:760});
+tl.fromTo('#totN',{scale:1.6},{scale:1,duration:.4,ease:'back.out(3)',immediateRender:false},13.7);
+
+/* ===== 14–17,6 REKOMENDASI FEE: chip 12 terbang ke baris 12–15 ===== */
+tl.to('#fee',{opacity:1,y:0,duration:.6,ease:'power3.out'},14.2);
+shot(14.2,1.0,{s:1.05,fx:540,fy:3330,ay:690});
+tl.to($$('#tf .rw'),{opacity:1,y:0,duration:.35,ease:'power2.out',stagger:.12},14.7);
+const tn=pos($('#totN')),r3=$$('#tf .rw')[2],tc=pos($('.ts',r3));
+tl.set('#chip',{left:tn.cx-48,top:tn.cy-48,opacity:1,scale:.6},14.2);
+tl.to('#chip',{scale:1,duration:.25,ease:'back.out(2)'},14.2);
+tl.to('#chip',{left:tc.cx-48,top:tc.cy-48,duration:1.0,ease:'power3.inOut'},14.5);
+tl.to('#chip',{scale:.5,opacity:0,duration:.25,ease:'power2.in'},15.6);
+tl.to($('.hi',r3),{opacity:1,duration:.3},15.6);
+tl.fromTo(r3,{scale:1},{scale:1.04,duration:.25,yoyo:true,repeat:1,ease:'sine.inOut',immediateRender:false},15.6);
+tl.fromTo($('.rk',r3),{scale:1},{scale:1.25,duration:.3,yoyo:true,repeat:1,ease:'power2.out',immediateRender:false},16.1);
+shot(15.5,.7,{s:1.08,fx:540,fy:pos(r3).cy,ay:700});
+
+/* ===== 17,6–20,4 TIPS ===== */
+tl.to('#tip',{opacity:1,y:0,duration:.6,ease:'power3.out'},17.5);
+shot(17.4,.9,{s:1,fx:540,fy:3860,ay:675});
+tl.to('#rays',{opacity:1,duration:.3,yoyo:true,repeat:3},17.9);
+tl.to(words('#tipP'),{opacity:1,y:0,duration:.3,ease:'power2.out',stagger:.08},18.0);
+
+/* ===== 20,4–26 CHECKLIST + TOMBOL ===== */
+shot(20.3,1.0,{s:1,fx:540,fy:4500,ay:675});
+['#k1','#k2','#k3','#k4'].forEach((id,i)=>{const at=20.9+i*.45;
+  tl.to(id+' .c',{scale:1,duration:.35,ease:'back.out(2.6)'},at);tl.to(id+' .t',{opacity:1,x:0,duration:.4,ease:'power3.out'},at+.08);});
+tl.to('#btn',{opacity:1,y:0,duration:.5,ease:'back.out(1.8)'},22.9);
+tl.to('#btn',{scale:1.05,duration:.32,ease:'sine.inOut',yoyo:true,repeat:5},23.6);
+tl.to('#btn .ar',{x:10,duration:.32,ease:'sine.inOut',yoyo:true,repeat:5},23.6);
+tl.to({},{duration:.01},DURATION-.01);
+}
+
+/* ============ perekat ============ */
+const stage=$('#stage');const fit=()=>{stage.style.transform=`translate(-50%,-50%) scale(${Math.min(innerWidth/W,innerHeight/H)})`;};
+addEventListener('resize',fit);fit();
+const clock=$('#clock'),scrub=$('#scrub');let scrubbing=false;
+(function loop(){const t=tl.time();render(t);clock.textContent=t.toFixed(2)+'s';if(!scrubbing)scrub.value=t/DURATION*1000;requestAnimationFrame(loop);})();
+scrub.addEventListener('pointerdown',()=>{scrubbing=true;tl.pause();});addEventListener('pointerup',()=>scrubbing=false);
+scrub.addEventListener('input',()=>{tl.pause();tl.time(scrub.value/1000*DURATION);});
+addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();tl.paused()?tl.play():tl.pause();}if(/^[rR]$/.test(e.key))tl.play(0);});
+if(Q.has('debug'))$('#ui').classList.add('on');
+tl.eventCallback('onComplete',()=>tl.play(0));
+const seek=t=>{tl.pause();tl.time(t,false);if(gsap.ticker.tick)gsap.ticker.tick();render(t);};
+window.OPENER={tl,DURATION,seek,W,H,ready:false};
+build();
+document.fonts.ready.then(()=>{build();tl.pause(0);window.OPENER.ready=true;if(!Q.has('clean'))tl.play(0);});
+</script>
+</body>
+</html>
