@@ -331,7 +331,13 @@ tl.to({},{duration:.01},DURATION-.01);
 const stage=$('#stage');const fit=()=>{stage.style.transform=`translate(-50%,-50%) scale(${Math.min(innerWidth/W,innerHeight/H)})`;};
 addEventListener('resize',fit);fit();
 const clock=$('#clock'),scrub=$('#scrub');let scrubbing=false;
-(function loop(){const t=tl.time();render(t);clock.textContent=t.toFixed(2)+'s';if(!scrubbing)scrub.value=t/DURATION*1000;requestAnimationFrame(loop);})();
+/* posisi tabel diukur dari layout; kalau halaman dimuat dalam keadaan tersembunyi, ukurannya 0.
+   Jadi timeline baru dibangun setelah halaman benar-benar tampil, lalu dibangun ulang tanpa mengubah waktu. */
+let fontsReady=false,laid=false;
+const hasLayout=()=>stage.offsetWidth>0&&$('#tf').offsetHeight>0;
+const rebuildKeep=()=>{const t=tl.time(),p=tl.paused();build();tl.time(t,false);if(p)tl.pause();else tl.play();};
+(function loop(){if(fontsReady&&!laid&&hasLayout()){laid=true;rebuildKeep();}
+  const t=tl.time();render(t);clock.textContent=t.toFixed(2)+'s';if(!scrubbing)scrub.value=t/DURATION*1000;requestAnimationFrame(loop);})();
 scrub.addEventListener('pointerdown',()=>{scrubbing=true;tl.pause();});addEventListener('pointerup',()=>scrubbing=false);
 scrub.addEventListener('input',()=>{tl.pause();tl.time(scrub.value/1000*DURATION);});
 addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();tl.paused()?tl.play():tl.pause();}if(/^[rR]$/.test(e.key))tl.play(0);});
@@ -340,7 +346,7 @@ tl.eventCallback('onComplete',()=>tl.play(0));
 const seek=t=>{tl.pause();tl.time(t,false);if(gsap.ticker.tick)gsap.ticker.tick();render(t);};
 window.OPENER={tl,DURATION,seek,W,H,ready:false};
 build();
-document.fonts.ready.then(()=>{build();tl.pause(0);window.OPENER.ready=true;if(!Q.has('clean'))tl.play(0);});
+document.fonts.ready.then(()=>{fontsReady=true;laid=hasLayout();build();tl.pause(0);window.OPENER.ready=true;if(!Q.has('clean'))tl.play(0);});
 </script>
 </body>
 </html>
