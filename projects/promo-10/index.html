@@ -34,8 +34,8 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var
 #bg i{position:absolute;border-radius:50%}
 #g1{left:-300px;top:-200px;width:1100px;height:1100px;background:radial-gradient(circle,rgba(26,63,209,.10),transparent 64%)}
 #g2{left:420px;top:700px;width:1000px;height:1000px;background:radial-gradient(circle,rgba(26,63,209,.08),transparent 64%)}
-#world{position:absolute;left:0;top:0;width:1080px;height:5000px;transform-origin:0 0}
-#dots{position:absolute;left:-600px;top:-600px;width:2280px;height:6200px;background-image:radial-gradient(rgba(11,31,92,.10) 2px,transparent 2.4px);background-size:40px 40px}
+#world{position:absolute;left:0;top:0;width:1080px;height:6300px;transform-origin:0 0}
+#dots{position:absolute;left:-600px;top:-600px;width:2280px;height:7400px;background-image:radial-gradient(rgba(11,31,92,.10) 2px,transparent 2.4px);background-size:40px 40px}
 
 /* ---------- hook ---------- */
 .hl{position:absolute;left:64px;overflow:hidden;height:124px;white-space:nowrap}
@@ -106,6 +106,24 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var
   padding:0 30px 0 50px;font:700 50px/1 var(--body);box-shadow:0 26px 50px -18px rgba(26,63,209,.65);opacity:0}
 #btn span.ar{width:84px;height:84px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center}
 #btn svg{width:46px;height:46px}
+/* bagian: ini baru sebagian kecil isi paketnya */
+#more h2{position:absolute;left:66px;top:4900px;font:700 84px/1.04 var(--head);color:var(--ink);white-space:nowrap}
+#more h2 b{font-weight:700;color:var(--blue)}
+#m2{top:4987px!important}
+#more h2 .w,#mSub .w{display:inline-block;opacity:0}
+#mSub{position:absolute;left:66px;width:950px;top:5092px;font:500 40px/1.35 var(--body);color:var(--ink)}
+#mSub b{font-weight:800;color:var(--blue)}
+#grid{position:absolute;left:52px;top:5266px;width:976px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.tile{position:relative;height:150px;border-radius:18px;background:#fff;box-shadow:0 16px 34px -22px rgba(11,31,92,.4),0 0 0 1px rgba(11,31,92,.06);padding:18px 18px 16px;opacity:0}
+.tile .lt{display:flex;align-items:center;gap:12px}
+.tile .lt b{width:44px;height:44px;border-radius:12px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font:800 24px/1 var(--body)}
+.tile .lt span{font:700 22px/1 var(--body);color:var(--blue)}
+.tile h4{margin-top:12px;font:700 23px/1.22 var(--body);color:var(--ink)}
+.tile.a{box-shadow:0 0 0 4px var(--blue),0 16px 34px -16px rgba(26,63,209,.55)}
+#here{position:absolute;left:52px;top:5222px;padding:8px 16px;border-radius:10px;background:var(--blue);color:#fff;font:700 24px/1 var(--body);opacity:0;white-space:nowrap}
+#tools{position:absolute;left:52px;right:52px;top:5935px;display:flex;align-items:center;gap:16px;opacity:0}
+#tools b{font:800 32px/1 var(--body);color:var(--navy);margin-right:6px}
+#tools span{padding:16px 24px;border-radius:999px;background:var(--lb);border:2px solid #C9D6FF;font:700 28px/1 var(--body);color:var(--blue)}
 #cursor{position:absolute;z-index:30;left:900px;top:2300px;width:50px;height:60px;opacity:0;filter:drop-shadow(0 6px 8px rgba(0,0,0,.25))}
 #ui{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);display:none;align-items:center;gap:14px;padding:11px 18px;border-radius:16px;background:rgba(14,16,22,.9);font-size:13px;color:#A0A6B4;z-index:90}
 #ui.on{display:flex}#scrub{width:340px}
@@ -170,7 +188,11 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var
       <div class="t"><h3>Rekomendasi Fee</h3><p>Dapatkan rentang fee yang sesuai untuk setiap klien.</p></div></div>
     <div class="ck" id="k4" style="top:4600px"><div class="c"><svg viewBox="0 0 52 52"><path d="M12 27 L22 37 L41 16" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <div class="t"><h3>Template SPK</h3><p>Gunakan template siap pakai untuk kesepakatan kerja.</p></div></div>
-    <div id="btn" style="top:4800px">Lihat Cara Kerjanya<span class="ar"><svg viewBox="0 0 46 46"><path d="M10 23 H34 M24 13 L34 23 L24 33" fill="none" stroke="#1A3FD1" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+    <div id="more"><h2 id="m1">Ini baru <b>sebagian kecil</b></h2><h2 id="m2">isi paketnya.</h2></div>
+    <p id="mSub">Paket lengkapnya berisi <b>93 dokumen kerja</b> dalam <b>12 kategori</b>, plus <b>2 tool online</b>.</p>
+    <div id="grid"></div><div id="here">Form &amp; SPK tadi ada di sini ↓</div>
+    <div id="tools"><b>+ 2 tool online:</b><span>Pre-Assessment Klien</span><span>Kalkulator Fee</span></div>
+    <div id="btn" style="top:6040px">Lihat Cara Kerjanya<span class="ar"><svg viewBox="0 0 46 46"><path d="M10 23 H34 M24 13 L34 23 L24 33" fill="none" stroke="#1A3FD1" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
 
     <svg id="cursor" viewBox="0 0 44 54"><path d="M4 3 L4 42 L14 33 L22 50 L30 46 L22 30 L37 30 Z" fill="#0E1324" stroke="#fff" stroke-width="3" stroke-linejoin="round"/></svg>
   </div>
@@ -179,7 +201,7 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var
 
 <script>
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
-const W=1080,H=1350,DURATION=26;
+const W=1080,H=1350,DURATION=31;
 /* isi persis dari iklan gambar */
 const KOMP=[['Kompleksitas Transaksi','Semakin banyak jenis transaksi dan pihak terlibat',3],['Jumlah Entitas','Semakin banyak entitas yang dikelola',2],
   ['Lokasi / Cabang','Semakin banyak lokasi / cabang operasional',3],['Kepatuhan Pajak','Riwayat kepatuhan dan kelengkapan dokumen',2],
@@ -192,7 +214,22 @@ KOMP.forEach((k,i)=>{const r=document.createElement('div');r.className='tr rw';
 FEE.forEach(f=>{const r=document.createElement('div');r.className='tr rw';
   r.innerHTML=`<div class="hi"></div><div class="ts">${f[0]}</div><div>${f[1]}</div><div>${f[2].replace(' – ',' –<br>')}</div><div class="rk">${f[3]}</div>`;$('#tf').appendChild(r);});
 const wrapWords=el=>{const html=el.innerHTML;el.innerHTML=html.replace(/(<b>.*?<\/b>)|([^\s<]+)/g,(m,b,w)=>b?b.replace(/>(.*?)</,(x,t)=>'>'+t.split(' ').map(s=>`<span class="w">${s}</span>`).join(' ')+'<'):`<span class="w">${w}</span>`);};
-wrapWords($('#sub'));wrapWords($('#tipP'));
+wrapWords($('#sub'));wrapWords($('#tipP'));wrapWords($('#m1'));wrapWords($('#m2'));wrapWords($('#mSub'));
+const CATS=[
+['A','Seleksi & Onboarding Klien',['Seleksi & Penerimaan Klien Baru','Pengumpulan & Verifikasi Dokumen Onboarding','Penyusunan & Eksekusi Surat Perikatan Jasa (SPK)','Formulir Pre-Assessment Kesehatan Data Klien','Formulir Profil & KYC Klien','Template Surat Perikatan Jasa (SPK) Konsultasi Pajak','Checklist Dokumen Onboarding Klien','Tracker Pipeline Klien Baru & Master Database Klien']],
+['B','Manajemen Deadline & Beban Kerja',['Pengelolaan Tax Calendar Praktik','Protokol Eskalasi Klien Tidak Responsif','Manajemen Beban Kerja & Kapasitas Peak Season','Standar Komunikasi Proaktif ke Klien','Master Tax Calendar Praktik','Dashboard Kapasitas Kerja Praktik','Template Pesan Reminder & Permintaan Dokumen ke Klien']],
+['C','Eksekusi Pekerjaan Pajak',['Alur Kerja SPT Tahunan PPh Orang Pribadi','Alur Kerja SPT Tahunan PPh Badan','Pengelolaan SPT Masa Bulanan (PPh 21/23/25/PPN)','Penanganan Kendala Teknis Coretax','Prosedur Pembetulan SPT','Checklist Review Internal Sebelum Submit SPT','Workpaper Rekonsiliasi Fiskal PPh Badan','Formulir Persetujuan Klien atas Draft SPT']],
+['D','Hubungan dengan DJP & Sengketa',['Respons & Tindak Lanjut SP2DK','Pendampingan Pemeriksaan Pajak (Tax Audit)','Penanganan SKP & Surat Tagihan Pajak (STP)','Template Surat Tanggapan ke KPP','Surat Kuasa Khusus (SKK) Perpajakan']],
+['E','Penagihan Fee & Perlindungan Finansial',['Sistem Penagihan Fee Jasa Konsultasi','Pengelolaan Bukti Potong PPh 23 dari Klien','Template Invoice Jasa Konsultasi Pajak','Tracker Piutang & Bukti Potong PPh 23','Berita Acara Serah Terima Hasil Pekerjaan']],
+['F','Tax Planning & Advisory',['Alur Kerja Tax Review & Health Check Klien','Penyusunan Laporan Tax Planning','Prosedur Pemberian Opini Pajak (Tax Opinion)','Template Laporan Tax Health Check Klien','Template Tax Opinion Letter','Kalkulator Fee & Estimasi Skenario Tax Planning']],
+['G','Arsip, Keamanan Data & Offboarding Klien',['Sistem Pengarsipan Dokumen Pajak Klien','Protokol Keamanan Data & Kerahasiaan Klien','Offboarding Klien','Penanganan Klien Bermasalah & Pemutusan Kontrak','Berita Acara Serah Terima Dokumen — Offboarding','Checklist Audit Keamanan Data Praktik (Kuartalan)','Kepatuhan UU Pelindungan Data Pribadi (UU PDP) atas Data Klien']],
+['H','Kepatuhan Profesi & Pengembangan Praktik',['Pengelolaan Izin Praktik Konsultan Pajak','Pemenuhan Kewajiban CPD','Monitoring & Sosialisasi Perubahan Regulasi Perpajakan','Tracker Kewajiban Profesi per Konsultan','Template Catatan Konsultasi & Evaluasi Kolaborator Lepas']],
+['I','Kolaborator Lepas & Pengembangan Praktik',['Seleksi & Onboarding Kolaborator Lepas Pajak','Onboarding Singkat Kolaborator Lepas','Pengaturan Jadwal & Ketersediaan Kolaborator Lepas','Penanganan Masalah Kualitas & Pengakhiran Kerja Sama Kolaborator','Evaluasi Kinerja Diri & Kolaborator Lepas','Pengembangan Kompetensi Diri & Kolaborator Lepas','Pengakhiran Kerja Sama dengan Kolaborator Lepas','Panduan Peran: Konsultan Pajak sebagai Pemilik Praktik','Panduan Peran: Kolaborator Lepas Pelaksana Teknis','Kesepakatan Kerja & Standar Perilaku Kolaborator Lepas','Formulir Self-Assessment Praktik & Kolaborator Lepas','Formulir Catatan Masalah Kerja Sama Kolaborator','Template Perjanjian Kerja Sama dengan Kolaborator Lepas','Matriks Evaluasi Kolaborator Lepas per Proyek']],
+['J','Keamanan Data, Risiko & Kepatuhan Praktik',['Keamanan Siber, Hak Akses & Perlindungan Data Klien (UU PDP)','Backup & Pemulihan Data Digital','Keamanan Fisik & Kesiapsiagaan Darurat Ruang Kerja','Media Handling saat Krisis Reputasi Praktik','Audit Internal Berkala','Penilaian & Mitigasi Risiko Operasional','Pelaporan & Penanganan Insiden Internal','Investigasi Insiden & Root Cause Analysis (RCA)','Tindak Lanjut CAPA','Retensi, Pengarsipan & Pemusnahan Dokumen Praktik','Kode Etik Praktik & Standar Integritas Profesional','Form NDA / Pakta Integritas Kerahasiaan Kolaborator Lepas','Form Laporan Kronologis Insiden Internal','Checklist Masa Berlaku Perizinan & Legalitas Praktik','Checklist Kepatuhan Pajak Praktik Sendiri (PPh 21, 23, PPN)']],
+['K','Keuangan Internal Praktik',['Pengelolaan & Pertanggungjawaban Kas Kecil Praktik','Pencatatan Pendapatan & Pengeluaran Harian Praktik','Pembayaran ke Vendor & Kolaborator','Dashboard Keuangan Harian Praktik','Kalkulator Honor Kolaborator Lepas & Bagi Hasil Proyek','Template Budgeting & Perencanaan Anggaran Tahunan Praktik','Template Forecast Pendapatan 12 Bulan Praktik']],
+['L','Pengembangan Bisnis & Kemitraan Praktik',['Program Kemitraan & Rujukan Profesional','Konversi Inquiry Klien menjadi Kontrak Jasa','Kerja Sama B2B (Korporat, Notaris, Firma Hukum)','Penanganan Ulasan Negatif & Reputasi Digital','Strategi Retensi Klien & Mencegah Pindah ke Konsultan Lain','Template Analisis SWOT & Action Plan Praktik']]];
+CATS.forEach((c,i)=>{const d=document.createElement('div');d.className='tile'+(i?'':' a');
+  d.innerHTML=`<div class="lt"><b>${c[0]}</b><span>${c[2].length} dokumen</span></div><h4>${c[1]}</h4>`;$('#grid').appendChild(d);});
 
 const FV=$$('.fr .v');const TY=FV.map(()=>({n:0}));
 const N={tot:0};
@@ -221,7 +258,7 @@ tl.set('#form',{opacity:0,y:60},0);tl.set('#fee',{opacity:0,y:60},0);tl.set('#ti
 tl.set($$('#tk .rd b'),{scale:0},0);tl.set($$('#tk .rd'),{className:'rd'},0);tl.set($$('#tk .sk'),{opacity:0,scale:.4},0);
 tl.set($$('#tf .rw'),{opacity:0,y:20},0);tl.set($$('#tf .hi'),{opacity:0},0);tl.set('#tf .rw:nth-child(4)',{scale:1},0);
 tl.set('#chip',{opacity:0,scale:1},0);tl.set('#rays',{opacity:.2},0);
-tl.set($$('.ck .c'),{scale:0},0);tl.set($$('.ck .t'),{opacity:0,x:-30},0);tl.set('#btn',{opacity:0,y:40,scale:1},0);
+tl.set($$('.ck .c'),{scale:0},0);tl.set([...words('#more h2'),...words('#mSub')],{opacity:0,y:20},0);tl.set($$('.tile'),{opacity:0,y:30,scale:1},0);tl.set(['#here','#tools'],{opacity:0,y:20},0);tl.set($$('.ck .t'),{opacity:0,x:-30},0);tl.set('#btn',{opacity:0,y:40,scale:1},0);
 tl.set('#cursor',{opacity:0,scale:1},0);
 
 /* ===== 0–3 HOOK: headline menghantam masuk per baris ===== */
@@ -271,13 +308,22 @@ shot(17.4,.9,{s:1,fx:540,fy:3860,ay:675});
 tl.to('#rays',{opacity:1,duration:.3,yoyo:true,repeat:3},17.9);
 tl.to(words('#tipP'),{opacity:1,y:0,duration:.3,ease:'power2.out',stagger:.08},18.0);
 
-/* ===== 20,4–26 CHECKLIST + TOMBOL ===== */
+/* ===== 20,4–23 CHECKLIST ===== */
 shot(20.3,1.0,{s:1,fx:540,fy:4500,ay:675});
 ['#k1','#k2','#k3','#k4'].forEach((id,i)=>{const at=20.9+i*.45;
   tl.to(id+' .c',{scale:1,duration:.35,ease:'back.out(2.6)'},at);tl.to(id+' .t',{opacity:1,x:0,duration:.4,ease:'power3.out'},at+.08);});
-tl.to('#btn',{opacity:1,y:0,duration:.5,ease:'back.out(1.8)'},22.9);
-tl.to('#btn',{scale:1.05,duration:.32,ease:'sine.inOut',yoyo:true,repeat:5},23.6);
-tl.to('#btn .ar',{x:10,duration:.32,ease:'sine.inOut',yoyo:true,repeat:5},23.6);
+/* ===== 23–28 INI BARU SEBAGIAN KECIL: 12 kategori, 93 dokumen, 2 tool online ===== */
+shot(23.0,1.1,{s:1,fx:540,fy:5536,ay:675});
+tl.to(words('#more h2'),{opacity:1,y:0,duration:.35,ease:'power2.out',stagger:.1},23.6);
+tl.to(words('#mSub'),{opacity:1,y:0,duration:.3,ease:'power2.out',stagger:.06},24.05);
+tl.to($$('.tile'),{opacity:1,y:0,duration:.35,ease:'power3.out',stagger:.07},24.9);
+tl.to('#here',{opacity:1,y:0,duration:.35,ease:'back.out(2)'},26.0);
+tl.fromTo('.tile.a',{scale:1},{scale:1.06,duration:.25,yoyo:true,repeat:1,ease:'sine.inOut',immediateRender:false},26.0);
+tl.to('#tools',{opacity:1,y:0,duration:.4,ease:'power3.out'},26.6);
+/* ===== 27,4–31 TOMBOL ===== */
+tl.to('#btn',{opacity:1,y:0,duration:.5,ease:'back.out(1.8)'},27.4);
+tl.to('#btn',{scale:1.05,duration:.32,ease:'sine.inOut',yoyo:true,repeat:5},28.0);
+tl.to('#btn .ar',{x:10,duration:.32,ease:'sine.inOut',yoyo:true,repeat:5},28.0);
 tl.to({},{duration:.01},DURATION-.01);
 }
 
