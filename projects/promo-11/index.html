@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="id">
+<!-- Made with the Bang Motion skill by Bang Tutorial (https://youtube.com/bangtutorial) - MIT - https://github.com/bangtutorial/bang-motion -->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KP-D Kalkulator Fee — Promo 4:5</title>
+<!--
+  =====  STYLE BRIEF  =====
+  Brief user (KP-D)          : hook teks besar → kuitansi Rp 8 juta + daftar pekerjaan → rekaman layar Kalkulator Fee →
+                                angka hasil diperbesar "FEE < Rp24.955.000 = RUGI" → nama produk + tombol. ±35 detik.
+  Data                        : angka persis dari Kalkulator Fee asli (sama dengan promo-6): SPT Tahunan PPh Badan 20 jam +
+                                SPT Masa 12 bln 36 jam = 56 jam × 1,55 (Kategori C) = 86,8 jam · tarif Rp 250.000 · overhead 15%
+                                → titik impas Rp 24.955.000 · margin 30% → fee Rp 35.650.000
+  Palet                       : teal gelap #073F44–#0A5A61 (brand tools) · teal muda #7FDDE3 (angka pekerjaan) ·
+                                koral #FF8A70 (bayaran & RUGI, turunan merah tools #A4442F dicerahkan untuk latar gelap)
+  Font                        : Sora (teks besar) · Spectral + IBM Plex (UI tools asli)
+  Latar                       : gradien teal gelap + cahaya berpindah (sama di semua adegan, jadi rekaman layar terasa satu dunia)
+  Tanda tangan gerak          : rekaman layar dengan zoom halus mengikuti kursor (gaya screen-recording)
+  Suara                       : VO dari user (gaya "VID 15-10 8 VS 20 ORI VOICE"); waktu adegan mengikuti brief, disinkronkan setelah audio dikirim
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Spectral:ital,wght@0,500;0,600;1,500;1,600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<style>
+:root{--teal:#0E7C86;--teal-d:#0A5A61;--mint:#EDF1EE;--paper:#F7FAF8;--ink:#16211F;--mute:#5A6B66;--soft:#8B9A95;--line:#DCE5E1;
+  --copper:#B8763E;--red:#A4442F;--green:#2F7D4F;--tl:#7FDDE3;--co:#FF8A70;
+  --disp:"Sora",system-ui,sans-serif;--serif:"Spectral",Georgia,serif;--sans:"IBM Plex Sans",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var(--sans)}
+#stage{position:fixed;left:50%;top:50%;width:1080px;height:1350px;transform:translate(-50%,-50%);overflow:hidden;
+  background:radial-gradient(80% 50% at 15% 0%,#15909A 0%,transparent 60%),linear-gradient(170deg,#0C6A73 0%,#0A5A61 45%,#073F44 100%)}
+.glow{position:absolute;border-radius:50%;pointer-events:none}
+#g1{left:520px;top:-260px;width:900px;height:900px;background:radial-gradient(circle,rgba(255,255,255,.12),transparent 64%)}
+#g2{left:-300px;top:800px;width:900px;height:900px;background:radial-gradient(circle,rgba(255,138,112,.12),transparent 64%)}
+
+/* ---------- 1 · hook ---------- */
+#hook{position:absolute;left:0;right:0;top:300px;text-align:center;z-index:20}
+.hk{display:block;overflow:hidden}
+.hk span{display:inline-block;font:800 118px/1.08 var(--disp);color:#fff;letter-spacing:-.01em}
+.hk.n span{font-size:146px;line-height:1.06;white-space:nowrap}
+#k2 span{color:var(--tl)}#k4 span{color:var(--co)}
+
+/* ---------- 2 · kuitansi + daftar pekerjaan ---------- */
+#rcpt{position:absolute;left:150px;top:110px;width:780px;border-radius:18px;background:#FFFDF8;padding:34px 40px 30px;z-index:15;
+  box-shadow:0 40px 80px -30px rgba(0,0,0,.6);transform:rotate(-2deg);opacity:0}
+#rcpt:after{content:"";position:absolute;left:0;right:0;bottom:-14px;height:16px;background:radial-gradient(circle at 10px -2px,transparent 11px,#FFFDF8 12px) -10px 0/20px 16px repeat-x}
+#rcpt .h{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px dashed #D9D2C4;padding-bottom:16px}
+#rcpt .h b{font:700 40px/1 var(--disp);letter-spacing:.14em;color:var(--ink)}
+#rcpt .h span{font:500 22px/1 var(--mono);color:var(--soft)}
+#rcpt .r{display:flex;justify-content:space-between;gap:20px;margin-top:20px;font:500 28px/1.25 var(--sans);color:var(--mute)}
+#rcpt .r b{color:var(--ink);font-weight:600;text-align:right}
+#rcpt .amt{margin-top:24px;border-radius:14px;background:#FCE9E3;padding:18px 24px;display:flex;justify-content:space-between;align-items:center}
+#rcpt .amt span{font:600 22px/1 var(--mono);letter-spacing:.12em;color:#8E3B28;white-space:nowrap}
+#rcpt .amt b{font:800 56px/1 var(--disp);color:#C2412D;white-space:nowrap}
+#jobs{position:absolute;left:110px;right:110px;top:610px;z-index:15}
+#jobs .t{font:600 26px/1 var(--mono);letter-spacing:.14em;color:#BFE3E1;margin-bottom:18px;opacity:0}
+.jb{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 28px;margin-bottom:14px;border-radius:16px;background:rgba(255,255,255,.1);
+  font:600 34px/1.2 var(--sans);color:#fff;opacity:0}
+.jb small{display:block;margin-top:4px;font:500 24px/1.2 var(--sans);color:#BFE3E1}
+.jb b{flex:none;font:700 38px/1 var(--mono);color:var(--tl)}
+.jb.tot{background:rgba(127,221,227,.18);border:2px solid rgba(127,221,227,.6)}
+.jb.tot b{font-size:46px}
+
+/* ---------- 3 · rekaman layar Kalkulator Fee (UI tools asli) ---------- */
+#win{position:absolute;left:40px;top:80px;width:1000px;height:1220px;border-radius:24px;background:var(--mint);overflow:hidden;z-index:10;transform-origin:50% 40%;
+  box-shadow:0 60px 120px -40px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.1);opacity:0}
+.chrome{position:absolute;left:0;right:0;top:0;height:50px;background:#DCE6E2;display:flex;align-items:center;gap:10px;padding:0 20px;z-index:5}
+.chrome i{width:13px;height:13px;border-radius:50%;background:#B9C8C2}
+.chrome .url{margin-left:18px;flex:1;height:30px;border-radius:9px;background:#F7FAF8;font:500 15px/30px var(--mono);color:var(--mute);padding:0 14px}
+#vp{position:absolute;left:0;right:0;top:50px;bottom:0;overflow:hidden}
+#cam{position:absolute;left:0;top:0;width:1000px;transform-origin:0 0}
+.page{position:relative;width:1000px;padding:36px 40px 80px}
+.kick{font:600 15px/1 var(--mono);letter-spacing:.2em;color:var(--mute)}
+.page h1{margin-top:14px;font:600 46px/1.08 var(--serif);color:var(--ink)}
+.page h1 em{font-style:italic;color:var(--teal)}
+.tabs{display:flex;gap:12px;margin:24px 0 24px}
+.tabs div{flex:1;padding:12px 18px;border-radius:12px;background:#E1E9E5;font:600 14px/1 var(--mono);letter-spacing:.12em;color:var(--soft)}
+.tabs div span{display:block;margin-top:6px;font:600 20px/1 var(--sans);letter-spacing:0;color:var(--mute)}
+.tabs div.on{background:var(--teal-d);color:#9FC9C4}.tabs div.on span{color:#fff}
+.sec{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:24px 26px;margin-bottom:22px}
+.sh{display:flex;align-items:baseline;gap:14px;margin-bottom:18px}
+.sh b{font:600 16px/1 var(--mono);color:var(--teal)}
+.sh h2{font:600 28px/1 var(--serif);color:var(--ink)}
+.sh small{margin-left:auto;font:500 15px/1 var(--mono);color:var(--soft)}
+.sk{display:flex;align-items:center;gap:20px}
+.sk .tr{position:relative;flex:1;height:10px;border-radius:5px;background:#DCE5E1}
+.sk .fl{position:absolute;left:0;top:0;height:10px;border-radius:5px;background:var(--copper);width:50%}
+.sk .kn{position:absolute;top:-10px;left:50%;width:30px;height:30px;margin-left:-15px;border-radius:50%;background:#fff;border:3px solid var(--copper)}
+.sk .v{font:600 34px/1 var(--mono);color:var(--ink)}
+.chip{display:inline-block;padding:8px 14px;border-radius:999px;background:#F3E6D9;color:#8A5528;font:600 20px/1 var(--mono)}
+.lg{display:grid;grid-template-columns:34px 1fr 90px 80px;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid #E6EDEA}
+.lg .nm{font:500 20px/1.2 var(--sans);color:var(--ink)}.lg .nm small{display:block;font:400 15px/1.3 var(--sans);color:var(--soft)}
+.lg .q{font:600 18px/1 var(--mono);color:var(--soft);text-align:center}
+.lg .h{font:600 21px/1 var(--mono);color:var(--soft);text-align:right}
+.lg.dim .nm{color:var(--soft)}
+.lg.on .h{color:var(--ink)}
+.cb{width:26px;height:26px;border-radius:7px;border:2px solid #C4D0CB;position:relative;flex:none;background:#fff}
+.cb i{position:absolute;inset:-2px;border-radius:7px;background:var(--teal);transform:scale(0)}
+.cb i:after{content:"";position:absolute;left:8px;top:3px;width:7px;height:13px;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg)}
+.jt{display:flex;justify-content:space-between;align-items:baseline;margin-top:16px;font:600 16px/1 var(--mono);letter-spacing:.1em;color:var(--soft)}
+.jt b{font:600 30px/1 var(--mono);letter-spacing:0;color:var(--ink)}
+.fg{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:16px}
+.f label{display:block;font:600 16px/1.2 var(--sans);color:var(--mute);margin-bottom:10px}
+.f .in{position:relative;height:60px;border-radius:12px;border:1.5px solid var(--line);background:#fff;display:flex;align-items:center;padding:0 16px;font:500 26px/1 var(--mono);color:var(--ink)}
+.f .in .pre,.f .in .suf{color:var(--soft);font-size:22px}
+.f .in .pre{margin-right:10px}.f .in .suf{margin-left:auto}
+.f .in.focus{border-color:var(--teal);box-shadow:0 0 0 4px rgba(14,124,134,.15)}
+.f .in .caret{display:inline-block;width:2px;height:28px;background:var(--teal);margin-left:2px;opacity:0}
+.big{border-radius:18px;padding:24px 26px;background:linear-gradient(150deg,#0E7C86,#0A5A61);color:#fff;margin-bottom:22px}
+.big small{display:block;font:600 15px/1 var(--mono);letter-spacing:.14em;color:#A9D2CD}
+.big .fee{display:block;margin-top:12px;font:600 62px/1 var(--mono)}
+.big .row{display:flex;justify-content:space-between;align-items:baseline;margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.2);font:500 19px/1.3 var(--sans);color:#CFE6E3}
+.big .row b{font:600 30px/1 var(--mono);color:#fff}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.kp{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.kp small{display:block;font:500 16px/1.2 var(--sans);color:var(--mute)}
+.kp b{display:block;margin-top:8px;font:600 26px/1 var(--mono);color:var(--ink)}
+.kp.neg b{color:var(--red)}.kp.pos b{color:var(--green)}
+.btns{display:flex;gap:12px;margin-top:22px}
+.btn{padding:14px 20px;border-radius:12px;border:1.5px solid var(--line);background:#fff;font:600 18px/1 var(--sans);color:var(--ink)}
+.btn.p{background:var(--teal);border-color:var(--teal);color:#fff}
+#rowMin{border-radius:10px;padding:16px 14px 12px;margin:18px -14px 0}
+#cursor{position:absolute;z-index:50;left:0;top:0;width:40px;height:50px;margin:-4px 0 0 -4px;opacity:0;filter:drop-shadow(0 6px 8px rgba(0,0,0,.35))}
+#ring{position:absolute;z-index:49;width:60px;height:60px;margin:-30px 0 0 -30px;border-radius:50%;border:4px solid var(--teal);opacity:0}
+
+/* ---------- 4 · angka diperbesar ---------- */
+#zoom{position:absolute;inset:0;z-index:30;opacity:0;background:rgba(5,40,44,.93)}
+#zoom .lb{position:absolute;left:0;right:0;top:330px;text-align:center;font:600 30px/1 var(--mono);letter-spacing:.18em;color:#BFE3E1}
+#zoom .num{position:absolute;left:0;right:0;top:395px;text-align:center;font:800 128px/1 var(--disp);color:#fff;letter-spacing:-.02em;white-space:nowrap}
+#zoom .rule{position:absolute;left:0;right:0;top:640px;text-align:center}
+#zoom .rule span{display:block;font:800 70px/1 var(--disp);color:var(--co);white-space:nowrap}
+#zoom .rule em{display:inline-block;margin-top:30px;font-style:normal;padding:18px 44px;border-radius:22px;background:var(--co);color:#3B0F06;font:800 96px/1 var(--disp)}
+
+/* ---------- 5 · penutup ---------- */
+#end{position:absolute;left:60px;right:60px;top:380px;text-align:center;z-index:40;opacity:0}
+#end .kk{font:600 30px/1 var(--mono);letter-spacing:.2em;color:#BFE3E1}
+#end h2{margin-top:26px;font:800 92px/1.04 var(--disp);color:#fff;letter-spacing:-.01em}
+#end p{margin-top:30px;font:600 44px/1.25 var(--disp);color:var(--tl)}
+#cta{position:absolute;left:50%;top:880px;width:880px;height:124px;margin-left:-440px;border-radius:999px;background:var(--co);color:#3B0F06;z-index:40;
+  display:flex;align-items:center;justify-content:center;gap:18px;font:800 42px/1 var(--disp);opacity:0;box-shadow:0 26px 54px -16px rgba(255,138,112,.55)}
+#cta svg{width:44px;height:44px}
+#ui{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);display:none;align-items:center;gap:14px;padding:11px 18px;border-radius:16px;background:rgba(14,16,22,.9);font-size:13px;color:#A0A6B4;z-index:90}
+#ui.on{display:flex}#scrub{width:340px}
+</style>
+</head>
+<body>
+<div id="stage">
+  <i class="glow" id="g1"></i><i class="glow" id="g2"></i>
+
+  <div id="hook">
+    <div class="hk" id="k1"><span>PEKERJAAN</span></div>
+    <div class="hk n" id="k2"><span>RP20 JUTA,</span></div>
+    <div class="hk" id="k3"><span>DIBAYAR</span></div>
+    <div class="hk n" id="k4"><span>RP8 JUTA</span></div>
+  </div>
+
+  <div id="rcpt">
+    <div class="h"><b>KUITANSI</b><span>No. 017/IX</span></div>
+    <div class="r">Telah terima dari<b>PT Maju Bersama</b></div>
+    <div class="r">Untuk pembayaran<b>Jasa konsultasi pajak</b></div>
+    <div class="amt"><span>UANG SEJUMLAH</span><b>Rp 8.000.000</b></div>
+  </div>
+  <div id="jobs">
+    <div class="t">PEKERJAAN YANG HARUS DIKERJAKAN</div>
+    <div class="jb">SPT Tahunan PPh Badan<b>20 jam</b></div>
+    <div class="jb"><span>SPT Masa bulanan<small>PPh 21/23/25 · 12 bulan</small></span><b>36 jam</b></div>
+    <div class="jb"><span>Data klien perlu pembenahan<small>Kategori C · waktu kerja naik</small></span><b>× 1,55</b></div>
+    <div class="jb tot">Total jam kerja<b>86,8 jam</b></div>
+  </div>
+
+  <div id="win">
+    <div class="chrome"><i></i><i></i><i></i><div class="url">kalkulator-fee.html</div></div>
+    <div id="vp"><div id="cam">
+      <div class="page">
+        <div class="kick">TOOLS KONSULTAN PAJAK</div>
+        <h1>Dua alat kerja, <em>satu</em> alur: nilai klien, lalu tetapkan fee.</h1>
+        <div class="tabs"><div>LANGKAH 1<span>Pre-Assessment Klien</span></div><div class="on">LANGKAH 2<span>Kalkulator Fee</span></div></div>
+        <div class="sec" id="k1s"><div class="sh"><b>01</b><h2>Kondisi data klien</h2><small>dari Pre-Assessment</small></div>
+          <div class="sk"><div class="tr"><div class="fl"></div><div class="kn"></div></div><span class="v">50</span><span class="chip">× 1,55</span></div>
+          <div style="margin-top:14px;font:500 18px/1.4 var(--sans);color:var(--mute)"><b style="color:var(--ink)">Perlu pembenahan signifikan</b> — pembukuan tidak tertata, perlu waktu ekstra. Fee naik 55%.</div></div>
+        <div class="sec" id="k2s"><div class="sh"><b>02</b><h2>Lingkup jasa</h2><small>centang yang disepakati</small></div>
+          <div class="lg dim"><div class="cb"><i></i></div><div class="nm">SPT Tahunan PPh OP — sederhana<small>karyawan, 1770SS/1770S</small></div><div class="q">—</div><div class="h">0</div></div>
+          <div class="lg" id="lA"><div class="cb"><i></i></div><div class="nm">SPT Tahunan PPh Badan<small>termasuk rekonsiliasi fiskal</small></div><div class="q">—</div><div class="h" id="hA">0</div></div>
+          <div class="lg" id="lB"><div class="cb"><i></i></div><div class="nm">SPT Masa bulanan<small>PPh 21/23/25 — per bulan</small></div><div class="q">12 bln</div><div class="h" id="hB">0</div></div>
+          <div class="lg dim"><div class="cb"><i></i></div><div class="nm">Penanganan SP2DK<small>analisis + surat tanggapan ke KPP</small></div><div class="q">—</div><div class="h">0</div></div>
+          <div class="lg dim"><div class="cb"><i></i></div><div class="nm">Tax Planning &amp; advisory<small>analisis skenario + laporan tertulis</small></div><div class="q">—</div><div class="h">0</div></div>
+          <div class="jt">TOTAL JAM KERJA (× 1,55)<b id="jamV">0 jam</b></div></div>
+        <div class="sec" id="k3s"><div class="sh"><b>03</b><h2>Tarif &amp; margin</h2></div>
+          <div class="fg">
+            <div class="f"><label>Tarif jam Anda</label><div class="in" id="iT"><span class="pre">Rp</span><span class="tx"></span><i class="caret"></i></div></div>
+            <div class="f"><label>Overhead</label><div class="in" id="iO"><span class="tx"></span><i class="caret"></i><span class="suf">%</span></div></div>
+            <div class="f"><label>Target margin</label><div class="in" id="iM"><span class="tx"></span><i class="caret"></i><span class="suf">%</span></div></div>
+          </div></div>
+        <div id="k4s"><div class="big"><small>FEE YANG DISARANKAN</small><span class="fee" id="feeS">Rp 0</span>
+          <div class="row" id="rowMin"><span>Fee minimum · di bawah ini Anda rugi</span><b id="feeM">Rp 0</b></div></div>
+          <div class="g2"><div class="kp"><small>Total jam kerja (× 1,55)</small><b id="kJ">0 jam</b></div>
+            <div class="kp"><small>Pendapatan efektif per jam</small><b id="kH">—</b></div>
+            <div class="kp neg"><small>PPh 23 dipotong klien (2%)</small><b id="kP">—</b></div>
+            <div class="kp pos"><small>Diterima bersih</small><b id="kN">—</b></div></div>
+          <div class="btns"><div class="btn p">Salin ringkasan</div><div class="btn">Cetak / PDF</div></div></div>
+      </div>
+      <div id="ring"></div>
+      <svg id="cursor" viewBox="0 0 40 50"><path d="M4 3 L4 38 L13 30 L20 46 L27 43 L20 28 L34 28 Z" fill="#16211F" stroke="#fff" stroke-width="3" stroke-linejoin="round"/></svg>
+    </div></div>
+  </div>
+
+  <div id="zoom"><div class="lb">FEE MINIMUM · TITIK IMPAS</div><div class="num">Rp 24.955.000</div>
+    <div class="rule"><span>FEE &lt; Rp24.955.000</span><em>= RUGI</em></div></div>
+
+  <div id="end"><div class="kk">PRACTICE MANAGEMENT SYSTEM</div><h2>93 dokumen kerja<br>+ Kalkulator Fee</h2></div>
+  <div id="cta">Hitung Fee Sebelum Menjawab Klien<svg viewBox="0 0 40 40"><path d="M8 20h22M21 10l10 10-10 10" fill="none" stroke="#3B0F06" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+</div>
+<div id="ui"><input id="scrub" type="range" min="0" max="1000" value="0"><span id="clock">0.00s</span></div>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const W=1080,H=1350,DURATION=35;
+/* angka dari Kalkulator Fee asli */
+const FAKTOR=1.55,TARIF=250000,OH=15,MG=30;
+const N={base:0,min:0,fee:0};
+const TY={t:{n:0},o:{n:0},m:{n:0}};const TXT={t:'250.000',o:'15',m:'30'};
+const CAM={s:1,x:0,y:0};        // kamera di dalam jendela (gaya rekaman layar)
+const cam=$('#cam'),g1=$('#g1'),g2=$('#g2');
+const rp=n=>'Rp '+Math.round(n).toLocaleString('id-ID');
+function render(t){
+  g1.style.transform=`translate(${(Math.sin(t*.3)*90).toFixed(1)}px,${(Math.cos(t*.24)*70).toFixed(1)}px)`;
+  g2.style.transform=`translate(${(Math.cos(t*.27)*80).toFixed(1)}px,${(Math.sin(t*.33)*60).toFixed(1)}px)`;
+  cam.style.transform=`translate(${(-CAM.x*CAM.s).toFixed(2)}px,${(-CAM.y*CAM.s).toFixed(2)}px) scale(${CAM.s.toFixed(4)})`;
+  $('#hA').textContent=N.base>=20?20:Math.round(N.base);$('#hB').textContent=N.base>20?Math.round(N.base-20):0;
+  $('#jamV').textContent=(Math.round(N.base*FAKTOR*10)/10).toLocaleString('id-ID')+' jam';
+  for(const k of ['t','o','m']){const el=$('#i'+k.toUpperCase()+' .tx'),s=TXT[k].slice(0,Math.round(TY[k].n*TXT[k].length));if(el.textContent!==s)el.textContent=s;}
+  $$('.in.focus .caret').forEach(c=>c.style.opacity=Math.floor(t*2.5)%2?0:1);$$('.in:not(.focus) .caret').forEach(c=>c.style.opacity=0);
+  const fee=Math.round(N.fee/5000)*5000,jam=Math.round(N.base*FAKTOR*10)/10;
+  $('#feeS').textContent=rp(fee);$('#feeM').textContent=rp(Math.round(N.min/5000)*5000);
+  $('#kJ').textContent=jam.toLocaleString('id-ID')+' jam';
+  $('#kH').textContent=fee&&jam?rp(fee/jam):'—';$('#kP').textContent=fee?'− '+rp(fee*.02):'—';$('#kN').textContent=fee?rp(fee*.98):'—';
+}
+const Q=new URLSearchParams(location.search);
+const tl=gsap.timeline({paused:true});
+const pos=el=>{let x=0,y=0,n=el;while(n&&n!==cam){x+=n.offsetLeft;y+=n.offsetTop;n=n.offsetParent;}return {x,y,w:el.offsetWidth,h:el.offsetHeight,cx:x+el.offsetWidth/2,cy:y+el.offsetHeight/2};};
+const VW=1000,VH=1170;let PH=1400;
+// kamera fokus ke titik (cx,cy) halaman dengan skala s
+const look=(at,dur,cx,cy,s=1)=>tl.to(CAM,{s,x:Math.max(0,Math.min(1000-VW/s,cx-VW/(2*s))),y:Math.max(0,Math.min(PH-VH/s,cy-VH/(2*s))),duration:dur,ease:'power2.inOut'},at);
+const click=(at,p)=>{tl.set('#ring',{left:p.cx,top:p.cy},at);
+  tl.fromTo('#ring',{opacity:.9,scale:.4},{opacity:0,scale:1.6,duration:.45,ease:'power2.out',immediateRender:false},at);
+  tl.to('#cursor',{scale:.82,duration:.08,yoyo:true,repeat:1},at);};
+const mv=(at,dur,p,ox=0,oy=0)=>tl.to('#cursor',{left:p.cx+ox,top:p.cy+oy,duration:dur,ease:'power3.inOut'},at);
+
+function build(){
+tl.clear();PH=$('.page').offsetHeight;
+/* keadaan awal — eksplisit supaya tiap putaran bersih */
+tl.set(N,{base:0,min:0,fee:0},0);Object.values(TY).forEach(o=>tl.set(o,{n:0},0));tl.set(CAM,{s:1,x:0,y:0},0);
+tl.set($$('.hk span'),{yPercent:110},0);tl.set('#hook',{y:0,opacity:1,x:0},0);
+tl.set(['#rcpt','#jobs .t','#zoom','#end','#cta','#cursor','#ring'],{opacity:0},0);tl.set($$('.jb'),{opacity:0,x:-40},0);
+tl.set('#rcpt',{y:60,rotation:-2,scale:1},0);tl.set('#jobs',{y:0,opacity:1},0);
+tl.set('#win',{opacity:0,y:120,scale:1},0);tl.set($$('#k2s .cb i'),{scale:0},0);tl.set(['#lA','#lB'],{className:'lg'},0);
+tl.set($$('.in'),{className:'in'},0);tl.set('#rowMin',{backgroundColor:'rgba(255,138,112,0)'},0);
+tl.set('#zoom .num',{scale:.6,opacity:0},0);tl.set('#zoom .rule',{y:40,opacity:0},0);tl.set('#cta',{y:40,scale:1},0);tl.set('#end',{y:40},0);
+
+/* ===== 0–3 HOOK ===== */
+tl.to('#k1 span',{yPercent:0,duration:.4,ease:'power4.out'},.05);
+tl.fromTo('#k2 span',{yPercent:110,scale:1.3},{yPercent:0,scale:1,duration:.45,ease:'power4.out',immediateRender:false},.4);
+tl.to('#k3 span',{yPercent:0,duration:.4,ease:'power4.out'},1.15);
+tl.fromTo('#k4 span',{yPercent:110,scale:1.3},{yPercent:0,scale:1,duration:.45,ease:'power4.out',immediateRender:false},1.5);
+tl.fromTo('#hook',{x:0},{keyframes:[{x:-12},{x:9},{x:-5},{x:0}],duration:.28,immediateRender:false},1.95);
+tl.to('#hook',{y:-140,opacity:0,duration:.4,ease:'power2.in'},2.85);
+
+/* ===== 3–8 KUITANSI Rp 8 juta + pekerjaan muncul satu per satu ===== */
+tl.to('#rcpt',{opacity:1,y:0,rotation:-2,duration:.55,ease:'back.out(1.6)'},3.05);
+tl.to('#jobs .t',{opacity:1,duration:.3},3.9);
+$$('.jb').forEach((j,i)=>tl.to(j,{opacity:1,x:0,duration:.4,ease:'power3.out'},4.2+i*.75));
+tl.fromTo('#rcpt .amt b',{scale:1},{scale:1.08,duration:.25,yoyo:true,repeat:1,ease:'sine.inOut',transformOrigin:'100% 50%',immediateRender:false},7.0);
+tl.to(['#rcpt','#jobs'],{opacity:0,y:-80,duration:.45,ease:'power2.in',stagger:.05},7.6);
+
+/* ===== 8–25 REKAMAN LAYAR: Kalkulator Fee ===== */
+tl.to('#win',{opacity:1,y:0,duration:.6,ease:'power3.out'},7.9);
+const pA=pos($('#lA .cb')),pB=pos($('#lB .cb')),k2=pos($('#k2s')),k3=pos($('#k3s')),k4=pos($('#k4s'));
+const iT=pos($('#iT')),iO=pos($('#iO')),iM=pos($('#iM')),rm=pos($('#rowMin'));
+look(8.3,1.0,500,k2.cy,1.15);                                           // dekat ke lingkup jasa
+tl.set('#cursor',{left:pA.cx+260,top:pA.cy+180},8.6);tl.to('#cursor',{opacity:1,duration:.2},8.6);
+mv(8.8,.7,pA);click(9.55,pA);tl.to('#lA .cb i',{scale:1,duration:.25,ease:'back.out(3)'},9.6);tl.set('#lA',{className:'lg on'},9.6);
+tl.to(N,{base:20,duration:.35,ease:'power2.out'},9.65);
+mv(10.0,.5,pB);click(10.6,pB);tl.to('#lB .cb i',{scale:1,duration:.25,ease:'back.out(3)'},10.65);tl.set('#lB',{className:'lg on'},10.65);
+tl.to(N,{base:56,duration:.4,ease:'power2.out'},10.7);
+look(11.4,.9,500,k3.cy+40,1.15);                                        // geser ke tarif & margin
+mv(11.6,.8,iT,-60,4);click(12.35,iT);tl.set('#iT',{className:'in focus'},12.4);
+tl.to(TY.t,{n:1,duration:1.2,ease:'none'},12.6);
+tl.to(N,{min:86.8*TARIF,fee:86.8*TARIF,duration:.5,ease:'power2.out'},13.85);
+mv(14.0,.45,iO,-40,4);click(14.5,iO);tl.set('#iT',{className:'in'},14.5);tl.set('#iO',{className:'in focus'},14.5);
+tl.to(TY.o,{n:1,duration:.45,ease:'none'},14.7);
+tl.to(N,{min:86.8*TARIF*(1+OH/100),fee:86.8*TARIF*(1+OH/100),duration:.5,ease:'power2.out'},15.2);
+mv(15.4,.45,iM,-40,4);click(15.9,iM);tl.set('#iO',{className:'in'},15.9);tl.set('#iM',{className:'in focus'},15.9);
+tl.to(TY.m,{n:1,duration:.45,ease:'none'},16.1);
+tl.to(N,{fee:86.8*TARIF*(1+OH/100)/(1-MG/100),duration:.8,ease:'power2.out'},16.6);
+tl.set('#iM',{className:'in'},17.4);tl.to('#cursor',{opacity:0,duration:.25},17.3);
+look(17.2,1.1,500,k4.cy-80,1.0);                                        // turun ke hasil
+look(19.6,2.2,500,k4.cy,1.25);                                          // dorong pelan ke hasil
+tl.to('#rowMin',{backgroundColor:'rgba(255,138,112,.28)',duration:.4},21.9);
+look(22.0,2.0,rm.cx+150,rm.cy,1.35);                                           // dekat ke fee minimum
+/* ===== 25–30 ANGKA DIPERBESAR: FEE < Rp24.955.000 = RUGI ===== */
+tl.to('#win',{scale:1.08,duration:1.2,ease:'power2.in'},24.4);
+tl.to('#zoom',{opacity:1,duration:.4},25.0);
+tl.to('#zoom .num',{opacity:1,scale:1,duration:.5,ease:'back.out(1.7)'},25.1);
+tl.to('#zoom .rule',{opacity:1,y:0,duration:.45,ease:'power3.out'},25.9);
+tl.fromTo('#zoom .rule em',{scale:1},{scale:1.1,duration:.22,yoyo:true,repeat:1,ease:'sine.inOut',immediateRender:false},26.5);
+/* ===== 30–35 PENUTUP ===== */
+tl.to(['#zoom','#win'],{opacity:0,duration:.45,ease:'power2.in'},29.8);
+tl.to('#end',{opacity:1,y:0,duration:.6,ease:'power3.out'},30.2);
+tl.to('#cta',{opacity:1,y:0,duration:.55,ease:'back.out(1.8)'},30.9);
+tl.to('#cta',{scale:1.05,duration:.3,ease:'sine.inOut',yoyo:true,repeat:5},31.7);
+tl.to({},{duration:.01},DURATION-.01);
+}
+
+/* ============ perekat ============ */
+const stage=$('#stage');const fit=()=>{stage.style.transform=`translate(-50%,-50%) scale(${Math.min(innerWidth/W,innerHeight/H)})`;};
+addEventListener('resize',fit);fit();
+const clock=$('#clock'),scrub=$('#scrub');let scrubbing=false;
+/* posisi diukur dari layout; kalau halaman dimuat tersembunyi ukurannya 0, jadi timeline dibangun ulang setelah tampil */
+let fontsReady=false,laid=false;
+const hasLayout=()=>stage.offsetWidth>0&&$('#k3s').offsetHeight>0;
+const rebuildKeep=()=>{const t=tl.time(),p=tl.paused();build();tl.time(t,false);if(p)tl.pause();else tl.play();};
+(function loop(){if(fontsReady&&!laid&&hasLayout()){laid=true;rebuildKeep();}
+  const t=tl.time();render(t);clock.textContent=t.toFixed(2)+'s';if(!scrubbing)scrub.value=t/DURATION*1000;requestAnimationFrame(loop);})();
+scrub.addEventListener('pointerdown',()=>{scrubbing=true;tl.pause();});addEventListener('pointerup',()=>scrubbing=false);
+scrub.addEventListener('input',()=>{tl.pause();tl.time(scrub.value/1000*DURATION);});
+addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();tl.paused()?tl.play():tl.pause();}if(/^[rR]$/.test(e.key))tl.play(0);});
+if(Q.has('debug'))$('#ui').classList.add('on');
+tl.eventCallback('onComplete',()=>tl.play(0));
+const seek=t=>{tl.pause();tl.time(t,false);if(gsap.ticker.tick)gsap.ticker.tick();render(t);};
+window.OPENER={tl,DURATION,seek,W,H,ready:false};
+build();
+document.fonts.ready.then(()=>{fontsReady=true;laid=hasLayout();build();tl.pause(0);window.OPENER.ready=true;if(!Q.has('clean'))tl.play(0);});
+</script>
+</body>
+</html>
