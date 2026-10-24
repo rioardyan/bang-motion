@@ -35,6 +35,9 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var
 #g1{left:520px;top:-260px;width:900px;height:900px;background:radial-gradient(circle,rgba(255,255,255,.12),transparent 64%)}
 #g2{left:-300px;top:800px;width:900px;height:900px;background:radial-gradient(circle,rgba(255,138,112,.12),transparent 64%)}
 
+/* ---------- 0 · callout audience ---------- */
+#call{position:absolute;left:0;right:0;top:560px;text-align:center;z-index:21;transform-origin:50% 50%}
+#call span{display:inline-block;font:800 100px/1 var(--disp);color:#fff;letter-spacing:-.01em;white-space:nowrap}
 /* ---------- 1 · hook ---------- */
 #hook{position:absolute;left:0;right:0;top:300px;text-align:center;z-index:20}
 .hk{display:block;overflow:hidden}
@@ -149,6 +152,7 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var
 <div id="stage">
   <i class="glow" id="g1"></i><i class="glow" id="g2"></i>
 
+  <div id="call"><span>KONSULTAN PAJAK!</span></div>
   <div id="hook">
     <div class="hk" id="k1"><span>PEKERJAAN</span></div>
     <div class="hk n" id="k2"><span>RP20 JUTA,</span></div>
@@ -216,7 +220,7 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var
 
 <script>
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
-const W=1080,H=1350,DURATION=35;
+const W=1080,H=1350,DURATION=23;
 /* angka dari Kalkulator Fee asli */
 const FAKTOR=1.55,TARIF=250000,OH=15,MG=30;
 const N={base:0,min:0,fee:0};
@@ -252,64 +256,69 @@ function build(){
 tl.clear();PH=$('.page').offsetHeight;
 /* keadaan awal — eksplisit supaya tiap putaran bersih */
 tl.set(N,{base:0,min:0,fee:0},0);Object.values(TY).forEach(o=>tl.set(o,{n:0},0));tl.set(CAM,{s:1,x:0,y:0},0);
-tl.set($$('.hk span'),{yPercent:110},0);tl.set('#hook',{y:0,opacity:1,x:0},0);
+tl.set($$('.hk span'),{yPercent:110},0);tl.set('#call',{y:0,scale:1,opacity:1,x:0},0);tl.set('#call span',{color:'#fff'},0);tl.set('#hook',{y:0,opacity:1,x:0},0);
 tl.set(['#rcpt','#jobs .t','#zoom','#end','#cta','#cursor','#ring'],{opacity:0},0);tl.set($$('.jb'),{opacity:0,x:-40},0);
 tl.set('#rcpt',{y:60,rotation:-2,scale:1},0);tl.set('#jobs',{y:0,opacity:1},0);
 tl.set('#win',{opacity:0,y:120,scale:1},0);tl.set($$('#k2s .cb i'),{scale:0},0);tl.set(['#lA','#lB'],{className:'lg'},0);
 tl.set($$('.in'),{className:'in'},0);tl.set('#rowMin',{backgroundColor:'rgba(255,138,112,0)'},0);
 tl.set('#zoom .num',{scale:.6,opacity:0},0);tl.set('#zoom .rule',{y:40,opacity:0},0);tl.set('#cta',{y:40,scale:1},0);tl.set('#end',{y:40},0);
 
-/* ===== 0–3 HOOK ===== */
-tl.to('#k1 span',{yPercent:0,duration:.4,ease:'power4.out'},.05);
-tl.fromTo('#k2 span',{yPercent:110,scale:1.3},{yPercent:0,scale:1,duration:.45,ease:'power4.out',immediateRender:false},.4);
-tl.to('#k3 span',{yPercent:0,duration:.4,ease:'power4.out'},1.15);
-tl.fromTo('#k4 span',{yPercent:110,scale:1.3},{yPercent:0,scale:1,duration:.45,ease:'power4.out',immediateRender:false},1.5);
-tl.fromTo('#hook',{x:0},{keyframes:[{x:-12},{x:9},{x:-5},{x:0}],duration:.28,immediateRender:false},1.95);
-tl.to('#hook',{y:-140,opacity:0,duration:.4,ease:'power2.in'},2.85);
+/* ===== 0–0,8 CALLOUT AUDIENCE ===== */
+tl.fromTo('#call',{scale:1.6,opacity:0},{scale:1,opacity:1,duration:.3,ease:'power4.in',immediateRender:false},0);
+tl.fromTo('#call',{x:0},{keyframes:[{x:-12},{x:9},{x:-5},{x:0}],duration:.25,immediateRender:false},.3);
+// callout naik jadi label di atas hook
+tl.to('#call',{y:-380,scale:.46,duration:.32,ease:'power3.inOut'},.62);tl.to('#call span',{color:'#BFE3E1',duration:.32},.62);
 
-/* ===== 3–8 KUITANSI Rp 8 juta + pekerjaan muncul satu per satu ===== */
-tl.to('#rcpt',{opacity:1,y:0,rotation:-2,duration:.55,ease:'back.out(1.6)'},3.05);
-tl.to('#jobs .t',{opacity:1,duration:.3},3.9);
-$$('.jb').forEach((j,i)=>tl.to(j,{opacity:1,x:0,duration:.4,ease:'power3.out'},4.2+i*.75));
-tl.fromTo('#rcpt .amt b',{scale:1},{scale:1.08,duration:.25,yoyo:true,repeat:1,ease:'sine.inOut',transformOrigin:'100% 50%',immediateRender:false},7.0);
-tl.to(['#rcpt','#jobs'],{opacity:0,y:-80,duration:.45,ease:'power2.in',stagger:.05},7.6);
+/* ===== 0,8–3,3 HOOK ===== */
+tl.to('#k1 span',{yPercent:0,duration:.35,ease:'power4.out'},.92);
+tl.fromTo('#k2 span',{yPercent:110,scale:1.3},{yPercent:0,scale:1,duration:.4,ease:'power4.out',immediateRender:false},1.15);
+tl.to('#k3 span',{yPercent:0,duration:.35,ease:'power4.out'},1.8);
+tl.fromTo('#k4 span',{yPercent:110,scale:1.3},{yPercent:0,scale:1,duration:.4,ease:'power4.out',immediateRender:false},2.1);
+tl.fromTo('#hook',{x:0},{keyframes:[{x:-12},{x:9},{x:-5},{x:0}],duration:.28,immediateRender:false},2.5);
+tl.to(['#call','#hook'],{y:'-=140',opacity:0,duration:.35,ease:'power2.in'},3.2);
 
-/* ===== 8–25 REKAMAN LAYAR: Kalkulator Fee ===== */
-tl.to('#win',{opacity:1,y:0,duration:.6,ease:'power3.out'},7.9);
+/* ===== 3,3–7 KUITANSI Rp 8 juta + pekerjaan muncul satu per satu ===== */
+tl.to('#rcpt',{opacity:1,y:0,rotation:-2,duration:.5,ease:'back.out(1.6)'},3.4);
+tl.to('#jobs .t',{opacity:1,duration:.25},4.0);
+$$('.jb').forEach((j,i)=>tl.to(j,{opacity:1,x:0,duration:.35,ease:'power3.out'},4.2+i*.55));
+tl.fromTo('#rcpt .amt b',{scale:1},{scale:1.08,duration:.22,yoyo:true,repeat:1,ease:'sine.inOut',transformOrigin:'100% 50%',immediateRender:false},6.3);
+tl.to(['#rcpt','#jobs'],{opacity:0,y:-80,duration:.4,ease:'power2.in',stagger:.04},6.75);
+
+/* ===== 7–14 REKAMAN LAYAR: Kalkulator Fee (dipadatkan) ===== */
+tl.to('#win',{opacity:1,y:0,duration:.45,ease:'power3.out'},7.0);
 const pA=pos($('#lA .cb')),pB=pos($('#lB .cb')),k2=pos($('#k2s')),k3=pos($('#k3s')),k4=pos($('#k4s'));
 const iT=pos($('#iT')),iO=pos($('#iO')),iM=pos($('#iM')),rm=pos($('#rowMin'));
-look(8.3,1.0,500,k2.cy,1.15);                                           // dekat ke lingkup jasa
-tl.set('#cursor',{left:pA.cx+260,top:pA.cy+180},8.6);tl.to('#cursor',{opacity:1,duration:.2},8.6);
-mv(8.8,.7,pA);click(9.55,pA);tl.to('#lA .cb i',{scale:1,duration:.25,ease:'back.out(3)'},9.6);tl.set('#lA',{className:'lg on'},9.6);
-tl.to(N,{base:20,duration:.35,ease:'power2.out'},9.65);
-mv(10.0,.5,pB);click(10.6,pB);tl.to('#lB .cb i',{scale:1,duration:.25,ease:'back.out(3)'},10.65);tl.set('#lB',{className:'lg on'},10.65);
-tl.to(N,{base:56,duration:.4,ease:'power2.out'},10.7);
-look(11.4,.9,500,k3.cy+40,1.15);                                        // geser ke tarif & margin
-mv(11.6,.8,iT,-60,4);click(12.35,iT);tl.set('#iT',{className:'in focus'},12.4);
-tl.to(TY.t,{n:1,duration:1.2,ease:'none'},12.6);
-tl.to(N,{min:86.8*TARIF,fee:86.8*TARIF,duration:.5,ease:'power2.out'},13.85);
-mv(14.0,.45,iO,-40,4);click(14.5,iO);tl.set('#iT',{className:'in'},14.5);tl.set('#iO',{className:'in focus'},14.5);
-tl.to(TY.o,{n:1,duration:.45,ease:'none'},14.7);
-tl.to(N,{min:86.8*TARIF*(1+OH/100),fee:86.8*TARIF*(1+OH/100),duration:.5,ease:'power2.out'},15.2);
-mv(15.4,.45,iM,-40,4);click(15.9,iM);tl.set('#iO',{className:'in'},15.9);tl.set('#iM',{className:'in focus'},15.9);
-tl.to(TY.m,{n:1,duration:.45,ease:'none'},16.1);
-tl.to(N,{fee:86.8*TARIF*(1+OH/100)/(1-MG/100),duration:.8,ease:'power2.out'},16.6);
-tl.set('#iM',{className:'in'},17.4);tl.to('#cursor',{opacity:0,duration:.25},17.3);
-look(17.2,1.1,500,k4.cy-80,1.0);                                        // turun ke hasil
-look(19.6,2.2,500,k4.cy,1.25);                                          // dorong pelan ke hasil
-tl.to('#rowMin',{backgroundColor:'rgba(255,138,112,.28)',duration:.4},21.9);
-look(22.0,2.0,rm.cx+150,rm.cy,1.35);                                           // dekat ke fee minimum
-/* ===== 25–30 ANGKA DIPERBESAR: FEE < Rp24.955.000 = RUGI ===== */
-tl.to('#win',{scale:1.08,duration:1.2,ease:'power2.in'},24.4);
-tl.to('#zoom',{opacity:1,duration:.4},25.0);
-tl.to('#zoom .num',{opacity:1,scale:1,duration:.5,ease:'back.out(1.7)'},25.1);
-tl.to('#zoom .rule',{opacity:1,y:0,duration:.45,ease:'power3.out'},25.9);
-tl.fromTo('#zoom .rule em',{scale:1},{scale:1.1,duration:.22,yoyo:true,repeat:1,ease:'sine.inOut',immediateRender:false},26.5);
-/* ===== 30–35 PENUTUP ===== */
-tl.to(['#zoom','#win'],{opacity:0,duration:.45,ease:'power2.in'},29.8);
-tl.to('#end',{opacity:1,y:0,duration:.6,ease:'power3.out'},30.2);
-tl.to('#cta',{opacity:1,y:0,duration:.55,ease:'back.out(1.8)'},30.9);
-tl.to('#cta',{scale:1.05,duration:.3,ease:'sine.inOut',yoyo:true,repeat:5},31.7);
+look(7.05,.6,500,k2.cy,1.15);
+tl.set('#cursor',{left:pA.cx+220,top:pA.cy+140},7.3);tl.to('#cursor',{opacity:1,duration:.15},7.3);
+mv(7.35,.4,pA);click(7.8,pA);tl.to('#lA .cb i',{scale:1,duration:.2,ease:'back.out(3)'},7.82);tl.set('#lA',{className:'lg on'},7.82);
+tl.to(N,{base:20,duration:.25,ease:'power2.out'},7.85);
+mv(8.0,.3,pB);click(8.35,pB);tl.to('#lB .cb i',{scale:1,duration:.2,ease:'back.out(3)'},8.37);tl.set('#lB',{className:'lg on'},8.37);
+tl.to(N,{base:56,duration:.3,ease:'power2.out'},8.4);
+look(8.6,.6,500,k3.cy+40,1.15);
+mv(8.7,.45,iT,-60,4);click(9.2,iT);tl.set('#iT',{className:'in focus'},9.22);
+tl.to(TY.t,{n:1,duration:.6,ease:'none'},9.3);
+tl.to(N,{min:86.8*TARIF,fee:86.8*TARIF,duration:.35,ease:'power2.out'},9.9);
+mv(10.0,.3,iO,-40,4);click(10.35,iO);tl.set('#iT',{className:'in'},10.35);tl.set('#iO',{className:'in focus'},10.35);
+tl.to(TY.o,{n:1,duration:.25,ease:'none'},10.45);
+tl.to(N,{min:86.8*TARIF*(1+OH/100),fee:86.8*TARIF*(1+OH/100),duration:.35,ease:'power2.out'},10.75);
+mv(10.85,.3,iM,-40,4);click(11.2,iM);tl.set('#iO',{className:'in'},11.2);tl.set('#iM',{className:'in focus'},11.2);
+tl.to(TY.m,{n:1,duration:.25,ease:'none'},11.3);
+tl.to(N,{fee:86.8*TARIF*(1+OH/100)/(1-MG/100),duration:.5,ease:'power2.out'},11.6);
+tl.set('#iM',{className:'in'},12.0);tl.to('#cursor',{opacity:0,duration:.2},11.9);
+look(11.9,.7,500,k4.cy-80,1.0);                                         // turun ke hasil
+tl.to('#rowMin',{backgroundColor:'rgba(255,138,112,.28)',duration:.3},12.8);
+look(12.8,1.0,rm.cx+150,rm.cy,1.35);                                    // dekat ke fee minimum
+/* ===== 14–18,4 ANGKA DIPERBESAR: FEE < Rp24.955.000 = RUGI ===== */
+tl.to('#win',{scale:1.08,duration:.8,ease:'power2.in'},13.5);
+tl.to('#zoom',{opacity:1,duration:.35},14.0);
+tl.to('#zoom .num',{opacity:1,scale:1,duration:.45,ease:'back.out(1.7)'},14.1);
+tl.to('#zoom .rule',{opacity:1,y:0,duration:.4,ease:'power3.out'},14.75);
+tl.fromTo('#zoom .rule em',{scale:1},{scale:1.1,duration:.22,yoyo:true,repeat:1,ease:'sine.inOut',immediateRender:false},15.3);
+/* ===== 18,4–23 PENUTUP ===== */
+tl.to(['#zoom','#win'],{opacity:0,duration:.4,ease:'power2.in'},18.3);
+tl.to('#end',{opacity:1,y:0,duration:.55,ease:'power3.out'},18.6);
+tl.to('#cta',{opacity:1,y:0,duration:.5,ease:'back.out(1.8)'},19.2);
+tl.to('#cta',{scale:1.05,duration:.3,ease:'sine.inOut',yoyo:true,repeat:5},19.9);
 tl.to({},{duration:.01},DURATION-.01);
 }
 
