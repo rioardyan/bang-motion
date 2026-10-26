@@ -1,3 +1,5 @@
+> **Catatan revisi v2:** adegan 2 sekarang punya dua beat dan semua waktu setelah detik 6,0 bergeser **+1,3 detik** (total 27,3 detik). Tabel di bawah masih memakai waktu v1. Hitung ulang waktu mulai tiap klip sebelum VO dibuat. Jalur B (adegan 2 tanpa VO) tetap cocok, karena adegan 2 sekarang dibaca dari layar.
+
 # Naskah VO: Sistem Tata Kelola Yayasan
 
 Status: **usulan**, menunggu pilihan jalur. Hitungan memakai `tools/vo-hitung.py`.
