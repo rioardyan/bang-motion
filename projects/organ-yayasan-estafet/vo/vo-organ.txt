@@ -1,0 +1,7 @@
+Pembina, Pengurus, Pengawas! <break time="0.2s" />
+Setiap organ yayasan punya pegangan kerja yang jelas. <break time="0.5s" />
+Pembina: panduan rapat, mekanisme keputusan, dan format pengesahan. <break time="0.5s" />
+Pengurus: uraian tugas, es-o-pe kerja, dan alur persetujuan. <break time="0.5s" />
+Pengawas: program pemeriksaan, format laporan, dan mekanisme tindak lanjut. <break time="0.6s" />
+Lengkap dengan es-o-pe, uraian tugas, dan alur keputusan. <break time="0.8s" />
+Lihat Sistem Kerjanya.
