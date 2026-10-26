@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Promo Sisa Lebih Catatan</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  PROMO META ADS 4:5 (1080x1350), 15 detik, tanpa audio, loop.
+  Dikembangkan dari iklan statis. Isi teks dan tabel PERSIS iklan. Naskah: naskah.md · Style brief: style-brief.md
+  Konsep: catatan ditulis langsung (kursor, ketikan, centang), tabel Excel dibangun dan menghitung mundur.
+  ?debug=1 = panel scrub · ?clean=1 = tanpa autoplay (potret/export).
+-->
+<link rel="stylesheet" href="fonts/fonts.css">
+<script src="vendor/gsap.min.js"></script>
+<style>
+:root{
+  --paper:#FBF9F1; --ink:#0C2A30; --teal:#0E7C86; --yellow:#F5C84B; --glow:#FFF3C4; --deep:#0B2F34; --line:rgba(12,42,48,.085);
+  --disp:'Epilogue',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var(--disp)}
+#stage{position:fixed;left:50%;top:50%;width:1080px;height:1350px;transform:translate(-50%,-50%) scale(1);overflow:hidden;background:var(--paper)}
+.bgl{position:absolute;inset:0;overflow:hidden}
+.grid{position:absolute;left:-60px;top:-60px;right:-60px;bottom:-60px;
+  background-image:linear-gradient(var(--line) 1.5px,transparent 1.5px),linear-gradient(90deg,var(--line) 1.5px,transparent 1.5px);background-size:54px 54px}
+#bg{background:var(--paper)}
+#bgInk{background:var(--deep);opacity:0}
+#bgInk .grid{background-image:linear-gradient(rgba(255,249,230,.07) 1.5px,transparent 1.5px),linear-gradient(90deg,rgba(255,249,230,.07) 1.5px,transparent 1.5px)}
+
+#world{position:absolute;left:0;top:0;width:1080px;height:1350px;transform-origin:0 0}
+.reg{position:absolute;left:0;width:1080px;height:1350px}
+#r1{top:0} #r4{top:1350px;visibility:hidden}
+
+/* ---- layar Catatan ---- */
+.chip{position:absolute;left:40px;right:40px;top:40px;height:64px;background:var(--yellow);border:3px solid var(--ink);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;font:700 28px var(--mono);letter-spacing:.01em;text-transform:uppercase;color:var(--ink);opacity:0}
+#sbar{position:absolute;left:64px;right:64px;top:128px;height:44px;display:flex;align-items:center;justify-content:space-between;font:500 30px var(--mono);color:var(--ink)}
+#sbar svg{height:26px;margin-left:12px}
+#nav{position:absolute;left:64px;right:64px;top:184px;height:60px;display:flex;align-items:center;justify-content:space-between;color:var(--teal)}
+#nav b{font:600 40px var(--disp)} #nav svg{width:46px;height:46px;margin-left:28px}
+#nav i{display:flex;align-items:center}
+.rule{position:absolute;left:0;right:0;top:256px;height:2px;background:var(--ink);opacity:.9}
+#nb{position:absolute;left:64px;top:380px;width:952px}
+.c{visibility:hidden}
+#hd{font:800 76px/1.04 var(--disp);letter-spacing:-.02em;color:var(--ink);margin-bottom:46px}
+.mk{background-image:linear-gradient(var(--yellow),var(--yellow));background-repeat:no-repeat;background-position:0 78%;background-size:0% 46%}
+.it{position:relative;padding-left:124px;margin-bottom:36px;font:600 42px/1.25 var(--disp);color:var(--ink)}
+.ico{position:absolute;left:0;top:2px;width:84px;height:84px}
+.ico circle{fill:none;stroke:var(--teal);stroke-width:7}
+.ico .bgc{fill:var(--teal);stroke:none}
+.ico path{fill:none;stroke:#FBF9F1;stroke-width:9;stroke-linecap:round;stroke-linejoin:round}
+.eq{position:relative;padding-left:124px;margin-top:10px;font:800 44px/1.3 var(--disp);color:var(--teal);letter-spacing:-.01em}
+.eqico{position:absolute;left:0;top:0;width:92px;height:92px;perspective:400px;opacity:0}
+.eqico svg{position:absolute;inset:0;width:92px;height:92px;fill:none;stroke:var(--ink);stroke-width:5;stroke-linecap:round;stroke-linejoin:round;backface-visibility:hidden}
+#eqBox{display:inline-block;vertical-align:-8px;width:52px;height:52px;margin-left:12px;background:var(--teal);border-radius:6px;position:relative;opacity:0}
+#eqBox:before,#eqBox:after{content:"";position:absolute;left:12px;right:12px;height:7px;background:#FBF9F1;border-radius:2px}
+#eqBox:before{top:16px} #eqBox:after{top:29px}
+.cur{position:absolute;width:.52em;background:var(--teal);display:none;z-index:3}
+.cur.lt{background:var(--yellow)}
+
+/* ---- adegan Excel ---- */
+#xs{position:absolute;inset:0}
+#pl{position:absolute;left:64px;right:40px;top:116px;font:800 46px/1.14 var(--disp);letter-spacing:-.015em;color:var(--ink)}
+#xw{position:absolute;left:40px;top:330px;width:1000px;height:650px;background:#fff;border:3px solid var(--ink);border-radius:10px;overflow:hidden;opacity:0}
+.xt{height:56px;background:var(--ink);color:#FBF9F1;display:flex;align-items:center;gap:26px;padding:0 20px;font:500 20px var(--mono)}
+.xt span:first-child{background:var(--teal);padding:4px 12px;border-radius:4px;font-weight:700}
+.xh{height:88px;display:flex;align-items:center;padding:0 24px;border-bottom:2.5px solid var(--ink);font:800 36px var(--disp);color:var(--ink);letter-spacing:-.005em}
+.xr{display:grid;grid-template-columns:128px 188px 188px 186px 152px 152px;height:100px;align-items:center;border-bottom:1.5px solid var(--line);font:700 25px var(--mono);color:var(--ink)}
+.xr>div{padding:0 8px;white-space:nowrap;height:100%;display:flex;align-items:center}
+.xr.hd{height:104px;background:#E3F0F1;border-bottom:2.5px solid var(--ink)}
+.xr.hd>div{font:700 19px/1.15 var(--disp);white-space:normal}
+.xr>div+div{border-left:1.5px solid var(--line)}
+#row21{background:#fff}
+.stc{font-family:var(--disp) !important;font-weight:800 !important;font-size:26px !important;color:var(--teal)}
+#st21.hot{background:var(--yellow);color:var(--ink)}
+#sb{position:absolute;left:64px;right:64px;top:1030px;font:600 38px/1.28 var(--disp);color:#FBF9F1}
+#sb b{font:800 38px var(--disp);color:var(--yellow);font-variant-numeric:tabular-nums;visibility:hidden}
+#btn{position:absolute;left:64px;top:1186px;width:560px;height:118px;background:var(--yellow);border:3px solid var(--ink);border-radius:10px;display:flex;align-items:center;justify-content:center;gap:20px;font:800 44px var(--disp);color:var(--ink);opacity:0}
+#btn svg{width:48px;height:48px}
+
+#fieldTeal{position:absolute;inset:0;background:var(--teal);clip-path:circle(0px at 50% 50%);pointer-events:none}
+
+#ui{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);display:none;align-items:center;gap:12px;padding:9px 14px;border-radius:12px;background:rgba(14,16,22,.9);font:13px var(--disp);color:#A0A6B4;z-index:50}
+#ui.on{display:flex} #ui button{background:#262A34;color:#fff;border:0;padding:6px 12px;border-radius:8px;font:inherit;cursor:pointer}
+#scrub{width:320px} #clock{font-variant-numeric:tabular-nums;min-width:5ch;text-align:right}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="bgl" id="bg"><div class="grid" id="grid"></div></div>
+  <div class="bgl" id="bgInk"><div class="grid" id="gridInk"></div></div>
+
+  <div id="world">
+    <!-- layar Catatan (adegan 1-3) -->
+    <div class="reg" id="r1">
+      <div class="chip" id="chip">Khusus Ketua, Pengurus &amp; Pembina Yayasan</div>
+      <div id="sbar"><span>10.27</span><span><svg viewBox="0 0 40 26"><rect x="0" y="16" width="6" height="10" fill="#0C2A30"/><rect x="11" y="10" width="6" height="16" fill="#0C2A30"/><rect x="22" y="4" width="6" height="22" fill="#0C2A30"/><rect x="33" y="0" width="6" height="26" fill="#0C2A30"/></svg><svg viewBox="0 0 38 26"><path d="M2 9c9-9 25-9 34 0M8 15c6-6 16-6 22 0M14 21c3-3 7-3 10 0" fill="none" stroke="#0C2A30" stroke-width="3.5" stroke-linecap="round"/></svg><svg viewBox="0 0 54 26"><rect x="1.5" y="1.5" width="44" height="23" rx="6" fill="none" stroke="#0C2A30" stroke-width="3"/><rect x="5" y="5" width="34" height="16" rx="3" fill="#0C2A30"/><rect x="48" y="9" width="4" height="8" rx="2" fill="#0C2A30"/></svg></span></div>
+      <div id="nav"><b>&#8249; Catatan</b><i><svg viewBox="0 0 46 46" fill="none" stroke="#0E7C86" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M23 29V6M14 14l9-9 9 9M10 22v18h26V22"/></svg><svg viewBox="0 0 46 46" fill="none" stroke="#0E7C86" stroke-width="4"><circle cx="23" cy="23" r="19"/><circle cx="14" cy="23" r="2.2" fill="#0E7C86"/><circle cx="23" cy="23" r="2.2" fill="#0E7C86"/><circle cx="32" cy="23" r="2.2" fill="#0E7C86"/></svg></i></div>
+      <div class="rule"></div>
+
+      <div id="nb">
+        <h1 id="hd">Kenapa surplus yayasan<br><span class="mk" id="mk1">kena pajak,</span><br>padahal harusnya nol</h1>
+        <div class="it" id="it1"><svg class="ico" id="ck1" viewBox="0 0 84 84"><circle class="bgc" cx="42" cy="42" r="38"/><path d="M24 43l13 13 24-28"/></svg><span class="t">Pemberitahuan rencana penggunaan ke kantor pajak tidak pernah dikirim</span></div>
+        <div class="it" id="it2"><svg class="ico" id="ck2" viewBox="0 0 84 84"><circle class="bgc" cx="42" cy="42" r="38"/><path d="M24 43l13 13 24-28"/></svg><span class="t">Sisa lebih tidak dicatat per tahun perolehan, jadi tidak tahu mana yang <span class="mk" id="mk2">hampir 4 tahun</span></span></div>
+        <div class="it" id="it3"><svg class="ico" id="ck3" viewBox="0 0 84 84"><circle class="bgc" cx="42" cy="42" r="38"/><path d="M24 43l13 13 24-28"/></svg><span class="t">Uangnya sudah dipakai bangun kelas, tapi laporan realisasinya tidak ada</span></div>
+        <div class="eq" id="eq">
+          <div class="eqico"><svg id="icoA" viewBox="0 0 92 92"><rect x="8" y="22" width="76" height="52" rx="6"/><path d="M8 28l38 26 38-26"/><path d="M60 74l22-22M82 74L60 52" stroke="#0E7C86"/></svg>
+            <svg id="icoB" viewBox="0 0 92 92" style="opacity:0"><path d="M18 8h56v76l-9-7-10 7-9-7-9 7-10-7-9 7z"/><path d="M30 28h32M30 42h32M30 56h20"/></svg></div>
+          <span id="ea">Satu surat yang tidak dikirim</span><span id="eqBox"></span><br><span id="eb">surplus jadi tagihan.</span>
+        </div>
+        <i class="cur" id="curN"></i>
+      </div>
+    </div>
+
+    <!-- adegan Excel (4-5) -->
+    <div class="reg" id="r4">
+      <div id="xs">
+        <h2 id="pl">Panduan sisa lebih + template surat +<br>Excel hitung mundur 4 tahun</h2>
+        <div id="xw">
+          <div class="xt"><span>File</span><span>Home</span><span>Insert</span><span>Page Layout</span><span>Formulas</span><span>Data</span><span>Review</span><span>View</span><span>Help</span></div>
+          <div class="xh">SISA LEBIH PER TAHUN PEROLEHAN</div>
+          <div class="xr hd"><div>Tahun Perolehan</div><div>Jumlah Sisa Lebih</div><div>Batas Akhir Penggunaan</div><div>Telah Digunakan</div><div>Sisa Waktu (tahun)</div><div>Status</div></div>
+          <div class="xr" id="row21"><div class="rv">2021</div><div class="rv">250.000.000</div><div class="rv">31/12/2025</div><div class="rv">0</div><div id="sw21" class="nox">4,0</div><div id="st21" class="nox stc">Aman</div></div>
+          <div class="xr"><div class="rv">2022</div><div class="rv">400.000.000</div><div class="rv">31/12/2026</div><div class="rv">150.000.000</div><div class="rv">1,3</div><div class="rv stc">Aman</div></div>
+          <div class="xr"><div class="rv">2023</div><div class="rv">300.000.000</div><div class="rv">31/12/2027</div><div class="rv">200.000.000</div><div class="rv">2,3</div><div class="rv stc">Aman</div></div>
+          <div class="xr" style="border-bottom:0"><div class="rv">2024</div><div class="rv">500.000.000</div><div class="rv">31/12/2028</div><div class="rv">100.000.000</div><div class="rv">3,3</div><div class="rv stc">Aman</div></div>
+        </div>
+        <p id="sb"><span id="sbA">Bagian dari Sistem Tata Kelola Yayasan —</span> <b id="n172">0</b> <span id="sbB">dokumen siap pakai</span></p>
+        <div id="btn"><span>Ambil Excel-nya</span><svg viewBox="0 0 48 48" fill="none" stroke="#0C2A30" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 24h34M26 10l14 14-14 14"/></svg></div>
+        <i class="cur lt" id="curX"></i>
+      </div>
+    </div>
+  </div>
+  <div id="fieldTeal"></div>
+</div>
+
+<div id="ui"><button id="btn-play">Pause</button><button id="btn-restart">Restart</button>
+  <input id="scrub" type="range" min="0" max="1000" value="0"><span id="clock">0.00s</span></div>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const W=1080,H=1350,DUR=15, Y4=y=>y+1350;
+const Q=new URLSearchParams(location.search);
+
+/* ---- teks yang "diketik": tiap huruf jadi span, dibuka bertahap (tata letak tetap, tanpa lonjakan) ---- */
+function charify(root){
+  const out=[];
+  const walk=n=>{ [...n.childNodes].forEach(c=>{
+    if(c.nodeType===3){ const fr=document.createDocumentFragment();
+      [...c.textContent].forEach(ch=>{ const s=document.createElement('span'); s.className='c'; s.textContent=ch; fr.appendChild(s); out.push(s); });
+      c.replaceWith(fr);
+    } else if(c.nodeType===1 && !c.classList.contains('nox') && !c.classList.contains('cur') && c.tagName!=='svg' && c.tagName!=='BR' && !c.classList.contains('eqico') && c.id!=='eqBox') walk(c); }); };
+  walk(root); return out; }
+const B={}; // blok ketikan
+const mk=(key,sel,cur)=>{ const el=$(sel); B[key]={el,chars:charify(el),cur,n:0}; };
+mk('hd','#hd','N'); mk('i1','#it1 .t','N'); mk('i2','#it2 .t','N'); mk('i3','#it3 .t','N'); mk('ea','#ea','N'); mk('eb','#eb','N');
+mk('pl','#pl','X'); mk('sa','#sbA','X'); mk('sb','#sbB','X');
+</script>
+<script>
+/* baris tabel: huruf di dalam sel .rv (sel 2021 yang menghitung mundur tidak diketik) */
+(function(){
+  const rows=[$('#row21'),...$$('.xr').slice(2)];
+  rows.forEach((row,i)=>{ const cells=$$('.rv',row); const chars=[]; cells.forEach(c=>chars.push(...charify(c))); B['r'+(i+1)]={el:row,chars,cur:null,n:0}; });
+})();
+</script>
+<script>
+/* ============ TIMELINE ============ */
+const tl=gsap.timeline({paused:true});
+const C={s:1,fx:540,fy:675}; let cam={s:1,fx:540,fy:675};
+const shot=(at,dur,s,fx,fy,ease='power2.inOut')=>{ tl.fromTo(C,{s:cam.s,fx:cam.fx,fy:cam.fy},{s,fx,fy,duration:dur,ease,immediateRender:false},at); cam={s,fx,fy}; };
+const cut=(at,s,fx,fy)=>{ tl.set(C,{s,fx,fy},at); cam={s,fx,fy}; };
+const S={hd:0,i1:0,i2:0,i3:0,ea:0,eb:0,pl:0,sa:0,sb:0,r1:0,r2:0,r3:0,r4:0,sw:4,n:0,iris:0,ink:0};
+const type=(key,at,dur)=>tl.fromTo(S,{[key]:0},{[key]:B[key].chars.length,duration:dur,ease:'none',immediateRender:false},at);
+tl.set(S,{hd:0,i1:0,i2:0,i3:0,ea:0,eb:0,pl:0,sa:0,sb:0,r1:0,r2:0,r3:0,r4:0,sw:4,n:0,iris:0,ink:0},0);
+tl.set(C,{s:1,fx:540,fy:675},0);
+tl.set('#r1',{autoAlpha:1},0); tl.set('#r4',{autoAlpha:0},0);
+tl.set('#bgInk',{opacity:0},0); tl.set('#fieldTeal',{y:0},0);
+tl.set('#eqBox',{transformOrigin:'50% 50%'},0);
+
+const pop=(el,at,{from={scale:.6,y:20},dur=.4,ease='back.out(2)'}={})=>tl.fromTo(el,{opacity:0,...from},{opacity:1,scale:1,y:0,duration:dur,ease,immediateRender:false},at);
+const stab=(sel,at,dur=.4)=>tl.fromTo(sel,{backgroundSize:'0% 46%'},{backgroundSize:'100% 46%',duration:dur,ease:'power3.out',immediateRender:false},at);
+const check=(id,at)=>{ const ic=$(id), bg=$('.bgc',ic), p=$('path',ic);
+  tl.set(p,{strokeDasharray:70,strokeDashoffset:70},0);
+  tl.fromTo(bg,{scale:.3,transformOrigin:'42px 42px',opacity:0},{scale:1,opacity:1,duration:.25,ease:'back.out(2.5)',immediateRender:false},at);
+  tl.fromTo(p,{strokeDashoffset:70},{strokeDashoffset:0,duration:.25,ease:'power2.out',immediateRender:false},at+.1); };
+tl.set('#ck1 .bgc,#ck2 .bgc,#ck3 .bgc',{opacity:0},0);
+
+/* ======== ADEGAN 1 (0-3,4) TANYA ======== */
+shot(0,3.2,1.04,540,650,'sine.inOut');
+pop('#chip',.1,{from:{scale:.9,y:-14},dur:.35});
+type('hd',.5,2.5);
+stab('#mk1',2.1,.4);
+tl.fromTo('#hd',{scale:1},{scale:1.035,duration:.12,ease:'power3.out',transformOrigin:'0 50%',immediateRender:false},2.98);   // hentak "nol"
+tl.fromTo('#hd',{scale:1.035},{scale:1,duration:.25,ease:'power2.inOut',immediateRender:false},3.1);
+
+/* ======== ADEGAN 2 (3,4-8,4) TIGA MASALAH ======== */
+shot(3.3,.6,1.0,540,860);
+shot(3.9,4.3,1.07,540,960,'sine.inOut');
+type('i1',3.4,1.5); check('#ck1',5.0);
+type('i2',5.0,1.9); stab('#mk2',6.95,.4); check('#ck2',7.0);
+type('i3',7.0,1.25); check('#ck3',8.3);
+
+/* ======== ADEGAN 3 (8,4-10,2) PERSAMAAN ======== */
+shot(8.4,.55,1.1,540,1060,'power3.inOut');
+tl.fromTo('.eqico',{opacity:0,scale:.6},{opacity:1,scale:1,duration:.3,ease:'back.out(2)',immediateRender:false},8.45);
+type('ea',8.5,.6);
+tl.fromTo('#eqBox',{opacity:0,scale:2.6},{opacity:1,scale:1,duration:.2,ease:'power4.in',immediateRender:false},9.1);
+tl.fromTo('#eq',{x:0,y:0},{x:-8,y:6,duration:.05,yoyo:true,repeat:3,ease:'none',immediateRender:false},9.3);   // hentak
+tl.fromTo('#icoA',{opacity:1,rotationY:0},{opacity:0,rotationY:90,duration:.18,ease:'power2.in',immediateRender:false},9.15);
+tl.fromTo('#icoB',{opacity:0,rotationY:-90},{opacity:1,rotationY:0,duration:.22,ease:'power2.out',immediateRender:false},9.33);
+type('eb',9.3,.5);
+/* tanda "=" membesar jadi medan teal; medan lalu naik membuka Excel */
+tl.fromTo(S,{iris:0},{iris:1,duration:.4,ease:'power3.in',immediateRender:false},9.6);
+cut(10.0,1.0,540,Y4(675));
+tl.set('#r1',{autoAlpha:0},10.0); tl.set('#r4',{autoAlpha:1},10.0);
+tl.fromTo('#fieldTeal',{y:0},{y:'-101%',duration:.5,ease:'power3.inOut',immediateRender:false},10.05);
+
+/* ======== ADEGAN 4 (10,2-12,6) JAWABAN ======== */
+shot(10.1,2.4,1.06,540,Y4(690),'sine.inOut');
+tl.fromTo('#xw',{opacity:0,y:200},{opacity:1,y:0,duration:.55,ease:'power3.out',immediateRender:false},10.12);
+type('pl',10.3,1.25);
+type('r1',10.7,.35); type('r2',11.05,.3); type('r3',11.35,.3); type('r4',11.65,.3);
+tl.fromTo(S,{sw:4},{sw:.3,duration:1.05,ease:'power3.inOut',immediateRender:false},11.15);
+tl.fromTo('#row21',{backgroundColor:'rgba(255,243,196,0)'},{backgroundColor:'rgba(255,243,196,1)',duration:.25,immediateRender:false},12.1);
+
+/* ======== ADEGAN 5 (12,6-15) AJAKAN ======== */
+shot(12.5,.7,.86,540,Y4(730),'power3.inOut');
+shot(13.2,1.8,.9,540,Y4(730),'sine.inOut');
+tl.fromTo(S,{ink:0},{ink:1,duration:.4,ease:'none',immediateRender:false},12.5);
+tl.fromTo('#pl',{color:'#0C2A30'},{color:'#FBF9F1',duration:.4,immediateRender:false},12.5);
+type('sa',12.75,.6);
+tl.fromTo(S,{n:0},{n:172,duration:.6,ease:'power2.out',immediateRender:false},13.35);
+type('sb',13.95,.4);
+pop('#btn',13.55,{from:{scale:.7,y:30},dur:.45,ease:'back.out(2.2)'});
+tl.to({},{duration:.01},DUR);
+
+/* ============ RENDER (fungsi murni dari t) ============ */
+const world=$('#world'), stage=$('#stage'), grid=$('#grid'), gridInk=$('#gridInk'), field=$('#fieldTeal'), eqBox=$('#eqBox'), bgInk=$('#bgInk');
+const cache={};
+const setText=(sel,v)=>{ if(cache[sel]!==v){ cache[sel]=v; $(sel).textContent=v; } };
+const CUR_ORDER=[[0,'hd'],[3.35,'i1'],[4.95,'i2'],[6.95,'i3'],[8.45,'ea'],[9.25,'eb'],[10.25,'pl'],[12.7,'sa'],[13.9,'sb']];
+function reveal(key){ const b=B[key], n=Math.round(S[key]||0); if(n===b.n) return; const lo=Math.min(n,b.n), hi=Math.max(n,b.n);
+  for(let i=lo;i<hi;i++) b.chars[i].style.visibility=(i<n)?'visible':'hidden'; b.n=n; }
+function render(t){
+  const s=C.s*(1+.004*Math.sin(t*.8));
+  world.style.transform=`translate(${(W/2-C.fx*s).toFixed(2)}px,${(H/2-C.fy*s).toFixed(2)}px) scale(${s.toFixed(4)})`;
+  const br=1+.02*(1+Math.sin(t*.8)); grid.style.transform=gridInk.style.transform=`scale(${br.toFixed(4)})`;
+  bgInk.style.opacity=S.ink.toFixed(3);
+  Object.keys(B).forEach(reveal);
+  setText('#sw21',S.sw.toFixed(1).replace('.',','));
+  const hot=S.sw<=.31; if(cache.hot!==hot){ cache.hot=hot; setText('#st21',hot?'Mendesak':'Aman'); $('#st21').classList.toggle('hot',hot); }
+  setText('#n172',String(Math.round(S.n))); $('#n172').style.visibility=S.n>0?'visible':'hidden';
+  /* kursor: milik blok yang sedang aktif; berkedip saat diam */
+  let act=CUR_ORDER[0][1]; for(const [at,k] of CUR_ORDER) if(t>=at) act=k;
+  const b=B[act], cur=b.cur==='X'?$('#curX'):$('#curN'), other=b.cur==='X'?$('#curN'):$('#curX');
+  const typing=b.n>0&&b.n<b.chars.length, blink=Math.floor(t*2.4)%2===0, show=typing||blink;
+  other.style.cssText='display:none';
+  if(show && b.chars.length){ const ch=b.n>0?b.chars[b.n-1]:b.chars[0]; const left=b.n>0?ch.offsetLeft+ch.offsetWidth:ch.offsetLeft;
+    cur.style.display='block';                                   // tampilkan dulu: offsetParent null bila display:none
+    const box=cur.offsetParent; let x=left, y=ch.offsetTop, op=ch.offsetParent;     // jumlahkan offset sampai wadah kursor
+    for(let g=0; op && op!==box && g<12; g++){ x+=op.offsetLeft; y+=op.offsetTop; op=op.offsetParent; } cur.style.left=x+'px'; cur.style.top=y+'px'; cur.style.height=ch.offsetHeight+'px'; }
+  else cur.style.cssText='display:none';
+  /* medan teal membuka dari tanda "="; titik asal = posisi kotak di layar saat itu */
+  if(S.iris>0){ const sr=stage.getBoundingClientRect(), sc=sr.width/W, r=eqBox.getBoundingClientRect();
+    const x=(r.left+r.width/2-sr.left)/sc, y=(r.top+r.height/2-sr.top)/sc, R=S.iris*2000;
+    field.style.clipPath=`circle(${R.toFixed(1)}px at ${x.toFixed(1)}px ${y.toFixed(1)}px)`; }
+  else field.style.clipPath='circle(0px at 50% 50%)';
+}
+
+/* ============ PEREKAT ============ */
+const fit=()=>{ const sc=Math.min(innerWidth/W,innerHeight/H); stage.style.transform=`translate(-50%,-50%) scale(${sc})`; };
+addEventListener('resize',fit); fit();
+const clock=$('#clock'),scrub=$('#scrub'),btn=$('#btn-play'); let scrubbing=false;
+(function frame(){ const t=tl.time(); render(t); clock.textContent=t.toFixed(2)+'s'; if(!scrubbing)scrub.value=String(t/DUR*1000); requestAnimationFrame(frame); })();
+const toggle=()=>{ if(tl.paused()||tl.progress()>=1){ if(tl.progress()>=1)tl.progress(0); tl.play(); btn.textContent='Pause'; } else { tl.pause(); btn.textContent='Play'; } };
+btn.onclick=toggle; $('#btn-restart').onclick=()=>{ tl.pause(0); tl.play(); btn.textContent='Pause'; };
+scrub.addEventListener('pointerdown',()=>{scrubbing=true;tl.pause();btn.textContent='Play';});
+addEventListener('pointerup',()=>scrubbing=false);
+scrub.addEventListener('input',()=>{tl.pause();tl.time(scrub.value/1000*DUR);});
+addEventListener('keydown',e=>{ if(e.code==='Space'){e.preventDefault();toggle();} if(/^[rR]$/.test(e.key)){tl.pause(0);tl.play();} if(/^[hH]$/.test(e.key))$('#ui').classList.toggle('on'); });
+if(Q.has('debug'))$('#ui').classList.add('on');
+tl.eventCallback('onComplete',()=>{tl.play(0);});
+const seek=t=>{ tl.pause(); tl.time(t,false); if(gsap.ticker.tick)gsap.ticker.tick(); render(t); };
+window.OPENER={W,H,DURATION:DUR,tl,seek,ready:false};
+Promise.all(['800 78px Epilogue','600 42px Epilogue','700 24px "JetBrains Mono"','500 24px "JetBrains Mono"'].map(f=>document.fonts.load(f)))
+  .then(()=>document.fonts.ready).then(()=>{ window.OPENER.ready=true; if(!Q.has('clean'))tl.play(0); });
+</script>
+</body>
+</html>
