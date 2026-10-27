@@ -331,7 +331,6 @@ shot(18.7,1.0,.3,2700,700,'power3.inOut');
 tl.fromTo(S,{pf:0},{pf:1,duration:1.0,ease:'power2.inOut',immediateRender:false},18.6);
 tl.fromTo(S,{dB:0},{dB:1,duration:1.0,ease:'power2.inOut',immediateRender:false},18.6);
 tl.fromTo(pg,{scale:.7,rotation:3},{scale:1.4,rotation:0,duration:1.0,ease:'power2.inOut',immediateRender:false},18.6);
-tl.set(pg,{x:1620,y:675},19.6);
 
 /* ======== ADEGAN 5 (19,2-23,4) LENGKAP ======== */
 shot(19.8,3.2,.32,2700,700,'sine.inOut');
@@ -339,7 +338,6 @@ wordsIn(sa,19.3,'up',{st:.06,dur:.45}); wordsIn(sb,21.2,'up',{st:.06,dur:.45});
 tl.fromTo(S,{dA:0},{dA:1,duration:.8,ease:'power2.out',immediateRender:false},20.0);
 pop('#k1',19.9,{from:{scale:.5,y:40},dur:.5}); pop('#k2',20.2,{from:{scale:.5,y:40},dur:.5}); pop('#k3',20.5,{from:{scale:.5,y:40},dur:.5});
 tl.fromTo(S,{lap:0},{lap:1,duration:2.0,ease:'power1.inOut',immediateRender:false},20.9);
-tl.set(pg,{x:1620,y:675},22.9);
 wordsOut([...sa,...sb],23.0); ['#k1','#k2','#k3'].forEach(k=>fadeOut(k,22.95));
 fadeOut('#d1',22.4); fadeOut('#f1',22.4); fadeOut('#pQ .dc, #pQ .flow, #pQ .mini, #pR .dc, #pR .flow',22.95,.3);
 
@@ -366,8 +364,12 @@ function render(t){
   base[1].style.transform=`translate(${(500+70*Math.cos(t*.25)).toFixed(1)}px,${(800+60*Math.sin(t*.31)).toFixed(1)}px)`;
   pathA.style.strokeDashoffset=(LA*(1-S.dA)).toFixed(1); pathB.style.strokeDashoffset=(LB*(1-S.dB)).toFixed(1);
   pathA.style.opacity=S.dA>0?1:0; pathB.style.opacity=S.dB>0?1:0;
-  if(S.pf>0&&S.pf<1){ const p=pathB.getPointAtLength(LB*S.pf); gsap.set(pg,{x:p.x,y:p.y}); }
-  else if(S.lap>0&&S.lap<1){ const d=S.lap*(LA+LB); const p=d<LA?pathA.getPointAtLength(d):pathB.getPointAtLength(d-LA); gsap.set(pg,{x:p.x,y:p.y}); }
+  /* posisi surat setelah penerbangan ke-3 sampai awal adegan 6 = fungsi murni dari t (tanpa keadaan tertinggal saat scrub mundur) */
+  if(t>=14.8 && t<23.4){ let x=4020,y=1010;
+    if(S.pf>=1){ x=1620; y=675; }
+    if(S.pf>0&&S.pf<1){ const p=pathB.getPointAtLength(LB*S.pf); x=p.x; y=p.y; }
+    else if(S.lap>0&&S.lap<1){ const d=S.lap*(LA+LB); const p=d<LA?pathA.getPointAtLength(d):pathB.getPointAtLength(d-LA); x=p.x; y=p.y; }
+    gsap.set(pg,{x,y}); }
 }
 
 /* ============ PEREKAT ============ */
