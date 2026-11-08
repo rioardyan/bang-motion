@@ -1,0 +1,13 @@
+Ketua yayasan, <break time="0.3s" />
+kalau Bapak berhenti besok, <break time="0.3s" />
+siapa yang tahu aturannya? <break time="2.2s" />
+Yayasan sedang berdiri di atas satu orang. <break time="0.6s" />
+Matriks kewenangan. <break time="0.2s" />
+Berita acara rapat. <break time="0.2s" />
+Form aset. <break time="0.2s" />
+Panduan sisa lebih. <break time="0.2s" />
+Excel keuangan. <break time="0.2s" />
+Excel pemantauan. <break time="0.6s" />
+Seratus tujuh puluh dua dokumen, <break time="0.3s" />
+empat belas kategori. <break time="0.6s" />
+Tuliskan aturan yayasan sebelum besok.
