@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Yayasan Satu Tiang</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  PROMO META ADS 4:5 (1080x1350), 24 detik, tanpa audio, loop.
+  Dikembangkan dari kreatif pemenang "KETUA YAYASAN, KALAU BAPAK BERHENTI BESOK, SIAPA YANG TAHU ATURANNYA?"
+  Naskah: naskah.md · Style brief: style-brief.md
+  Konsep: bangunan di atas satu tiang (Ketua) -> enam dokumen jadi pondasi -> 172 dokumen -> tombol.
+  ?debug=1 = panel scrub · ?clean=1 = tanpa autoplay (potret/export).
+  Enam halaman dokumen dibangun ulang dari kode (tanpa logo/brand). Isi baris = contoh.
+-->
+<link rel="stylesheet" href="fonts/fonts.css">
+<script src="vendor/gsap.min.js"></script>
+<style>
+:root{
+  --bg:#0A1517; --teal:#0E7C86; --teal2:#095F68; --teal3:#1796A2; --yellow:#F5C84B; --cream:#FFF9E6; --ink:#0A1517;
+  --cond:'Barlow Condensed','Arial Narrow',sans-serif; --ui:'Barlow',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var(--ui)}
+#stage{position:fixed;left:50%;top:50%;width:1080px;height:1350px;transform:translate(-50%,-50%) scale(1);overflow:hidden;background:var(--bg)}
+
+/* ---------- LATAR ---------- */
+#bgfx{position:absolute;inset:0}
+#spot{position:absolute;inset:0;background:radial-gradient(ellipse 640px 820px at 540px 640px,rgba(14,124,134,.46),rgba(14,124,134,.16) 48%,transparent 74%);opacity:.85}
+#floor{position:absolute;left:0;top:1190px;width:1080px;height:160px;background:linear-gradient(#14282C,#0B1A1D 42%,#050C0E)}
+#floor:before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:rgba(255,249,230,.22)}
+#floor:after{content:"";position:absolute;left:140px;top:2px;width:800px;height:100px;background:radial-gradient(ellipse at 50% 0,rgba(14,124,134,.38),transparent 70%)}
+#fsh{position:absolute;left:150px;top:1186px;width:780px;height:40px;background:radial-gradient(ellipse at 50% 50%,rgba(0,0,0,.55),transparent 70%)}
+.ghost{position:absolute;font:800 1000px/0.8 var(--cond);color:rgba(14,124,134,.26);letter-spacing:-.02em;white-space:nowrap;opacity:0;user-select:none}
+#g1{left:520px;top:210px}
+#g172{left:-40px;top:340px;font-size:620px;color:rgba(245,200,75,.13)}
+
+/* ---------- ADEGAN (kamera) ---------- */
+#scene{position:absolute;left:0;top:0;width:1080px;height:1350px;transform-origin:540px 1190px}
+#bld,#pilw{position:absolute;left:0;top:0;width:1080px;height:1350px;transform-origin:540px 1000px}
+#bld svg,#pilw svg,#cols svg{position:absolute;left:0;top:0;width:1080px;height:1350px;overflow:visible}
+#cols{position:absolute;left:0;top:0;width:1080px;height:1350px}
+.col{position:absolute;width:90px;top:1190px;height:0;border-radius:4px 4px 0 0}
+.col:before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background:rgba(255,249,230,.45);border-radius:4px 4px 0 0}
+.col:after{content:"";position:absolute;right:0;top:0;bottom:0;width:16px;background:rgba(0,0,0,.28)}
+.col.cw{background:linear-gradient(90deg,var(--teal),var(--teal2))}
+.col.x{background:linear-gradient(90deg,#F5C84B,#CFA531)}
+#docs{position:absolute;left:0;top:0;width:1080px;height:1350px}
+.doc{position:absolute;left:0;top:0;width:500px;height:560px;margin:-280px 0 0 -250px;border-radius:14px;background:#FFFBEF;overflow:hidden;
+  box-shadow:0 30px 60px rgba(0,0,0,.5);transform-origin:50% 50%}
+.doc .hd{height:94px;padding:0 26px;background:var(--c);color:var(--ct);display:flex;align-items:center;justify-content:space-between;gap:14px}
+.doc .hd b{font:800 40px/0.98 var(--cond);text-transform:uppercase;letter-spacing:.01em}
+.doc .hd i{font:600 18px var(--ui);font-style:normal;letter-spacing:.08em;padding:5px 11px;border-radius:6px;background:rgba(0,0,0,.2);color:inherit;flex:none}
+.doc .bd{padding:20px 26px;color:#142A2E;font:600 22px/1.2 var(--ui)}
+.doc .mut{color:#7C8B8D;font-weight:500}
+.doc .ln{height:12px;border-radius:6px;background:#D9DFDC;margin:12px 0}
+.doc .ln.s{width:62%}
+.tb{display:grid;align-items:center}
+.tb.m{grid-template-columns:1fr 62px 70px 72px;font-size:21px}
+.tb .th{font:600 13px var(--ui);color:#7C8B8D;letter-spacing:0;text-transform:uppercase;padding:8px 0;border-bottom:2px solid #D9DFDC}
+.tb .c{padding:13px 0;border-bottom:1px solid #E7EBE8;font-weight:600}
+.tb .ck{text-align:center;color:var(--teal);font-weight:800;font-size:26px} .tb .no{text-align:center;color:#B8C2C0}
+.tb .num{display:inline-block;width:34px;color:#7C8B8D;font-weight:500}
+.kv{display:grid;grid-template-columns:150px 1fr;gap:0 14px;font-size:21px}
+.kv>div{padding:12px 0;border-bottom:1px solid #E7EBE8} .kv .k{color:#7C8B8D;font-weight:500}
+.hl{background:#FCE8A6;margin:0 -8px;padding-left:8px;padding-right:8px;border-radius:5px}
+.gx{display:grid;font-size:20px;border:2px solid #CFD8D4}
+.gx.a{grid-template-columns:1.2fr 1.4fr .9fr .9fr}
+.gx>div{padding:12px 10px;border-right:1px solid #DDE4E0;border-bottom:1px solid #DDE4E0;font-weight:600;white-space:nowrap}
+.gx .gh{background:#E7EEEA;color:#4C5E60;font-size:16px;letter-spacing:.04em;text-transform:uppercase}
+.gx .y{background:#FCE8A6} .gx .t{background:#CFE9EC} .gx .z{background:#F5C84B;color:var(--ink);font-weight:800;font-size:26px}
+.gx .r{text-align:right}
+.stp{display:flex;gap:14px;align-items:flex-start;padding:11px 0;border-bottom:1px solid #E7EBE8;font-size:21px}
+.stp b{flex:none;width:34px;height:34px;border-radius:50%;background:var(--teal);color:var(--cream);font:700 19px/34px var(--ui);text-align:center}
+
+#plinth{position:absolute;left:170px;top:1000px;width:740px;height:190px;border-radius:0 0 4px 4px;background:linear-gradient(#0F3A41,#0A2A30);opacity:0}
+#plinth:before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background:rgba(255,249,230,.4)}
+#plinth:after{content:"";position:absolute;right:-24px;top:-10px;bottom:0;width:24px;background:#07181C;transform:skewY(-32deg);transform-origin:0 100%}
+.cell{position:absolute;width:14px;height:30px;border-radius:2px;background:var(--cream);opacity:0}
+.cell.x{background:var(--yellow)}
+.tab{position:absolute;top:12px;width:44px;height:26px;border-radius:5px 5px 0 0;background:var(--teal3);color:var(--cream);font:700 15px/26px var(--cond);text-align:center;letter-spacing:.04em;opacity:0}
+.tab:nth-child(even){background:var(--teal)}
+
+#sweep{position:absolute;left:0;top:0;width:320px;height:1350px;background:linear-gradient(100deg,transparent,rgba(255,249,230,.34) 50%,transparent);transform:translateX(-420px) skewX(-14deg);opacity:0;pointer-events:none}
+#lbl{position:absolute;left:0;top:0;width:100%}
+
+/* ---------- TEKS (layar) ---------- */
+#hud{position:absolute;inset:0;pointer-events:none}
+.w{display:inline-block;opacity:0}
+.em{color:var(--yellow)}
+#hl{position:absolute;left:70px;top:60px;width:940px;font:800 110px/0.94 var(--cond);color:var(--cream);text-transform:uppercase;letter-spacing:.008em}
+#hl .hg{display:block}
+#bub{position:absolute;left:70px;top:90px;width:940px;padding:36px 44px;border-radius:28px;background:var(--cream);color:var(--ink);font:600 54px/1.12 var(--ui);opacity:0;transform-origin:50% 100%}
+#bub:after{content:"";position:absolute;left:470px;bottom:-34px;border:30px solid transparent;border-top:36px solid var(--cream);border-bottom:0;border-left-width:22px;border-right-width:22px;transform:translateX(-22px)}
+#l2{position:absolute;left:80px;top:372px;width:920px;font:600 70px/1.08 var(--ui);color:var(--cream);letter-spacing:-.005em}
+#badge{position:absolute;left:300px;top:1062px;width:96px;height:96px;border-radius:50%;background:var(--yellow);color:var(--ink);font:800 78px/96px var(--cond);text-align:center;opacity:0;box-shadow:0 8px 24px rgba(0,0,0,.45)}
+#q{position:absolute;left:668px;top:1096px;font:800 230px/1 var(--cond);color:var(--yellow);opacity:0;text-shadow:0 0 40px rgba(245,200,75,.35)}
+.cap{position:absolute;left:0;width:1080px;top:52px;text-align:center;font:600 36px var(--ui);color:var(--cream);opacity:0;letter-spacing:.005em}
+.cap:before{content:"";display:inline-block;width:14px;height:14px;border-radius:50%;background:var(--yellow);margin-right:16px;vertical-align:4px}
+#big{position:absolute;left:0;width:1080px;top:92px;text-align:center;opacity:0}
+#big b{display:inline-block;font:800 250px/0.9 var(--cond);color:var(--yellow);font-variant-numeric:tabular-nums;letter-spacing:.005em}
+#big span{display:inline-block;margin-left:22px;font:800 76px/1 var(--cond);color:var(--cream);text-transform:uppercase;vertical-align:60px}
+#s4a,#s4b{position:absolute;left:0;width:1080px;text-align:center;font:600 46px/1.1 var(--ui);color:var(--cream);opacity:0}
+#s4a{top:372px} #s4b{top:446px}
+#s4a b,#s4b b{color:var(--yellow);font-weight:600}
+#cta{position:absolute;left:90px;top:1226px;width:900px;height:104px;border-radius:52px;background:var(--yellow);color:var(--ink);display:flex;align-items:center;justify-content:center;gap:24px;
+  font:800 44px var(--cond);white-space:nowrap;text-transform:uppercase;letter-spacing:.025em;opacity:0;box-shadow:0 10px 0 #B8902A,0 24px 40px rgba(0,0,0,.5)}
+#cta svg{width:46px;height:46px;flex:none}
+
+#ui{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);display:none;align-items:center;gap:12px;padding:9px 14px;border-radius:12px;background:rgba(14,16,22,.9);font:13px var(--ui);color:#A0A6B4;z-index:50}
+#ui.on{display:flex} #ui button{background:#262A34;color:#fff;border:0;padding:6px 12px;border-radius:8px;font:inherit;cursor:pointer}
+#scrub{width:320px} #clock{font-variant-numeric:tabular-nums;min-width:5ch;text-align:right}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="bgfx">
+    <div id="spot"></div>
+    <div class="ghost" id="g1">1</div>
+    <div class="ghost" id="g172">172</div>
+    <div id="floor"></div><div id="fsh"></div>
+  </div>
+
+  <div id="scene">
+    <div id="cols"></div>
+
+    <!-- tiang KETUA -->
+    <div id="pilw"><svg viewBox="0 0 1080 1350">
+      <g id="pilK"><g id="pil">
+        <g id="pilbody">
+          <polygon id="pilS" points="585,1000 609,985 609,1175 585,1190" fill="#1C2F34"/>
+          <rect id="pilF" x="495" y="1000" width="90" height="190" fill="#3A5258"/>
+          <rect x="495" y="1000" width="90" height="6" fill="rgba(255,249,230,.35)"/>
+        </g>
+        <g id="plaque">
+          <rect x="502" y="1070" width="76" height="46" rx="4" fill="#FFF9E6"/>
+          <text x="540" y="1104" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-size="27" letter-spacing=".5" fill="#0A1517">KETUA</text>
+        </g>
+      </g></g>
+    </svg></div>
+
+    <!-- bangunan 4 lantai -->
+    <div id="bld"><svg viewBox="0 0 1080 1350" id="bsvg"></svg></div>
+
+    <!-- plinth 172 -->
+    <div id="plinth"></div>
+
+    <div id="docs"></div>
+    <div id="sweep"></div>
+  </div>
+
+  <div id="hud">
+    <div id="hl">
+      <div class="hg" id="h1" data-t="KETUA YAYASAN,"></div>
+      <div class="hg" id="h2" data-t="KALAU BAPAK|BERHENTI BESOK,"></div>
+      <div class="hg em" id="h3" data-t="SIAPA YANG TAHU|ATURANNYA?"></div>
+    </div>
+    <div id="q">?</div>
+    <div id="bub" data-t="Kalau jawabannya ‘semua ada di kepala saya’,"></div>
+    <div id="l2" data-t="yayasan sedang berdiri|di atas *satu *orang."></div>
+    <div id="badge">1</div>
+    <div id="lbl"></div>
+    <div id="big"><b id="bign">0</b><span>dokumen</span></div>
+    <div id="s4a">148 Word + 24 Excel <b>berformula</b></div>
+    <div id="s4b"><b>14</b> kategori</div>
+    <div id="cta"><span>Tuliskan aturan yayasan sebelum besok</span>
+      <svg viewBox="0 0 54 54" fill="none" stroke="#0A1517" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 27h36M30 11l16 16-16 16"/></svg></div>
+  </div>
+</div>
+<div id="ui"><button id="btn-play">Pause</button><button id="btn-restart">Restart</button>
+  <input type="range" id="scrub" min="0" max="1000" value="0"><span id="clock">0.00s</span></div>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const Q=new URLSearchParams(location.search);
+const W=1080,H=1350,DUR=24,GROUND=1190,BTOP=1000;
+const SPRING='elastic.out(1,0.45)';
+const tl=gsap.timeline({paused:true});
+const FT=(tg,f,t,at)=>tl.fromTo(tg,f,Object.assign({immediateRender:false},t),at);
+
+/* ============ STATE (fungsi murni dari t) ============ */
+const S={th:0,sw:0,cs:1,n:0,kn:0};
+const P=[0,1,2,3,4,5].map(()=>({en:0,fl:0,lc:0}));
+const SLOT=[421,659,318,762,215,865];       /* urutan mendarat: kiri-tiang, kanan-tiang, ... */
+const LAND=[10.7,12.0,13.3,14.6,15.9,17.2];  /* detik halaman k mendarat */
+const TH0=8;                                  /* kemiringan awal (derajat) */
+
+/* ============ BANGUNAN ============ */
+const NS='http://www.w3.org/2000/svg';
+const FLOORS=['WEWENANG','ASET','KEUANGAN','PAJAK'];   /* bawah -> atas */
+const bsvg=$('#bsvg'); const FL=[];
+function el(tag,attrs,parent){ const e=document.createElementNS(NS,tag); for(const k in attrs)e.setAttribute(k,attrs[k]); parent.appendChild(e); return e; }
+FLOORS.forEach((name,f)=>{
+  const yt=BTOP-72*(f+1);
+  const g=el('g',{class:'fl'},bsvg);
+  const side=el('polygon',{points:`900,${yt} 946,${yt-30} 946,${yt+42} 900,${yt+72}`,fill:'#10272E',stroke:'#0A1517','stroke-width':3},g);
+  let top=null;
+  if(f===3) top=el('polygon',{points:`180,${yt} 226,${yt-30} 946,${yt-30} 900,${yt}`,fill:'#2C5560',stroke:'#0A1517','stroke-width':3},g);
+  const front=el('rect',{x:180,y:yt,width:720,height:72,fill:'#1D3F49',stroke:'#0A1517','stroke-width':3},g);
+  const txt=el('text',{x:204,y:yt+49,'font-family':'Barlow Condensed','font-weight':700,'font-size':38,'letter-spacing':3,fill:'#FFF9E6','fill-opacity':.55},g);
+  txt.textContent=name;
+  const wins=[]; for(let i=0;i<10;i++) wins.push(el('rect',{x:440+i*46,y:yt+20,width:34,height:32,rx:3,fill:'#0E242B'},g));
+  FL.push({g,side,top,front,txt,wins,yt});
+});
+(function roof(){ const g=FL[3].g, y0=BTOP-72*4-30;
+  el('rect',{x:372,y:y0-52,width:300,height:52,rx:5,fill:'#F5C84B',stroke:'#0A1517','stroke-width':3},g);
+  el('rect',{x:392,y:y0-2,width:14,height:4,fill:'#0A1517'},g);
+  const t=el('text',{x:522,y:y0-14,'text-anchor':'middle','font-family':'Barlow Condensed','font-weight':800,'font-size':42,'letter-spacing':6,fill:'#0A1517'},g); t.textContent='YAYASAN'; })();
+
+/* ============ DOKUMEN ============ */
+const DOCS=[
+ {cap:'Matriks kewenangan · 29 keputusan',c:'#0E7C86',ct:'#FFF9E6',tag:'WORD',title:'Matriks Kewenangan',w:true,body:`
+  <div class="tb m"><div class="th">Keputusan</div><div class="th" style="text-align:center">Pembina</div><div class="th" style="text-align:center">Pengurus</div><div class="th" style="text-align:center">Pengawas</div>
+   <div class="c"><span class="num">1</span>Perubahan AD/ART</div><div class="c ck">✓</div><div class="c no">–</div><div class="c no">–</div>
+   <div class="c"><span class="num">2</span>Pengangkatan Pengurus</div><div class="c ck">✓</div><div class="c no">–</div><div class="c no">–</div>
+   <div class="c"><span class="num">3</span>Persetujuan anggaran</div><div class="c no">–</div><div class="c ck">✓</div><div class="c ck">✓</div>
+   <div class="c"><span class="num">⋮</span><span class="mut">26 keputusan lain</span></div><div class="c no"></div><div class="c no"></div><div class="c no"></div>
+   <div class="c"><span class="num">29</span>Pembubaran yayasan</div><div class="c ck">✓</div><div class="c no">–</div><div class="c no">–</div></div>`},
+ {cap:'Berita acara rapat Pembina',c:'#0E7C86',ct:'#FFF9E6',tag:'WORD',title:'Berita Acara Rapat Pembina',w:true,body:`
+  <div style="font-size:22px;font-weight:700">No. 001/BAP/PEMBINA/2024</div>
+  <div class="mut" style="margin-top:6px">Senin, 15 Januari 2024 · Kantor Yayasan</div>
+  <div style="margin-top:20px;font-weight:700">Peserta rapat</div>
+  <div class="stp" style="padding:8px 0"><b>1</b>Budi Santoso</div><div class="stp" style="padding:8px 0"><b>2</b>Siti Rahma</div><div class="stp" style="padding:8px 0"><b>3</b>Ahmad Yusuf</div>
+  <div class="ln" style="margin-top:20px"></div><div class="ln s"></div>`},
+ {cap:'Form aset atas nama pribadi',c:'#0E7C86',ct:'#FFF9E6',tag:'WORD',title:'Form Aset Yayasan',w:true,body:`
+  <div class="kv"><div class="k">Jenis aset</div><div>Tanah dan bangunan</div>
+   <div class="k">Lokasi</div><div>Jl. Melati No. 10, Jakarta Selatan</div>
+   <div class="k">Atas nama</div><div><span class="hl">pribadi</span> · Budi Santoso</div>
+   <div class="k">Nilai</div><div>Rp 2.500.000.000</div>
+   <div class="k">Diperoleh</div><div>12 Maret 2018</div>
+   <div class="k">Rencana</div><div>hibah kepada yayasan, 2024</div></div>`},
+ {cap:'Panduan fasilitas sisa lebih',c:'#0E7C86',ct:'#FFF9E6',tag:'WORD',title:'Panduan Fasilitas Sisa Lebih',w:true,body:`
+  <div class="stp"><b>1</b>Hitung sisa lebih tahun berjalan</div>
+  <div class="stp"><b>2</b>Tentukan rencana penggunaannya</div>
+  <div class="stp"><b>3</b>Catat per tahun perolehan</div>
+  <div class="stp"><b>4</b>Kirim pemberitahuan ke kantor pajak</div>
+  <div style="margin-top:18px;padding:14px 16px;border-radius:8px;background:#FCE8A6;font-weight:700;font-size:21px">Batas penggunaan: 4 tahun</div>`},
+ {cap:'Excel laporan keuangan',c:'#F5C84B',ct:'#0A1517',tag:'EXCEL',title:'Laporan Keuangan',w:false,body:`
+  <div class="gx a" style="grid-template-columns:1.5fr 1fr">
+   <div class="gh">Uraian</div><div class="gh r">Jumlah</div>
+   <div>Total pendapatan</div><div class="r">1.840.000.000</div>
+   <div>Total beban</div><div class="r">1.560.000.000</div>
+   <div class="t">Surplus</div><div class="r t">280.000.000</div>
+   <div class="y">Selisih (harus nol)</div><div class="z r">0</div></div>
+  <div class="mut" style="margin-top:16px;font-size:18px">Neraca dan aktivitas harus seimbang.</div>`},
+ {cap:'Excel pemantauan sisa lebih',c:'#F5C84B',ct:'#0A1517',tag:'EXCEL',title:'Pemantauan Sisa Lebih',w:false,body:`
+  <div class="gx a">
+   <div class="gh">Tahun</div><div class="gh r">Sisa lebih</div><div class="gh">Sisa waktu</div><div class="gh">Status</div>
+   <div>2022</div><div class="r">280.000.000</div><div class="y">1 tahun</div><div class="y">Segera</div>
+   <div>2023</div><div class="r">310.000.000</div><div class="t">2 tahun</div><div class="t">Pantau</div>
+   <div>2024</div><div class="r">295.000.000</div><div class="t">3 tahun</div><div class="t">Pantau</div></div>
+  <div class="mut" style="margin-top:16px;font-size:18px">Sisa waktu turun otomatis tiap tahun.</div>`}
+];
+const docsEl=$('#docs'), colsEl=$('#cols'), lblEl=$('#lbl');
+const DOCEL=[], COLEL=[], CAPEL=[];
+DOCS.forEach((d,i)=>{
+  const e=document.createElement('div'); e.className='doc'; e.style.setProperty('--c',d.c); e.style.setProperty('--ct',d.ct);
+  e.innerHTML=`<div class="hd"><b>${d.title}</b><i>${d.tag}</i></div><div class="bd">${d.body}</div>`; docsEl.appendChild(e); DOCEL.push(e);
+  const c=document.createElement('div'); c.className='col '+(d.w?'cw':'x'); c.style.left=(SLOT[i]-45)+'px'; colsEl.appendChild(c); COLEL.push(c);
+  const cp=document.createElement('div'); cp.className='cap'; cp.textContent=d.cap; lblEl.appendChild(cp); CAPEL.push(cp);
+});
+
+/* sel plinth (172) + tab A-N */
+const plinth=$('#plinth'); const EXCELSET=new Set(); for(let j=0;j<24;j++)EXCELSET.add(Math.floor(j*172/24+3));
+const CELLS=[]; for(let k=0;k<172;k++){ const cl=Math.floor(k/4), rw=k%4; const e=document.createElement('div'); e.className='cell'+(EXCELSET.has(k)?' x':'');
+  e.style.left=(6+cl*17)+'px'; e.style.top=(54+rw*34)+'px'; plinth.appendChild(e); CELLS.push(e); }
+const tabs=document.createElement('div'); plinth.appendChild(tabs); const TABS=[];
+'ABCDEFGHIJKLMN'.split('').forEach((ch,i)=>{ const e=document.createElement('div'); e.className='tab'; e.textContent=ch; e.style.left=(6+i*52.4)+'px'; plinth.appendChild(e); TABS.push(e); });
+
+/* teks per kata */
+function words(e){ e.innerHTML=e.dataset.t.split('|').map(l=>l.trim().split(/\s+/).map(w=>{ const em=w[0]==='*'; return `<span class="w${em?' em':''}">${em?w.slice(1):w}</span>`; }).join(' ')).join('<br>'); return $$('.w',e); }
+const WH=['#h1','#h2','#h3'].map(s=>words($(s))), WB=words($('#bub')), WL=words($('#l2'));
+const wordsIn=(ws,at,o={})=>FT(ws,{opacity:0,y:o.y??34},{opacity:1,y:0,duration:o.dur??.5,ease:o.ease??'back.out(1.6)',stagger:o.st??.08},at);
+const fadeOut=(sel,at,d=.35,y=-26)=>FT(sel,{opacity:1,y:0},{opacity:0,y:y,duration:d,ease:'power2.in'},at);
+
+/* ============ ADEGAN 1 (0-5): PERTANYAAN ============ */
+FL.forEach((F,f)=>FT(F.g,{y:-460,opacity:0},{y:0,opacity:1,duration:.95,ease:'bounce.out'},.05+.14*f));
+FT('#pil',{y:60,opacity:0},{y:0,opacity:1,duration:.5,ease:'power3.out'},0);
+FT('#g1',{opacity:0,x:60},{opacity:1,x:0,duration:1.4,ease:'power2.out'},.2);
+wordsIn(WH[0],.3,{st:.12,dur:.55}); wordsIn(WH[1],1.3,{st:.11,dur:.55}); wordsIn(WH[2],2.8,{st:.1,dur:.6,ease:'back.out(1.9)'});
+/* plakat meredup, tiang menipis, tanda tanya */
+FT('#plaque',{opacity:1},{opacity:.3,duration:.8,ease:'power2.inOut'},3.4);
+FT('#pilbody',{scaleX:1,svgOrigin:'540 1100'},{scaleX:.62,svgOrigin:'540 1100',duration:.9,ease:'power2.inOut'},3.6);
+FT('#q',{opacity:0,y:50,scale:.5,rotation:-14},{opacity:1,y:0,scale:1,rotation:8,duration:.7,ease:'back.out(2.2)'},3.9);
+FT('#q',{y:0},{y:-14,duration:.6,ease:'sine.inOut',repeat:1,yoyo:true},4.6);
+FT('#spot',{opacity:.85},{opacity:.55,duration:1.2,ease:'sine.inOut'},3.6);
+
+/* ============ ADEGAN 2 (5-9,5): RISIKO ============ */
+fadeOut('#hl',4.75,.4); fadeOut('#q',4.85,.3,10);
+FT('#bub',{opacity:0,scale:.55,y:40,rotation:-6},{opacity:1,scale:1,y:0,rotation:-1.4,duration:.6,ease:'back.out(1.8)'},5.1);
+wordsIn(WB,5.25,{st:.1,dur:.45,y:20});
+wordsIn(WL,7.0,{st:.12,dur:.5,y:30});
+FT(S,{th:0},{th:TH0,duration:1.4,ease:'elastic.out(1,0.38)'},6.9);
+FT(S,{sw:0},{sw:.55,duration:1,ease:'power1.inOut'},7.9);
+FT('#pilF',{fill:'#3A5258'},{fill:'#F5C84B',duration:.4,ease:'power2.out'},7.35);
+FT('#pilS',{fill:'#1C2F34'},{fill:'#B8902A',duration:.4,ease:'power2.out'},7.35);
+FT('#pilbody',{scaleX:.62,svgOrigin:'540 1100'},{scaleX:1,svgOrigin:'540 1100',duration:.5,ease:'back.out(2)'},7.35);
+FT('#plaque',{opacity:.3},{opacity:1,duration:.4},7.35);
+FT('#badge',{opacity:0,scale:.3,rotation:-20},{opacity:1,scale:1,rotation:0,duration:.6,ease:'back.out(2.4)'},7.5);
+fadeOut('#bub',9.1,.35); fadeOut('#l2',9.1,.35); fadeOut('#g1',9.1,.4,0); FT('#badge',{opacity:1,y:0,scale:1},{opacity:0,y:-20,duration:.3,ease:'power2.in'},9.1);
+
+/* ============ ADEGAN 3 (9,5-19): ENAM DOKUMEN JADI PONDASI ============ */
+const FLOORLIT={0:0,2:1,4:2,5:3};           /* halaman k menyalakan lantai f */
+const LIT={front:['#1D3F49','#0E7C86'],side:['#10272E','#095F68'],top:['#2C5560','#1796A2'],win:['#0E242B','#F5C84B']};
+DOCS.forEach((d,k)=>{
+  const a=9.5+1.3*k, L=LAND[k];
+  FT(P[k],{en:0},{en:1,duration:.55,ease:'back.out(1.25)'},a);
+  FT(CAPEL[k],{opacity:0,y:18},{opacity:1,y:0,duration:.3,ease:'power2.out'},a+.2);
+  FT(CAPEL[k],{opacity:1},{opacity:0,duration:.2,ease:'power1.in'},a+.7);
+  FT(P[k],{fl:0},{fl:1,duration:.4,ease:'power3.in'},L-.4);
+  FT(P[k],{lc:0},{lc:1,duration:.55,ease:'elastic.out(1,0.5)'},L-.12);
+  /* tiap pendaratan: kemiringan turun satu langkah */
+  const from=TH0*(1-k/6), to=TH0*(1-(k+1)/6);
+  FT(S,{th:from},{th:to,duration:k===5?1.1:.6,ease:k===5?'elastic.out(1,0.35)':'power2.out'},L);
+  if(k in FLOORLIT){
+    const F=FL[FLOORLIT[k]];
+    FT(F.front,{fill:LIT.front[0]},{fill:LIT.front[1],duration:.4,ease:'power2.out'},L);
+    FT(F.side,{fill:LIT.side[0]},{fill:LIT.side[1],duration:.4,ease:'power2.out'},L);
+    if(F.top) FT(F.top,{fill:LIT.top[0]},{fill:LIT.top[1],duration:.4,ease:'power2.out'},L);
+    FT(F.txt,{'fill-opacity':.55},{'fill-opacity':1,duration:.4},L);
+    FT(F.wins,{fill:LIT.win[0]},{fill:LIT.win[1],duration:.35,ease:'power1.out',stagger:.035},L+.05);
+  }
+});
+FT(S,{sw:.55},{sw:0,duration:1.4,ease:'power2.inOut'},16.4);
+/* momen istimewa: halaman keenam mendarat -> tiang KETUA tersingkir, sapuan cahaya */
+FT(S,{kn:0},{kn:1,duration:.85,ease:'power2.in'},17.25);
+
+FT('#sweep',{x:-420,opacity:1},{x:1500,opacity:1,duration:1.1,ease:'power1.inOut'},17.6);
+FT('#sweep',{opacity:0},{opacity:1,duration:.01},17.58);
+FT('#spot',{opacity:.55},{opacity:1,duration:1.0,ease:'power2.out'},17.2);
+
+/* ============ ADEGAN 4 (19-22): ANGKA ============ */
+FT(S,{cs:1},{cs:.9,duration:1.2,ease:'power2.inOut'},19.0);
+FT('#docs',{opacity:1},{opacity:0,duration:.5,ease:'power1.in'},19.15);
+FT('#cols',{opacity:1},{opacity:0,duration:.5,ease:'power1.in'},19.4);
+FT('#plinth',{opacity:0},{opacity:1,duration:.5,ease:'power1.out'},19.2);
+FT('#g172',{opacity:0,x:-80},{opacity:1,x:0,duration:1.4,ease:'power2.out'},17.9);
+FT('#big',{opacity:0,y:30,scale:.9},{opacity:1,y:0,scale:1,duration:.5,ease:'back.out(1.7)'},19.3);
+FT(S,{n:0},{n:172,duration:1.9,ease:'power1.inOut'},19.4);
+FT('#s4a',{opacity:0,y:26},{opacity:1,y:0,duration:.5,ease:'back.out(1.5)'},20.4);
+FT('#s4b',{opacity:0,y:26},{opacity:1,y:0,duration:.5,ease:'back.out(1.5)'},21.1);
+FT(TABS,{opacity:0,y:14},{opacity:1,y:0,duration:.3,ease:'back.out(2)',stagger:.04},21.05);
+
+/* ============ ADEGAN 5 (22-24): TOMBOL ============ */
+FT('#cta',{opacity:0,y:170,scale:.85},{opacity:1,y:0,scale:1,duration:.7,ease:'back.out(1.8)'},22.1);
+FT('#cta',{scale:1},{scale:1.03,duration:.5,ease:'sine.inOut',repeat:1,yoyo:true},23.0);
+tl.to({},{duration:.01},DUR);
+
+/* ============ RENDER ============ */
+const scene=$('#scene'), bld=$('#bld'), bn=$('#bign');
+const SHK=[[10.7,4],[12.0,4],[13.3,4],[14.6,4],[15.9,4],[17.2,15]];
+const ghost1=$('#g1'), pilK=$('#pilK');
+let lastN=-1;
+const READ={x:540,y:400}, ROT=[-5,4,-4,5,-3,3];
+const lerp=(a,b,u)=>a+(b-a)*u;
+function render(t){
+  let sh=0; SHK.forEach(([t0,A])=>{ const u=t-t0; if(u>0&&u<1.4) sh+=A*Math.exp(-5*u)*Math.sin(34*u); });
+  scene.style.transform=`translate(0px,${sh.toFixed(2)}px) scale(${S.cs.toFixed(4)})`;
+  const th=S.th+S.sw*Math.sin(t*2.7);
+  bld.style.transform=`rotate(${th.toFixed(3)}deg)`;
+  const tan=Math.tan(th*Math.PI/180);
+  P.forEach((p,i)=>{
+    const x=SLOT[i], yU=BTOP+(x-540)*tan, h=(GROUND-yU)*p.lc;
+    const c=COLEL[i]; c.style.top=(GROUND-h).toFixed(1)+'px'; c.style.height=Math.max(0,h).toFixed(1)+'px'; c.style.visibility=h>1?'visible':'hidden';
+    const d=DOCEL[i], en=p.en, fl=p.fl;
+    const cx=lerp(READ.x+(1-en)*1100, x, fl), cy=lerp(READ.y, 1128, fl), s=lerp(1,.17,fl), r=lerp((1-en)*9, ROT[i], fl);
+    d.style.transform=`translate(${(cx-540).toFixed(1)}px,${(cy-0).toFixed(1)}px) rotate(${r.toFixed(2)}deg) scale(${s.toFixed(4)})`;
+    d.style.left='540px'; d.style.top='0px';
+  });
+  const kn=S.kn; pilK.setAttribute('transform',`translate(${(620*kn).toFixed(2)} ${(-80*kn).toFixed(2)}) rotate(${(70*kn).toFixed(2)} 540 1190)`); pilK.style.opacity=(1-kn).toFixed(3);
+  ghost1.style.transform=`translate(${(-30*Math.sin(t*.25)).toFixed(1)}px,${(14*Math.cos(t*.3)).toFixed(1)}px)`;
+  const n=Math.round(S.n);
+  if(n!==lastN){ bn.textContent=n; for(let k=0;k<172;k++)CELLS[k].style.opacity=k<n?1:0; lastN=n; }
+}
+
+/* ============ PEREKAT ============ */
+const stage=$('#stage');
+const fit=()=>{ const sc=Math.min(innerWidth/W,innerHeight/H); stage.style.transform=`translate(-50%,-50%) scale(${sc})`; };
+addEventListener('resize',fit); fit();
+const clock=$('#clock'),scrub=$('#scrub'),btn=$('#btn-play'); let scrubbing=false;
+(function frame(){ const t=tl.time(); render(t); clock.textContent=t.toFixed(2)+'s'; if(!scrubbing)scrub.value=String(t/DUR*1000); requestAnimationFrame(frame); })();
+const toggle=()=>{ if(tl.paused()||tl.progress()>=1){ if(tl.progress()>=1)tl.progress(0); tl.play(); btn.textContent='Pause'; } else { tl.pause(); btn.textContent='Play'; } };
+btn.onclick=toggle; $('#btn-restart').onclick=()=>{ tl.pause(0); tl.play(); btn.textContent='Pause'; };
+scrub.addEventListener('pointerdown',()=>{scrubbing=true;tl.pause();btn.textContent='Play';});
+addEventListener('pointerup',()=>scrubbing=false);
+scrub.addEventListener('input',()=>{tl.pause();tl.time(scrub.value/1000*DUR);});
+addEventListener('keydown',e=>{ if(e.code==='Space'){e.preventDefault();toggle();} if(/^[rR]$/.test(e.key)){tl.pause(0);tl.play();} if(/^[hH]$/.test(e.key))$('#ui').classList.toggle('on'); });
+if(Q.has('debug'))$('#ui').classList.add('on');
+tl.eventCallback('onComplete',()=>{tl.play(0);});
+const seek=t=>{ tl.pause(); tl.time(t,false); if(gsap.ticker.tick)gsap.ticker.tick(); render(t); };
+window.OPENER={W,H,DURATION:DUR,tl,seek,ready:false};
+Promise.all(['800 100px "Barlow Condensed"','700 40px "Barlow Condensed"','600 30px "Barlow"','500 30px "Barlow"'].map(f=>document.fonts.load(f)))
+  .then(()=>document.fonts.ready).then(()=>{ window.OPENER.ready=true; if(!Q.has('clean'))tl.play(0); });
+</script>
+</body>
+</html>
