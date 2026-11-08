@@ -1,13 +1,14 @@
 Ketua yayasan, <break time="0.3s" />
 kalau Bapak berhenti besok, <break time="0.3s" />
-siapa yang tahu aturannya? <break time="2.2s" />
+siapa yang tahu aturannya? <break time="1.4s" />
 Yayasan sedang berdiri di atas satu orang. <break time="0.6s" />
-Matriks kewenangan. <break time="0.2s" />
-Berita acara rapat. <break time="0.2s" />
-Form aset. <break time="0.2s" />
-Panduan sisa lebih. <break time="0.2s" />
-Excel keuangan. <break time="0.2s" />
-Excel pemantauan. <break time="0.6s" />
-Seratus tujuh puluh dua dokumen, <break time="0.3s" />
-empat belas kategori. <break time="0.6s" />
-Tuliskan aturan yayasan sebelum besok.
+Aturan itu harus tertulis. <break time="0.4s" />
+Mulai dari wewenang. <break time="0.15s" />
+Lalu keputusan rapat. <break time="0.15s" />
+Aset yang tercatat. <break time="0.15s" />
+Cara memakai sisa lebih. <break time="0.15s" />
+Lalu Excel laporan keuangan, <break time="0.15s" />
+dan pemantauan sisa lebih. <break time="0.4s" />
+Itu pondasinya. <break time="0.5s" />
+Totalnya seratus tujuh puluh dua dokumen. <break time="0.4s" />
+Jadi, tuliskan aturan yayasan sebelum besok.
