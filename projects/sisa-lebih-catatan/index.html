@@ -80,6 +80,8 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var
 
 #fieldTeal{position:absolute;inset:0;background:var(--teal);clip-path:circle(0px at 50% 50%);pointer-events:none}
 
+#snd{position:fixed;right:14px;bottom:14px;z-index:60;background:rgba(12,42,48,.92);color:#FFF9E6;border:2px solid #F5C84B;border-radius:24px;padding:10px 18px;font:600 15px var(--disp);cursor:pointer}
+#snd.on{background:#F5C84B;color:#0C2A30}
 #ui{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);display:none;align-items:center;gap:12px;padding:9px 14px;border-radius:12px;background:rgba(14,16,22,.9);font:13px var(--disp);color:#A0A6B4;z-index:50}
 #ui.on{display:flex} #ui button{background:#262A34;color:#fff;border:0;padding:6px 12px;border-radius:8px;font:inherit;cursor:pointer}
 #scrub{width:320px} #clock{font-variant-numeric:tabular-nums;min-width:5ch;text-align:right}
@@ -134,6 +136,8 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var
   <div id="fieldTeal"></div>
 </div>
 
+<audio id="vo" src="audio/vo.mp3" preload="auto"></audio>
+<button id="snd" aria-label="Putar dengan suara">&#9654;&#xFE0E; Dengan suara</button>
 <div id="ui"><button id="btn-play">Pause</button><button id="btn-restart">Restart</button>
   <input id="scrub" type="range" min="0" max="1000" value="0"><span id="clock">0.00s</span></div>
 
@@ -185,60 +189,64 @@ const check=(id,at)=>{ const ic=$(id), bg=$('.bgc',ic), p=$('path',ic);
   tl.fromTo(p,{strokeDashoffset:70},{strokeDashoffset:0,duration:.25,ease:'power2.out',immediateRender:false},at+.1); };
 tl.set('#ck1 .bgc,#ck2 .bgc,#ck3 .bgc',{opacity:0},0);
 
-/* ======== ADEGAN 1 (0-3,4) TANYA ======== */
-shot(0,3.2,1.04,540,650,'sine.inOut');
-pop('#chip',.1,{from:{scale:.9,y:-14},dur:.35});
-type('hd',.5,2.5);
-stab('#mk1',2.1,.4);
-tl.fromTo('#hd',{scale:1},{scale:1.035,duration:.12,ease:'power3.out',transformOrigin:'0 50%',immediateRender:false},2.98);   // hentak "nol"
-tl.fromTo('#hd',{scale:1.035},{scale:1,duration:.25,ease:'power2.inOut',immediateRender:false},3.1);
+/* ===== WAKTU DARI AUDIO (audio/timing.json): hook 0,13-3,32 · "Surat tidak dikirim" 3,51-4,83 · "sisa lebih tidak dicatat" 5,03-6,29
+   "laporan tidak ada" 6,49-7,60 · "Satu surat tidak dikirim, surplus jadi tagihan" 7,80-10,43 (koma ±9,2)
+   "Panduan, surat, dan Excel hitung mundur" 10,63-12,96 · "Mendesak!" 13,15-13,75 · "Ambil Excel-nya" 13,95-14,58 ===== */
 
-/* ======== ADEGAN 2 (3,4-8,4) TIGA MASALAH ======== */
-shot(3.3,.6,1.0,540,860);
-shot(3.9,4.3,1.07,540,960,'sine.inOut');
-type('i1',3.4,1.5); check('#ck1',5.0);
-type('i2',5.0,1.9); stab('#mk2',6.95,.4); check('#ck2',7.0);
-type('i3',7.0,1.25); check('#ck3',8.3);
+/* ======== ADEGAN 1 (0-3,3) TANYA ======== */
+shot(0,3.3,1.04,540,650,'sine.inOut');
+pop('#chip',.0,{from:{scale:.9,y:-14},dur:.3});
+type('hd',.2,2.95);
+stab('#mk1',1.4,.5);
+tl.fromTo('#hd',{scale:1},{scale:1.035,duration:.12,ease:'power3.out',transformOrigin:'0 50%',immediateRender:false},3.08);   // hentak "nol"
+tl.fromTo('#hd',{scale:1.035},{scale:1,duration:.25,ease:'power2.inOut',immediateRender:false},3.2);
 
-/* ======== ADEGAN 3 (8,4-10,2) PERSAMAAN ======== */
-shot(8.4,.55,1.1,540,1060,'power3.inOut');
-tl.fromTo('.eqico',{opacity:0,scale:.6},{opacity:1,scale:1,duration:.3,ease:'back.out(2)',immediateRender:false},8.45);
-type('ea',8.5,.6);
+/* ======== ADEGAN 2 (3,3-7,7) TIGA MASALAH ======== */
+shot(3.25,.5,1.0,540,860);
+shot(3.75,3.9,1.07,540,960,'sine.inOut');
+type('i1',3.5,1.3); check('#ck1',4.85);
+type('i2',5.0,1.3); stab('#mk2',6.2,.35); check('#ck2',6.4);
+type('i3',6.5,1.1); check('#ck3',7.65);
+
+/* ======== ADEGAN 3 (7,7-10,4) PERSAMAAN ======== */
+shot(7.7,.5,1.1,540,1060,'power3.inOut');
+tl.fromTo('.eqico',{opacity:0,scale:.6},{opacity:1,scale:1,duration:.3,ease:'back.out(2)',immediateRender:false},7.7);
+type('ea',7.8,1.3);
 tl.fromTo('#eqBox',{opacity:0,scale:2.6},{opacity:1,scale:1,duration:.2,ease:'power4.in',immediateRender:false},9.1);
 tl.fromTo('#eq',{x:0,y:0},{x:-8,y:6,duration:.05,yoyo:true,repeat:3,ease:'none',immediateRender:false},9.3);   // hentak
 tl.fromTo('#icoA',{opacity:1,rotationY:0},{opacity:0,rotationY:90,duration:.18,ease:'power2.in',immediateRender:false},9.15);
 tl.fromTo('#icoB',{opacity:0,rotationY:-90},{opacity:1,rotationY:0,duration:.22,ease:'power2.out',immediateRender:false},9.33);
-type('eb',9.3,.5);
+type('eb',9.25,.75);
 /* tanda "=" membesar jadi medan teal; medan lalu naik membuka Excel */
-tl.fromTo(S,{iris:0},{iris:1,duration:.4,ease:'power3.in',immediateRender:false},9.6);
-cut(10.0,1.0,540,Y4(675));
-tl.set('#r1',{autoAlpha:0},10.0); tl.set('#r4',{autoAlpha:1},10.0);
-tl.fromTo('#fieldTeal',{y:0},{y:'-101%',duration:.5,ease:'power3.inOut',immediateRender:false},10.05);
+tl.fromTo(S,{iris:0},{iris:1,duration:.35,ease:'power3.in',immediateRender:false},10.05);
+cut(10.45,1.0,540,Y4(675));
+tl.set('#r1',{autoAlpha:0},10.45); tl.set('#r4',{autoAlpha:1},10.45);
+tl.fromTo('#fieldTeal',{y:0},{y:'-101%',duration:.45,ease:'power3.inOut',immediateRender:false},10.5);
 
-/* ======== ADEGAN 4 (10,2-12,6) JAWABAN ======== */
-shot(10.1,2.4,1.06,540,Y4(690),'sine.inOut');
-tl.fromTo('#xw',{opacity:0,y:200},{opacity:1,y:0,duration:.55,ease:'power3.out',immediateRender:false},10.12);
-type('pl',10.3,1.25);
-type('r1',10.7,.35); type('r2',11.05,.3); type('r3',11.35,.3); type('r4',11.65,.3);
-tl.fromTo(S,{sw:4},{sw:.3,duration:1.05,ease:'power3.inOut',immediateRender:false},11.15);
-tl.fromTo('#row21',{backgroundColor:'rgba(255,243,196,0)'},{backgroundColor:'rgba(255,243,196,1)',duration:.25,immediateRender:false},12.1);
+/* ======== ADEGAN 4 (10,45-13,3) JAWABAN ======== */
+shot(10.5,2.8,1.06,540,Y4(690),'sine.inOut');
+tl.fromTo('#xw',{opacity:0,y:200},{opacity:1,y:0,duration:.5,ease:'power3.out',immediateRender:false},10.52);
+type('pl',10.7,2.0);
+type('r1',11.1,.4); type('r2',11.5,.35); type('r3',11.85,.35); type('r4',12.2,.35);
+tl.fromTo(S,{sw:4},{sw:.3,duration:.85,ease:'power3.inOut',immediateRender:false},12.3);   // "hitung mundur" 12,35-12,96
+tl.fromTo('#row21',{backgroundColor:'rgba(255,243,196,0)'},{backgroundColor:'rgba(255,243,196,1)',duration:.25,immediateRender:false},13.15);   // "Mendesak!"
 
-/* ======== ADEGAN 5 (12,6-15) AJAKAN ======== */
-shot(12.5,.7,.86,540,Y4(730),'power3.inOut');
-shot(13.2,1.8,.9,540,Y4(730),'sine.inOut');
-tl.fromTo(S,{ink:0},{ink:1,duration:.4,ease:'none',immediateRender:false},12.5);
-tl.fromTo('#pl',{color:'#0C2A30'},{color:'#FBF9F1',duration:.4,immediateRender:false},12.5);
-type('sa',12.75,.6);
-tl.fromTo(S,{n:0},{n:172,duration:.6,ease:'power2.out',immediateRender:false},13.35);
-type('sb',13.95,.4);
-pop('#btn',13.55,{from:{scale:.7,y:30},dur:.45,ease:'back.out(2.2)'});
+/* ======== ADEGAN 5 (13,3-15) AJAKAN ======== */
+shot(13.3,.6,.86,540,Y4(730),'power3.inOut');
+shot(13.9,1.1,.9,540,Y4(730),'sine.inOut');
+tl.fromTo(S,{ink:0},{ink:1,duration:.35,ease:'none',immediateRender:false},13.35);
+tl.fromTo('#pl',{color:'#0C2A30'},{color:'#FBF9F1',duration:.35,immediateRender:false},13.35);
+type('sa',13.45,.5);
+tl.fromTo(S,{n:0},{n:172,duration:.5,ease:'power2.out',immediateRender:false},13.95);
+type('sb',14.4,.35);
+pop('#btn',13.95,{from:{scale:.7,y:30},dur:.4,ease:'back.out(2.2)'});
 tl.to({},{duration:.01},DUR);
 
 /* ============ RENDER (fungsi murni dari t) ============ */
 const world=$('#world'), stage=$('#stage'), grid=$('#grid'), gridInk=$('#gridInk'), field=$('#fieldTeal'), eqBox=$('#eqBox'), bgInk=$('#bgInk');
 const cache={};
 const setText=(sel,v)=>{ if(cache[sel]!==v){ cache[sel]=v; $(sel).textContent=v; } };
-const CUR_ORDER=[[0,'hd'],[3.35,'i1'],[4.95,'i2'],[6.95,'i3'],[8.45,'ea'],[9.25,'eb'],[10.25,'pl'],[12.7,'sa'],[13.9,'sb']];
+const CUR_ORDER=[[0,'hd'],[3.5,'i1'],[5.0,'i2'],[6.5,'i3'],[7.8,'ea'],[9.25,'eb'],[10.7,'pl'],[13.45,'sa'],[14.4,'sb']];
 function reveal(key){ const b=B[key], n=Math.round(S[key]||0); if(n===b.n) return; const lo=Math.min(n,b.n), hi=Math.max(n,b.n);
   for(let i=lo;i<hi;i++) b.chars[i].style.visibility=(i<n)?'visible':'hidden'; b.n=n; }
 function render(t){
@@ -279,7 +287,13 @@ addEventListener('pointerup',()=>scrubbing=false);
 scrub.addEventListener('input',()=>{tl.pause();tl.time(scrub.value/1000*DUR);});
 addEventListener('keydown',e=>{ if(e.code==='Space'){e.preventDefault();toggle();} if(/^[rR]$/.test(e.key)){tl.pause(0);tl.play();} if(/^[hH]$/.test(e.key))$('#ui').classList.toggle('on'); });
 if(Q.has('debug'))$('#ui').classList.add('on');
-tl.eventCallback('onComplete',()=>{tl.play(0);});
+const vo=$('#vo'), snd=$('#snd'); let soundOn=false;
+if(Q.has('clean')) snd.style.display='none';
+const setSound=on=>{ soundOn=on; snd.classList.toggle('on',on); snd.innerHTML=on?'&#9632;&#xFE0E; Suara menyala':'&#9654;&#xFE0E; Dengan suara';
+  if(on){ vo.currentTime=Math.min(tl.time(),vo.duration||15); const p=vo.play(); if(p&&p.catch)p.catch(()=>setSound(false)); } else vo.pause(); };
+snd.onclick=()=>{ if(!soundOn){ if(tl.paused()||tl.progress()>=1){ tl.pause(0); tl.play(); btn.textContent='Pause'; } } setSound(!soundOn); };
+(function sync(){ if(soundOn&&!tl.paused()&&Math.abs(vo.currentTime-tl.time())>.1) vo.currentTime=tl.time(); requestAnimationFrame(sync); })();
+tl.eventCallback('onComplete',()=>{ tl.play(0); if(soundOn){ vo.currentTime=0; vo.play().catch(()=>{}); } });
 const seek=t=>{ tl.pause(); tl.time(t,false); if(gsap.ticker.tick)gsap.ticker.tick(); render(t); };
 window.OPENER={W,H,DURATION:DUR,tl,seek,ready:false};
 Promise.all(['800 78px Epilogue','600 42px Epilogue','700 24px "JetBrains Mono"','500 24px "JetBrains Mono"'].map(f=>document.fonts.load(f)))
