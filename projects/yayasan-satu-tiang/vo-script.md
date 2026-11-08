@@ -53,7 +53,7 @@ Versi 1 loncat. Setelah headline dan sub-headline, VO langsung menyebut "Matriks
 | 6,0 | 28.2 dtk |
 | 6,2 (rekaman organ yayasanmu) | 27.5 dtk |
 
-Video sekarang 24 detik, jadi **akan kuperpanjang jadi ±27–29 detik** supaya visual mengikuti suara. Batas Meta Ads di brief ini 30 detik. Kalau audio melewati 30 detik, pasang Speed 1,05–1,1 di ElevenLabs.
+Video sekarang 24 detik, jadi **akan kuperpanjang jadi ±28–30 detik** supaya visual mengikuti suara. Batas Meta Ads di brief ini 30 detik. Kalau audio melewati 30 detik, pasang Speed 1,05–1,1 di ElevenLabs.
 
 Bagian yang kuperpanjang: adegan 2 (jembatan "Aturan itu harus tertulis" butuh sekitar 1,7 detik) dan adegan 3 (tiap halaman dapat frasa sendiri).
 
