@@ -5,7 +5,7 @@
 <title>Yayasan Satu Tiang</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <!--
-  PROMO META ADS 4:5 (1080x1350), 24 detik, tanpa audio, loop.
+  PROMO META ADS 4:5 (1080x1350), 26,3 detik, mengikuti audio/vo.mp3 (ElevenLabs), loop.
   Dikembangkan dari kreatif pemenang "KETUA YAYASAN, KALAU BAPAK BERHENTI BESOK, SIAPA YANG TAHU ATURANNYA?"
   Naskah: naskah.md · Style brief: style-brief.md
   Konsep: bangunan di atas satu tiang (Ketua) -> enam dokumen jadi pondasi -> 172 dokumen -> tombol.
@@ -106,6 +106,8 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var
   font:800 44px var(--cond);white-space:nowrap;text-transform:uppercase;letter-spacing:.025em;opacity:0;box-shadow:0 10px 0 #B8902A,0 24px 40px rgba(0,0,0,.5)}
 #cta svg{width:46px;height:46px;flex:none}
 
+#snd{position:fixed;right:14px;bottom:14px;z-index:60;background:rgba(10,21,23,.92);color:#FFF9E6;border:2px solid #F5C84B;border-radius:24px;padding:10px 18px;font:600 15px var(--ui);cursor:pointer}
+#snd.on{background:#F5C84B;color:#0A1517}
 #ui{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);display:none;align-items:center;gap:12px;padding:9px 14px;border-radius:12px;background:rgba(14,16,22,.9);font:13px var(--ui);color:#A0A6B4;z-index:50}
 #ui.on{display:flex} #ui button{background:#262A34;color:#fff;border:0;padding:6px 12px;border-radius:8px;font:inherit;cursor:pointer}
 #scrub{width:320px} #clock{font-variant-numeric:tabular-nums;min-width:5ch;text-align:right}
@@ -166,13 +168,15 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var
       <svg viewBox="0 0 54 54" fill="none" stroke="#0A1517" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 27h36M30 11l16 16-16 16"/></svg></div>
   </div>
 </div>
+<audio id="vo" src="audio/vo.mp3" preload="auto"></audio>
+<button id="snd" aria-label="Putar dengan suara">&#9654;&#xFE0E; Dengan suara</button>
 <div id="ui"><button id="btn-play">Pause</button><button id="btn-restart">Restart</button>
   <input type="range" id="scrub" min="0" max="1000" value="0"><span id="clock">0.00s</span></div>
 
 <script>
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const Q=new URLSearchParams(location.search);
-const W=1080,H=1350,DUR=24,GROUND=1190,BTOP=1000;
+const W=1080,H=1350,DUR=26.3,GROUND=1190,BTOP=1000;
 const SPRING='elastic.out(1,0.45)';
 const tl=gsap.timeline({paused:true});
 const FT=(tg,f,t,at)=>tl.fromTo(tg,f,Object.assign({immediateRender:false},t),at);
@@ -181,7 +185,9 @@ const FT=(tg,f,t,at)=>tl.fromTo(tg,f,Object.assign({immediateRender:false},t),at
 const S={th:0,sw:0,cs:1,n:0,kn:0};
 const P=[0,1,2,3,4,5].map(()=>({en:0,fl:0,lc:0}));
 const SLOT=[421,659,318,762,215,865];       /* urutan mendarat: kiri-tiang, kanan-tiang, ... */
-const LAND=[10.7,12.0,13.3,14.6,15.9,17.2];  /* detik halaman k mendarat */
+const ENTER=[9.50,10.95,12.55,14.05,15.85,18.05];   /* halaman k masuk (0,25 dtk sebelum frasanya) */
+const FLY=[10.72,12.33,13.74,15.65,17.93,19.79];   /* mulai terbang ke kolom (frasa selesai) */
+const LAND=FLY.map(x=>+(x+.4).toFixed(2));         /* mendarat */
 const TH0=8;                                  /* kemiringan awal (derajat) */
 
 /* ============ BANGUNAN ============ */
@@ -272,43 +278,51 @@ const WH=['#h1','#h2','#h3'].map(s=>words($(s))), WB=words($('#bub')), WL=words(
 const wordsIn=(ws,at,o={})=>FT(ws,{opacity:0,y:o.y??34},{opacity:1,y:0,duration:o.dur??.5,ease:o.ease??'back.out(1.6)',stagger:o.st??.08},at);
 const fadeOut=(sel,at,d=.35,y=-26)=>FT(sel,{opacity:1,y:0},{opacity:0,y:y,duration:d,ease:'power2.in'},at);
 
-/* ============ ADEGAN 1 (0-5): PERTANYAAN ============ */
+/* ===== WAKTU DARI AUDIO (audio/vo.mp3, diukur: silencedetect + Whisper) =====
+   "Ketua yayasan," 0,00-0,96 · "kalau Bapak berhenti besok," 1,33-2,74 · "siapa yang tahu aturannya?" 3,05-4,39
+   "Yayasan sedang berdiri di atas satu orang." 4,81-7,25 · "Aturan itu harus tertulis." 7,63-9,50
+   "Mulai dari wewenang." 9,78-10,94 · "Lalu keputusan rapat." 11,21-12,55 · "Aset yang tercatat." 12,85-13,96 · "Cara memakai sisa lebih." 14,31-15,87
+   "Lalu, Excel laporan keuangan" 16,09-18,15 · "dan pemantauan sisa lebih." 18,30-20,01 · "Itu pondasinya." 20,32-21,29
+   "Totalnya seratus tujuh puluh dua dokumen." 21,57-24,07 · "Dapatkan sekarang." 24,39-25,63 */
+
+/* ============ ADEGAN 1 (0-4,6): PERTANYAAN ============ */
 FL.forEach((F,f)=>FT(F.g,{y:-460,opacity:0},{y:0,opacity:1,duration:.95,ease:'bounce.out'},.05+.14*f));
 FT('#pil',{y:60,opacity:0},{y:0,opacity:1,duration:.5,ease:'power3.out'},0);
 FT('#g1',{opacity:0,x:60},{opacity:1,x:0,duration:1.4,ease:'power2.out'},.2);
-wordsIn(WH[0],.3,{st:.12,dur:.55}); wordsIn(WH[1],1.3,{st:.11,dur:.55}); wordsIn(WH[2],2.8,{st:.1,dur:.6,ease:'back.out(1.9)'});
-/* plakat meredup, tiang menipis, tanda tanya */
-FT('#plaque',{opacity:1},{opacity:.3,duration:.8,ease:'power2.inOut'},3.4);
+wordsIn(WH[0],.04,{st:.12,dur:.5}); wordsIn(WH[1],1.3,{st:.11,dur:.5}); wordsIn(WH[2],3.02,{st:.1,dur:.55,ease:'back.out(1.9)'});
+FT('#plaque',{opacity:1},{opacity:.3,duration:.8,ease:'power2.inOut'},3.5);
 FT('#pilbody',{scaleX:1,svgOrigin:'540 1100'},{scaleX:.62,svgOrigin:'540 1100',duration:.9,ease:'power2.inOut'},3.6);
-FT('#q',{opacity:0,y:50,scale:.5,rotation:-14},{opacity:1,y:0,scale:1,rotation:8,duration:.7,ease:'back.out(2.2)'},3.9);
-FT('#q',{y:0},{y:-14,duration:.6,ease:'sine.inOut',repeat:1,yoyo:true},4.6);
+FT('#q',{opacity:0,y:50,scale:.5,rotation:-14},{opacity:1,y:0,scale:1,rotation:8,duration:.6,ease:'back.out(2.2)'},3.95);
 FT('#spot',{opacity:.85},{opacity:.55,duration:1.2,ease:'sine.inOut'},3.6);
 
-/* ============ ADEGAN 2 (5-9,5): RISIKO ============ */
-fadeOut('#hl',4.75,.4); fadeOut('#q',4.85,.3,10);
-FT('#bub',{opacity:0,scale:.55,y:40,rotation:-6},{opacity:1,scale:1,y:0,rotation:-1.4,duration:.6,ease:'back.out(1.8)'},5.1);
-wordsIn(WB,5.25,{st:.1,dur:.45,y:20});
-wordsIn(WL,7.0,{st:.12,dur:.5,y:30});
-FT(S,{th:0},{th:TH0,duration:1.4,ease:'elastic.out(1,0.38)'},6.9);
-FT(S,{sw:0},{sw:.55,duration:1,ease:'power1.inOut'},7.9);
-FT('#pilF',{fill:'#3A5258'},{fill:'#F5C84B',duration:.4,ease:'power2.out'},7.35);
-FT('#pilS',{fill:'#1C2F34'},{fill:'#B8902A',duration:.4,ease:'power2.out'},7.35);
-FT('#pilbody',{scaleX:.62,svgOrigin:'540 1100'},{scaleX:1,svgOrigin:'540 1100',duration:.5,ease:'back.out(2)'},7.35);
-FT('#plaque',{opacity:.3},{opacity:1,duration:.4},7.35);
-FT('#badge',{opacity:0,scale:.3,rotation:-20},{opacity:1,scale:1,rotation:0,duration:.6,ease:'back.out(2.4)'},7.5);
-fadeOut('#bub',9.1,.35); fadeOut('#l2',9.1,.35); fadeOut('#g1',9.1,.4,0); FT('#badge',{opacity:1,y:0,scale:1},{opacity:0,y:-20,duration:.3,ease:'power2.in'},9.1);
+/* ============ ADEGAN 2 (4,5-8,3): RISIKO ============ */
+fadeOut('#hl',4.5,.35); fadeOut('#q',4.55,.25,10);
+FT('#bub',{opacity:0,scale:.55,y:40,rotation:-6},{opacity:1,scale:1,y:0,rotation:-1.4,duration:.55,ease:'back.out(1.8)'},4.6);
+wordsIn(WB,4.7,{st:.07,dur:.4,y:20});
+wordsIn(WL,4.85,{st:.3,dur:.5,y:30});
+FT(S,{th:0},{th:TH0,duration:1.4,ease:'elastic.out(1,0.38)'},6.2);
+FT(S,{sw:0},{sw:.55,duration:1,ease:'power1.inOut'},7.2);
+FT('#pilF',{fill:'#3A5258'},{fill:'#F5C84B',duration:.4,ease:'power2.out'},6.7);
+FT('#pilS',{fill:'#1C2F34'},{fill:'#B8902A',duration:.4,ease:'power2.out'},6.7);
+FT('#pilbody',{scaleX:.62,svgOrigin:'540 1100'},{scaleX:1,svgOrigin:'540 1100',duration:.5,ease:'back.out(2)'},6.7);
+FT('#plaque',{opacity:.3},{opacity:1,duration:.4},6.7);
+FT('#badge',{opacity:0,scale:.3,rotation:-20},{opacity:1,scale:1,rotation:0,duration:.6,ease:'back.out(2.4)'},6.85);
+/* jembatan "Aturan itu harus tertulis." (7,63-9,50): teks turun, kamera mendekat pelan ke bangunan miring */
+fadeOut('#bub',8.2,.35); fadeOut('#l2',8.2,.35); fadeOut('#g1',8.3,.4,0);
+FT('#badge',{opacity:1,y:0,scale:1},{opacity:0,y:-20,duration:.3,ease:'power2.in'},9.15);
+FT(S,{cs:1},{cs:1.05,duration:1.7,ease:'sine.inOut'},7.7);
+FT(S,{cs:1.05},{cs:1,duration:.5,ease:'power2.inOut'},9.4);
 
-/* ============ ADEGAN 3 (9,5-19): ENAM DOKUMEN JADI PONDASI ============ */
+/* ============ ADEGAN 3 (9,5-20,3): DOKUMEN JADI PONDASI, satu halaman per frasa ============ */
 const FLOORLIT={0:0,2:1,4:2,5:3};           /* halaman k menyalakan lantai f */
 const LIT={front:['#1D3F49','#0E7C86'],side:['#10272E','#095F68'],top:['#2C5560','#1796A2'],win:['#0E242B','#F5C84B']};
 DOCS.forEach((d,k)=>{
-  const a=9.5+1.3*k, L=LAND[k];
+  const a=ENTER[k], f=FLY[k], L=LAND[k];
   FT(P[k],{en:0},{en:1,duration:.55,ease:'back.out(1.25)'},a);
   FT(CAPEL[k],{opacity:0,y:18},{opacity:1,y:0,duration:.3,ease:'power2.out'},a+.2);
-  FT(CAPEL[k],{opacity:1},{opacity:0,duration:.2,ease:'power1.in'},a+.7);
-  FT(P[k],{fl:0},{fl:1,duration:.4,ease:'power3.in'},L-.4);
+  FT(CAPEL[k],{opacity:1},{opacity:0,duration:.2,ease:'power1.in'},f-.15);
+  FT(P[k],{fl:0},{fl:1,duration:.4,ease:'power3.in'},f);
   FT(P[k],{lc:0},{lc:1,duration:.55,ease:'elastic.out(1,0.5)'},L-.12);
-  /* tiap pendaratan: kemiringan turun satu langkah */
   const from=TH0*(1-k/6), to=TH0*(1-(k+1)/6);
   FT(S,{th:from},{th:to,duration:k===5?1.1:.6,ease:k===5?'elastic.out(1,0.35)':'power2.out'},L);
   if(k in FLOORLIT){
@@ -320,34 +334,33 @@ DOCS.forEach((d,k)=>{
     FT(F.wins,{fill:LIT.win[0]},{fill:LIT.win[1],duration:.35,ease:'power1.out',stagger:.035},L+.05);
   }
 });
-FT(S,{sw:.55},{sw:0,duration:1.4,ease:'power2.inOut'},16.4);
-/* momen istimewa: halaman keenam mendarat -> tiang KETUA tersingkir, sapuan cahaya */
-FT(S,{kn:0},{kn:1,duration:.85,ease:'power2.in'},17.25);
+FT(S,{sw:.55},{sw:0,duration:1.4,ease:'power2.inOut'},18.4);
+/* momen istimewa: halaman keenam mendarat ("Itu pondasinya.") -> tiang KETUA tersingkir, sapuan cahaya */
+FT(S,{kn:0},{kn:1,duration:.85,ease:'power2.in'},20.25);
+FT('#sweep',{opacity:0},{opacity:1,duration:.01},20.53);
+FT('#sweep',{x:-420},{x:1500,duration:1.1,ease:'power1.inOut'},20.55);
+FT('#spot',{opacity:.55},{opacity:1,duration:1.0,ease:'power2.out'},20.2);
 
-FT('#sweep',{x:-420,opacity:1},{x:1500,opacity:1,duration:1.1,ease:'power1.inOut'},17.6);
-FT('#sweep',{opacity:0},{opacity:1,duration:.01},17.58);
-FT('#spot',{opacity:.55},{opacity:1,duration:1.0,ease:'power2.out'},17.2);
+/* ============ ADEGAN 4 (21-24,3): ANGKA ("Totalnya seratus tujuh puluh dua dokumen.") ============ */
+FT('#g172',{opacity:0,x:-80},{opacity:1,x:0,duration:1.4,ease:'power2.out'},20.4);
+FT(S,{cs:1},{cs:.9,duration:1.2,ease:'power2.inOut'},21.0);
+FT('#docs',{opacity:1},{opacity:0,duration:.5,ease:'power1.in'},21.15);
+FT('#cols',{opacity:1},{opacity:0,duration:.5,ease:'power1.in'},21.4);
+FT('#plinth',{opacity:0},{opacity:1,duration:.5,ease:'power1.out'},21.2);
+FT('#big',{opacity:0,y:30,scale:.9},{opacity:1,y:0,scale:1,duration:.5,ease:'back.out(1.7)'},21.55);
+FT(S,{n:0},{n:172,duration:1.7,ease:'power1.inOut'},21.65);
+FT('#s4a',{opacity:0,y:26},{opacity:1,y:0,duration:.5,ease:'back.out(1.5)'},23.0);
+FT('#s4b',{opacity:0,y:26},{opacity:1,y:0,duration:.5,ease:'back.out(1.5)'},23.55);
+FT(TABS,{opacity:0,y:14},{opacity:1,y:0,duration:.3,ease:'back.out(2)',stagger:.04},23.4);
 
-/* ============ ADEGAN 4 (19-22): ANGKA ============ */
-FT(S,{cs:1},{cs:.9,duration:1.2,ease:'power2.inOut'},19.0);
-FT('#docs',{opacity:1},{opacity:0,duration:.5,ease:'power1.in'},19.15);
-FT('#cols',{opacity:1},{opacity:0,duration:.5,ease:'power1.in'},19.4);
-FT('#plinth',{opacity:0},{opacity:1,duration:.5,ease:'power1.out'},19.2);
-FT('#g172',{opacity:0,x:-80},{opacity:1,x:0,duration:1.4,ease:'power2.out'},17.9);
-FT('#big',{opacity:0,y:30,scale:.9},{opacity:1,y:0,scale:1,duration:.5,ease:'back.out(1.7)'},19.3);
-FT(S,{n:0},{n:172,duration:1.9,ease:'power1.inOut'},19.4);
-FT('#s4a',{opacity:0,y:26},{opacity:1,y:0,duration:.5,ease:'back.out(1.5)'},20.4);
-FT('#s4b',{opacity:0,y:26},{opacity:1,y:0,duration:.5,ease:'back.out(1.5)'},21.1);
-FT(TABS,{opacity:0,y:14},{opacity:1,y:0,duration:.3,ease:'back.out(2)',stagger:.04},21.05);
-
-/* ============ ADEGAN 5 (22-24): TOMBOL ============ */
-FT('#cta',{opacity:0,y:170,scale:.85},{opacity:1,y:0,scale:1,duration:.7,ease:'back.out(1.8)'},22.1);
-FT('#cta',{scale:1},{scale:1.03,duration:.5,ease:'sine.inOut',repeat:1,yoyo:true},23.0);
+/* ============ ADEGAN 5 (24,3-26,3): TOMBOL ("Dapatkan sekarang.") ============ */
+FT('#cta',{opacity:0,y:170,scale:.85},{opacity:1,y:0,scale:1,duration:.7,ease:'back.out(1.8)'},24.35);
+FT('#cta',{scale:1},{scale:1.03,duration:.5,ease:'sine.inOut',repeat:1,yoyo:true},25.2);
 tl.to({},{duration:.01},DUR);
 
 /* ============ RENDER ============ */
 const scene=$('#scene'), bld=$('#bld'), bn=$('#bign');
-const SHK=[[10.7,4],[12.0,4],[13.3,4],[14.6,4],[15.9,4],[17.2,15]];
+const SHK=LAND.map((t,i)=>[t,i===5?15:4]);
 const ghost1=$('#g1'), pilK=$('#pilK');
 let lastN=-1;
 const READ={x:540,y:400}, ROT=[-5,4,-4,5,-3,3];
@@ -385,7 +398,13 @@ addEventListener('pointerup',()=>scrubbing=false);
 scrub.addEventListener('input',()=>{tl.pause();tl.time(scrub.value/1000*DUR);});
 addEventListener('keydown',e=>{ if(e.code==='Space'){e.preventDefault();toggle();} if(/^[rR]$/.test(e.key)){tl.pause(0);tl.play();} if(/^[hH]$/.test(e.key))$('#ui').classList.toggle('on'); });
 if(Q.has('debug'))$('#ui').classList.add('on');
-tl.eventCallback('onComplete',()=>{tl.play(0);});
+const vo=$('#vo'), snd=$('#snd'); let soundOn=false;
+if(Q.has('clean')) snd.style.display='none';
+const setSound=on=>{ soundOn=on; snd.classList.toggle('on',on); snd.innerHTML=on?'&#9632;&#xFE0E; Suara menyala':'&#9654;&#xFE0E; Dengan suara';
+  if(on){ vo.currentTime=Math.min(tl.time(),vo.duration||DUR); const p=vo.play(); if(p&&p.catch)p.catch(()=>setSound(false)); } else vo.pause(); };
+snd.onclick=()=>{ if(!soundOn){ if(tl.paused()||tl.progress()>=1){ tl.pause(0); tl.play(); btn.textContent='Pause'; } } setSound(!soundOn); };
+(function sync(){ if(soundOn&&!tl.paused()&&Math.abs(vo.currentTime-tl.time())>.1) vo.currentTime=tl.time(); requestAnimationFrame(sync); })();
+tl.eventCallback('onComplete',()=>{ tl.play(0); if(soundOn){ vo.currentTime=0; vo.play().catch(()=>{}); } });
 const seek=t=>{ tl.pause(); tl.time(t,false); if(gsap.ticker.tick)gsap.ticker.tick(); render(t); };
 window.OPENER={W,H,DURATION:DUR,tl,seek,ready:false};
 Promise.all(['800 100px "Barlow Condensed"','700 40px "Barlow Condensed"','600 30px "Barlow"','500 30px "Barlow"'].map(f=>document.fonts.load(f)))

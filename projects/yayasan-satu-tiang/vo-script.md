@@ -85,3 +85,13 @@ Meleset ±10% tergantung suara. Kuukur ulang setelah audio ada.
 3. Tag `<break>` jalan di Multilingual v2, Turbo, dan Flash (maksimal 3 detik per tag). Kalau kamu pakai v4 dan tag itu ikut terbaca atau diabaikan, hapus semua tag. Jeda kuatur di pascaproduksi.
 
 Pengaturan awal: suara dewasa Indonesia yang tenang dan yakin, Stability 50–60, Similarity 75–80, Style rendah, Speed 1,0.
+
+## Hasil audio (diukur 8 Nov 2026)
+
+Berkas: `audio/vo.mp3` (ElevenLabs v4, 25,63 detik). Isinya persis naskah di atas, **kecuali dua hal**:
+- Tag `<break>` tidak dipakai (jeda 1,4 detik setelah pertanyaan tidak ada). Jeda antar kalimat cuma 0,2–0,4 detik.
+- Kalimat penutup terbaca **"Dapatkan sekarang."**, bukan "Jadi, tuliskan aturan yayasan sebelum besok."
+
+Batas kalimat (silencedetect + Whisper): "Ketua yayasan," 0,00–0,96 · "kalau Bapak berhenti besok," 1,33–2,74 · "siapa yang tahu aturannya?" 3,05–4,39 · "Yayasan sedang berdiri di atas satu orang." 4,81–7,25 · "Aturan itu harus tertulis." 7,63–9,50 · "Mulai dari wewenang." 9,78–10,94 · "Lalu keputusan rapat." 11,21–12,55 · "Aset yang tercatat." 12,85–13,96 · "Cara memakai sisa lebih." 14,31–15,87 · "Lalu, Excel laporan keuangan" 16,09–18,15 · "dan pemantauan sisa lebih." 18,30–20,01 · "Itu pondasinya." 20,32–21,29 · "Totalnya seratus tujuh puluh dua dokumen." 21,57–24,07 · "Dapatkan sekarang." 24,39–25,63.
+
+Video jadi 26,3 detik, mengikuti audio.
