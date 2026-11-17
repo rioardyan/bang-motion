@@ -1,6 +1,6 @@
 # Naskah: Setiap organ yayasan punya pegangan kerja yang jelas, versi B "Tiga laci, tiga pegangan"
 
-Status: **draf**, CTA sudah dipilih, menunggu persetujuan perubahan teks.
+Status: **terkunci**.
 Sumber: iklan statis pemenang (lampiran pengguna). Proyek ini beda dari Estafet (proyek A, sudah dibuat) dan dari Satu Tiang.
 
 ## Keputusan
@@ -32,13 +32,13 @@ Sumber: iklan statis pemenang (lampiran pengguna). Proyek ini beda dari Estafet 
 | 19–22,5 | 5. Lengkap | Sub-headline (lihat catatan di bawah) | Tiga laci terbuka bersamaan, dokumen tersusun rapi. Angka kecil 12 · 15 · 10 di tiap laci. |
 | 22,5–24 | 6. Ajakan | Tombol "Lihat Sistem Kerjanya →" | Laci menutup satu per satu. Tombol naik dari meja. |
 
-## Catatan teks (menunggu persetujuan)
+## Teks yang dipakai (disetujui)
 
-Sub-headline asli: "Lengkapi dengan SOP, uraian tugas, alur keputusan, dan template dokumen yang sudah disusun."
-- "Lengkapi dengan ..." terbaca perintah, jiplakan "Complete with". Proyek Estafet memakai "Lengkap dengan ...".
-- Kata "template" dilarang di produk ini kecuali kamu minta persis. Proyek Estafet memakai "formulir serta berita acara".
+Sama seperti proyek Estafet, dua perubahan dari iklan asli:
+- "Lengkapi dengan ..." → **"Lengkap dengan ..."** (jiplakan "Complete with", terbaca sebagai perintah).
+- "template dokumen" → **"formulir serta berita acara"**; "template pengesahan" → **"format pengesahan"** (kata "template" dilarang di produk ini).
 
-Teks kartu: "template pengesahan" → "format pengesahan" (seperti Estafet).
+Sub-headline di video: "Lengkap dengan SOP, uraian tugas, alur keputusan, dan formulir serta berita acara yang sudah disusun." Selebihnya persis iklan asli: chip, headline, isi tiga kartu, judul tiga dokumen, CTA.
 
 ## Cek angka dan klaim
 
