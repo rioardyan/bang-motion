@@ -74,3 +74,20 @@ Video v1 24 detik. Video v2 mengikuti audio, jadi sekitar 27–30 detik. Batas 3
 Aku coba generate lewat konektor ElevenLabs, tapi ditolak: *"Unusual activity has been detected on your account, so Free Tier access has been disabled … upgrade to a paid subscription"*. Jadi generate manual di akunmu. Simpan hasilnya sebagai `vo/vo-laci.mp3` lalu kirim. Aku ukur batas kalimat (silencedetect + Whisper) dan kerjakan revisi.
 
 Pengaturan awal: Stability 50–60, Similarity 75–80, Style rendah.
+
+## Hasil audio (diukur 17 Nov 2026)
+
+Dua versi dari pengguna, keduanya model v4 dan membaca naskah dengan benar (tag jeda tidak terbaca keras):
+
+| | Bram | Finn |
+|---|---|---|
+| Berkas | `audio/vo-bram.mp3` | `audio/vo-finn.mp3` |
+| Durasi mentah | 31,0 dtk | 29,9 dtk |
+| "Tata Kelola Yayasan" | terpisah jelas | menempel ("tataklola yayasan") |
+| "uraian" | terbaca "urayan" | terbaca "urayan" |
+
+**Dipakai: Bram.** Nama produk lebih jelas, dan suaranya sama dengan audio proyek lain. Jeda antar kalimat yang 0,5–0,8 detik dipangkas jadi ±0,38 detik (suara tidak diubah): 31,0 → **29,78 detik**, jadi `audio/vo.mp3`. Finn tersimpan sebagai cadangan.
+
+Batas kalimat di `vo.mp3` (silencedetect + Whisper): "Setiap organ … jelas." 0,00–3,41 · "Pembina memegang …" 3,79–7,01 · "Pengurus memegang …" 7,39–10,78 · "Pengawas memegang …" 11,17–14,39 · "Semuanya sudah disusun lengkap." 14,77–16,64 · "Ini sistem Tata Kelola Yayasan," 17,02–19,09 · "seratus tujuh puluh dua dokumen dalam empat belas kategori." 19,39–22,78 · "Hasilnya," 23,16–23,83 · "tiap organ tahu tugasnya," 24,16–25,73 · "tiap keputusan," 26,09–26,97 · "ada pegangannya." 27,13–28,09 · "Dapatkan sekarang." 28,54–29,53.
+
+Video v2 = 30,0 detik (audio 29,78 + ekor 0,22).

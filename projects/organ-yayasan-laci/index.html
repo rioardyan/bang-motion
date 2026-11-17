@@ -5,7 +5,7 @@
 <title>Organ Yayasan Tiga Laci</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <!--
-  PROMO META ADS 4:5 (1080x1350), 24 detik, tanpa audio, loop.
+  PROMO META ADS 4:5 (1080x1350), 30 detik, mengikuti audio/vo.mp3 (ElevenLabs, suara Bram), loop.
   Dikembangkan dari iklan statis pemenang "Setiap organ yayasan punya pegangan kerja yang jelas."
   Naskah: naskah.md · Style brief: style-brief.md
   Konsep B: tiga laci, tiga pegangan. Satu kabinet arsip; tiap organ menarik pegangan lacinya sendiri.
@@ -86,6 +86,19 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var
 .rw .cb svg{width:30px;height:30px;opacity:0}
 .rw .two{flex:1;display:flex;flex-direction:column;gap:12px}
 .rw .two s{flex:none;height:12px} .rw .two s+s{width:60%}
+#pname{position:absolute;left:60px;top:54px;display:flex;align-items:center;gap:16px;padding:16px 32px 16px 22px;border-radius:16px;background:var(--teal2);color:var(--cream);font:700 40px var(--ui);letter-spacing:.02em;opacity:0}
+#pname i{width:20px;height:20px;border-radius:50%;background:var(--brass);display:block}
+#big{position:absolute;left:60px;top:136px;display:flex;align-items:baseline;gap:22px;opacity:0}
+#big b{font:800 184px/1 var(--serif);color:var(--teal);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+#big span{font:800 58px/1 var(--serif);color:var(--ink)}
+#s4a{position:absolute;left:62px;top:330px;font:600 40px/1.1 var(--ui);color:var(--ink);opacity:0}
+#s4a b{color:var(--teal);font-weight:700}
+#s4cap{position:absolute;left:0;width:1080px;top:378px;text-align:center;font:700 34px var(--ui);color:var(--ink);opacity:0}
+#outc{position:absolute;left:60px;top:96px;width:960px;font:800 74px/1.06 var(--serif);color:var(--ink);letter-spacing:-.012em}
+#outc .ln{display:block}
+.cat{position:absolute;top:478px;width:40px;height:40px;border-radius:6px 6px 0 0;background:var(--cream);color:var(--ink);font:800 22px/42px var(--serif);text-align:center;box-shadow:inset 0 0 0 2px rgba(27,42,46,.18);transform-origin:50% 100%}
+#snd{position:fixed;right:14px;bottom:14px;z-index:60;background:rgba(27,42,46,.92);color:#FFFBF0;border:2px solid #E3B23C;border-radius:24px;padding:10px 18px;font:600 15px var(--ui);cursor:pointer}
+#snd.on{background:#E3B23C;color:#1B2A2E}
 #sub{position:absolute;left:60px;top:64px;width:960px;font:600 50px/1.14 var(--ui);color:var(--ink)}
 #sub .ln{display:block}
 #sub .ln+.ln{margin-top:20px}
@@ -119,18 +132,28 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var
       <span class="ln" id="s1" data-t="Lengkap dengan SOP, uraian tugas,|alur keputusan,"></span>
       <span class="ln" id="s2" data-t="dan formulir serta berita acara|yang sudah disusun."></span>
     </div>
+    <div id="pname"><i></i>Sistem Tata Kelola Yayasan</div>
+    <div id="big"><b id="bign">0</b><span>dokumen</span></div>
+    <div id="s4a">148 Word + 24 Excel <b>berformula</b></div>
+    <div id="s4cap">14 kategori</div>
+    <div id="outc">
+      <span class="ln" id="o1" data-t="Tiap organ tahu tugasnya,"></span>
+      <span class="ln" id="o2" data-t="tiap keputusan ada|*pegangannya."></span>
+    </div>
     <div id="pnl"></div>
     <div id="docs"></div>
-    <div id="cta"><span>Lihat Sistem Kerjanya</span><i><svg viewBox="0 0 38 38" fill="none" stroke="#1B2A2E" stroke-width="5.500" stroke-linecap="round" stroke-linejoin="round"><path d="M6 19h26M21 8l11 11-11 11"/></svg></i></div>
+    <div id="cta"><span>Dapatkan Sekarang</span><i><svg viewBox="0 0 38 38" fill="none" stroke="#1B2A2E" stroke-width="5.500" stroke-linecap="round" stroke-linejoin="round"><path d="M6 19h26M21 8l11 11-11 11"/></svg></i></div>
   </div>
 </div>
+<audio id="vo" src="audio/vo.mp3" preload="auto"></audio>
+<button id="snd" aria-label="Putar dengan suara">&#9654;&#xFE0E; Dengan suara</button>
 <div id="ui"><button id="btn-play">Pause</button><button id="btn-restart">Restart</button>
   <input type="range" id="scrub" min="0" max="1000" value="0"><span id="clock">0.00s</span></div>
 
 <script>
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const Q=new URLSearchParams(location.search);
-const W=1080,H=1350,DUR=24;
+const W=1080,H=1350,DUR=30;
 const tl=gsap.timeline({paused:true});
 const FT=(tg,f,t,at)=>tl.fromTo(tg,f,Object.assign({immediateRender:false},t),at);
 
@@ -146,7 +169,7 @@ const ICON=[
  '<svg viewBox="0 0 46 46" fill="none" stroke="#FFF9E6" stroke-width="5" stroke-linecap="round"><circle cx="20" cy="20" r="11.500"/><path d="M29 29l11 11"/></svg>'];
 
 /* ============ STATE (fungsi murni dari t) ============ */
-const S={cs:1,cx:540,cy:675,ay:675,n1:0,n2:0,n3:0};
+const S={cs:1,cx:540,cy:675,ay:675,n1:0,n2:0,n3:0,cnt:0};
 const O=[{o:0},{o:0},{o:0}];                   /* laci terbuka 0..1 */
 const U=[{u:0},{u:0},{u:0}];                   /* dokumen terbit 0..1 */
 const CAMS={ov:{cs:1,cx:540,cy:675,ay:675},d0:{cs:1.12,cx:540,cy:677,ay:1030},d1:{cs:1.12,cx:540,cy:903,ay:1030},d2:{cs:1.12,cx:540,cy:1129,ay:1030},fin:{cs:.92,cx:540,cy:700,ay:640}};
@@ -182,75 +205,96 @@ for(let i=0;i<3;i++){
   ROWS.push($$('.rw',d));
 }
 
+/* 14 tab kategori A-N di atas kabinet (B, C, D = tiga laci tadi) */
+const CATS=[]; 'ABCDEFGHIJKLMN'.split('').forEach((ch,i)=>{ const e=document.createElement('div'); e.className='cat'; e.textContent=ch;
+  e.style.left=(224+i*45.9).toFixed(1)+'px'; if(i>=1&&i<=3){ e.style.background=COLV[i-1]; e.style.color='#fff'; } cab.appendChild(e); CATS.push(e); });
+
 /* teks per kata */
 function words(e){ e.innerHTML=e.dataset.t.split('|').map(l=>l.trim().split(/\s+/).map(w=>{ const em=w[0]==='*'; return `<span class="w${em?' em':''}">${em?w.slice(1):w}</span>`; }).join(' ')).join('<br>'); return $$('.w',e); }
-const H1=words($('#h1')), H2=words($('#h2')), S1=words($('#s1')), S2=words($('#s2'));
+const H1=words($('#h1')), H2=words($('#h2')), S1=words($('#s1')), S2=words($('#s2')), O1=words($('#o1')), O2=words($('#o2'));
 const LW_=PN.map(p=>$$('.ln',p).map(l=>{ const t=l.textContent; l.innerHTML=t.split(' ').map(w=>`<span class="w">${w}</span>`).join(' '); return $$('.w',l); }));
 const wordsIn=(ws,at,o={})=>FT(ws,{opacity:0,y:o.y??30},{opacity:1,y:0,duration:o.dur??.5,ease:o.ease??'back.out(1.6)',stagger:o.st??.08},at);
 const fadeOut=(sel,at,d=.35,y=-24)=>FT(sel,{opacity:1,y:0},{opacity:0,y:y,duration:d,ease:'power2.in'},at);
 
-/* tab folder tersembunyi sampai laci terbuka */
+/* ===== WAKTU DARI AUDIO (audio/vo.mp3 = Bram, jeda dipangkas; silencedetect + Whisper) =====
+   "Setiap organ yayasan punya pegangan kerja yang jelas." 0,00-3,41 · "Pembina memegang panduan rapat dan format pengesahan." 3,79-7,01
+   "Pengurus memegang uraian tugas dan alur persetujuan." 7,39-10,78 · "Pengawas memegang program pemeriksaan dan tindak lanjut." 11,17-14,39
+   "Semuanya sudah disusun lengkap." 14,77-16,64 · "Ini sistem Tata Kelola Yayasan," 17,02-19,09 · "seratus tujuh puluh dua dokumen dalam empat belas kategori." 19,39-22,78
+   "Hasilnya," 23,16-23,83 · "tiap organ tahu tugasnya," 24,16-25,73 · "tiap keputusan," 26,09-26,97 · "ada pegangannya." 27,13-28,09 · "Dapatkan sekarang." 28,54-29,53 */
+
+/* tab folder dan tab kategori tersembunyi sampai waktunya */
 DR.forEach(d=>tl.set(d.tabs,{y:56},0));
+tl.set(CATS,{scaleY:0},0);
 
-/* ============ ADEGAN 1 (0-4): JANJI ============ */
-FT('#cabBody,#cabTop,#cabBase,#fsh',{opacity:0,y:50},{opacity:1,y:0,duration:.7,ease:'power3.out'},0);
-DR.forEach((d,i)=>FT(d.dw,{opacity:0,y:40},{opacity:1,y:0,duration:.6,ease:'back.out(1.5)'},.15+.12*i));
-FT('#chip',{opacity:0,y:-26,scale:.92},{opacity:1,y:0,scale:1,duration:.5,ease:'back.out(1.7)'},.05);
-wordsIn(H1,.4,{st:.12,dur:.55});
-wordsIn(H2,1.6,{st:.1,dur:.6,ease:'back.out(1.8)'});
-DR.forEach((d,i)=>FT(d.glow,{opacity:0},{opacity:1,duration:.28,ease:'power2.out',repeat:1,yoyo:true},2.35+.55*i));
-fadeOut('#hl',3.45,.4); fadeOut('#chip',3.45,.4);
+/* ============ ADEGAN 1 (0-3,6): JANJI ============ */
+FT('#cabBody,#cabTop,#cabBase,#fsh',{opacity:0,y:50},{opacity:1,y:0,duration:.6,ease:'power3.out'},0);
+DR.forEach((d,i)=>FT(d.dw,{opacity:0,y:40},{opacity:1,y:0,duration:.55,ease:'back.out(1.5)'},.1+.1*i));
+FT('#chip',{opacity:0,y:-26,scale:.92},{opacity:1,y:0,scale:1,duration:.45,ease:'back.out(1.7)'},.0);
+wordsIn(H1,.04,{st:.24,dur:.5});
+wordsIn(H2,1.5,{st:.3,dur:.5,ease:'back.out(1.8)'});
+DR.forEach((d,i)=>FT(d.glow,{opacity:0},{opacity:1,duration:.26,ease:'power2.out',repeat:1,yoyo:true},2.0+.45*i));
+fadeOut('#hl',3.35,.35); fadeOut('#chip',3.35,.35);
 
-/* ============ ADEGAN 2-4 (4-19): SATU LACI, SATU ORGAN ============ */
+/* ============ ADEGAN 2-4 (3,2-14,4): SATU LACI, SATU ORGAN ============ */
+const VS=[3.79,7.39,11.17];                       /* awal kalimat tiap organ di audio */
 for(let k=0;k<3;k++){
-  const T=4+5*k;                                 /* awal adegan; kamera mulai T-0.4 */
-  cam('d'+k,T-.4,1.0);
-  FT(DR[k].glow,{opacity:0},{opacity:1,duration:.25,repeat:1,yoyo:true},T+.35);
-  FT(O[k],{o:0},{o:1,duration:.7,ease:'power4.out'},T+.7);
-  FT(DR[k].tabs,{y:56},{y:0,duration:.45,ease:'back.out(1.4)',stagger:.03},T+.8);
-  FT(PN[k],{opacity:0,x:-620},{opacity:1,x:0,duration:.65,ease:'back.out(1.35)'},T+.85);
-  FT(U[k],{u:0},{u:1,duration:.75,ease:'back.out(1.25)'},T+.95);
-  LW_[k].forEach((ws,j)=>wordsIn(ws,T+1.35+1.15*j,{st:.07,dur:.4,y:20}));
-  /* isi dokumen menyala satu per satu */
+  const v=VS[k];
+  cam('d'+k,v-.6,.85);
+  FT(DR[k].glow,{opacity:0},{opacity:1,duration:.22,repeat:1,yoyo:true},v-.2);
+  FT(O[k],{o:0},{o:1,duration:.55,ease:'power4.out'},v);
+  FT(DR[k].tabs,{y:56},{y:0,duration:.4,ease:'back.out(1.4)',stagger:.025},v+.1);
+  FT(PN[k],{opacity:0,x:-620},{opacity:1,x:0,duration:.6,ease:'back.out(1.35)'},v+.15);
+  FT(U[k],{u:0},{u:1,duration:.7,ease:'back.out(1.25)'},v+.25);
+  [.95,1.7,2.35].forEach((dt,j)=>wordsIn(LW_[k][j],v+dt,{st:.07,dur:.4,y:20}));
   ROWS[k].forEach((r,j)=>{
     const mk=$('.mk',r);
     const tint=['rgba(29,43,83,.11)','rgba(46,107,69,.12)','rgba(106,69,38,.12)'][k], tint0=tint.replace(/[\d.]+\)$/,'0)');
-    FT(r,{backgroundColor:tint0},{backgroundColor:tint,duration:.3,ease:'power2.out'},T+2.0+.45*j);
-    FT(mk,{opacity:0},{opacity:1,duration:.3},T+2.0+.45*j);
-    if(k===2){ const sv=$('.cb svg',r); FT(sv,{opacity:0,scale:.3},{opacity:1,scale:1,duration:.35,ease:'back.out(2.6)'},T+2.1+.45*j); }
+    const at=v+1.1+(k===2?.42:.34)*j;
+    FT(r,{backgroundColor:tint0},{backgroundColor:tint,duration:.3,ease:'power2.out'},at);
+    FT(mk,{opacity:0},{opacity:1,duration:.3},at);
+    if(k===2){ const sv=$('.cb svg',r); FT(sv,{opacity:0,scale:.3},{opacity:1,scale:1,duration:.35,ease:'back.out(2.6)'},at+.1); }
   });
-  /* keluar: dokumen kembali ke laci, laci menutup */
-  FT(U[k],{u:1},{u:0,duration:.45,ease:'power3.in'},T+4.0);
-  FT(PN[k],{opacity:1,y:0},{opacity:0,y:-30,duration:.35,ease:'power2.in'},T+4.05);
-  FT(O[k],{o:1},{o:0,duration:.5,ease:'power3.inOut'},T+4.2);
-  tl.set(DR[k].tabs,{y:56},T+4.75);            /* setel ulang sesudah laci tertutup */
+  FT(U[k],{u:1},{u:0,duration:.35,ease:'power3.in'},v+2.75);
+  FT(PN[k],{opacity:1,y:0},{opacity:0,y:-30,duration:.3,ease:'power2.in'},v+2.8);
+  FT(O[k],{o:1},{o:0,duration:.45,ease:'power3.inOut'},v+2.85);
+  tl.set(DR[k].tabs,{y:56},v+3.35);               /* setel ulang sesudah laci tertutup */
 }
 
-/* ============ ADEGAN 5 (18,6-22,4): LENGKAP ============ */
-cam('ov',18.6,1.0);
-FT(O[0],{o:0},{o:1,duration:.7,ease:'power4.out'},19.3);
-FT(O[1],{o:0},{o:1,duration:.7,ease:'power4.out'},19.45);
-FT(O[2],{o:0},{o:1,duration:.7,ease:'power4.out'},19.6);
+/* ============ ADEGAN 5 (14,2-16,7): "Semuanya sudah disusun lengkap." ============ */
+cam('ov',14.2,.75);
+[0,1,2].forEach(i=>FT(O[i],{o:0},{o:1,duration:.6,ease:'power4.out'},14.75+.12*i));
 DR.forEach((d,i)=>{
-  FT(d.tabs,{y:56},{y:0,duration:.4,ease:'back.out(1.4)',stagger:.025},19.55+.15*i);
-  FT(d.plate,{height:70},{height:98,duration:.3,ease:'power2.out'},19.9);
+  FT(d.tabs,{y:56},{y:0,duration:.4,ease:'back.out(1.4)',stagger:.025},14.85+.12*i);
+  FT(d.plate,{height:70},{height:98,duration:.3,ease:'power2.out'},15.1);
 });
-wordsIn(S1,19.2,{st:.08,dur:.5}); wordsIn(S2,21.0,{st:.08,dur:.5});
-FT(S,{n1:0},{n1:12,duration:1.2,ease:'power1.inOut'},19.9);
-FT(S,{n2:0},{n2:15,duration:1.2,ease:'power1.inOut'},19.9);
-FT(S,{n3:0},{n3:10,duration:1.2,ease:'power1.inOut'},19.9);
-fadeOut('#sub',22.35,.35);
+wordsIn(S1,14.85,{st:.1,dur:.45}); wordsIn(S2,15.75,{st:.1,dur:.45});
+FT(S,{n1:0},{n1:12,duration:1.1,ease:'power1.inOut'},15.2);
+FT(S,{n2:0},{n2:15,duration:1.1,ease:'power1.inOut'},15.2);
+FT(S,{n3:0},{n3:10,duration:1.1,ease:'power1.inOut'},15.2);
+fadeOut('#sub',16.7,.3);
 
-/* ============ ADEGAN 6 (22,4-24): AJAKAN ============ */
-[0,1,2].forEach(i=>FT(O[i],{o:1},{o:0,duration:.5,ease:'power3.inOut'},22.45+.12*i));
-cam('fin',22.6,.9);
-FT('#hl',{opacity:0,y:30},{opacity:1,y:0,duration:.5,ease:'power2.out'},22.55);
-FT('#cta',{opacity:0,y:260,scale:.9},{opacity:1,y:0,scale:1,duration:.75,ease:'back.out(1.7)'},23.0);
-FT('#cta',{scale:1},{scale:1.035,duration:.4,ease:'sine.inOut',repeat:1,yoyo:true},23.65);
+/* ============ ADEGAN 6 (16,7-23,9): PRODUK SEKILAS ============ */
+[0,1,2].forEach(i=>FT(O[i],{o:1},{o:0,duration:.45,ease:'power3.inOut'},16.7+.08*i));
+cam('fin',16.85,.9);
+FT('#pname',{opacity:0,y:-20},{opacity:1,y:0,duration:.45,ease:'back.out(1.6)'},17.05);
+FT('#big',{opacity:0,y:28,scale:.92},{opacity:1,y:0,scale:1,duration:.45,ease:'back.out(1.7)'},19.35);
+FT(S,{cnt:0},{cnt:172,duration:1.9,ease:'power1.inOut'},19.45);
+FT('#s4a',{opacity:0,y:22},{opacity:1,y:0,duration:.45,ease:'back.out(1.5)'},21.3);
+FT('#s4cap',{opacity:0,y:18},{opacity:1,y:0,duration:.4,ease:'power2.out'},21.7);
+FT(CATS,{scaleY:0},{scaleY:1,duration:.35,ease:'back.out(2)',stagger:.05},21.75);
+['#pname','#big','#s4a','#s4cap'].forEach(sel=>fadeOut(sel,23.85,.3,-18));
+
+/* ============ ADEGAN 7 (23,9-30): HASIL + AJAKAN ============ */
+wordsIn(O1,24.1,{st:.28,dur:.5});
+wordsIn(O2,26.05,{st:.3,dur:.5});
+DR.forEach((d,i)=>FT(d.glow,{opacity:0},{opacity:1,duration:.25,repeat:1,yoyo:true},27.15+.35*i));
+[1,2,3].forEach((c,i)=>FT(CATS[c],{y:0},{y:-10,duration:.22,ease:'power2.out',repeat:1,yoyo:true},27.15+.35*i));
+FT('#cta',{opacity:0,y:260,scale:.9},{opacity:1,y:0,scale:1,duration:.7,ease:'back.out(1.7)'},28.4);
+FT('#cta',{scale:1},{scale:1.035,duration:.4,ease:'sine.inOut',repeat:1,yoyo:true},29.2);
 tl.to({},{duration:.01},DUR);
 
 /* ============ RENDER ============ */
-const world=$('#world'), win=$('#win');
+const world=$('#world'), win=$('#win'), bign=$('#bign'); let lastCnt=-1;
 const lerp=(a,b,u)=>a+(b-a)*u;
 const ORG={x:540,y:1030-60*1.12}, READ={x:790,y:372};
 const CNTSET=[0,0,0];
@@ -265,6 +309,7 @@ function render(t){
     el.style.opacity=Math.max(0,Math.min(1,u*6)).toFixed(3);
     el.style.transform=`translate(${lerp(ORG.x,READ.x,u).toFixed(1)}px,${lerp(ORG.y,READ.y,u).toFixed(1)}px) rotate(${lerp(-8,2,u).toFixed(2)}deg) scale(${lerp(.2,1,u).toFixed(4)})`;
   });
+  const cn=Math.round(S.cnt); if(cn!==lastCnt){ bign.textContent=cn; lastCnt=cn; }
   const ns=[S.n1,S.n2,S.n3];
   ns.forEach((v,i)=>{ const n=Math.round(v); if(n!==CNTSET[i]){ DR[i].pc.textContent=n+' dokumen'; CNTSET[i]=n; } });
   /* label jumlah baru terlihat saat plat melebar (adegan 5) */
@@ -284,7 +329,13 @@ addEventListener('pointerup',()=>scrubbing=false);
 scrub.addEventListener('input',()=>{tl.pause();tl.time(scrub.value/1000*DUR);});
 addEventListener('keydown',e=>{ if(e.code==='Space'){e.preventDefault();toggle();} if(/^[rR]$/.test(e.key)){tl.pause(0);tl.play();} if(/^[hH]$/.test(e.key))$('#ui').classList.toggle('on'); });
 if(Q.has('debug'))$('#ui').classList.add('on');
-tl.eventCallback('onComplete',()=>{tl.play(0);});
+const vo=$('#vo'), snd=$('#snd'); let soundOn=false;
+if(Q.has('clean')) snd.style.display='none';
+const setSound=on=>{ soundOn=on; snd.classList.toggle('on',on); snd.innerHTML=on?'&#9632;&#xFE0E; Suara menyala':'&#9654;&#xFE0E; Dengan suara';
+  if(on){ vo.currentTime=Math.min(tl.time(),vo.duration||DUR); const p=vo.play(); if(p&&p.catch)p.catch(()=>setSound(false)); } else vo.pause(); };
+snd.onclick=()=>{ if(!soundOn){ if(tl.paused()||tl.progress()>=1){ tl.pause(0); tl.play(); btn.textContent='Pause'; } } setSound(!soundOn); };
+(function sync(){ if(soundOn&&!tl.paused()&&Math.abs(vo.currentTime-tl.time())>.1) vo.currentTime=tl.time(); requestAnimationFrame(sync); })();
+tl.eventCallback('onComplete',()=>{ tl.play(0); if(soundOn){ vo.currentTime=0; vo.play().catch(()=>{}); } });
 const seek=t=>{ tl.pause(); tl.time(t,false); if(gsap.ticker.tick)gsap.ticker.tick(); render(t); };
 window.OPENER={W,H,DURATION:DUR,tl,seek,ready:false};
 Promise.all(['800 90px "Fraunces"','700 40px "Fraunces"','700 30px "Figtree"','600 30px "Figtree"','500 30px "Figtree"'].map(f=>document.fonts.load(f)))
