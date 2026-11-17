@@ -1,6 +1,8 @@
-Setiap organ yayasan punya pegangan kerja yang jelas. <break time="0.6s" />
-Pembina memegang panduan rapat, mekanisme keputusan, dan format pengesahan. <break time="0.5s" />
-Pengurus memegang uraian tugas, es-o-pe kerja, dan alur persetujuan. <break time="0.5s" />
-Pengawas memegang program pemeriksaan, format laporan, dan mekanisme tindak lanjut. <break time="0.6s" />
-Semuanya lengkap dengan es-o-pe, uraian tugas, dan alur keputusan yang sudah disusun. <break time="0.6s" />
-Lihat sistem kerjanya.
+Setiap organ yayasan punya pegangan kerja yang jelas. [short pause]
+Pembina memegang panduan rapat dan format pengesahan. [short pause]
+Pengurus memegang uraian tugas dan alur persetujuan. [short pause]
+Pengawas memegang program pemeriksaan dan tindak lanjut. [pause]
+Semuanya sudah disusun lengkap. [short pause]
+Ini Sistem Tata Kelola Yayasan, seratus tujuh puluh dua dokumen dalam empat belas kategori. [pause]
+Hasilnya, tiap organ tahu tugasnya, tiap keputusan ada pegangannya. [pause]
+Dapatkan sekarang.

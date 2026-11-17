@@ -1,6 +1,6 @@
 # Naskah: Setiap organ yayasan punya pegangan kerja yang jelas, versi B "Tiga laci, tiga pegangan"
 
-Status: **revisi v2, draf**. Menunggu pilihan teks penutup. (v1 terkunci, sudah dibuat.)
+Status: **revisi v2 terkunci** (teks hasil dipilih). Menunggu audio. (v1 sudah dibuat.)
 Sumber: iklan statis pemenang (lampiran pengguna). Proyek ini beda dari Estafet (proyek A, sudah dibuat) dan dari Satu Tiang.
 
 ## Keputusan
@@ -9,6 +9,7 @@ Sumber: iklan statis pemenang (lampiran pengguna). Proyek ini beda dari Estafet 
 |---|---|
 | Konsep | B: tiga laci, tiga pegangan. Benda penghubung: satu kabinet arsip berlaci tiga. Kata "pegangan" dibuat harfiah. |
 | CTA | **"Dapatkan Sekarang"** (revisi v2; v1: "Lihat Sistem Kerjanya →") |
+| Teks hasil | "Tiap organ tahu tugasnya, tiap keputusan ada pegangannya." (dipilih pengguna) |
 | Rasio / durasi | 4:5 (1080×1350) / mengikuti audio, perkiraan 28–30 detik (v1: 24 detik) |
 | Audio / brand | Tanpa audio (VO terpisah bila diminta). Tanpa logo dan tanpa nama brand Ardya |
 | Kandidat tidak dipilih | A estafet (sudah dipakai di proyek lain), C rebutan lalu jalur jelas, D tur dokumen |
@@ -38,7 +39,7 @@ Sumber: iklan statis pemenang (lampiran pengguna). Proyek ini beda dari Estafet 
 | 4. Pengawas | Label PENGAWAS + "Program pemeriksaan, format laporan, dan mekanisme tindak lanjut." | Laci 3, Program Pengawasan. (tetap) |
 | 5. Lengkap | Sub-headline: "Lengkap dengan SOP, uraian tugas, alur keputusan, dan formulir serta berita acara yang sudah disusun." | Tiga laci terbuka serentak, angka 12 · 15 · 10. (tetap) |
 | **6. Produk (baru)** | Label kecil "Sistem Tata Kelola Yayasan". Angka **172 dokumen** menghitung naik. "148 Word + 24 Excel berformula". "14 kategori". | Laci menutup, kamera mundur. Empat belas tab A–N muncul di atas kabinet. Tiga tab (B, C, D) berwarna sesuai organ: itu tiga laci tadi. Sisanya tab netral: isi sistem yang lebih luas. |
-| **7. Hasil + ajakan (baru)** | Teks hasil (menunggu pilihan) di atas, tombol **"Dapatkan Sekarang"** | Teks hasil naik ke atas kabinet. Tombol naik dari lantai. |
+| **7. Hasil + ajakan (baru)** | Teks hasil "Tiap organ tahu tugasnya, tiap keputusan ada pegangannya." di atas, tombol **"Dapatkan Sekarang"** | Teks hasil naik ke atas kabinet. Tombol naik dari lantai. |
 
 Pagar tetap: tanpa harga, tanpa nama brand Ardya, tanpa kata "template/bundle", tanpa klaim "sesuai peraturan terbaru", tanpa janji hukum.
 
