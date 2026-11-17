@@ -277,11 +277,13 @@ fadeOut('#sub',16.7,.3);
 [0,1,2].forEach(i=>FT(O[i],{o:1},{o:0,duration:.45,ease:'power3.inOut'},16.7+.08*i));
 cam('fin',16.85,.9);
 FT('#pname',{opacity:0,y:-20},{opacity:1,y:0,duration:.45,ease:'back.out(1.6)'},17.05);
+FT(S,{cs:.92},{cs:.95,duration:1.7,ease:'sine.inOut'},17.8);          /* dorongan kamera pelan agar adegan tidak diam */
 FT('#big',{opacity:0,y:28,scale:.92},{opacity:1,y:0,scale:1,duration:.45,ease:'back.out(1.7)'},19.35);
 FT(S,{cnt:0},{cnt:172,duration:1.9,ease:'power1.inOut'},19.45);
 FT('#s4a',{opacity:0,y:22},{opacity:1,y:0,duration:.45,ease:'back.out(1.5)'},21.3);
 FT('#s4cap',{opacity:0,y:18},{opacity:1,y:0,duration:.4,ease:'power2.out'},21.7);
 FT(CATS,{scaleY:0},{scaleY:1,duration:.35,ease:'back.out(2)',stagger:.05},21.75);
+FT(S,{cs:.95},{cs:.92,duration:1.6,ease:'sine.inOut'},22.3);
 ['#pname','#big','#s4a','#s4cap'].forEach(sel=>fadeOut(sel,23.85,.3,-18));
 
 /* ============ ADEGAN 7 (23,9-30): HASIL + AJAKAN ============ */
