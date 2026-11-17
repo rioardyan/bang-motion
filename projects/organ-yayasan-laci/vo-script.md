@@ -47,7 +47,7 @@ Angka ditulis dengan huruf ("seratus tujuh puluh dua"). "148 Word + 24 Excel ber
 | 6,0 | 27.8 dtk |
 | 6,5 | 25.9 dtk |
 
-Video v1 24 detik. Video v2 mengikuti audio, jadi sekitar 27–30 detik. Batas 30 detik. Kalau audio melewati 30 detik, kirim saja; aku akan pangkas jeda di pascaproduksi, atau pakai tag `[slowly]` sebaliknya di naskah.
+Video v1 24 detik. Video v2 mengikuti audio, jadi sekitar 27–30 detik. Batas 30 detik. Kalau audio melewati 30 detik, kirim saja. Aku pangkas jeda di pascaproduksi.
 
 ## Perkiraan jatuh di suara (@5,5 / @6,5)
 
