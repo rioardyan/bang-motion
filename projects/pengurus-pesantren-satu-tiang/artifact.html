@@ -1,0 +1,392 @@
+<title>Pengurus Pesantren Satu Tiang</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+:root{
+  --page:#06171B; color-scheme:dark;
+  --night:#0B2F34; --teal:#0E7C86; --teal2:#0A4A52; --yellow:#F5C84B; --cream:#FFF9E6; --ink:#0B2F34; --olive:#5E7B3A;
+  --navy:#1D2B53;
+  --jk:'Plus Jakarta Sans',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:var(--page);overflow:hidden;font-family:var(--jk)}
+#stage{position:fixed;left:50%;top:50%;width:1080px;height:1350px;transform:translate(-50%,-50%) scale(1);overflow:hidden;background:var(--night)}
+
+/* ---------- LANGIT & LANSKAP ---------- */
+#skyN,#skyD{position:absolute;inset:0}
+#skyN{background:linear-gradient(180deg,#071B22 0%,#0C3340 52%,#17505A 100%)}
+#skyD{background:linear-gradient(180deg,#4FA9B6 0%,#A7DAD0 38%,#F6DE97 72%,#FFE9B0 100%);opacity:0}
+#sky svg,#land svg{position:absolute;left:0;top:0;width:1080px;height:1350px;overflow:visible}
+
+/* ---------- ADEGAN (kamera) ---------- */
+#scene{position:absolute;left:0;top:0;width:1080px;height:1350px;transform-origin:540px 1190px}
+#bld,#pilw,#cols,#plinthW{position:absolute;left:0;top:0;width:1080px;height:1350px}
+#bld{transform-origin:540px 1010px}
+#bld svg,#pilw svg{position:absolute;left:0;top:0;width:1080px;height:1350px;overflow:visible}
+.col{position:absolute;width:110px;top:1190px;height:0;border-radius:4px 4px 0 0}
+.col:before{content:"";position:absolute;left:0;right:0;top:0;height:10px;background:rgba(255,249,230,.5);border-radius:4px 4px 0 0}
+.col:after{content:"";position:absolute;right:0;top:0;bottom:0;width:18px;background:rgba(0,0,0,.25)}
+.col.w{background:linear-gradient(90deg,#10909B,#0B6A73)}
+.col.x{background:linear-gradient(90deg,#F5C84B,#D1A634)}
+#plinth{position:absolute;left:150px;top:1010px;width:780px;height:180px;border-radius:0 0 6px 6px;background:linear-gradient(#0C5C66,#08464E);opacity:0}
+#plinth:before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background:rgba(255,249,230,.45)}
+.cell{position:absolute;width:14px;height:28px;border-radius:2px;background:var(--cream);opacity:0}
+.cell.x{background:var(--yellow)}
+.tab{position:absolute;top:12px;width:44px;height:24px;border-radius:5px 5px 0 0;background:#17A5B2;color:var(--cream);font:800 14px/24px var(--jk);text-align:center;opacity:0}
+.tab:nth-child(even){background:#0E7C86}
+#sweep{position:absolute;left:0;top:0;width:320px;height:1350px;background:linear-gradient(100deg,transparent,rgba(255,249,230,.36) 50%,transparent);transform:translateX(-420px) skewX(-14deg);opacity:0}
+.doc{position:absolute;left:0;top:0;width:500px;height:510px;margin:-255px 0 0 -250px;border-radius:12px;background:#FFFEF8;overflow:hidden;opacity:0;
+  box-shadow:0 18px 0 rgba(0,0,0,.16),0 30px 50px rgba(0,0,0,.35);transform-origin:50% 50%}
+.doc .dh{height:92px;padding:0 26px;background:var(--c);color:var(--ct);display:flex;align-items:center;font:800 28px/1.08 var(--jk);letter-spacing:-.005em}
+.doc .db{padding:16px 24px;color:#17313A;font:600 21px/1.2 var(--jk)}
+.doc .ft{position:absolute;left:24px;bottom:14px;font:500 15px var(--jk);color:#8A9795}
+.mut{color:#7C8B8D;font-weight:500}
+.tr{display:grid;grid-template-columns:1fr 66px 74px 76px;align-items:center;height:58px;padding:0 10px;border-bottom:1px solid #E7EBE8;font-size:20px;position:relative;background:rgba(0,0,0,0)}
+.tr.th{height:40px;font:700 13px var(--jk);color:#7C8B8D;text-transform:uppercase;border-bottom:2px solid #D9DFDC}
+.tr .ck{text-align:center;color:var(--teal);font-weight:800;font-size:25px} .tr .no{text-align:center;color:#B8C2C0}
+.tr .num{display:inline-block;width:32px;color:#7C8B8D;font-weight:500}
+.mk{position:absolute;left:0;top:6px;bottom:6px;width:7px;border-radius:4px;background:var(--c);opacity:0}
+.un{display:grid;grid-template-columns:84px 1fr 96px;gap:14px;align-items:center;height:76px;padding:0 10px;border-bottom:1px solid #E7EBE8;font-size:22px;font-weight:700;position:relative}
+.un .bar{height:20px;border-radius:10px;background:#E3E8E4;overflow:hidden}
+.un .bar i{display:block;height:100%;width:0;background:#17A5B2;border-radius:10px}
+.un .st{font:700 15px var(--jk);text-align:center;padding:6px 0;border-radius:8px;background:#CFE9EC;color:#0A4A52}
+.un .st.p{background:#FCE8A6;color:#6A4F0A}
+.kv{display:grid;grid-template-columns:140px 1fr;font-size:19px}
+.kv>div{padding:11px 8px;border-bottom:1px solid #E7EBE8;position:relative}
+.kv .k{color:#7C8B8D;font-weight:500}
+.sg{display:flex;gap:14px;margin-top:14px}
+.sg div{flex:1;height:64px;border:2px dashed #C9D2CF;border-radius:8px;display:flex;align-items:center;justify-content:center;font:600 15px var(--jk);color:#8A9795}
+
+/* ---------- LAYAR ---------- */
+#hud{position:absolute;inset:0;pointer-events:none}
+.w{display:inline-block;opacity:0}
+.em{color:var(--yellow)}
+#hook{position:absolute;left:60px;top:66px;width:960px;color:var(--cream)}
+#k1{font:800 44px/1.1 var(--jk);letter-spacing:.04em}
+#k2a,#k2b{font:800 84px/1.02 var(--jk);letter-spacing:-.025em;margin-top:6px}
+#k2a{margin-top:22px}
+#k3{font:700 52px/1.12 var(--jk);margin-top:26px;letter-spacing:-.01em}
+#hook .ln{display:block}
+#t2{position:absolute;left:60px;top:84px;width:960px;color:var(--cream)}
+#t2a{font:800 74px/1.04 var(--jk);letter-spacing:-.02em}
+#t2b,#t2c{font:600 46px/1.14 var(--jk);margin-top:30px}
+#t2c{margin-top:22px}
+#t2 .ln{display:block}
+#badge{position:absolute;left:372px;top:1066px;width:92px;height:92px;border-radius:50%;background:var(--yellow);color:var(--ink);font:800 62px/92px var(--jk);text-align:center;opacity:0;box-shadow:0 8px 0 rgba(0,0,0,.2)}
+#lbl{position:absolute;left:0;top:0;width:100%}
+.chip{position:absolute;left:60px;top:44px;padding:10px 24px;border-radius:12px;background:var(--yellow);color:var(--ink);font:800 26px var(--jk);letter-spacing:.08em;opacity:0}
+.cap{position:absolute;left:60px;top:104px;width:960px;font:700 42px/1.1 var(--jk);color:var(--cream);opacity:0;letter-spacing:-.01em}
+#pan{position:absolute;left:40px;top:44px;width:1000px;height:350px;border-radius:26px;background:var(--cream);box-shadow:0 14px 0 rgba(0,0,0,.18);padding:30px 40px 34px;opacity:0;color:var(--ink)}
+#pn4{position:relative}
+#pn4 .pt{display:inline-block;padding:10px 24px;border-radius:12px;background:var(--teal2);color:var(--cream);font:700 28px var(--jk);letter-spacing:.01em}
+#pn4 .pt i{display:inline-block;width:14px;height:14px;border-radius:50%;background:var(--yellow);margin-right:12px;vertical-align:1px}
+#pn4 .big{display:flex;align-items:baseline;gap:22px;margin-top:10px}
+#pn4 .big b{font:800 168px/1 var(--jk);color:var(--teal);font-variant-numeric:tabular-nums;letter-spacing:-.04em}
+#pn4 .big span{font:800 54px/1 var(--jk);color:var(--ink)}
+#pn4 .kt{font:700 38px var(--jk);color:var(--ink);margin-top:2px}
+#pn5{position:absolute;left:40px;right:40px;top:34px;opacity:0;font:800 72px/1.05 var(--jk);letter-spacing:-.025em;color:var(--ink)}
+#pn5 .ln{display:block}
+#pn5 .em{color:var(--teal)}
+#cta{position:absolute;left:100px;top:1212px;width:880px;height:104px;border-radius:52px;background:var(--yellow);color:var(--ink);display:flex;align-items:center;justify-content:center;gap:22px;
+  font:800 46px var(--jk);letter-spacing:-.01em;opacity:0;box-shadow:0 10px 0 #B8902A,0 24px 36px rgba(0,0,0,.28)}
+#cta svg{width:48px;height:48px;flex:none}
+
+#ui{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);display:none;align-items:center;gap:12px;padding:9px 14px;border-radius:12px;background:rgba(14,16,22,.9);font:13px var(--jk);color:#A0A6B4;z-index:50}
+#ui.on{display:flex} #ui button{background:#262A34;color:#fff;border:0;padding:6px 12px;border-radius:8px;font:inherit;cursor:pointer}
+#scrub{width:320px} #clock{font-variant-numeric:tabular-nums;min-width:5ch;text-align:right}
+</style>
+<div id="stage">
+  <div id="skyN"></div><div id="skyD"></div>
+  <div id="sky"><svg viewBox="0 0 1080 1350" id="skysvg"></svg></div>
+  <div id="land"><svg viewBox="0 0 1080 1350" id="landsvg"></svg></div>
+
+  <div id="scene">
+    <div id="cols"></div>
+    <div id="pilw"><svg viewBox="0 0 1080 1350">
+      <g id="pilK"><g id="pil">
+        <polygon id="pilS" points="595,1010 619,996 619,1176 595,1190" fill="#0B5059"/>
+        <rect id="pilF" x="485" y="1010" width="110" height="180" fill="#12909B"/>
+        <rect x="485" y="1010" width="110" height="8" fill="rgba(255,249,230,.45)"/>
+        <g id="plaque"><rect x="494" y="1070" width="92" height="46" rx="4" fill="#FFF9E6"/>
+          <text x="540" y="1101" text-anchor="middle" font-family="Plus Jakarta Sans" font-weight="800" font-size="17" letter-spacing=".5" fill="#0B2F34">PENGURUS</text></g>
+      </g></g>
+    </svg></div>
+    <div id="bld"><svg viewBox="0 0 1080 1350" id="bsvg"></svg></div>
+    <div id="plinthW"><div id="plinth"></div></div>
+    <div id="sweep"></div>
+  </div>
+
+  <div id="hud">
+    <div id="hook">
+      <div id="k1" data-t="PENGURUS YAYASAN PESANTREN,"></div>
+      <div class="ln" id="k2a" data-t="Santri bertambah."></div>
+      <div class="ln" id="k2b" data-t="Unit bertambah."></div>
+      <div id="k3" data-t="Semua keputusan masih|menunggu *satu *orang."></div>
+    </div>
+    <div id="t2">
+      <div class="ln" id="t2a" data-t="Bukan cuma keputusan."></div>
+      <div class="ln" id="t2b" data-t="Laporan tiap unit juga|dikirim ke satu orang."></div>
+      <div class="ln" id="t2c" data-t="Tanah wakaf juga cuma|diingat satu orang."></div>
+    </div>
+    <div id="badge">1</div>
+    <div id="lbl"></div>
+    <div id="pan">
+      <div id="pn4"><span class="pt"><i></i>Sistem Tata Kelola Yayasan</span>
+        <div class="big"><b id="bign">0</b><span>dokumen</span></div>
+        <div class="kt"><span style="color:var(--teal)">14</span> kategori</div></div>
+      <div id="pn5"><span class="ln" id="p5a" data-t="Unit bertambah,"></span><span class="ln" id="p5b" data-t="*keputusan *tetap *jalan."></span></div>
+    </div>
+    <div id="cta"><span>Rapikan kerja pondok sekarang</span>
+      <svg viewBox="0 0 48 48" fill="none" stroke="#0B2F34" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 24h32M26 10l14 14-14 14"/></svg></div>
+  </div>
+</div>
+<div id="ui"><button id="btn-play">Pause</button><button id="btn-restart">Restart</button>
+  <input type="range" id="scrub" min="0" max="1000" value="0"><span id="clock">0.00s</span></div>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const Q=new URLSearchParams(location.search);
+const W=1080,H=1350,DUR=25,GROUND=1190,BEAM=1010;
+const tl=gsap.timeline({paused:true});
+const FT=(tg,f,t,at)=>tl.fromTo(tg,f,Object.assign({immediateRender:false},t),at);
+const NS='http://www.w3.org/2000/svg';
+function el(tag,attrs,parent){ const e=document.createElementNS(NS,tag); for(const k in attrs)e.setAttribute(k,attrs[k]); if(parent)parent.appendChild(e); return e; }
+const hx=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
+const mix=(a,b,u)=>{ const A=hx(a),B=hx(b); return `rgb(${A.map((v,i)=>Math.round(v+(B[i]-v)*u)).join(',')})`; };
+function rng(seed){ let a=seed; return ()=>{ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+
+/* ============ STATE (fungsi murni dari t) ============ */
+const S={th:0,sw:0,cs:1,dw:0,kn:0,sn:0,cnt:0,ic1:0,ic2:0,a1:0,a2:0,a3:0,a4:0};
+const P=[0,1,2].map(()=>({en:0,fl:0,lc:0}));
+const SLOT=[320,760,540];
+const T0=[8.2,12.0,15.8], ENTER=T0.map(t=>t+.1), FLY=T0.map(t=>t+3.2), LAND=FLY.map(x=>+(x+.4).toFixed(2));
+const TH0=8;
+
+/* ============ LANGIT ============ */
+const skysvg=$('#skysvg'); const R=rng(7);
+const STARS=[]; for(let i=0;i<46;i++){ STARS.push({e:el('circle',{cx:(R()*1080).toFixed(0),cy:(40+R()*620).toFixed(0),r:(1.4+R()*2).toFixed(1),fill:'#FFF9E6'},skysvg),ph:R()*6.28,sp:.6+R()*1.4,b:.5+R()*.5}); }
+const sun=el('g',{},skysvg); const sunHalo=el('circle',{cx:540,cy:0,r:178,fill:'#FFF3C4','fill-opacity':.35},sun); const sunDisk=el('circle',{cx:540,cy:0,r:128,fill:'#FFEBA8'},sun);
+const CL=[]; [[120,260,1],[640,170,1.25],[880,430,.8]].forEach(([x,y,s],i)=>{ const g=el('g',{},skysvg);
+  el('path',{d:'M0 40 C0 18 20 6 40 14 C46 -6 82 -6 92 16 C112 6 138 20 134 40 Z',fill:'#17505A'},g); CL.push({g,x,y,s,col:g.firstChild}); });
+const landsvg=$('#landsvg'); const LAY=[];
+function layer(d,n,dd,sh){ const g=el('g',{},landsvg); if(sh){ el('path',{d,transform:'translate(0 -10)',fill:'#000','fill-opacity':.18},g); } const p=el('path',{d,fill:n},g); LAY.push({p,n,d:dd,kind:'f'}); return g; }
+layer('M0 1010 C140 930 260 960 380 985 C520 1010 640 930 780 940 C900 948 1000 980 1080 960 L1080 1350 L0 1350Z','#0F4A55','#86BFA8',true);
+/* menara */
+(function(){ const g=el('g',{},landsvg); const cols=[['#0C414C','#6FA894']];
+  const a=el('rect',{x:62,y:780,width:30,height:240,fill:'#0C414C'},g), b=el('path',{d:'M54 780 L100 780 L96 760 L58 760Z',fill:'#0C414C'},g), c=el('path',{d:'M58 760 C58 726 96 726 96 760Z',fill:'#0C414C'},g), f=el('rect',{x:75,y:700,width:4,height:30,fill:'#0C414C'},g);
+  [a,b,c,f].forEach(p=>LAY.push({p,n:'#0C414C',d:'#6FA894',kind:'f'})); })();
+layer('M0 1090 C160 1040 300 1070 440 1085 C600 1100 760 1040 900 1060 C980 1070 1040 1090 1080 1080 L1080 1350 L0 1350Z','#0A3A44','#5E9A73',true);
+/* pohon kurma kanan */
+(function(){ const g=el('g',{},landsvg);
+  const tr=el('path',{d:'M1010 1196 C1018 1100 1002 1000 1014 900',stroke:'#082F39','stroke-width':14,fill:'none','stroke-linecap':'round'},g); LAY.push({p:tr,n:'#082F39',d:'#3E7A55',kind:'s'});
+  [[-120,-30],[-90,-70],[-40,-95],[30,-95],[80,-70],[110,-30],[0,-110]].forEach(([dx,dy])=>{
+    const p=el('path',{d:`M1014 900 Q${1014+dx*.5} ${900+dy-30} ${1014+dx} ${900+dy+40}`,stroke:'#082F39','stroke-width':11,fill:'none','stroke-linecap':'round'},g); LAY.push({p,n:'#082F39',d:'#3E7A55',kind:'s'}); }); })();
+const gr=layer('M0 1190 L1080 1190 L1080 1350 L0 1350Z','#082B33','#78963C',false);
+LAY.push({p:el('rect',{x:0,y:1190,width:1080,height:4,fill:'#FFF9E6','fill-opacity':.25},landsvg),n:'#6FA3A8',d:'#C9D98A',kind:'f',raw:true});
+/* santri (figur kertas potong) */
+const SANTRI=[]; (function(){ const r=rng(11); for(let i=0;i<30;i++){ const side=i%2, x=side?(640+r()*360):(70+r()*380), y=1214+(r()*70), s=.8+r()*.5; const o=el('g',{transform:`translate(${x.toFixed(0)} ${y.toFixed(0)}) scale(${s.toFixed(2)})`},landsvg); const g=el('g',{opacity:0},o);
+  el('rect',{x:-9,y:-6,width:18,height:34,rx:8,fill:'#0E7C86'},g); el('circle',{cx:0,cy:-14,r:9,fill:'#E8C7A0'},g); el('rect',{x:-9,y:-26,width:18,height:9,rx:4,fill:'#0B2F34'},g); SANTRI.push(g); } })();
+
+/* ============ KOMPLEKS PESANTREN (kertas potong) ============ */
+const bsvg=$('#bsvg'); const BLD=[];
+const UNITS=[{n:'PONDOK',x:150,w:250,h:196,c:'#0E7C86',dome:true},{n:'MI',x:412,w:188,h:158,c:'#17A5B2'},{n:'MTs',x:612,w:190,h:184,c:'#0B6A73'},{n:'TK',x:814,w:130,h:104,c:'#1BB0BD',roof:true}];
+const beam=el('g',{id:'beamG'},bsvg);
+el('rect',{x:130,y:975,width:820,height:35,rx:4,fill:'#0A4A52'},beam); el('rect',{x:130,y:975,width:820,height:7,rx:3,fill:'rgba(255,249,230,.4)'},beam);
+UNITS.forEach((u,i)=>{ const g=el('g',{},bsvg); const top=975-u.h;
+  el('rect',{x:u.x+8,y:top+8,width:u.w,height:u.h,fill:'#000','fill-opacity':.18},g);
+  el('rect',{x:u.x,y:top,width:u.w,height:u.h,fill:u.c},g);
+  el('rect',{x:u.x+u.w-16,y:top,width:16,height:u.h,fill:'#000','fill-opacity':.16},g);
+  if(u.dome){ el('path',{d:`M${u.x+40} ${top} C${u.x+40} ${top-78} ${u.x+u.w-40} ${top-78} ${u.x+u.w-40} ${top}Z`,fill:'#F5C84B'},g); el('rect',{x:u.x+u.w/2-3,y:top-100,width:6,height:28,fill:'#F5C84B'},g); el('circle',{cx:u.x+u.w/2,cy:top-104,r:7,fill:'#F5C84B'},g); }
+  else if(u.roof){ el('path',{d:`M${u.x-8} ${top} L${u.x+u.w/2} ${top-52} L${u.x+u.w+8} ${top}Z`,fill:'#F5C84B'},g); }
+  else { el('rect',{x:u.x-6,y:top-14,width:u.w+12,height:14,fill:'#F5C84B'},g); }
+  const cols=u.w>200?5:(u.w>150?4:3), rows=u.h>150?2:1;
+  const wins=[]; for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){ const ww=(u.w-30)/cols; wins.push(el('rect',{x:u.x+15+c*ww+4,y:top+22+r*46,width:ww-10,height:28,rx:3,fill:'#FFE9A8','fill-opacity':.92},g)); }
+  const pw=Math.min(u.w-24,120); el('rect',{x:u.x+u.w/2-pw/2,y:975-46,width:pw,height:34,rx:6,fill:'#FFF9E6'},g);
+  const t=el('text',{x:u.x+u.w/2,y:975-22,'text-anchor':'middle','font-family':'Plus Jakarta Sans','font-weight':800,'font-size':u.n.length>3?21:23,'letter-spacing':.6,fill:'#0B2F34'},g); t.textContent=u.n;
+  BLD.push({g,u,wins}); });
+/* panah unit -> tiang (di bawah balok) */
+const AR=[]; [[240,'L'],[505,'L'],[700,'R'],[880,'R']].forEach(([x,sd],i)=>{ const ex=sd==='L'?480:600;
+  const d=`M${x} 1024 C${x} 1090 ${(x+ex)/2} 1105 ${ex} 1108`; const p=el('path',{d,fill:'none',stroke:'#F5C84B','stroke-width':7,'stroke-linecap':'round'},bsvg);
+  const L=p.getTotalLength(); p.style.strokeDasharray=L; p.style.strokeDashoffset=L; const ah=el('path',{d:`M${ex-(sd==='L'?20:-20)} 1096 L${ex} 1108 L${ex-(sd==='L'?20:-20)} 1120`,fill:'none',stroke:'#F5C84B','stroke-width':7,'stroke-linecap':'round','stroke-linejoin':'round',opacity:0},bsvg);
+  AR.push({p,L,ah}); });
+/* ikon laporan dan wakaf meluncur ke tiang */
+const IC=[]; [[{x:870,sd:'R'},'lap'],[{x:250,sd:'L'},'wak']].forEach(([o,k])=>{ const ex=o.sd==='L'?485:595;
+  const path=el('path',{d:`M${o.x} 1030 C${o.x} 1110 ${(o.x+ex)/2} 1135 ${ex} 1140`,fill:'none',stroke:'none'},bsvg); const L=path.getTotalLength();
+  const g=el('g',{opacity:0},bsvg); el('rect',{x:-20,y:-26,width:40,height:52,rx:5,fill:'#FFF9E6',stroke:'#0B2F34','stroke-width':3},g);
+  if(k==='lap'){ [-12,-2,8].forEach(y=>el('rect',{x:-12,y:y,width:24,height:4,rx:2,fill:'#0E7C86'},g)); el('rect',{x:-12,y:14,width:12,height:6,rx:2,fill:'#F5C84B'},g); }
+  else { el('path',{d:'M-13 14 L0 -12 L13 14Z',fill:'#5E7B3A'},g); el('rect',{x:-2,y:-18,width:4,height:12,fill:'#6A4526'},g); }
+  IC.push({g,path,L}); });
+
+/* ============ DOKUMEN ============ */
+const DOCS=[
+ {key:'KEPUTUSAN',cap:'29 keputusan, jelas siapa yang berwenang.',c:'#0E7C86',ct:'#FFF9E6',w:true,title:'Matriks Kewenangan',foot:'',body:`
+  <div class="tr th"><div>Keputusan</div><div style="text-align:center">Pembina</div><div style="text-align:center">Pengurus</div><div style="text-align:center">Pengawas</div></div>
+  <div class="tr"><b class="mk"></b><div><span class="num">1</span>Perubahan AD/ART</div><div class="ck">✓</div><div class="no">–</div><div class="no">–</div></div>
+  <div class="tr"><b class="mk"></b><div><span class="num">2</span>Pengangkatan Pengurus</div><div class="ck">✓</div><div class="no">–</div><div class="no">–</div></div>
+  <div class="tr"><b class="mk"></b><div><span class="num">3</span>Persetujuan anggaran</div><div class="no">–</div><div class="ck">✓</div><div class="ck">✓</div></div>
+  <div class="tr"><b class="mk"></b><div><span class="num">⋮</span><span class="mut">26 keputusan lain</span></div><div></div><div></div><div></div></div>
+  <div class="tr"><b class="mk"></b><div><span class="num">29</span>Pembubaran yayasan</div><div class="ck">✓</div><div class="no">–</div><div class="no">–</div></div>`},
+ {key:'LAPORAN',cap:'Laporan semua unit terbaca di satu tempat.',c:'#F5C84B',ct:'#0B2F34',w:false,title:'Dashboard Kinerja Unit',foot:'data contoh',body:`
+  <div class="un" style="height:44px;font:700 13px var(--jk);color:#7C8B8D;text-transform:uppercase"><div>Unit</div><div>Capaian</div><div style="text-align:center">Status</div></div>
+  <div class="un"><b class="mk" style="background:#B8902A"></b><div>Pondok</div><div class="bar"><i data-w="86"></i></div><div class="st">Aman</div></div>
+  <div class="un"><b class="mk" style="background:#B8902A"></b><div>MI</div><div class="bar"><i data-w="72"></i></div><div class="st p">Pantau</div></div>
+  <div class="un"><b class="mk" style="background:#B8902A"></b><div>MTs</div><div class="bar"><i data-w="91"></i></div><div class="st">Aman</div></div>
+  <div class="un"><b class="mk" style="background:#B8902A"></b><div>TK</div><div class="bar"><i data-w="64"></i></div><div class="st p">Pantau</div></div>`},
+ {key:'WAKAF',cap:'Tanah wakaf tercatat, bukan cuma diingat.',c:'#0E7C86',ct:'#FFF9E6',w:true,title:'Berita Acara Serah Terima Hibah dan Wakaf',foot:'data contoh',body:`
+  <div class="kv"><div class="k">Nomor</div><div><b class="mk"></b>002/BAST/2024</div>
+   <div class="k">Tanggal</div><div><b class="mk"></b>Rabu, 7 Februari 2024</div>
+   <div class="k">Pihak pertama</div><div><b class="mk"></b>Bapak H. Ahmad Fauzi</div>
+   <div class="k">Pihak kedua</div><div><b class="mk"></b>Pengurus Yayasan</div>
+   <div class="k">Objek</div><div><b class="mk"></b>Tanah, Desa Sukamaju</div></div>
+  <div class="sg"><div>Pihak pertama</div><div>Pihak kedua</div></div>`}
+];
+const docsEl=document.createElement('div'); docsEl.id='docs'; $('#scene').appendChild(docsEl); docsEl.style.cssText='position:absolute;left:0;top:0;width:1080px;height:1350px';
+const colsEl=$('#cols'), lblEl=$('#lbl'); const DOCEL=[], COLEL=[], CAPEL=[], CHIPEL=[], ROWS=[];
+DOCS.forEach((d,i)=>{
+  const e=document.createElement('div'); e.className='doc'; e.style.setProperty('--c',d.c); e.style.setProperty('--ct',d.ct);
+  e.innerHTML=`<div class="dh">${d.title}</div><div class="db">${d.body}</div>${d.foot?`<div class="ft">${d.foot}</div>`:''}`; docsEl.appendChild(e); DOCEL.push(e);
+  ROWS.push($$('.tr:not(.th),.un:not(:first-child),.kv>div:not(.k)',e));
+  const c=document.createElement('div'); c.className='col '+(d.w?'w':'x'); c.style.left=(SLOT[i]-55)+'px'; colsEl.appendChild(c); COLEL.push(c);
+  const ch=document.createElement('div'); ch.className='chip'; ch.textContent=d.key; lblEl.appendChild(ch); CHIPEL.push(ch);
+  const cp=document.createElement('div'); cp.className='cap'; cp.textContent=d.cap; lblEl.appendChild(cp); CAPEL.push(cp);
+});
+/* sel plinth (172) + tab A-N */
+const plinth=$('#plinth'); const EXS=new Set(); for(let j=0;j<24;j++)EXS.add(Math.floor(j*172/24+3));
+const CELLS=[]; for(let k=0;k<172;k++){ const cl=Math.floor(k/4), rw=k%4; const e=document.createElement('div'); e.className='cell'+(EXS.has(k)?' x':'');
+  e.style.left=(24+cl*17)+'px'; e.style.top=(46+rw*32)+'px'; plinth.appendChild(e); CELLS.push(e); }
+const TABS=[]; 'ABCDEFGHIJKLMN'.split('').forEach((ch,i)=>{ const e=document.createElement('div'); e.className='tab'; e.textContent=ch; e.style.left=(22+i*54.2)+'px'; plinth.appendChild(e); TABS.push(e); });
+
+/* teks per kata */
+function words(e){ e.innerHTML=e.dataset.t.split('|').map(l=>l.trim().split(/\s+/).map(w=>{ const em=w[0]==='*'; return `<span class="w${em?' em':''}">${em?w.slice(1):w}</span>`; }).join(' ')).join('<br>'); return $$('.w',e); }
+const K1=words($('#k1')), K2A=words($('#k2a')), K2B=words($('#k2b')), K3=words($('#k3')), T2A=words($('#t2a')), T2B=words($('#t2b')), T2C=words($('#t2c')), P5A=words($('#p5a')), P5B=words($('#p5b'));
+const wordsIn=(ws,at,o={})=>FT(ws,{opacity:0,y:o.y??34},{opacity:1,y:0,duration:o.dur??.5,ease:o.ease??'back.out(1.6)',stagger:o.st??.08},at);
+const fadeOut=(sel,at,d=.35,y=-26)=>FT(sel,{opacity:1,y:0},{opacity:0,y:y,duration:d,ease:'power2.in'},at);
+
+/* ============ ADEGAN 1 (0-3,8): TANYA ============ */
+tl.set(BLD[3].g,{opacity:0},0);                       /* TK baru terlihat saat jatuh menyusul */
+LAY.forEach(l=>{});                                    /* lapisan lanskap tampil sejak awal (permukaan latar) */
+FT('#pil',{y:70,opacity:0},{y:0,opacity:1,duration:.55,ease:'power3.out'},.15);
+FT('#beamG',{y:-60,opacity:0},{y:0,opacity:1,duration:.5,ease:'power3.out'},.35);
+BLD.forEach((b,i)=>{ if(i<3) FT(b.g,{y:-420,opacity:0},{y:0,opacity:1,duration:.9,ease:'bounce.out'},.5+.16*i); });
+FT(BLD[3].g,{y:-520,opacity:0},{y:0,opacity:1,duration:1.0,ease:'bounce.out'},2.0);        /* unit bertambah: TK jatuh menyusul */
+SANTRI.forEach((g,i)=>FT(g,{opacity:0,y:-16},{opacity:1,y:0,duration:.3,ease:'back.out(2)'},1.3+.04*i));
+wordsIn(K1,.3,{st:.1,dur:.45}); wordsIn(K2A,1.3,{st:.2,dur:.5}); wordsIn(K2B,2.0,{st:.2,dur:.5}); wordsIn(K3,2.6,{st:.12,dur:.5,ease:'back.out(1.8)'});
+AR.forEach((a,i)=>{ FT(S,{['a'+(i+1)]:0},{['a'+(i+1)]:1,duration:.5,ease:'power2.out'},3.0+.1*i); FT(a.ah,{opacity:0},{opacity:1,duration:.2},3.3+.1*i); });
+fadeOut('#hook',3.65,.3);
+
+/* ============ ADEGAN 2 (3,8-8,2): BUKAN CUMA KEPUTUSAN ============ */
+wordsIn(T2A,3.95,{st:.12,dur:.5});
+wordsIn(T2B,5.2,{st:.1,dur:.45});
+wordsIn(T2C,6.8,{st:.1,dur:.45});
+FT(S,{th:0},{th:TH0,duration:1.4,ease:'elastic.out(1,0.38)'},4.4);
+FT(S,{sw:0},{sw:.55,duration:1,ease:'power1.inOut'},5.4);
+FT('#pilF',{fill:'#12909B'},{fill:'#F5C84B',duration:.4},5.0); FT('#pilS',{fill:'#0B5059'},{fill:'#B8902A',duration:.4},5.0);
+FT('#badge',{opacity:0,scale:.3,rotation:-20},{opacity:1,scale:1,rotation:0,duration:.6,ease:'back.out(2.4)'},5.15);
+FT(S,{ic1:0},{ic1:1,duration:1.1,ease:'power2.inOut'},5.4);       /* laporan meluncur ke tiang */
+FT(S,{ic2:0},{ic2:1,duration:1.1,ease:'power2.inOut'},7.0);       /* wakaf meluncur ke tiang */
+fadeOut('#t2',8.0,.3);
+
+/* ============ ADEGAN 3 (8,2-19,4): TIGA DOKUMEN JADI PONDASI ============ */
+const TINT=['rgba(14,124,134,.12)','rgba(245,200,75,.26)','rgba(14,124,134,.12)'];
+DOCS.forEach((d,k)=>{
+  const a=ENTER[k], f=FLY[k], L=LAND[k];
+  FT(P[k],{en:0},{en:1,duration:1.15,ease:'power2.out'},a);
+  FT(CHIPEL[k],{opacity:0,y:-18},{opacity:1,y:0,duration:.35,ease:'back.out(1.8)'},a+.5);
+  FT(CAPEL[k],{opacity:0,y:18},{opacity:1,y:0,duration:.4,ease:'power2.out'},a+.65);
+  FT([CHIPEL[k],CAPEL[k]],{opacity:1},{opacity:0,duration:.25,ease:'power1.in'},f-.2);
+  FT(P[k],{fl:0},{fl:1,duration:.4,ease:'power3.in'},f);
+  FT(P[k],{lc:0},{lc:1,duration:.55,ease:'elastic.out(1,0.5)'},L-.12);
+  const from=TH0*(1-k/3), to=TH0*(1-(k+1)/3);
+  FT(S,{th:from},{th:to,duration:k===2?1.1:.6,ease:k===2?'elastic.out(1,0.35)':'power2.out'},L);
+  /* isi dokumen menyala satu per satu */
+  ROWS[k].forEach((r,j)=>{ const mk=$('.mk',r); const at=a+1.3+.4*j;
+    FT(r,{backgroundColor:TINT[k].replace(/[\d.]+\)$/,'0)')},{backgroundColor:TINT[k],duration:.3,ease:'power2.out'},at);
+    if(mk) FT(mk,{opacity:0},{opacity:1,duration:.3},at);
+    const bar=$('.bar i',r); if(bar) FT(bar,{width:'0%'},{width:bar.dataset.w+'%',duration:.7,ease:'power2.out'},at); });
+});
+FT(S,{sw:.55},{sw:0,duration:1.4,ease:'power2.inOut'},17.6);
+FT(S,{kn:0},{kn:1,duration:.85,ease:'power2.in'},19.45);                     /* momen istimewa: tiang tersingkir */
+FT('#badge',{opacity:1,y:0},{opacity:0,y:-20,duration:.3,ease:'power2.in'},8.0);
+FT('#sweep',{opacity:0},{opacity:1,duration:.01},19.63);
+FT('#sweep',{x:-420},{x:1500,duration:1.1,ease:'power1.inOut'},19.65);
+FT(S,{dw:0},{dw:1,duration:2.4,ease:'sine.inOut'},19.4);                      /* senja -> fajar */
+
+/* ============ ADEGAN 4 (19,4-22,2): ANGKA ============ */
+FT(S,{cs:1},{cs:.92,duration:1.2,ease:'power2.inOut'},19.7);
+FT(COLEL,{opacity:1},{opacity:0,duration:.5,ease:'power1.in'},19.9);
+FT('#docs',{opacity:1},{opacity:0,duration:.5,ease:'power1.in'},19.8);
+FT('#plinth',{opacity:0},{opacity:1,duration:.5,ease:'power1.out'},19.9);
+FT('#pan',{opacity:0,y:-30},{opacity:1,y:0,duration:.5,ease:'back.out(1.5)'},20.0);
+FT('#pn4',{opacity:0},{opacity:1,duration:.3},20.0);
+FT(S,{cnt:0},{cnt:172,duration:1.7,ease:'power1.inOut'},20.3);
+FT(TABS,{opacity:0,y:12},{opacity:1,y:0,duration:.3,ease:'back.out(2)',stagger:.04},21.0);
+FT(SANTRI,{opacity:1},{opacity:0,duration:.4,stagger:.01},21.6);
+FT('#pn4',{opacity:1},{opacity:0,duration:.3},22.15);
+
+/* ============ ADEGAN 5 (22,2-25): HASIL + TOMBOL ============ */
+FT('#pan',{height:350},{height:232,duration:.4,ease:'power2.inOut'},22.15);
+FT('#pn5',{opacity:0},{opacity:1,duration:.2},22.2);
+wordsIn(P5A,22.3,{st:.12,dur:.45}); wordsIn(P5B,22.75,{st:.12,dur:.45});
+FT('#cta',{opacity:0,y:260,scale:.9},{opacity:1,y:0,scale:1,duration:.7,ease:'back.out(1.7)'},23.1);
+FT('#cta',{scale:1},{scale:1.035,duration:.4,ease:'sine.inOut',repeat:1,yoyo:true},24.0);
+tl.to({},{duration:.01},DUR);
+
+/* ============ RENDER ============ */
+const scene=$('#scene'), bld=$('#bld'), bign=$('#bign'), skyD=$('#skyD'), pilK=$('#pilK');
+const SHK=LAND.map((t,i)=>[t,i===2?15:4]);
+let lastCnt=-1, lastSn=-1, lastDw=-1;
+const READ={x:540,y:430};
+const lerp=(a,b,u)=>a+(b-a)*u;
+function render(t){
+  /* langit senja -> fajar */
+  const dw=S.dw; skyD.style.opacity=dw.toFixed(3);
+  if(dw!==lastDw){ LAY.forEach(l=>{ const c=mix(l.n,l.d,dw); if(l.kind==='s')l.p.setAttribute('stroke',c); else l.p.setAttribute('fill',c); }); lastDw=dw; }
+  STARS.forEach(s=>s.e.setAttribute('fill-opacity',(Math.max(0,s.b*(.55+.45*Math.sin(t*s.sp+s.ph)))*(1-Math.min(1,dw*1.6))).toFixed(3)));
+  CL.forEach((c,i)=>{ const x=((c.x+t*(5+i*2)+300)%1500)-300; c.g.setAttribute('transform',`translate(${x.toFixed(1)} ${c.y}) scale(${c.s})`); c.col.setAttribute('fill',mix('#17505A','#FFF6DD',dw)); });
+  const sy=1210-520*dw; sun.setAttribute('transform',`translate(0 ${sy.toFixed(1)})`); sun.setAttribute('opacity',Math.min(1,dw*2.2).toFixed(3));
+  BLD.forEach(b=>b.wins.forEach(w=>w.setAttribute('fill-opacity',(.92-.5*dw).toFixed(2))));
+  /* kamera + hentak */
+  let sh=0; SHK.forEach(([t0,A])=>{ const u=t-t0; if(u>0&&u<1.4) sh+=A*Math.exp(-5*u)*Math.sin(34*u); });
+  scene.style.transform=`translate(0px,${sh.toFixed(2)}px) scale(${S.cs.toFixed(4)})`;
+  const th=S.th+S.sw*Math.sin(t*2.7); bld.style.transform=`rotate(${th.toFixed(3)}deg)`;
+  const tan=Math.tan(th*Math.PI/180);
+  P.forEach((p,i)=>{
+    const x=SLOT[i], yU=BEAM+(x-540)*tan, h=(GROUND-yU)*p.lc; const c=COLEL[i];
+    c.style.top=(GROUND-h).toFixed(1)+'px'; c.style.height=Math.max(0,h).toFixed(1)+'px'; c.style.visibility=h>1?'visible':'hidden';
+    const en=p.en, fl=p.fl, d=DOCEL[i];
+    /* kertas melayang: berayun kiri-kanan sambil turun */
+    const sw=(1-en)*150*Math.sin(en*11), rot=(1-en)*24*Math.sin(en*11+1.2);
+    const bx=READ.x+sw, by=lerp(-330,READ.y,en);
+    const cx=lerp(bx,x,fl), cy=lerp(by,1128,fl), s=lerp(1,.2,fl), r=lerp(rot,[-5,4,0][i],fl);
+    d.style.opacity=en>0.005?1:0;
+    d.style.transform=`translate(${(cx-540).toFixed(1)}px,${cy.toFixed(1)}px) rotate(${r.toFixed(2)}deg) scale(${s.toFixed(4)})`; d.style.left='540px'; d.style.top='0px';
+  });
+  /* tiang tersingkir */
+  const kn=S.kn; pilK.setAttribute('transform',`translate(${(620*kn).toFixed(2)} ${(-80*kn).toFixed(2)}) rotate(${(70*kn).toFixed(2)} 540 1190)`); pilK.style.opacity=(1-kn).toFixed(3);
+  /* panah dan ikon */
+  AR.forEach((a,i)=>{ a.p.style.strokeDashoffset=(a.L*(1-S['a'+(i+1)])).toFixed(1); });
+  IC.forEach((ic,i)=>{ const u=i===0?S.ic1:S.ic2; if(u<=0||u>=1){ ic.g.setAttribute('opacity',0); return; } const q=ic.path.getPointAtLength(ic.L*u); ic.g.setAttribute('transform',`translate(${q.x.toFixed(1)} ${q.y.toFixed(1)}) scale(${(1-.3*u).toFixed(3)})`); ic.g.setAttribute('opacity',1); });
+  const cn=Math.round(S.cnt); if(cn!==lastCnt){ bign.textContent=cn; for(let k=0;k<172;k++)CELLS[k].style.opacity=k<cn?1:0; lastCnt=cn; }
+}
+
+/* ============ PEREKAT ============ */
+const stage=$('#stage');
+const fit=()=>{ const sc=Math.min(innerWidth/W,innerHeight/H); stage.style.transform=`translate(-50%,-50%) scale(${sc})`; };
+addEventListener('resize',fit); fit();
+const clock=$('#clock'),scrub=$('#scrub'),btn=$('#btn-play'); let scrubbing=false;
+(function frame(){ const t=tl.time(); render(t); clock.textContent=t.toFixed(2)+'s'; if(!scrubbing)scrub.value=String(t/DUR*1000); requestAnimationFrame(frame); })();
+const toggle=()=>{ if(tl.paused()||tl.progress()>=1){ if(tl.progress()>=1)tl.progress(0); tl.play(); btn.textContent='Pause'; } else { tl.pause(); btn.textContent='Play'; } };
+btn.onclick=toggle; $('#btn-restart').onclick=()=>{ tl.pause(0); tl.play(); btn.textContent='Pause'; };
+scrub.addEventListener('pointerdown',()=>{scrubbing=true;tl.pause();btn.textContent='Play';});
+addEventListener('pointerup',()=>scrubbing=false);
+scrub.addEventListener('input',()=>{tl.pause();tl.time(scrub.value/1000*DUR);});
+addEventListener('keydown',e=>{ if(e.code==='Space'){e.preventDefault();toggle();} if(/^[rR]$/.test(e.key)){tl.pause(0);tl.play();} if(/^[hH]$/.test(e.key))$('#ui').classList.toggle('on'); });
+if(Q.has('debug'))$('#ui').classList.add('on');
+tl.eventCallback('onComplete',()=>{tl.play(0);});
+const seek=t=>{ tl.pause(); tl.time(t,false); if(gsap.ticker.tick)gsap.ticker.tick(); render(t); };
+window.OPENER={W,H,DURATION:DUR,tl,seek,ready:false};
+Promise.all(['800 90px "Plus Jakarta Sans"','700 40px "Plus Jakarta Sans"','600 30px "Plus Jakarta Sans"','500 30px "Plus Jakarta Sans"'].map(f=>document.fonts.load(f)))
+  .then(()=>document.fonts.ready).then(()=>{ window.OPENER.ready=true; if(!Q.has('clean'))tl.play(0); });
+</script>
