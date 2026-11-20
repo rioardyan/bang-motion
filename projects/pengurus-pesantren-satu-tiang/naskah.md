@@ -1,6 +1,6 @@
 # Naskah: Pengurus yayasan pesantren, format Satu Tiang (video 4:5, 25 detik)
 
-Status: **draf v3**. Hook memakai versi asli pengguna. Menunggu persetujuan kunci.
+Status: **terkunci (v3)**. Hook memakai versi asli pengguna. Tombol: "Rapikan kerja pondok sekarang" (dipilih pengguna). Dua dokumen (dashboard, berita acara wakaf) dipakai apa adanya, halamannya contoh dari kode; nama dokumen dicek pengguna ke Product Knowledge sebelum tayang.
 Format: Satu Tiang v1 (tanya → risiko → bukti jadi pondasi → angka → tombol). Beda di isi: empat unit pesantren di atas satu tiang "PENGURUS".
 
 ## Kenapa flow draf awal kurang enak
@@ -63,7 +63,7 @@ Konsekuensi untuk flow: hook sudah menyebut **keputusan**. Jadi adegan 2 tidak m
 | 12,0–15,8 | 3b. Laporan | Label LAPORAN · "Laporan semua unit terbaca di satu tempat." | Halaman Dashboard Kinerja Unit, pondasi kedua. |
 | 15,8–19,5 | 3c. Wakaf | Label WAKAF · "Tanah wakaf tercatat, bukan cuma diingat." | Berita Acara Serah Terima Hibah dan Wakaf, pondasi ketiga. Bangunan tegak sekali hentak, tiang "PENGURUS" tersingkir, satu sapuan cahaya. |
 | 19,5–22,2 | 4. Angka | Label "Sistem Tata Kelola Yayasan" · **172 dokumen** menghitung naik · "14 kategori" | Pondasi menyatu jadi alas berisi 172 sel. Empat belas tab A–N di atas alas. |
-| 22,2–25 | 5. Tombol | "Unit bertambah, keputusan tetap jalan." · Tombol "Tata pondok tanpa bergantung pada satu orang" | Teks penutup naik di atas bangunan. Tombol naik dari lantai. |
+| 22,2–25 | 5. Tombol | "Unit bertambah, keputusan tetap jalan." · Tombol "Rapikan kerja pondok sekarang" | Teks penutup naik di atas bangunan. Tombol naik dari lantai. |
 
 Beda dari draf awal: dokumen **tiga**, bukan enam (Satu Tiang memakai enam). Tiap dokumen dapat 3,7 detik. Panah ke "kursi" diganti panah ke tiang, supaya benda penghubungnya tetap satu (tiang) seperti Satu Tiang.
 
@@ -81,7 +81,7 @@ Beda dari draf awal: dokumen **tiga**, bukan enam (Satu Tiang memakai enam). Tia
 | Laporan semua unit terbaca di satu tempat. | Lolos. |
 | Tanah wakaf tercatat, bukan cuma diingat. | Lolos uji dua kalimat: "Tanah wakaf tercatat. Tanah wakaf tidak cuma diingat." Satu sumbu: cara tanah wakaf disimpan. |
 | Unit bertambah, keputusan tetap jalan. | Lolos. Mengulang "unit bertambah" dari pembuka, jadi penutup terasa bulat. |
-| Tata pondok tanpa bergantung pada satu orang | Lolos setelah menambah "pada". Satu bacaan, satu tafsiran. |
+| Rapikan kerja pondok sekarang | Lolos. Perintah yang menyebut hasil (rapi). Pengganti "Tata pondok tanpa bergantung satu orang" (kata "pada" hilang, dan terlalu panjang untuk tombol). |
 
 ## Yang harus dicek sebelum dikunci (kejujuran)
 
