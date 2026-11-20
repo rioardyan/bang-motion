@@ -1,6 +1,6 @@
 # Naskah: Pengurus yayasan pesantren, format Satu Tiang (video 4:5, 25 detik)
 
-Status: **draf v2** (menyempurnakan draf pengguna). Menunggu pilihan headline.
+Status: **draf v3**. Hook memakai versi asli pengguna. Menunggu persetujuan kunci.
 Format: Satu Tiang v1 (tanya → risiko → bukti jadi pondasi → angka → tombol). Beda di isi: empat unit pesantren di atas satu tiang "PENGURUS".
 
 ## Kenapa flow draf awal kurang enak
@@ -49,20 +49,20 @@ Persona yang melihat iklan: pengurus harian (sapaan "Bapak", sesuai pagar produk
 | 4 | **#7** (asli) | "Pengen pondok tetap jalan meski Bapak berhalangan, tapi belum tahu mulai dari mana?" | Pendek. Tidak menyebut tiga masalah, jadi flow tiga-tiga hilang. |
 | 5 | **#19** (asli) | "Siapa, hayoo, yang ingin keputusan unit jalan tanpa menunggu satu orang?" | Pertanyaan membuat berhenti scroll. Sama: satu masalah saja. |
 
-**Rekomendasi: #1 (rumus #27).** Alasan: hanya rumus ini yang memberi tiga butir masalah yang bisa dibalas tiga dokumen. Transisi "Tandanya:" kutulis sendiri (bukan "Definisi … tuh:" dari contoh sumber).
+**Keputusan pengguna:** hook memakai **versi asli draf**, bukan salah satu rumus di atas: "PENGURUS YAYASAN PESANTREN," lalu "Santri bertambah. Unit bertambah. Semua keputusan masih menunggu satu orang." Ini bukan rumus C3H (pernyataan tiga ketukan, bukan pertanyaan). Rumus terdekatnya #20 tanpa tanya. Teks dipakai persis. Satu catatan: 17 kata di layar butuh sekitar 3,8 detik, bukan 3 detik, supaya terbaca di HP.
 
-Smoothing yang dipakai: tanpa kata sifat yang tidak perlu (A2), sapaan "Bapak" konsisten (B2/B3), kata konkret "satu orang" diulang jadi benang merah, "kewalahan" ganti "capek" supaya sopan untuk pengurus pesantren (B1 disesuaikan audiens).
+Konsekuensi untuk flow: hook sudah menyebut **keputusan**. Jadi adegan 2 tidak mengulang butir keputusan. Adegan 2 membuka dengan "Bukan cuma keputusan." lalu menambah dua butir lain (laporan, wakaf). Tiga butir tetap berpasangan dengan tiga dokumen.
 
-## Rundown v2 (usulan, berdasarkan rekomendasi #1)
+## Rundown v3 (usulan)
 
 | Detik | Adegan | Teks di layar | Visual |
 |---|---|---|---|
-| 0–4,5 | 1. Tanya | "PENGURUS YAYASAN PESANTREN," (0,3) · "SANTRI BERTAMBAH. UNIT BERTAMBAH." (1,3) · "BAPAK KEWALAHAN?" (3,0, kuning) | Empat bangunan (PONDOK, MI, MTs, TK) berderet di atas satu balok yang bertumpu pada satu tiang "PENGURUS". Titik santri menumpuk. TK jatuh menyusul sebagai unit terakhir. |
-| 4,5–8,5 | 2. Tanda kewalahan | "Tandanya:" (4,7) → "Keputusan menunggu satu orang." (5,2) · "Laporan unit tersebar." (6,2) · "Tanah wakaf cuma diingat." (7,2) | Tiga butir muncul berurutan. Tiap butir didahului panah dari unit ke tiang. Bangunan miring, tiang menyala kuning. |
-| 8,5–12,2 | 3a. Keputusan | Label KEPUTUSAN · "29 keputusan, jelas siapa yang berwenang." | Halaman Matriks Kewenangan meluncur, jadi pondasi pertama. Bangunan tegak sedikit. |
-| 12,2–15,9 | 3b. Laporan | Label LAPORAN · "Laporan semua unit terbaca di satu tempat." | Halaman Dashboard Kinerja Unit, pondasi kedua. |
-| 15,9–19,6 | 3c. Wakaf | Label WAKAF · "Tanah wakaf tercatat, bukan cuma diingat." | Berita Acara Serah Terima Hibah dan Wakaf, pondasi ketiga. Bangunan tegak sekali hentak, tiang "PENGURUS" tersingkir, satu sapuan cahaya. |
-| 19,6–22,2 | 4. Angka | Label "Sistem Tata Kelola Yayasan" · **172 dokumen** menghitung naik · "14 kategori" | Pondasi menyatu jadi alas berisi 172 sel. Empat belas tab A–N di atas alas. |
+| 0–3,8 | 1. Tanya | "PENGURUS YAYASAN PESANTREN," (0,3) · "Santri bertambah. Unit bertambah." (1,3) · "Semua keputusan masih menunggu satu orang." (2,6, kuning) | Empat bangunan (PONDOK, MI, MTs, TK) berderet di atas satu balok yang bertumpu pada satu tiang "PENGURUS". Titik santri menumpuk. TK jatuh menyusul sebagai unit terakhir. Panah dari tiap unit turun ke tiang. |
+| 3,8–8,2 | 2. Bukan cuma keputusan | "Bukan cuma keputusan." (4,0) · "Laporan tiap unit juga dikirim ke satu orang." (5,2) · "Tanah wakaf juga cuma diingat satu orang." (6,8) | Bangunan miring, tiang menyala kuning. Dua butir baru muncul bersama panah laporan dan panah wakaf ke tiang yang sama. |
+| 8,2–12,0 | 3a. Keputusan | Label KEPUTUSAN · "29 keputusan, jelas siapa yang berwenang." | Halaman Matriks Kewenangan meluncur, jadi pondasi pertama. Bangunan tegak sedikit. |
+| 12,0–15,8 | 3b. Laporan | Label LAPORAN · "Laporan semua unit terbaca di satu tempat." | Halaman Dashboard Kinerja Unit, pondasi kedua. |
+| 15,8–19,5 | 3c. Wakaf | Label WAKAF · "Tanah wakaf tercatat, bukan cuma diingat." | Berita Acara Serah Terima Hibah dan Wakaf, pondasi ketiga. Bangunan tegak sekali hentak, tiang "PENGURUS" tersingkir, satu sapuan cahaya. |
+| 19,5–22,2 | 4. Angka | Label "Sistem Tata Kelola Yayasan" · **172 dokumen** menghitung naik · "14 kategori" | Pondasi menyatu jadi alas berisi 172 sel. Empat belas tab A–N di atas alas. |
 | 22,2–25 | 5. Tombol | "Unit bertambah, keputusan tetap jalan." · Tombol "Tata pondok tanpa bergantung pada satu orang" | Teks penutup naik di atas bangunan. Tombol naik dari lantai. |
 
 Beda dari draf awal: dokumen **tiga**, bukan enam (Satu Tiang memakai enam). Tiap dokumen dapat 3,7 detik. Panah ke "kursi" diganti panah ke tiang, supaya benda penghubungnya tetap satu (tiang) seperti Satu Tiang.
@@ -72,12 +72,11 @@ Beda dari draf awal: dokumen **tiga**, bukan enam (Satu Tiang memakai enam). Tia
 | Teks | Hasil |
 |---|---|
 | PENGURUS YAYASAN PESANTREN, | Lolos (sapaan). |
-| SANTRI BERTAMBAH. UNIT BERTAMBAH. | Lolos. Dua kalimat sejajar. |
-| BAPAK KEWALAHAN? | Lolos. Tanya-jawab: "Ya, kewalahan." |
-| Tandanya: | Lolos. Menunjuk ke "kewalahan" di kalimat sebelumnya. |
-| Keputusan menunggu satu orang. | Lolos. |
-| Laporan unit tersebar. | Lolos. |
-| Tanah wakaf cuma diingat. | Lolos. |
+| Santri bertambah. Unit bertambah. | Lolos. Dua kalimat sejajar (teks asli pengguna). |
+| Semua keputusan masih menunggu satu orang. | Lolos (teks asli pengguna). |
+| Bukan cuma keputusan. | Lolos. Menunjuk ke "keputusan" di hook. |
+| Laporan tiap unit juga dikirim ke satu orang. | Lolos. "Juga" menyambung ke "bukan cuma". |
+| Tanah wakaf juga cuma diingat satu orang. | Lolos. Sekali baca: hanya satu orang yang mengingatnya. |
 | 29 keputusan, jelas siapa yang berwenang. | Lolos. (Draf awal: "satu pemutus per baris" gagal, lihat tabel di atas.) |
 | Laporan semua unit terbaca di satu tempat. | Lolos. |
 | Tanah wakaf tercatat, bukan cuma diingat. | Lolos uji dua kalimat: "Tanah wakaf tercatat. Tanah wakaf tidak cuma diingat." Satu sumbu: cara tanah wakaf disimpan. |
