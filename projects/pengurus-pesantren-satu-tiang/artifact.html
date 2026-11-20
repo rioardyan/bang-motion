@@ -74,6 +74,10 @@ html,body{width:100%;height:100%;background:var(--page);overflow:hidden;font-fam
 #t2b,#t2c{font:600 46px/1.14 var(--jk);margin-top:30px}
 #t2c{margin-top:22px}
 #t2 .ln{display:block}
+#br{position:absolute;left:60px;top:96px;width:960px;color:var(--cream)}
+#b1{font:800 70px/1.06 var(--jk);letter-spacing:-.02em}
+#b2{font:800 58px/1.08 var(--jk);letter-spacing:-.015em;margin-top:30px}
+#br .ln{display:block}
 #badge{position:absolute;left:372px;top:1066px;width:92px;height:92px;border-radius:50%;background:var(--yellow);color:var(--ink);font:800 62px/92px var(--jk);text-align:center;opacity:0;box-shadow:0 8px 0 rgba(0,0,0,.2)}
 #lbl{position:absolute;left:0;top:0;width:100%}
 .chip{position:absolute;left:60px;top:44px;padding:10px 24px;border-radius:12px;background:var(--yellow);color:var(--ink);font:800 26px var(--jk);letter-spacing:.08em;opacity:0}
@@ -130,6 +134,10 @@ html,body{width:100%;height:100%;background:var(--page);overflow:hidden;font-fam
       <div class="ln" id="t2b" data-t="Laporan tiap unit juga|dikirim ke satu orang."></div>
       <div class="ln" id="t2c" data-t="Tanah wakaf juga cuma|diingat satu orang."></div>
     </div>
+    <div id="br">
+      <div class="ln" id="b1" data-t="Keputusan, laporan, wakaf:|semuanya bisa ditulis."></div>
+      <div class="ln" id="b2" data-t="Mulai dari *keputusan."></div>
+    </div>
     <div id="badge">1</div>
     <div id="lbl"></div>
     <div id="pan">
@@ -161,7 +169,7 @@ function rng(seed){ let a=seed; return ()=>{ a|=0; a=a+0x6D2B79F5|0; let t=Math.
 const S={th:0,sw:0,cs:1,dw:0,kn:0,sn:0,cnt:0,ic1:0,ic2:0,a1:0,a2:0,a3:0,a4:0};
 const P=[0,1,2].map(()=>({en:0,fl:0,lc:0}));
 const SLOT=[320,760,540];
-const T0=[8.2,12.0,15.8], ENTER=T0.map(t=>t+.1), FLY=T0.map(t=>t+3.2), LAND=FLY.map(x=>+(x+.4).toFixed(2));
+const T0=[9.2,12.5,15.8], ENTER=T0.map(t=>t+.1), FLY=T0.map(t=>t+2.9), LAND=FLY.map(x=>+(x+.4).toFixed(2));
 const TH0=8;
 
 /* ============ LANGIT ============ */
@@ -228,13 +236,13 @@ const DOCS=[
   <div class="tr"><b class="mk"></b><div><span class="num">3</span>Persetujuan anggaran</div><div class="no">–</div><div class="ck">✓</div><div class="ck">✓</div></div>
   <div class="tr"><b class="mk"></b><div><span class="num">⋮</span><span class="mut">26 keputusan lain</span></div><div></div><div></div><div></div></div>
   <div class="tr"><b class="mk"></b><div><span class="num">29</span>Pembubaran yayasan</div><div class="ck">✓</div><div class="no">–</div><div class="no">–</div></div>`},
- {key:'LAPORAN',cap:'Laporan semua unit terbaca di satu tempat.',c:'#F5C84B',ct:'#0B2F34',w:false,title:'Dashboard Kinerja Unit',foot:'data contoh',body:`
+ {key:'LALU, LAPORAN',cap:'Laporan semua unit terbaca di satu tempat.',c:'#F5C84B',ct:'#0B2F34',w:false,title:'Dashboard Kinerja Unit',foot:'data contoh',body:`
   <div class="un" style="height:44px;font:700 13px var(--jk);color:#7C8B8D;text-transform:uppercase"><div>Unit</div><div>Capaian</div><div style="text-align:center">Status</div></div>
   <div class="un"><b class="mk" style="background:#B8902A"></b><div>Pondok</div><div class="bar"><i data-w="86"></i></div><div class="st">Aman</div></div>
   <div class="un"><b class="mk" style="background:#B8902A"></b><div>MI</div><div class="bar"><i data-w="72"></i></div><div class="st p">Pantau</div></div>
   <div class="un"><b class="mk" style="background:#B8902A"></b><div>MTs</div><div class="bar"><i data-w="91"></i></div><div class="st">Aman</div></div>
   <div class="un"><b class="mk" style="background:#B8902A"></b><div>TK</div><div class="bar"><i data-w="64"></i></div><div class="st p">Pantau</div></div>`},
- {key:'WAKAF',cap:'Tanah wakaf tercatat, bukan cuma diingat.',c:'#0E7C86',ct:'#FFF9E6',w:true,title:'Berita Acara Serah Terima Hibah dan Wakaf',foot:'data contoh',body:`
+ {key:'TERAKHIR, WAKAF',cap:'Tanah wakaf tercatat, bukan cuma diingat.',c:'#0E7C86',ct:'#FFF9E6',w:true,title:'Berita Acara Serah Terima Hibah dan Wakaf',foot:'data contoh',body:`
   <div class="kv"><div class="k">Nomor</div><div><b class="mk"></b>002/BAST/2024</div>
    <div class="k">Tanggal</div><div><b class="mk"></b>Rabu, 7 Februari 2024</div>
    <div class="k">Pihak pertama</div><div><b class="mk"></b>Bapak H. Ahmad Fauzi</div>
@@ -260,7 +268,7 @@ const TABS=[]; 'ABCDEFGHIJKLMN'.split('').forEach((ch,i)=>{ const e=document.cre
 
 /* teks per kata */
 function words(e){ e.innerHTML=e.dataset.t.split('|').map(l=>l.trim().split(/\s+/).map(w=>{ const em=w[0]==='*'; return `<span class="w${em?' em':''}">${em?w.slice(1):w}</span>`; }).join(' ')).join('<br>'); return $$('.w',e); }
-const K1=words($('#k1')), K2A=words($('#k2a')), K2B=words($('#k2b')), K3=words($('#k3')), T2A=words($('#t2a')), T2B=words($('#t2b')), T2C=words($('#t2c')), P5A=words($('#p5a')), P5B=words($('#p5b'));
+const B1=words($('#b1')), B2=words($('#b2')), K1=words($('#k1')), K2A=words($('#k2a')), K2B=words($('#k2b')), K3=words($('#k3')), T2A=words($('#t2a')), T2B=words($('#t2b')), T2C=words($('#t2c')), P5A=words($('#p5a')), P5B=words($('#p5b'));
 const wordsIn=(ws,at,o={})=>FT(ws,{opacity:0,y:o.y??34},{opacity:1,y:0,duration:o.dur??.5,ease:o.ease??'back.out(1.6)',stagger:o.st??.08},at);
 const fadeOut=(sel,at,d=.35,y=-26)=>FT(sel,{opacity:1,y:0},{opacity:0,y:y,duration:d,ease:'power2.in'},at);
 
@@ -278,59 +286,62 @@ fadeOut('#hook',3.65,.3);
 
 /* ============ ADEGAN 2 (3,8-8,2): BUKAN CUMA KEPUTUSAN ============ */
 wordsIn(T2A,3.95,{st:.12,dur:.5});
-wordsIn(T2B,5.2,{st:.1,dur:.45});
-wordsIn(T2C,6.8,{st:.1,dur:.45});
+wordsIn(T2B,5.0,{st:.1,dur:.45});
+wordsIn(T2C,6.1,{st:.1,dur:.45});
 FT(S,{th:0},{th:TH0,duration:1.4,ease:'elastic.out(1,0.38)'},4.4);
 FT(S,{sw:0},{sw:.55,duration:1,ease:'power1.inOut'},5.4);
 FT('#pilF',{fill:'#12909B'},{fill:'#F5C84B',duration:.4},5.0); FT('#pilS',{fill:'#0B5059'},{fill:'#B8902A',duration:.4},5.0);
 FT('#badge',{opacity:0,scale:.3,rotation:-20},{opacity:1,scale:1,rotation:0,duration:.6,ease:'back.out(2.4)'},5.15);
-FT(S,{ic1:0},{ic1:1,duration:1.1,ease:'power2.inOut'},5.4);       /* laporan meluncur ke tiang */
-FT(S,{ic2:0},{ic2:1,duration:1.1,ease:'power2.inOut'},7.0);       /* wakaf meluncur ke tiang */
-fadeOut('#t2',8.0,.3);
+FT(S,{ic1:0},{ic1:1,duration:1.0,ease:'power2.inOut'},5.2);       /* laporan meluncur ke tiang */
+FT(S,{ic2:0},{ic2:1,duration:1.0,ease:'power2.inOut'},6.3);       /* wakaf meluncur ke tiang */
+fadeOut('#t2',7.2,.3);
+/* jembatan: dari tiga masalah ke tiga jawaban */
+wordsIn(B1,7.5,{st:.12,dur:.45}); wordsIn(B2,8.25,{st:.14,dur:.45});
+fadeOut('#br',8.95,.3);
 
 /* ============ ADEGAN 3 (8,2-19,4): TIGA DOKUMEN JADI PONDASI ============ */
 const TINT=['rgba(14,124,134,.12)','rgba(245,200,75,.26)','rgba(14,124,134,.12)'];
 DOCS.forEach((d,k)=>{
   const a=ENTER[k], f=FLY[k], L=LAND[k];
-  FT(P[k],{en:0},{en:1,duration:1.15,ease:'power2.out'},a);
-  FT(CHIPEL[k],{opacity:0,y:-18},{opacity:1,y:0,duration:.35,ease:'back.out(1.8)'},a+.5);
-  FT(CAPEL[k],{opacity:0,y:18},{opacity:1,y:0,duration:.4,ease:'power2.out'},a+.65);
+  FT(P[k],{en:0},{en:1,duration:.95,ease:'power2.out'},a);
+  FT(CHIPEL[k],{opacity:0,y:-18},{opacity:1,y:0,duration:.35,ease:'back.out(1.8)'},a+.85);
+  FT(CAPEL[k],{opacity:0,y:18},{opacity:1,y:0,duration:.4,ease:'power2.out'},a+.9);
   FT([CHIPEL[k],CAPEL[k]],{opacity:1},{opacity:0,duration:.25,ease:'power1.in'},f-.2);
   FT(P[k],{fl:0},{fl:1,duration:.4,ease:'power3.in'},f);
   FT(P[k],{lc:0},{lc:1,duration:.55,ease:'elastic.out(1,0.5)'},L-.12);
   const from=TH0*(1-k/3), to=TH0*(1-(k+1)/3);
   FT(S,{th:from},{th:to,duration:k===2?1.1:.6,ease:k===2?'elastic.out(1,0.35)':'power2.out'},L);
   /* isi dokumen menyala satu per satu */
-  ROWS[k].forEach((r,j)=>{ const mk=$('.mk',r); const at=a+1.3+.4*j;
+  ROWS[k].forEach((r,j)=>{ const mk=$('.mk',r); const at=a+1.2+.4*j;
     FT(r,{backgroundColor:TINT[k].replace(/[\d.]+\)$/,'0)')},{backgroundColor:TINT[k],duration:.3,ease:'power2.out'},at);
     if(mk) FT(mk,{opacity:0},{opacity:1,duration:.3},at);
     const bar=$('.bar i',r); if(bar) FT(bar,{width:'0%'},{width:bar.dataset.w+'%',duration:.7,ease:'power2.out'},at); });
 });
-FT(S,{sw:.55},{sw:0,duration:1.4,ease:'power2.inOut'},17.6);
-FT(S,{kn:0},{kn:1,duration:.85,ease:'power2.in'},19.45);                     /* momen istimewa: tiang tersingkir */
-FT('#badge',{opacity:1,y:0},{opacity:0,y:-20,duration:.3,ease:'power2.in'},8.0);
-FT('#sweep',{opacity:0},{opacity:1,duration:.01},19.63);
-FT('#sweep',{x:-420},{x:1500,duration:1.1,ease:'power1.inOut'},19.65);
-FT(S,{dw:0},{dw:1,duration:2.4,ease:'sine.inOut'},19.4);                      /* senja -> fajar */
+FT(S,{sw:.55},{sw:0,duration:1.4,ease:'power2.inOut'},16.8);
+FT(S,{kn:0},{kn:1,duration:.85,ease:'power2.in'},19.15);                     /* momen istimewa: tiang tersingkir */
+FT('#badge',{opacity:1,y:0},{opacity:0,y:-20,duration:.3,ease:'power2.in'},7.2);
+FT('#sweep',{opacity:0},{opacity:1,duration:.01},19.33);
+FT('#sweep',{x:-420},{x:1500,duration:1.1,ease:'power1.inOut'},19.35);
+FT(S,{dw:0},{dw:1,duration:2.4,ease:'sine.inOut'},19.1);                      /* senja -> fajar */
 
 /* ============ ADEGAN 4 (19,4-22,2): ANGKA ============ */
-FT(S,{cs:1},{cs:.92,duration:1.2,ease:'power2.inOut'},19.7);
-FT(COLEL,{opacity:1},{opacity:0,duration:.5,ease:'power1.in'},19.9);
-FT('#docs',{opacity:1},{opacity:0,duration:.5,ease:'power1.in'},19.8);
-FT('#plinth',{opacity:0},{opacity:1,duration:.5,ease:'power1.out'},19.9);
-FT('#pan',{opacity:0,y:-30},{opacity:1,y:0,duration:.5,ease:'back.out(1.5)'},20.0);
-FT('#pn4',{opacity:0},{opacity:1,duration:.3},20.0);
-FT(S,{cnt:0},{cnt:172,duration:1.7,ease:'power1.inOut'},20.3);
-FT(TABS,{opacity:0,y:12},{opacity:1,y:0,duration:.3,ease:'back.out(2)',stagger:.04},21.0);
-FT(SANTRI,{opacity:1},{opacity:0,duration:.4,stagger:.01},21.6);
-FT('#pn4',{opacity:1},{opacity:0,duration:.3},22.15);
+FT(S,{cs:1},{cs:.92,duration:1.2,ease:'power2.inOut'},19.4);
+FT(COLEL,{opacity:1},{opacity:0,duration:.5,ease:'power1.in'},19.6);
+FT('#docs',{opacity:1},{opacity:0,duration:.5,ease:'power1.in'},19.5);
+FT('#plinth',{opacity:0},{opacity:1,duration:.5,ease:'power1.out'},19.6);
+FT('#pan',{opacity:0,y:-30},{opacity:1,y:0,duration:.5,ease:'back.out(1.5)'},19.7);
+FT('#pn4',{opacity:0},{opacity:1,duration:.3},19.7);
+FT(S,{cnt:0},{cnt:172,duration:1.7,ease:'power1.inOut'},19.95);
+FT(TABS,{opacity:0,y:12},{opacity:1,y:0,duration:.3,ease:'back.out(2)',stagger:.04},20.6);
+FT(SANTRI,{opacity:1},{opacity:0,duration:.4,stagger:.01},21.2);
+FT('#pn4',{opacity:1},{opacity:0,duration:.3},22.3);
 
 /* ============ ADEGAN 5 (22,2-25): HASIL + TOMBOL ============ */
-FT('#pan',{height:350},{height:232,duration:.4,ease:'power2.inOut'},22.15);
-FT('#pn5',{opacity:0},{opacity:1,duration:.2},22.2);
-wordsIn(P5A,22.3,{st:.12,dur:.45}); wordsIn(P5B,22.75,{st:.12,dur:.45});
-FT('#cta',{opacity:0,y:260,scale:.9},{opacity:1,y:0,scale:1,duration:.7,ease:'back.out(1.7)'},23.1);
-FT('#cta',{scale:1},{scale:1.035,duration:.4,ease:'sine.inOut',repeat:1,yoyo:true},24.0);
+FT('#pan',{height:350},{height:232,duration:.4,ease:'power2.inOut'},22.3);
+FT('#pn5',{opacity:0},{opacity:1,duration:.2},22.35);
+wordsIn(P5A,22.45,{st:.12,dur:.45}); wordsIn(P5B,22.9,{st:.12,dur:.45});
+FT('#cta',{opacity:0,y:260,scale:.9},{opacity:1,y:0,scale:1,duration:.7,ease:'back.out(1.7)'},23.2);
+FT('#cta',{scale:1},{scale:1.035,duration:.4,ease:'sine.inOut',repeat:1,yoyo:true},24.1);
 tl.to({},{duration:.01},DUR);
 
 /* ============ RENDER ============ */

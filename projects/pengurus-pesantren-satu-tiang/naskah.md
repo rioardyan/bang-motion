@@ -58,12 +58,13 @@ Konsekuensi untuk flow: hook sudah menyebut **keputusan**. Jadi adegan 2 tidak m
 | Detik | Adegan | Teks di layar | Visual |
 |---|---|---|---|
 | 0–3,8 | 1. Tanya | "PENGURUS YAYASAN PESANTREN," (0,3) · "Santri bertambah. Unit bertambah." (1,3) · "Semua keputusan masih menunggu satu orang." (2,6, kuning) | Empat bangunan (PONDOK, MI, MTs, TK) berderet di atas satu balok yang bertumpu pada satu tiang "PENGURUS". Titik santri menumpuk. TK jatuh menyusul sebagai unit terakhir. Panah dari tiap unit turun ke tiang. |
-| 3,8–8,2 | 2. Bukan cuma keputusan | "Bukan cuma keputusan." (4,0) · "Laporan tiap unit juga dikirim ke satu orang." (5,2) · "Tanah wakaf juga cuma diingat satu orang." (6,8) | Bangunan miring, tiang menyala kuning. Dua butir baru muncul bersama panah laporan dan panah wakaf ke tiang yang sama. |
-| 8,2–12,0 | 3a. Keputusan | Label KEPUTUSAN · "29 keputusan, jelas siapa yang berwenang." | Halaman Matriks Kewenangan meluncur, jadi pondasi pertama. Bangunan tegak sedikit. |
-| 12,0–15,8 | 3b. Laporan | Label LAPORAN · "Laporan semua unit terbaca di satu tempat." | Halaman Dashboard Kinerja Unit, pondasi kedua. |
-| 15,8–19,5 | 3c. Wakaf | Label WAKAF · "Tanah wakaf tercatat, bukan cuma diingat." | Berita Acara Serah Terima Hibah dan Wakaf, pondasi ketiga. Bangunan tegak sekali hentak, tiang "PENGURUS" tersingkir, satu sapuan cahaya. |
-| 19,5–22,2 | 4. Angka | Label "Sistem Tata Kelola Yayasan" · **172 dokumen** menghitung naik · "14 kategori" | Pondasi menyatu jadi alas berisi 172 sel. Empat belas tab A–N di atas alas. |
-| 22,2–25 | 5. Tombol | "Unit bertambah, keputusan tetap jalan." · Tombol "Rapikan kerja pondok sekarang" | Teks penutup naik di atas bangunan. Tombol naik dari lantai. |
+| 3,8–7,4 | 2. Bukan cuma keputusan | "Bukan cuma keputusan." (4,0) · "Laporan tiap unit juga dikirim ke satu orang." (5,2) · "Tanah wakaf juga cuma diingat satu orang." (6,8) | Bangunan miring, tiang menyala kuning. Dua butir baru muncul bersama panah laporan dan panah wakaf ke tiang yang sama. |
+| 7,4–9,0 | **Jembatan** | "Keputusan, laporan, wakaf: semuanya bisa ditulis." (7,5) · "Mulai dari **keputusan.**" (8,25) | Teks berdiri sendiri di atas bangunan miring. Menyambung tiga masalah ke tiga jawaban. (Revisi: sebelumnya layar loncat dari adegan 2 ke label KEPUTUSAN.) |
+| 9,0–12,3 | 3a. Keputusan | Label KEPUTUSAN · "29 keputusan, jelas siapa yang berwenang." | Halaman Matriks Kewenangan jatuh berayun, jadi pondasi pertama. |
+| 12,4–15,7 | 3b. Laporan | Label **LALU, LAPORAN** · "Laporan semua unit terbaca di satu tempat." | Halaman Dashboard Kinerja Unit, pondasi kedua. |
+| 15,8–19,1 | 3c. Wakaf | Label **TERAKHIR, WAKAF** · "Tanah wakaf tercatat, bukan cuma diingat." | Berita Acara Serah Terima Hibah dan Wakaf, pondasi ketiga. Bangunan tegak sekali hentak, tiang tersingkir, matahari terbit. |
+| 19,1–22,3 | 4. Angka | Label "Sistem Tata Kelola Yayasan" · **172 dokumen** menghitung naik · "14 kategori" | Pondasi menyatu jadi alas berisi 172 sel. Empat belas tab A–N di atas alas. |
+| 22,3–25 | 5. Tombol | "Unit bertambah, keputusan tetap jalan." · Tombol "Rapikan kerja pondok sekarang" | Teks penutup di panel. Tombol naik dari tanah. |
 
 Beda dari draf awal: dokumen **tiga**, bukan enam (Satu Tiang memakai enam). Tiap dokumen dapat 3,7 detik. Panah ke "kursi" diganti panah ke tiang, supaya benda penghubungnya tetap satu (tiang) seperti Satu Tiang.
 
@@ -81,6 +82,9 @@ Beda dari draf awal: dokumen **tiga**, bukan enam (Satu Tiang memakai enam). Tia
 | Laporan semua unit terbaca di satu tempat. | Lolos. |
 | Tanah wakaf tercatat, bukan cuma diingat. | Lolos uji dua kalimat: "Tanah wakaf tercatat. Tanah wakaf tidak cuma diingat." Satu sumbu: cara tanah wakaf disimpan. |
 | Unit bertambah, keputusan tetap jalan. | Lolos. Mengulang "unit bertambah" dari pembuka, jadi penutup terasa bulat. |
+| Keputusan, laporan, wakaf: semuanya bisa ditulis. | Lolos. Sekali baca, berdiri sendiri (menyebut ketiga hal, tidak bergantung pada layar sebelumnya). |
+| Mulai dari keputusan. | Lolos. Kata depan "dari" ikut. |
+| LALU, LAPORAN · TERAKHIR, WAKAF | Lolos. Kata sambung urutan, menyambung dari "Mulai dari keputusan." |
 | Rapikan kerja pondok sekarang | Lolos. Perintah yang menyebut hasil (rapi). Pengganti "Tata pondok tanpa bergantung satu orang" (kata "pada" hilang, dan terlalu panjang untuk tombol). |
 
 ## Yang harus dicek sebelum dikunci (kejujuran)
