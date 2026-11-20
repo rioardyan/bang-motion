@@ -1,4 +1,4 @@
-# Naskah: Pengurus yayasan pesantren, format Satu Tiang (video 4:5, 25 detik)
+# Naskah: Pengurus yayasan pesantren, format Satu Tiang (video 4:5, ±29 detik, tanpa audio dulu)
 
 Status: **terkunci (v3)**. Hook memakai versi asli pengguna. Tombol: "Rapikan kerja pondok sekarang" (dipilih pengguna). Dua dokumen (dashboard, berita acara wakaf) dipakai apa adanya, halamannya contoh dari kode; nama dokumen dicek pengguna ke Product Knowledge sebelum tayang.
 Format: Satu Tiang v1 (tanya → risiko → bukti jadi pondasi → angka → tombol). Beda di isi: empat unit pesantren di atas satu tiang "PENGURUS".
@@ -57,14 +57,16 @@ Konsekuensi untuk flow: hook sudah menyebut **keputusan**. Jadi adegan 2 tidak m
 
 | Detik | Adegan | Teks di layar | Visual |
 |---|---|---|---|
-| 0–3,8 | 1. Tanya | "PENGURUS YAYASAN PESANTREN," (0,3) · "Santri bertambah. Unit bertambah." (1,3) · "Semua keputusan masih menunggu satu orang." (2,6, kuning) | Empat bangunan (PONDOK, MI, MTs, TK) berderet di atas satu balok yang bertumpu pada satu tiang "PENGURUS". Titik santri menumpuk. TK jatuh menyusul sebagai unit terakhir. Panah dari tiap unit turun ke tiang. |
-| 3,8–7,4 | 2. Bukan cuma keputusan | "Bukan cuma keputusan." (4,0) · "Laporan tiap unit juga dikirim ke satu orang." (5,2) · "Tanah wakaf juga cuma diingat satu orang." (6,8) | Bangunan miring, tiang menyala kuning. Dua butir baru muncul bersama panah laporan dan panah wakaf ke tiang yang sama. |
-| 7,4–9,0 | **Jembatan** | "Keputusan, laporan, wakaf: semuanya bisa ditulis." (7,5) · "Mulai dari **keputusan.**" (8,25) | Teks berdiri sendiri di atas bangunan miring. Menyambung tiga masalah ke tiga jawaban. (Revisi: sebelumnya layar loncat dari adegan 2 ke label KEPUTUSAN.) |
-| 9,0–12,3 | 3a. Keputusan | Label KEPUTUSAN · "29 keputusan, jelas siapa yang berwenang." | Halaman Matriks Kewenangan jatuh berayun, jadi pondasi pertama. |
-| 12,4–15,7 | 3b. Laporan | Label **LALU, LAPORAN** · "Laporan semua unit terbaca di satu tempat." | Halaman Dashboard Kinerja Unit, pondasi kedua. |
-| 15,8–19,1 | 3c. Wakaf | Label **TERAKHIR, WAKAF** · "Tanah wakaf tercatat, bukan cuma diingat." | Berita Acara Serah Terima Hibah dan Wakaf, pondasi ketiga. Bangunan tegak sekali hentak, tiang tersingkir, matahari terbit. |
-| 19,1–22,3 | 4. Angka | Label "Sistem Tata Kelola Yayasan" · **172 dokumen** menghitung naik · "14 kategori" | Pondasi menyatu jadi alas berisi 172 sel. Empat belas tab A–N di atas alas. |
-| 22,3–25 | 5. Tombol | "Unit bertambah, keputusan tetap jalan." · Tombol "Rapikan kerja pondok sekarang" | Teks penutup di panel. Tombol naik dari tanah. |
+| 0–3,8 | 1. Tanya | "PENGURUS YAYASAN PESANTREN," (0,3) · "Santri bertambah. Unit bertambah." (1,3) · "Semua keputusan masih menunggu satu orang." (2,6, kuning) | Empat bangunan (PONDOK, MI, MTs, TK) berderet di atas satu balok yang bertumpu pada satu tiang "PENGURUS". Titik santri menumpuk. TK jatuh menyusul. Panah dari tiap unit turun ke tiang. |
+| 3,8–8,2 | 2. Bukan cuma keputusan | "Bukan cuma keputusan." (3,95) · "Laporan tiap unit juga dikirim ke satu orang." (5,2) · "Tanah wakaf juga cuma diingat satu orang." (6,6) | Bangunan miring, tiang menyala kuning dengan angka 1. Ikon laporan dan ikon wakaf meluncur ke tiang yang sama. |
+| 8,2–11,9 | **Jembatan** | "Keputusan, laporan, wakaf: semuanya bisa ditulis." (8,5) · "Mulai dari **keputusan.**" (9,55) · dibiarkan terbaca sampai 11,6 | Teks berdiri sendiri di atas bangunan miring. Jeda baca sekitar 1,5 detik setelah kalimat lengkap. (Revisi 2: pertama ditambahkan, lalu diperpanjang karena terlalu cepat.) |
+| 11,9–15,5 | 3a. Keputusan | Label KEPUTUSAN · "29 keputusan, jelas siapa yang berwenang." | Halaman Matriks Kewenangan jatuh berayun, jadi pondasi pertama. |
+| 15,6–19,2 | 3b. Laporan | Label LALU, LAPORAN · "Laporan semua unit terbaca di satu tempat." | Halaman Dashboard Kinerja Unit, pondasi kedua. |
+| 19,3–22,9 | 3c. Wakaf | Label TERAKHIR, WAKAF · "Tanah wakaf tercatat, bukan cuma diingat." | Berita Acara Serah Terima Hibah dan Wakaf, pondasi ketiga. Bangunan tegak sekali hentak, tiang tersingkir, matahari terbit. |
+| 22,9–26,1 | 4. Angka | Label "Sistem Tata Kelola Yayasan" · **172 dokumen** menghitung naik · "14 kategori" | Pondasi menyatu jadi alas berisi 172 sel. Empat belas tab A–N di atas alas. |
+| 26,1–28,8 | 5. Tombol | "Unit bertambah, keputusan tetap jalan." · Tombol "Rapikan kerja pondok sekarang" | Teks penutup di panel. Tombol naik dari tanah. |
+
+Prinsip waktu: **waktu baca menang atas target durasi.** Total ±29 detik (brief awal 20–25), dipakai supaya tiap teks sempat terbaca. Kalau perlu dipangkas, pangkas di jeda antar adegan, bukan di waktu baca teks.
 
 Beda dari draf awal: dokumen **tiga**, bukan enam (Satu Tiang memakai enam). Tiap dokumen dapat 3,7 detik. Panah ke "kursi" diganti panah ke tiang, supaya benda penghubungnya tetap satu (tiang) seperti Satu Tiang.
 

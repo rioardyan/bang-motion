@@ -156,7 +156,7 @@ html,body{width:100%;height:100%;background:var(--page);overflow:hidden;font-fam
 <script>
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const Q=new URLSearchParams(location.search);
-const W=1080,H=1350,DUR=25,GROUND=1190,BEAM=1010;
+const W=1080,H=1350,DUR=28.8,GROUND=1190,BEAM=1010;
 const tl=gsap.timeline({paused:true});
 const FT=(tg,f,t,at)=>tl.fromTo(tg,f,Object.assign({immediateRender:false},t),at);
 const NS='http://www.w3.org/2000/svg';
@@ -169,7 +169,7 @@ function rng(seed){ let a=seed; return ()=>{ a|=0; a=a+0x6D2B79F5|0; let t=Math.
 const S={th:0,sw:0,cs:1,dw:0,kn:0,sn:0,cnt:0,ic1:0,ic2:0,a1:0,a2:0,a3:0,a4:0};
 const P=[0,1,2].map(()=>({en:0,fl:0,lc:0}));
 const SLOT=[320,760,540];
-const T0=[9.2,12.5,15.8], ENTER=T0.map(t=>t+.1), FLY=T0.map(t=>t+2.9), LAND=FLY.map(x=>+(x+.4).toFixed(2));
+const T0=[11.9,15.6,19.3], ENTER=T0.map(t=>t+.1), FLY=T0.map(t=>t+3.2), LAND=FLY.map(x=>+(x+.4).toFixed(2));
 const TH0=8;
 
 /* ============ LANGIT ============ */
@@ -286,18 +286,18 @@ fadeOut('#hook',3.65,.3);
 
 /* ============ ADEGAN 2 (3,8-8,2): BUKAN CUMA KEPUTUSAN ============ */
 wordsIn(T2A,3.95,{st:.12,dur:.5});
-wordsIn(T2B,5.0,{st:.1,dur:.45});
-wordsIn(T2C,6.1,{st:.1,dur:.45});
+wordsIn(T2B,5.2,{st:.1,dur:.45});
+wordsIn(T2C,6.6,{st:.1,dur:.45});
 FT(S,{th:0},{th:TH0,duration:1.4,ease:'elastic.out(1,0.38)'},4.4);
 FT(S,{sw:0},{sw:.55,duration:1,ease:'power1.inOut'},5.4);
 FT('#pilF',{fill:'#12909B'},{fill:'#F5C84B',duration:.4},5.0); FT('#pilS',{fill:'#0B5059'},{fill:'#B8902A',duration:.4},5.0);
 FT('#badge',{opacity:0,scale:.3,rotation:-20},{opacity:1,scale:1,rotation:0,duration:.6,ease:'back.out(2.4)'},5.15);
-FT(S,{ic1:0},{ic1:1,duration:1.0,ease:'power2.inOut'},5.2);       /* laporan meluncur ke tiang */
-FT(S,{ic2:0},{ic2:1,duration:1.0,ease:'power2.inOut'},6.3);       /* wakaf meluncur ke tiang */
-fadeOut('#t2',7.2,.3);
+FT(S,{ic1:0},{ic1:1,duration:1.1,ease:'power2.inOut'},5.4);       /* laporan meluncur ke tiang */
+FT(S,{ic2:0},{ic2:1,duration:1.1,ease:'power2.inOut'},6.8);       /* wakaf meluncur ke tiang */
+fadeOut('#t2',8.2,.3);
 /* jembatan: dari tiga masalah ke tiga jawaban */
-wordsIn(B1,7.5,{st:.12,dur:.45}); wordsIn(B2,8.25,{st:.14,dur:.45});
-fadeOut('#br',8.95,.3);
+wordsIn(B1,8.5,{st:.14,dur:.5}); wordsIn(B2,9.55,{st:.16,dur:.5});
+fadeOut('#br',11.6,.3);                                  /* jeda baca ±1,5 dtk setelah kalimat lengkap */
 
 /* ============ ADEGAN 3 (8,2-19,4): TIGA DOKUMEN JADI PONDASI ============ */
 const TINT=['rgba(14,124,134,.12)','rgba(245,200,75,.26)','rgba(14,124,134,.12)'];
@@ -317,31 +317,31 @@ DOCS.forEach((d,k)=>{
     if(mk) FT(mk,{opacity:0},{opacity:1,duration:.3},at);
     const bar=$('.bar i',r); if(bar) FT(bar,{width:'0%'},{width:bar.dataset.w+'%',duration:.7,ease:'power2.out'},at); });
 });
-FT(S,{sw:.55},{sw:0,duration:1.4,ease:'power2.inOut'},16.8);
-FT(S,{kn:0},{kn:1,duration:.85,ease:'power2.in'},19.15);                     /* momen istimewa: tiang tersingkir */
-FT('#badge',{opacity:1,y:0},{opacity:0,y:-20,duration:.3,ease:'power2.in'},7.2);
-FT('#sweep',{opacity:0},{opacity:1,duration:.01},19.33);
-FT('#sweep',{x:-420},{x:1500,duration:1.1,ease:'power1.inOut'},19.35);
-FT(S,{dw:0},{dw:1,duration:2.4,ease:'sine.inOut'},19.1);                      /* senja -> fajar */
+FT(S,{sw:.55},{sw:0,duration:1.4,ease:'power2.inOut'},20.6);
+FT(S,{kn:0},{kn:1,duration:.85,ease:'power2.in'},22.95);                     /* momen istimewa: tiang tersingkir */
+FT('#badge',{opacity:1,y:0},{opacity:0,y:-20,duration:.3,ease:'power2.in'},8.0);
+FT('#sweep',{opacity:0},{opacity:1,duration:.01},23.13);
+FT('#sweep',{x:-420},{x:1500,duration:1.1,ease:'power1.inOut'},23.15);
+FT(S,{dw:0},{dw:1,duration:2.4,ease:'sine.inOut'},22.9);                      /* senja -> fajar */
 
 /* ============ ADEGAN 4 (19,4-22,2): ANGKA ============ */
-FT(S,{cs:1},{cs:.92,duration:1.2,ease:'power2.inOut'},19.4);
-FT(COLEL,{opacity:1},{opacity:0,duration:.5,ease:'power1.in'},19.6);
-FT('#docs',{opacity:1},{opacity:0,duration:.5,ease:'power1.in'},19.5);
-FT('#plinth',{opacity:0},{opacity:1,duration:.5,ease:'power1.out'},19.6);
-FT('#pan',{opacity:0,y:-30},{opacity:1,y:0,duration:.5,ease:'back.out(1.5)'},19.7);
-FT('#pn4',{opacity:0},{opacity:1,duration:.3},19.7);
-FT(S,{cnt:0},{cnt:172,duration:1.7,ease:'power1.inOut'},19.95);
-FT(TABS,{opacity:0,y:12},{opacity:1,y:0,duration:.3,ease:'back.out(2)',stagger:.04},20.6);
-FT(SANTRI,{opacity:1},{opacity:0,duration:.4,stagger:.01},21.2);
-FT('#pn4',{opacity:1},{opacity:0,duration:.3},22.3);
+FT(S,{cs:1},{cs:.92,duration:1.2,ease:'power2.inOut'},23.2);
+FT(COLEL,{opacity:1},{opacity:0,duration:.5,ease:'power1.in'},23.4);
+FT('#docs',{opacity:1},{opacity:0,duration:.5,ease:'power1.in'},23.3);
+FT('#plinth',{opacity:0},{opacity:1,duration:.5,ease:'power1.out'},23.4);
+FT('#pan',{opacity:0,y:-30},{opacity:1,y:0,duration:.5,ease:'back.out(1.5)'},23.5);
+FT('#pn4',{opacity:0},{opacity:1,duration:.3},23.5);
+FT(S,{cnt:0},{cnt:172,duration:1.7,ease:'power1.inOut'},23.75);
+FT(TABS,{opacity:0,y:12},{opacity:1,y:0,duration:.3,ease:'back.out(2)',stagger:.04},24.4);
+FT(SANTRI,{opacity:1},{opacity:0,duration:.4,stagger:.01},25.0);
+FT('#pn4',{opacity:1},{opacity:0,duration:.3},26.1);
 
 /* ============ ADEGAN 5 (22,2-25): HASIL + TOMBOL ============ */
-FT('#pan',{height:350},{height:232,duration:.4,ease:'power2.inOut'},22.3);
-FT('#pn5',{opacity:0},{opacity:1,duration:.2},22.35);
-wordsIn(P5A,22.45,{st:.12,dur:.45}); wordsIn(P5B,22.9,{st:.12,dur:.45});
-FT('#cta',{opacity:0,y:260,scale:.9},{opacity:1,y:0,scale:1,duration:.7,ease:'back.out(1.7)'},23.2);
-FT('#cta',{scale:1},{scale:1.035,duration:.4,ease:'sine.inOut',repeat:1,yoyo:true},24.1);
+FT('#pan',{height:350},{height:232,duration:.4,ease:'power2.inOut'},26.1);
+FT('#pn5',{opacity:0},{opacity:1,duration:.2},26.15);
+wordsIn(P5A,26.25,{st:.12,dur:.45}); wordsIn(P5B,26.7,{st:.12,dur:.45});
+FT('#cta',{opacity:0,y:260,scale:.9},{opacity:1,y:0,scale:1,duration:.7,ease:'back.out(1.7)'},27.0);
+FT('#cta',{scale:1},{scale:1.035,duration:.4,ease:'sine.inOut',repeat:1,yoyo:true},27.9);
 tl.to({},{duration:.01},DUR);
 
 /* ============ RENDER ============ */
