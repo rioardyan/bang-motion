@@ -138,3 +138,32 @@ Video v2 akan mengikuti audio, jadi **±38–40 detik** (sekarang 28,8). Itu pan
 3. Hapus "Ini Sistem Tata Kelola Yayasan," dari VO dan biarkan hanya di layar (hemat ±2 detik).
 
 Bilang kalau mau salah satunya, nanti kutulis ulang.
+
+---
+
+## Hasil audio dari pengguna (21 Nov 2026): Finn, 32,76 detik
+
+Berkas: `audio/vo.mp3` (dipakai apa adanya, jeda tidak dipangkas). Model v4, tag tidak terbaca keras.
+
+**Yang kamu ubah dari naskah v2** (terdeteksi lewat Whisper dan dipakai sebagai acuan):
+
+| Naskah v2 | Di audio |
+|---|---|
+| "Semuanya bisa ditulis. Mulai dari keputusan." | **"Harusnya semua ada sistemnya."** (jembatan baru) |
+| "Terakhir, tanah wakaf tercatat, bukan cuma diingat." | Dipecah: "Terakhir" / "Tanah wakaf tercatat." / "Bukan cuma diingat." |
+| "Ini Sistem Tata Kelola Yayasan, seratus tujuh puluh dua dokumen." | Dipecah: "Ini sistem Tata Kelola Yayasan." / "172 dokumen" |
+| "Unit bertambah, keputusan tetap jalan." | Dipecah: "Unit bertambah" / "Keputusan tetap jalan." |
+| "Lalu, laporan semua unit …" | "Lalu..." (berdiri sendiri) / "Laporan semua unit terbaca di satu tempat." |
+
+Kalimat lain sama dengan naskah v2.
+
+**Penyesuaian di video** (hanya yang perlu):
+- Teks jembatan di layar diganti jadi "Keputusan, laporan, wakaf: harusnya semua ada sistemnya." supaya sama dengan ucapanmu dan tetap berdiri sendiri. Baris "Mulai dari keputusan." dipertahankan di layar (tidak diucapkan) karena menyambung ke label KEPUTUSAN, LALU, TERAKHIR.
+- Panel produk dibuat bertahap: label "Sistem Tata Kelola Yayasan" muncul saat "Ini sistem Tata Kelola Yayasan.", angka 172 menghitung naik saat "172 dokumen".
+- Selain itu teks layar tidak diubah.
+
+**Batas kalimat (silencedetect + Whisper):** "Santri bertambah." 0,00–1,33 · "Unit bertambah." 1,62–2,73 · "Semua keputusan masih menunggu satu orang." 3,12–5,18 · "Bukan cuma keputusan." 5,60–6,90 · "Laporan dan tanah wakaf juga lewat satu orang." 7,28–9,85 · "Harusnya semua ada sistemnya." 10,28–12,21 · "29 keputusan, jelas siapa yang berwenang." 12,67–15,59 · "Lalu…" 16,07–16,54 · "Laporan semua unit terbaca di satu tempat." 16,74–19,00 · "Terakhir" 19,48–20,00 · "Tanah wakaf tercatat." 20,33–21,59 · "Bukan cuma diingat." 21,77–22,79 · "Ini sistem Tata Kelola Yayasan." 23,57–25,48 · "172 dokumen" 25,75–27,44 · "Unit bertambah" 28,02–29,01 · "Keputusan tetap jalan." 29,23–30,69 · "Rapikan kerja pondok sekarang." 31,17–32,49.
+
+**Catatan:** nama produk "Tata Kelola Yayasan" terdengar agak menempel di Finn (Whisper membacanya "tataklola yayasan"). Sama seperti di proyek lain. Kalau mau lebih jelas, generate ulang satu kalimat itu dengan "Tata Kelola Yayasan" dipisah koma (mis. "Ini sistem Tata, Kelola, Yayasan.") atau pakai suara Bram.
+
+Video v2 = 33,2 detik (audio 32,76 + ekor 0,44).

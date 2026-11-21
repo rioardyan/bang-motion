@@ -1,4 +1,4 @@
-# Naskah: Pengurus yayasan pesantren, format Satu Tiang (video 4:5, ±29 detik, tanpa audio dulu)
+# Naskah: Pengurus yayasan pesantren, format Satu Tiang (video 4:5, 33,2 detik, mengikuti audio Finn)
 
 Status: **terkunci (v3)**. Hook memakai versi asli pengguna. Tombol: "Rapikan kerja pondok sekarang" (dipilih pengguna). Dua dokumen (dashboard, berita acara wakaf) dipakai apa adanya, halamannya contoh dari kode; nama dokumen dicek pengguna ke Product Knowledge sebelum tayang.
 Format: Satu Tiang v1 (tanya → risiko → bukti jadi pondasi → angka → tombol). Beda di isi: empat unit pesantren di atas satu tiang "PENGURUS".
@@ -99,3 +99,8 @@ Beda dari draf awal: dokumen **tiga**, bukan enam (Satu Tiang memakai enam). Tia
 ## Pagar
 
 Tanpa harga, tanpa nama brand Ardya, tanpa kata "template/bundle", tanpa klaim "sesuai peraturan terbaru", tanpa janji hukum, sapaan "Bapak".
+
+
+## Revisi mengikuti audio pengguna (21 Nov 2026)
+
+Audio `audio/vo.mp3` (Finn, 32,76 detik). Jembatan di layar sekarang **"Keputusan, laporan, wakaf: harusnya semua ada sistemnya." / "Mulai dari keputusan."** (mengikuti ucapan "Harusnya semua ada sistemnya."). Semua waktu mengikuti batas kalimat di audio. Rincian ada di `vo-script.md`. Hook, tiga dokumen, 172 dokumen, teks hasil, dan tombol tidak berubah.
