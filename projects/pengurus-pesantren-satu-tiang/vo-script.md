@@ -51,7 +51,7 @@ Yang tidak dibaca (cukup di layar): sapaan pembuka, "14 kategori", chip dan labe
 | 5,8 | 32.8 dtk |
 | 6,2 | 30.9 dtk |
 
-Video sekarang 28,8 detik. Waktu visual akan mengikuti audio, bukan sebaliknya. Audio ini sedikit lebih panjang, jadi video v2 kemungkinan 30–33 detik. Kalau audio melewati 33 detik, jedanya kupangkas di pascaproduksi (suara tidak diubah).
+Video sekarang 28,8 detik. Waktu visual akan mengikuti audio, bukan sebaliknya. Audio ini lebih panjang dari video sekarang, jadi video v2 kemungkinan 31–35 detik. Kalau terasa terlalu panjang, jeda antar kalimat kupangkas di pascaproduksi (suara tidak diubah).
 
 ## Perkiraan jatuh di suara (@5,4 / @6,2)
 
