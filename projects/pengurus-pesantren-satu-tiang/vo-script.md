@@ -75,3 +75,66 @@ Meleset ±10% tergantung suara. Kuukur ulang setelah audio ada.
 2. Kirim ke aku. Aku ukur batas kalimat (silencedetect + Whisper), geser waktu visual mengikuti suara, lalu bangun versi bersuara. MP4 kurender setelah kamu bilang "render".
 
 Pengaturan awal: Stability 50–60, Similarity 75–80, Style rendah.
+
+---
+
+# Versi 2: expressive, tag lebih rinci (v4)
+
+Kata-katanya **sama persis** dengan versi 1 (alur sudah kamu uji, jadi tidak kuubah). Yang berubah: arah emosi per baris, penekanan, dan jeda. Berkas: `vo/vo-pesantren-v2.txt`.
+
+## Tempel ini ke ElevenLabs
+
+```
+[serious] [slowly] Santri bertambah. [short pause] Unit bertambah. [pause]
+[tired] Semua keputusan masih menunggu... SATU orang. [pause]
+[concerned] Bukan cuma keputusan. [short pause] Laporan dan tanah wakaf juga lewat SATU orang. [pause]
+[exhales] [calmly] [warmly] Semuanya bisa ditulis. [short pause] Mulai dari keputusan. [short pause]
+[clearly] Dua puluh sembilan keputusan — jelas siapa yang berwenang. [short pause]
+[upbeat] Lalu, laporan semua unit — terbaca di satu tempat. [short pause]
+[relieved] [hopeful] Terakhir, tanah wakaf TERCATAT, bukan cuma diingat. [pause]
+[confident] Ini Sistem Tata Kelola Yayasan — seratus tujuh puluh dua dokumen. [pause]
+[warmly] Unit bertambah, keputusan tetap JALAN. [short pause]
+[firmly] [confident] Rapikan kerja pondok sekarang.
+```
+
+## Lengkung emosi
+
+Cerita ini naik dari berat ke lega. Tag mengikuti lengkung itu:
+
+| Bagian | Tag | Kenapa |
+|---|---|---|
+| Hook: "Santri bertambah. Unit bertambah." | `[serious] [slowly]` | Dua ketukan pendek, berat. |
+| "Semua keputusan masih menunggu… SATU orang." | `[tired]` + titik tiga + huruf besar | "Menunggu…" ditahan, lalu "SATU" jatuh. Ini beban utamanya. |
+| "Bukan cuma keputusan… Laporan dan tanah wakaf juga lewat SATU orang." | `[concerned]` | Beban bertambah, nada naik cemas. |
+| Titik balik: "Semuanya bisa ditulis." | `[exhales] [calmly] [warmly]` | Satu embusan napas sebelum kalimat, tanda lega. Dari sini nada hangat. |
+| "Dua puluh sembilan keputusan — jelas siapa yang berwenang." | `[clearly]` | Jawaban pertama, jernih. Tanda pisah memberi jeda pendek sebelum jawabannya. |
+| "Lalu, laporan semua unit — terbaca di satu tempat." | `[upbeat]` | Sedikit lebih ringan dan cepat, seperti beban terangkat. |
+| "Terakhir, tanah wakaf TERCATAT, bukan cuma diingat." | `[relieved] [hopeful]` | Titik lega, jatuh bersama matahari terbit. "TERCATAT" ditekan, "bukan cuma diingat" turun. |
+| "Ini Sistem Tata Kelola Yayasan — seratus tujuh puluh dua dokumen." | `[confident]` | Perkenalan produk, mantap. |
+| "Unit bertambah, keputusan tetap JALAN." | `[warmly]` | Mengulang kalimat hook, tapi arahnya terbalik. Nada hangat dan lega. |
+| "Rapikan kerja pondok sekarang." | `[firmly] [confident]` | Ajakan tegas, tanpa nada jualan. |
+
+Aturan v4 yang dipakai: tag menempel sampai tag berikutnya (jadi diganti hanya saat nada berubah); tag menggambarkan **cara ucap**, bukan gerakan; huruf besar hemat (hanya SATU, TERCATAT, JALAN); titik tiga untuk jeda panjang, tanda pisah untuk ketukan pendek; `[pause]` untuk jeda antar bagian cerita.
+
+## Kalau hasilnya kurang pas
+
+| Gejala | Perbaikan |
+|---|---|
+| Tag terbaca keras | Hapus semua tag kecuali `[pause]`/`[short pause]`. Kalau masih terbaca, hapus semua tag. |
+| Terlalu dramatis di hook | Hapus `[tired]`, biarkan `[serious]`. |
+| Titik balik kurang terasa | Ganti `[exhales]` dengan `[sighs]`, atau hapus tag napas dan biarkan `[pause]` sebelum "Semuanya bisa ditulis." |
+| Suara tidak konsisten antar kalimat | Naikkan Stability (mis. dari 45 ke 55). Stability lebih rendah (35–45) membuat tag lebih terasa, tapi suara lebih berubah-ubah. Ini saran umum, bukan angka pasti untuk suara Bram. |
+| Terlalu panjang | Lihat bawah. |
+
+## Durasi (dikalibrasi dari hasilmu)
+
+Versi 1 dengan 169 suku kata menghasilkan **37 detik (Bram)** dan **36 detik (Finn)**. Itu kecepatan nyata ±4,6 suku kata/detik sudah termasuk jeda, bukan 5,4 seperti perkiraanku sebelumnya (jadi perkiraan 31–35 detik di atas meleset).
+
+Versi 2 punya kata yang sama (169 suku kata), jadi perkirakan **±36–38 detik**. Tag napas dan titik tiga menambah sedikit, jeda `[pause]` yang kukurangi menguranginya.
+
+Video v2 akan mengikuti audio, jadi **±38–40 detik** (sekarang 28,8). Itu panjang untuk iklan 4:5. Kalau mau lebih pendek, pilihanku, mulai yang paling aman:
+1. Aku pangkas jeda antar kalimat di pascaproduksi (hemat 2–3 detik, suara tidak berubah).
+2. Hapus "Bukan cuma keputusan." dari VO (8 suku kata, hemat ±1,7 detik). Di layar tetap tertulis.
+3. Hapus "Ini Sistem Tata Kelola Yayasan," dari VO dan biarkan hanya di layar (hemat ±2 detik).
+
+Bilang kalau mau salah satunya, nanti kutulis ulang.
