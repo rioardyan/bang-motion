@@ -61,3 +61,9 @@ Cek bahasa (dibaca lepas): #5 tanya-jawab "Iya, cuma buku kas" wajar · #6 tanya
 - **A. Neraca yang benar-benar timbangan** (#7 metafora benda): "neraca" = timbangan. Dua piring tidak seimbang, jarum menunjuk selisih. Lima komponen masuk satu per satu jadi beban, jarum bergerak ke **0**.
 - **B. Malam tutup buku** (diegetik): meja bendahara, jam 23.47, gulungan kalkulator memanjang, lampu meja. Excel masuk, jam berhenti lebih awal.
 - **C. Lima keping**: laporan keuangan sebagai teka-teki lima keping; keping yang hilang bertuliskan "selisih". Keping kelima masuk, angka jadi nol.
+
+## Keputusan konsep dan CTA (pengguna)
+
+- Konsep: **A. Neraca jadi timbangan sungguhan.**
+- CTA tombol: **"Dapatkan Sekarang"**.
+- Urutan kerja: **naskah VO dulu** (`vo-script.md`), motion dibangun setelah audio ada.
