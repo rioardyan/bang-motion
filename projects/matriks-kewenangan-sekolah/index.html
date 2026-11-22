@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Kartu Keputusan Sekolah</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  PROMO META ADS 4:5 (1080x1350), 41,7 detik, mengikuti audio/vo.mp3 (ElevenLabs, suara Prayan), loop.
+  Dari kreatif pemenang "Yayasan punya sekolah. Tapi siapa yang boleh memutuskan apa?" (headline direvisi pengguna).
+  Konsep A: kartu keputusan dipilah ke jalurnya. Gaya: papan kanban navy + oranye, Lexend.
+  ?debug=1 = panel scrub · ?clean=1 = tanpa autoplay (potret/export).
+  Kartu keputusan dan isi matriks = contoh.
+-->
+<link rel="stylesheet" href="fonts/fonts.css">
+<script src="vendor/gsap.min.js"></script>
+<style>
+:root{
+  --navy:#12284A; --navy2:#1B3763; --navy3:#24467A; --orange:#F26B1D; --yellow:#F5C84B; --cream:#FFF8EC; --teal:#0E7C86; --ink:#12284A;
+  --lx:'Lexend',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var(--lx)}
+#stage{position:fixed;left:50%;top:50%;width:1080px;height:1350px;transform:translate(-50%,-50%) scale(1);overflow:hidden;background:var(--navy)}
+.orb{position:absolute;border-radius:50%;left:0;top:0}
+#o1{width:900px;height:900px;background:rgba(255,255,255,.035)}
+#o2{width:620px;height:620px;background:rgba(242,107,29,.07)}
+
+/* ---------- PAPAN ---------- */
+#board{position:absolute;left:0;top:0;width:1080px;height:1350px}
+.lane{position:absolute;top:560px;width:300px;height:620px;border-radius:22px;background:var(--navy2);box-shadow:inset 0 0 0 3px rgba(255,255,255,.06)}
+.lane .hl{position:absolute;inset:0;border-radius:22px;box-shadow:inset 0 0 0 5px var(--orange);background:rgba(242,107,29,.12);opacity:0}
+.lh{position:absolute;left:20px;right:20px;top:16px;height:54px;border-radius:14px;background:var(--navy3);color:var(--cream);display:flex;align-items:center;justify-content:center;gap:10px;font:700 21px var(--lx);letter-spacing:.04em}
+.lh .ck{width:28px;height:28px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;opacity:0}
+.lh .ck svg{width:18px;height:18px}
+.dv{position:absolute;top:560px;height:620px;width:0;border-left:3px dashed rgba(255,248,236,.28)}
+.ds{position:absolute;top:560px;height:620px;width:8px;margin-left:-4px;border-radius:4px;background:var(--orange);transform-origin:50% 0;transform:scaleY(0)}
+#qbig{position:absolute;left:540px;top:860px;font:800 300px/1 var(--lx);color:var(--orange);opacity:0;transform:translate(-50%,-50%)}
+.card{position:absolute;left:0;top:0;width:270px;height:84px;margin:-42px 0 0 -135px;border-radius:14px;background:var(--cream);color:var(--ink);display:flex;align-items:center;gap:12px;padding:0 16px;
+  font:700 23px/1.1 var(--lx);box-shadow:0 7px 0 rgba(0,0,0,.25);opacity:0}
+.card .ic{flex:none;width:44px;height:44px;border-radius:10px;background:rgba(18,40,74,.08);display:flex;align-items:center;justify-content:center}
+.card .ic svg{width:28px;height:28px}
+.card .bd{position:absolute;right:-12px;top:-12px;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:800 24px var(--lx);color:#fff;opacity:0}
+.card .bd.q{background:var(--orange)} .card .bd.c{background:var(--teal)}
+.card .bd svg{width:22px;height:22px}
+.bub{position:absolute;padding:14px 22px;border-radius:18px;background:#fff;color:var(--ink);font:700 26px var(--lx);opacity:0;white-space:nowrap;transform-origin:50% 100%}
+.bub:after{content:"";position:absolute;left:50%;bottom:-16px;margin-left:-12px;border:12px solid transparent;border-top:16px solid #fff;border-bottom:0}
+#bb1{left:395px;top:610px} #bb2{left:60px;top:610px}
+#contoh{position:absolute;right:60px;top:1188px;font:500 18px var(--lx);color:rgba(255,248,236,.55);opacity:0}
+#doc{position:absolute;left:150px;top:214px;width:780px;height:592px;border-radius:16px;background:#FFFEF8;overflow:hidden;opacity:0;box-shadow:0 16px 0 rgba(0,0,0,.25),0 30px 50px rgba(0,0,0,.35)}
+#doc .dh{height:96px;padding:0 26px;background:var(--orange);color:#fff;display:flex;align-items:center;justify-content:space-between;font:800 29px/1.08 var(--lx)}
+#doc .dh i{font:600 19px var(--lx);font-style:normal;padding:6px 12px;border-radius:8px;background:rgba(0,0,0,.18)}
+#doc .tr{display:grid;grid-template-columns:1fr 110px 130px 90px;align-items:center;height:62px;padding:0 22px;border-bottom:2px solid #ECEFEA;font:600 22px var(--lx);color:var(--ink);background:rgba(0,0,0,0)}
+#doc .tr.th{height:50px;font:700 15px var(--lx);color:#7C8B8D;text-transform:uppercase;letter-spacing:.03em}
+#doc .tr div:not(:first-child){text-align:center}
+#doc .ok{color:var(--teal);font-weight:800;font-size:28px} #doc .no{color:#C3CBC8}
+#doc .ft{padding:10px 22px;font:500 16px var(--lx);color:#8A9795}
+
+/* ---------- TEKS ---------- */
+#hud{position:absolute;inset:0;pointer-events:none}
+.w{display:inline-block;opacity:0}
+.or{color:var(--orange)}
+.tx{position:absolute;left:60px;top:110px;width:960px;color:var(--cream)}
+.tx .ln{display:block}
+#eb{position:absolute;left:60px;top:44px;display:flex;align-items:center;gap:14px;padding:12px 24px 12px 16px;border-radius:16px;background:var(--yellow);color:var(--ink);font:700 26px var(--lx);letter-spacing:.02em;opacity:0}
+#eb svg{width:46px;height:34px}
+#h1{position:absolute;left:60px;top:124px;width:980px;font:800 62px/1 var(--lx);color:var(--cream);letter-spacing:-.02em}
+#h2{position:absolute;left:60px;top:206px;width:960px;font:800 50px/1.1 var(--lx);color:var(--orange);letter-spacing:-.01em}
+#t2{font:800 74px/1.05 var(--lx);letter-spacing:-.02em}
+#t3 .a{font:700 60px/1.08 var(--lx)} #t3 .b{font:700 56px/1.1 var(--lx);color:var(--orange);margin-top:20px}
+#t4{font:700 54px/1.12 var(--lx)}
+#t5{font:800 64px/1.08 var(--lx);letter-spacing:-.015em}
+#t6{font:800 58px var(--lx)}
+#t7 .pt{display:inline-flex;align-items:center;gap:12px;padding:12px 24px;border-radius:12px;background:var(--cream);color:var(--ink);font:700 34px var(--lx);opacity:0}
+#t7 .pt i{width:14px;height:14px;border-radius:50%;background:var(--orange)}
+#t7 .num{margin-top:22px;font:800 44px var(--lx);color:var(--cream);opacity:0}
+#t7 .num b{font-size:110px;color:var(--yellow);font-weight:800;letter-spacing:-.03em;margin-right:14px}
+#t8 .k{font:700 44px var(--lx);color:var(--orange)} #t8 .a{font:700 52px/1.1 var(--lx);margin-top:10px}
+#cta{position:absolute;left:150px;top:1214px;width:780px;height:104px;border-radius:52px;background:var(--orange);color:#fff;display:flex;align-items:center;justify-content:center;gap:22px;
+  font:800 46px var(--lx);opacity:0;box-shadow:0 10px 0 #B8490F,0 24px 36px rgba(0,0,0,.35)}
+#cta i{width:62px;height:62px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex:none}
+#cta svg{width:34px;height:34px}
+#snd{position:fixed;right:14px;bottom:14px;z-index:60;background:rgba(18,40,74,.92);color:#FFF8EC;border:2px solid #F26B1D;border-radius:24px;padding:10px 18px;font:600 15px var(--lx);cursor:pointer}
+#snd.on{background:#F26B1D;color:#fff}
+#ui{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);display:none;align-items:center;gap:12px;padding:9px 14px;border-radius:12px;background:rgba(14,16,22,.9);font:13px var(--lx);color:#A0A6B4;z-index:50}
+#ui.on{display:flex} #ui button{background:#262A34;color:#fff;border:0;padding:6px 12px;border-radius:8px;font:inherit;cursor:pointer}
+#scrub{width:320px} #clock{font-variant-numeric:tabular-nums;min-width:5ch;text-align:right}
+</style>
+</head>
+<body>
+<div id="stage">
+  <i class="orb" id="o1"></i><i class="orb" id="o2"></i>
+  <div id="board">
+    <div class="lane" id="L0" style="left:60px"><div class="hl"></div><div class="lh"><span>YAYASAN</span><span class="ck">CK</span></div></div>
+    <div class="lane" id="L1" style="left:390px"><div class="hl"></div><div class="lh"><span>KEPALA SEKOLAH</span><span class="ck">CK</span></div></div>
+    <div class="lane" id="L2" style="left:720px"><div class="hl"></div><div class="lh"><span>UNIT SEKOLAH</span><span class="ck">CK</span></div></div>
+    <div class="dv" style="left:375px"></div><div class="dv" style="left:705px"></div>
+    <div class="ds" style="left:375px"></div><div class="ds" style="left:705px"></div>
+    <div id="qbig">?</div>
+    <div id="cards"></div>
+    <div class="bub" id="bb1">“Tanya yayasan.”</div>
+    <div class="bub" id="bb2">“Tanya kepala sekolah.”</div>
+    <div id="contoh">contoh keputusan</div>
+    <div id="doc"><div class="dh"><span>Matriks Kewenangan &amp;<br>Batas Persetujuan</span><i>YYS-PG-004</i></div>
+      <div class="tr th"><div>Keputusan</div><div>Yayasan</div><div>Kep. Sekolah</div><div>Unit</div></div>
+      <div id="rows"></div><div class="ft">contoh isi</div></div>
+  </div>
+  <div id="hud">
+    <div id="eb"><svg viewBox="0 0 46 34" fill="#12284A"><circle cx="23" cy="9" r="6.5"/><path d="M11 30c0-6.500 5-10 12-10s12 3.500 12 10z"/><circle cx="8" cy="13" r="4.500"/><path d="M0 28c0-4.500 3-7.500 8-7.500 1.200 0 2.200.2 3.200.6-2.200 1.800-3.200 4.200-3.200 6.900z"/><circle cx="38" cy="13" r="4.500"/><path d="M46 28c0-4.500-3-7.500-8-7.500-1.200 0-2.200.2-3.200.6 2.200 1.800 3.200 4.200 3.200 6.900z"/></svg>KHUSUS KETUA &amp; PENGURUS YAYASAN</div>
+    <div id="h1" data-t="YAYASAN PUNYA SEKOLAH."></div>
+    <div id="h2"><span id="h2a" data-t="TAPI"></span> <span id="h2b" data-t="KEPUTUSAN MANA YANG|BOLEH DIAMBIL KEPALA SEKOLAH,"></span><br><span id="h2c" data-t="DAN MANA YANG HARUS|KE YAYASAN?"></span></div>
+    <div class="tx" id="t2" data-t="Mau beli kursi kelas?"></div>
+    <div class="tx" id="t3"><span class="ln a" id="t3a" data-t="Masalahnya bukan orangnya."></span><span class="ln b" id="t3b" data-t="Batas kewenangannya|belum tertulis."></span></div>
+    <div class="tx" id="t4" data-t="Perjelas batas kewenangan|dengan matriks persetujuan|dan SOP yang *tertulis."></div>
+    <div class="tx" id="t5" data-t="Tiap keputusan langsung|ketemu *jalurnya."></div>
+    <div class="tx" id="t6" data-t="Semuanya tertulis di:"></div>
+    <div class="tx" id="t7"><span class="pt"><i></i>Bagian dari Sistem Tata Kelola Yayasan</span><div class="num"><b id="bign">0</b>dokumen · 14 kategori</div></div>
+    <div class="tx" id="t8"><span class="ln k" id="t8k" data-t="Sekarang jelas:"></span><span class="ln a" id="t8a" data-t="mana yang cukup diputuskan|kepala sekolah,"></span><span class="ln a" id="t8b" data-t="mana yang harus ke yayasan."></span></div>
+    <div id="cta"><span>Dapatkan Sekarang</span><i><svg viewBox="0 0 34 34" fill="none" stroke="#F26B1D" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 17h22M19 8l9 9-9 9"/></svg></i></div>
+  </div>
+</div>
+<audio id="vo" src="audio/vo.mp3" preload="auto"></audio>
+<button id="snd" aria-label="Putar dengan suara">&#9654;&#xFE0E; Dengan suara</button>
+<div id="ui"><button id="btn-play">Pause</button><button id="btn-restart">Restart</button>
+  <input type="range" id="scrub" min="0" max="1000" value="0"><span id="clock">0.00s</span></div>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const Q=new URLSearchParams(location.search);
+const W=1080,H=1350,DUR=41.7;
+const tl=gsap.timeline({paused:true});
+const FT=(tg,f,t,at)=>tl.fromTo(tg,f,Object.assign({immediateRender:false},t),at);
+const CK='<svg viewBox="0 0 22 22" fill="none" stroke="#fff" stroke-width="3.500" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.500l4.500 4.500L18 6"/></svg>';
+$$('.lh .ck').forEach(e=>e.innerHTML=CK);
+
+/* ============ STATE (fungsi murni dari t) ============ */
+const S={k:0};
+const LX=[210,540,870];
+/* kartu utama "Beli kursi kelas": titik singgah (pusat) */
+const WP=[[540,860],[540,770],[210,770],[540,770],[375,900],[540,700]];
+const HOP=[60,150,150,90,120];
+/* kartu-kartu lain (contoh) */
+const ICON={
+ chair:'<svg viewBox="0 0 28 28" fill="none" stroke="#12284A" stroke-width="2.600" stroke-linecap="round"><path d="M8 4v11h12V4M6 15h16M9 15v9M19 15v9"/></svg>',
+ build:'<svg viewBox="0 0 28 28" fill="none" stroke="#12284A" stroke-width="2.600" stroke-linejoin="round"><path d="M4 24V10l10-6 10 6v14zM11 24v-7h6v7"/></svg>',
+ user:'<svg viewBox="0 0 28 28" fill="none" stroke="#12284A" stroke-width="2.600" stroke-linecap="round"><circle cx="14" cy="9" r="5"/><path d="M5 25c0-6 4-9 9-9s9 3 9 9"/></svg>',
+ cal:'<svg viewBox="0 0 28 28" fill="none" stroke="#12284A" stroke-width="2.600" stroke-linejoin="round"><rect x="4" y="6" width="20" height="18" rx="3"/><path d="M4 12h20M10 3v5M18 3v5"/></svg>',
+ ball:'<svg viewBox="0 0 28 28" fill="none" stroke="#12284A" stroke-width="2.600"><circle cx="14" cy="14" r="10"/><path d="M4 14h20M14 4c4 4 4 16 0 20M14 4c-4 4-4 16 0 20"/></svg>',
+ pen:'<svg viewBox="0 0 28 28" fill="none" stroke="#12284A" stroke-width="2.600" stroke-linecap="round" stroke-linejoin="round"><path d="M5 23l3-1L22 8l-2-2L6 20zM18 6l4 4"/></svg>'};
+const CARDS=[
+ {t:'Beli kursi kelas',ic:'chair',lane:1,y:700},
+ {t:'Renovasi gedung',ic:'build',lane:0,y:700},
+ {t:'Angkat kepala sekolah',ic:'user',lane:0,y:812},
+ {t:'Jadwal ujian',ic:'cal',lane:1,y:812},
+ {t:'Jadwal ekskul',ic:'ball',lane:2,y:700},
+ {t:'Belanja ATK kelas',ic:'pen',lane:2,y:812}];
+const cardsEl=$('#cards'); const CEL=[]; const CF=CARDS.map(()=>({f:0}));
+CARDS.forEach((c,i)=>{ const e=document.createElement('div'); e.className='card';
+  e.innerHTML=`<span class="ic">${ICON[c.ic]}</span><span>${c.t}</span><span class="bd q">?</span><span class="bd c">${CK}</span>`; cardsEl.appendChild(e); CEL.push(e); });
+const rowsEl=$('#rows'); const ROWS=[];
+CARDS.forEach(c=>{ const r=document.createElement('div'); r.className='tr'; r.innerHTML=`<div>${c.t}</div>`+[0,1,2].map(l=>l===c.lane?'<div class="ok">✓</div>':'<div class="no">–</div>').join(''); rowsEl.appendChild(r); ROWS.push(r); });
+
+/* ============ TEKS ============ */
+function words(e){ e.innerHTML=e.dataset.t.split('|').map(l=>l.trim().split(/\s+/).map(w=>{ const em=w[0]==='*'; return `<span class="w${em?' or':''}">${em?w.slice(1):w}</span>`; }).join(' ')).join('<br>'); return $$('.w',e); }
+const H1=words($('#h1')), H2A=words($('#h2a')), H2B=words($('#h2b')), H2C=words($('#h2c')), T2=words($('#t2')), T3A=words($('#t3a')), T3B=words($('#t3b')),
+      T4=words($('#t4')), T5=words($('#t5')), T6=words($('#t6')), T8K=words($('#t8k')), T8A=words($('#t8a')), T8B=words($('#t8b'));
+const wordsIn=(ws,at,o={})=>FT(ws,{opacity:0,y:o.y??28},{opacity:1,y:0,duration:o.dur??.45,ease:o.ease??'back.out(1.6)',stagger:o.st??.08},at);
+const out=(sel,at,d=.3)=>FT(sel,{opacity:1,y:0},{opacity:0,y:-22,duration:d,ease:'power2.in'},at);
+
+/* ===== WAKTU DARI AUDIO (audio/vo.mp3, Prayan; silencedetect + Whisper) =====
+   "Yayasan punya sekolah." 0,00-1,44 · "Tapi…" 2,22-2,61 · "keputusan mana yang boleh diambil kepala sekolah…" 2,78-5,22 · "dan mana yang harus ke yayasan?" 5,51-7,14
+   "Mau beli kursi kelas?" 8,06-9,02 · "Kepala sekolah bilang, tanya yayasan." 9,66-11,67 · "Yayasan bilang, tanya kepala sekolah." 12,26-14,34
+   "Masalahnya bukan orangnya." 14,97-16,67 · "Batas kewenangannya belum tertulis." 17,15-19,24
+   "Perjelas batas kewenangan dengan matriks persetujuan dan SOP yang tertulis." 19,65-24,38 · "Tiap keputusan langsung ketemu jalurnya." 24,76-27,04
+   "Semuanya tertulis di Matriks Kewenangan dan Batas Persetujuan." 27,44-31,16 · "Bagian dari Sistem Tata Kelola Yayasan." 31,47-33,82
+   "Sekarang jelas, mana yang cukup diputuskan kepala sekolah," 34,25-37,86 · "mana yang harus ke yayasan." 38,08-39,56 · "Dapatkan sekarang." 39,94-40,96 */
+
+/* ============ ADEGAN 1 (0-7,6): HEADLINE ============ */
+FT('.lane',{opacity:0,y:60},{opacity:1,y:0,duration:.6,ease:'back.out(1.4)',stagger:.12},.1);
+FT('.dv',{opacity:0},{opacity:1,duration:.5},.6);
+FT('#qbig',{opacity:0,scale:.4,rotation:-20},{opacity:1,scale:1,rotation:0,duration:.7,ease:'back.out(2)'},2.3);
+FT('#eb',{opacity:0,y:-20},{opacity:1,y:0,duration:.45,ease:'back.out(1.7)'},0);
+wordsIn(H1,.05,{st:.25,dur:.5}); wordsIn(H2A,2.22,{dur:.4}); wordsIn(H2B,2.8,{st:.3}); wordsIn(H2C,5.52,{st:.26});
+out(['#eb','#h1','#h2'],7.45); FT('#qbig',{opacity:1,scale:1},{opacity:0,scale:.6,duration:.3},7.6);
+
+/* ============ ADEGAN 2 (7,8-14,6): DIOPER ============ */
+wordsIn(T2,8.06,{st:.2,dur:.5});
+FT(CF[0],{f:0},{f:1,duration:.5,ease:'back.out(1.8)'},8.1);                 /* kartu muncul */
+FT(S,{k:0},{k:1,duration:.45,ease:'power2.inOut'},9.6);                     /* ke kepala sekolah */
+FT('#bb1',{opacity:0,scale:.5,y:10},{opacity:1,scale:1,y:0,duration:.35,ease:'back.out(2)'},10.75); FT('#bb1',{opacity:1},{opacity:0,duration:.25},12.0);
+FT(S,{k:1},{k:2,duration:.6,ease:'power2.inOut'},11.2);                     /* dioper ke yayasan */
+FT('#bb2',{opacity:0,scale:.5,y:10},{opacity:1,scale:1,y:0,duration:.35,ease:'back.out(2)'},13.25); FT('#bb2',{opacity:1},{opacity:0,duration:.25},14.5);
+FT(S,{k:2},{k:3,duration:.6,ease:'power2.inOut'},13.7);                     /* dioper balik */
+out('#t2',14.6);
+
+/* ============ ADEGAN 3 (14,8-19,4): BATAS BELUM TERTULIS ============ */
+FT(S,{k:3},{k:4,duration:.7,ease:'power2.inOut'},14.75);                    /* macet di garis batas */
+FT($('.bd.q',CEL[0]),{opacity:0,scale:.3},{opacity:1,scale:1,duration:.35,ease:'back.out(2.5)'},15.4);
+wordsIn(T3A,14.97,{st:.2}); wordsIn(T3B,17.15,{st:.18});
+FT('.dv',{opacity:1},{opacity:.35,duration:.4,yoyo:true,repeat:3},17.4);   /* garis batas berkedip: belum tertulis */
+out('#t3',19.45);
+
+/* ============ ADEGAN 4 (19,6-24,5): PERJELAS BATAS ============ */
+wordsIn(T4,19.65,{st:.24,dur:.45});
+FT('.ds',{scaleY:0},{scaleY:1,duration:.9,ease:'power2.inOut',stagger:.2},20.4); /* batas digambar tegas */
+FT('.dv',{opacity:1},{opacity:0,duration:.4},21.3);
+FT('.lh .ck',{opacity:0,scale:.3},{opacity:1,scale:1,duration:.35,ease:'back.out(2.5)',stagger:.15},23.4);
+FT($('.bd.q',CEL[0]),{opacity:1},{opacity:0,duration:.2},23.0);
+out('#t4',24.5);
+
+/* ============ ADEGAN 5 (24,7-27,3): KETEMU JALURNYA ============ */
+wordsIn(T5,24.76,{st:.2});
+FT(S,{k:4},{k:5,duration:.6,ease:'back.out(1.6)'},24.85);
+FT($('.bd.c',CEL[0]),{opacity:0,scale:.3},{opacity:1,scale:1,duration:.3,ease:'back.out(2.5)'},25.45);
+for(let i=1;i<CARDS.length;i++){ const at=25.0+.28*(i-1);
+  FT(CF[i],{f:0},{f:1,duration:.55,ease:'back.out(1.4)'},at);
+  FT($('.bd.c',CEL[i]),{opacity:0,scale:.3},{opacity:1,scale:1,duration:.3,ease:'back.out(2.5)'},at+.55); }
+FT('#contoh',{opacity:0},{opacity:1,duration:.4},25.6);
+out('#t5',27.25);
+
+/* ============ ADEGAN 6 (27,4-31,3): MATRIKS TERTULIS ============ */
+wordsIn(T6,27.44,{st:.14});
+FT('#doc',{opacity:0,y:90,scale:.94},{opacity:1,y:0,scale:1,duration:.55,ease:'back.out(1.5)'},27.75);
+ROWS.forEach((r,j)=>FT(r,{backgroundColor:'rgba(245,200,75,0)'},{backgroundColor:'rgba(245,200,75,.28)',duration:.3},28.6+.36*j));
+FT(['#doc','#t6'],{opacity:1,y:0},{opacity:0,y:40,duration:.35,ease:'power2.in'},31.2);
+
+/* ============ ADEGAN 7 (31,4-34): PRODUK SEKILAS ============ */
+FT('#t7 .pt',{opacity:0,y:20},{opacity:1,y:0,duration:.45,ease:'back.out(1.6)'},31.47);
+FT('#t7 .num',{opacity:0,y:20},{opacity:1,y:0,duration:.45,ease:'back.out(1.6)'},32.0);
+FT(S,{cnt:0},{cnt:172,duration:1.4,ease:'power1.inOut'},32.05);
+out('#t7',34.0);
+
+/* ============ ADEGAN 8 (34,2-39,8): SEKARANG JELAS ============ */
+wordsIn(T8K,34.25,{st:.15}); wordsIn(T8A,35.0,{st:.22}); wordsIn(T8B,38.08,{st:.2});
+FT('#L1 .hl',{opacity:0},{opacity:1,duration:.4},35.6);
+FT('#L0 .hl',{opacity:0},{opacity:1,duration:.4},38.4);
+
+/* ============ ADEGAN 9 (39,9-41,7): TOMBOL ============ */
+FT('#cta',{opacity:0,y:200,scale:.9},{opacity:1,y:0,scale:1,duration:.65,ease:'back.out(1.7)'},39.9);
+FT('#cta',{scale:1},{scale:1.035,duration:.35,ease:'sine.inOut',repeat:1,yoyo:true},40.7);
+tl.to({},{duration:.01},DUR);
+
+/* ============ RENDER ============ */
+S.cnt=0;
+const bign=$('#bign'), o1=$('#o1'), o2=$('#o2'), qbig=$('#qbig');
+let lastCnt=-1;
+function render(t){
+  o1.style.transform=`translate(${(-260+80*Math.sin(t*.21)).toFixed(1)}px,${(-300+60*Math.cos(t*.17)).toFixed(1)}px)`;
+  o2.style.transform=`translate(${(640+70*Math.cos(t*.19)).toFixed(1)}px,${(860+60*Math.sin(t*.23)).toFixed(1)}px)`;
+  qbig.style.marginTop=(12*Math.sin(t*2.2)).toFixed(1)+'px';
+  /* kartu utama mengikuti titik singgah, melompat melengkung */
+  const k=Math.max(0,Math.min(WP.length-1,S.k)), i=Math.min(WP.length-2,Math.floor(k)), u=k-i;
+  const A=WP[i], B=WP[i+1]; let x=A[0]+(B[0]-A[0])*u, y=A[1]+(B[1]-A[1])*u-HOP[i]*Math.sin(Math.PI*u);
+  const rot=Math.sin(Math.PI*u)*(B[0]<A[0]?-10:10) + (k>3.9&&k<4.9? 4*Math.sin(t*6):0);
+  const f0=CF[0].f; CEL[0].style.opacity=f0>0?1:0;
+  CEL[0].style.transform=`translate(${x.toFixed(1)}px,${y.toFixed(1)}px) rotate(${rot.toFixed(2)}deg) scale(${(.4+.6*f0).toFixed(3)})`;
+  for(let j=1;j<CARDS.length;j++){ const c=CARDS[j], f=CF[j].f, tx=LX[c.lane], ty=c.y, sx=tx+(j%2?-120:120), sy=-120;
+    const cx=sx+(tx-sx)*f, cy=sy+(ty-sy)*f; CEL[j].style.opacity=f>0?1:0;
+    CEL[j].style.transform=`translate(${cx.toFixed(1)}px,${cy.toFixed(1)}px) rotate(${((1-f)*(j%2?-18:18)).toFixed(2)}deg)`; }
+  const cn=Math.round(S.cnt); if(cn!==lastCnt){ bign.textContent=cn; lastCnt=cn; }
+}
+
+/* ============ PEREKAT ============ */
+const stage=$('#stage');
+const fit=()=>{ const sc=Math.min(innerWidth/W,innerHeight/H); stage.style.transform=`translate(-50%,-50%) scale(${sc})`; };
+addEventListener('resize',fit); fit();
+const clock=$('#clock'),scrub=$('#scrub'),btn=$('#btn-play'); let scrubbing=false;
+(function frame(){ const t=tl.time(); render(t); clock.textContent=t.toFixed(2)+'s'; if(!scrubbing)scrub.value=String(t/DUR*1000); requestAnimationFrame(frame); })();
+const toggle=()=>{ if(tl.paused()||tl.progress()>=1){ if(tl.progress()>=1)tl.progress(0); tl.play(); btn.textContent='Pause'; } else { tl.pause(); btn.textContent='Play'; } };
+btn.onclick=toggle; $('#btn-restart').onclick=()=>{ tl.pause(0); tl.play(); btn.textContent='Pause'; };
+scrub.addEventListener('pointerdown',()=>{scrubbing=true;tl.pause();btn.textContent='Play';});
+addEventListener('pointerup',()=>scrubbing=false);
+scrub.addEventListener('input',()=>{tl.pause();tl.time(scrub.value/1000*DUR);});
+addEventListener('keydown',e=>{ if(e.code==='Space'){e.preventDefault();toggle();} if(/^[rR]$/.test(e.key)){tl.pause(0);tl.play();} if(/^[hH]$/.test(e.key))$('#ui').classList.toggle('on'); });
+if(Q.has('debug'))$('#ui').classList.add('on');
+const vo=$('#vo'), snd=$('#snd'); let soundOn=false;
+if(Q.has('clean')) snd.style.display='none';
+const setSound=on=>{ soundOn=on; snd.classList.toggle('on',on); snd.innerHTML=on?'&#9632;&#xFE0E; Suara menyala':'&#9654;&#xFE0E; Dengan suara';
+  if(on){ vo.currentTime=Math.min(tl.time(),vo.duration||DUR); const p=vo.play(); if(p&&p.catch)p.catch(()=>setSound(false)); } else vo.pause(); };
+snd.onclick=()=>{ if(!soundOn){ if(tl.paused()||tl.progress()>=1){ tl.pause(0); tl.play(); btn.textContent='Pause'; } } setSound(!soundOn); };
+(function sync(){ if(soundOn&&!tl.paused()&&Math.abs(vo.currentTime-tl.time())>.1) vo.currentTime=tl.time(); requestAnimationFrame(sync); })();
+tl.eventCallback('onComplete',()=>{ tl.play(0); if(soundOn){ vo.currentTime=0; vo.play().catch(()=>{}); } });
+const seek=t=>{ tl.pause(); tl.time(t,false); if(gsap.ticker.tick)gsap.ticker.tick(); render(t); };
+window.OPENER={W,H,DURATION:DUR,tl,seek,ready:false};
+Promise.all(['800 70px "Lexend"','700 40px "Lexend"','600 30px "Lexend"','500 30px "Lexend"'].map(f=>document.fonts.load(f)))
+  .then(()=>document.fonts.ready).then(()=>{ window.OPENER.ready=true; if(!Q.has('clean'))tl.play(0); });
+</script>
+</body>
+</html>

@@ -11,7 +11,8 @@ Status: **draf**, konsep A dipilih. Naskah VO usulan di `vo-script.md`, menunggu
 | **Headline di video (revisi pengguna)** | **YAYASAN PUNYA SEKOLAH. / TAPI KEPUTUSAN MANA YANG BOLEH DIAMBIL KEPALA SEKOLAH, DAN MANA YANG HARUS KE YAYASAN?** |
 | Sub | Perjelas batas kewenangan dengan matriks persetujuan dan SOP yang tertulis. |
 | Dokumen | Matriks Kewenangan & Batas Persetujuan (YYS-PG-004) |
-| CTA | Lihat Matriks Kewenangannya → |
+| CTA (kreatif asli) | Lihat Matriks Kewenangannya → |
+| **CTA di video (diubah pengguna di audio)** | **Dapatkan Sekarang** |
 | Visual asli | tiga balok kayu YAYASAN → KEPALA SEKOLAH → UNIT SEKOLAH, tanda tanya besar |
 
 Catatan bahasa: "Perjelas … dengan …" terbaca sebagai perintah, tapi itu wajar di sub iklan (ajakan), jadi dipakai apa adanya.
@@ -26,3 +27,7 @@ Catatan bahasa: "Perjelas … dengan …" terbaca sebagai perintah, tapi itu waj
 - **A. Kartu keputusan dipilah ke jalurnya.** Masalah: satu kartu keputusan ("Beli 30 kursi kelas") dioper bolak-balik antara Yayasan, Kepala Sekolah, Unit. Jawaban: matriks jadi tiga jalur; kartu-kartu keputusan meluncur ke jalur yang benar dan dicentang.
 - **B. Gedung tiga lantai.** Tiap tingkat kewenangan satu lantai (Yayasan di atas, Kepala Sekolah, Unit). Keputusan naik lift dan berhenti di lantai yang benar; "batas persetujuan" = tombol lantai yang terkunci.
 - **C. Bagan organisasi yang menyala.** Tanpa matriks, satu permintaan menyalakan semua garis (kacau). Dengan matriks, hanya satu jalur yang menyala sampai ke pemutusnya.
+
+## Status: dikunci mengikuti audio (22 Nov 2026)
+
+Konsep A (kartu keputusan dipilah ke jalurnya). Audio `audio/vo.mp3` (Prayan, 41,25 detik). Kalimat terakhir diubah pengguna jadi "Dapatkan sekarang.", jadi tombol = **"Dapatkan Sekarang"**. Kalimat lain sama dengan `vo-script.md`.

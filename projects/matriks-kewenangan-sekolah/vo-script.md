@@ -60,3 +60,11 @@ Dikalibrasi dari audio sebelumnya (±4,6 suku kata/detik termasuk jeda): **±44�
 Kenapa versi lama kurang jelas: dua kata tanya dalam satu klausa (jiplakan "who decides what") sehingga jawabannya harus berupa daftar; "APA?" di ujung bisa dibaca sebagai objek atau sebagai kata tanya penegas ("hah?"); dan "apa" terlalu abstrak untuk dibayangkan. Kasusnya dicatat di galeri skill copy-indonesia.
 
 Penutup ikut menyesuaikan: **"Sekarang jelas: mana yang cukup diputuskan kepala sekolah, mana yang harus ke yayasan."** ("cukup di kepala sekolah" dihindari karena bisa terbaca "di kepala".)
+
+## Hasil audio dari pengguna (22 Nov 2026): Prayan, 41,25 detik
+
+Berkas: `audio/vo.mp3`, dipakai apa adanya. Kalimat terakhir diubah pengguna jadi **"Dapatkan sekarang."** (tombol ikut "Dapatkan Sekarang"). Kalimat lain sama dengan naskah.
+
+Batas kalimat (silencedetect + Whisper): "Yayasan punya sekolah." 0,00–1,44 · "Tapi…" 2,22–2,61 · "keputusan mana yang boleh diambil kepala sekolah…" 2,78–5,22 · "dan mana yang harus ke yayasan?" 5,51–7,14 · "Mau beli kursi kelas?" 8,06–9,02 · "Kepala sekolah bilang, tanya yayasan." 9,66–11,67 · "Yayasan bilang, tanya kepala sekolah." 12,26–14,34 · "Masalahnya bukan orangnya." 14,97–16,67 · "Batas kewenangannya belum tertulis." 17,15–19,24 · "Perjelas batas kewenangan dengan matriks persetujuan dan SOP yang tertulis." 19,65–24,38 · "Tiap keputusan langsung ketemu jalurnya." 24,76–27,04 · "Semuanya tertulis di Matriks Kewenangan dan Batas Persetujuan." 27,44–31,16 · "Bagian dari Sistem Tata Kelola Yayasan." 31,47–33,82 · "Sekarang jelas, mana yang cukup diputuskan kepala sekolah," 34,25–37,86 · "mana yang harus ke yayasan." 38,08–39,56 · "Dapatkan sekarang." 39,94–40,96.
+
+Video = 41,7 detik.
