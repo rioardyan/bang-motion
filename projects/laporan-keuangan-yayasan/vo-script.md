@@ -51,3 +51,11 @@ Dikalibrasi dari audiomu sebelumnya (pesantren: 169 suku kata = 37 dtk Bram, 36 
 - Nama produk menempel ("tataklola") → tulis "Tata, Kelola, Yayasan" dengan koma, atau pakai suara Bram.
 
 Kirim hasilnya (boleh dua suara). Aku ukur batas kalimat, lalu bangun motion mengikuti suara.
+
+## Hasil audio dari pengguna (22 Nov 2026): Prayan, 33,41 detik
+
+Berkas: `audio/vo.mp3`, dipakai apa adanya. Isinya sama dengan naskah (tidak ada kalimat yang diubah). Tag tidak terbaca keras.
+
+Batas kalimat (silencedetect + Whisper): "Pengurus dan bendahara yayasan…" 0,00–1,61 · "siapa yang mau tutup buku tanpa begadang mencari selisih?" 2,04–4,80 · "Neraca harusnya seimbang." 5,40–6,92 · "Tapi tiap tutup buku," 7,42–8,68 · "selalu ada selisih." 8,87–9,98 · "Caranya:" 10,65–11,28 · "LIMA komponen laporan keuangan, disiapkan di Excel berformula." 11,59–15,20 · "Dan satu baris menjaga semuanya —" 15,84–17,89 · "selisih," 18,20–18,73 · "harus NOL." 19,06–19,61 · "Belum nol?" 20,27–20,83 · "Bapak langsung tahu…" 21,21–22,22 · "sebelum laporan dikirim." 22,39–23,59 · "Semua ini bagian dari Sistem Tata Kelola Yayasan —" 24,19–27,06 · "seratus tujuh puluh dua dokumen." 27,35–28,93 · "Neraca seimbang," 29,60–30,62 · "Bapak tidur tenang." 30,87–31,98 · "Dapatkan sekarang." 32,40–33,15.
+
+Terdengar agak menempel (Whisper salah dengar di semua kecepatan): "bendahara yayasan", "Tata Kelola Yayasan", "harus nol". Video = 33,9 detik.
