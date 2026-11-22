@@ -36,3 +36,18 @@ Rekomendasi: **#1 (#27)**, karena memberi tiga butir yang langsung dibalas tiga 
 ## Pagar
 
 Tanpa harga, tanpa brand Ardya, tanpa kata "template/bundle", tanpa klaim "sesuai peraturan/standar terbaru", tanpa janji lolos audit atau bebas pajak. Sapaan "Bapak".
+
+## Putaran 2: hook lain (pengguna minta dicari lagi)
+
+Sudut RL yang dipakai: momen **donatur minta laporan**, momen **tutup buku** yang berakhir begadang mencari selisih, dan pola kreatif pemenang "Ketua yayasan, kalau Bapak berhenti besok, siapa yang tahu aturannya?".
+
+| # | Rumus | Hook | Kenapa |
+|---|---|---|---|
+| 5 | **#25** (asli) | "Donatur minta laporan keuangan, yang ada cuma buku kas? Jangan dibiarkan." | Kejadian terlihat (donatur meminta). "Jangan dibiarkan" memancing "memang kenapa?", dijawab tepat di bawahnya. |
+| 6 | **bukan rumus C3H** (pola kreatif pemenang Ketua Yayasan; terdekat #19) | "BENDAHARA YAYASAN, KALAU DONATUR MINTA LAPORAN BESOK, YANG BAPAK KIRIM APA?" | Bentuk yang sudah terbukti di akun ini: sapaan persona + "kalau … besok" + pertanyaan. Jawaban spontan penonton: "buku kas", itu masalahnya. |
+| 7 | **#10** (asli) | "Dadah 'selisih misterius'. Halo, selisih nol." | Paling pendek dan main kata. 'Selisih misterius' (selisih yang tidak ketahuan asalnya) wajib dijelaskan di adegan berikutnya. |
+| 8 | **#19** (asli) | "Siapa yang mau tutup buku tanpa begadang mencari selisih?" | Pertanyaan membuat berhenti scroll. Kejadian terlihat. |
+| 9 | **#4** (asli) | "Hei bendahara yayasan: berhenti begadang mencari selisih tiap tutup buku." | Panggilan persona menyaring. Tanpa merek, jadi "dengan [merek]" dibuang. |
+| 10 | **#14** (asli) | "Buang drama 'selisih tidak ketemu'. Mulai tutup buku ini." | "Sekali dan selamanya" dari rumus kuganti, karena terlalu menjanjikan. |
+
+Cek bahasa (dibaca lepas): #5 tanya-jawab "Iya, cuma buku kas" wajar · #6 tanya-jawab "Yang saya kirim buku kas" wajar · #7 tanda petik wajib dijelaskan · #8 sekali baca · #9 "tiap tutup buku" punya acuan jelas · #10 lolos.
