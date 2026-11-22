@@ -2,8 +2,8 @@
 [frustrated] Mau beli kursi kelas? [short pause] Kepala sekolah bilang, tanya yayasan. [short pause] Yayasan bilang, tanya kepala sekolah. [pause]
 [calmly] Masalahnya bukan orangnya. [short pause] Batas kewenangannya belum tertulis. [pause]
 [confident] Perjelas batas kewenangan dengan matriks persetujuan dan SOP yang tertulis. [short pause]
-[upbeat] Tiap keputusan langsung ketemu jalurnya: [short pause] ini ke yayasan… ini kepala sekolah… ini cukup di unit. [pause]
+[upbeat] Tiap keputusan langsung ketemu jalurnya. [pause]
 [clearly] Semuanya tertulis di Matriks Kewenangan dan Batas Persetujuan. [pause]
-[confident] Bagian dari Sistem Tata Kelola Yayasan — seratus tujuh puluh dua dokumen. [pause]
+[confident] Bagian dari Sistem Tata Kelola Yayasan. [pause]
 [warmly] [relieved] Sekarang jelas: siapa boleh memutuskan apa. [short pause]
 [firmly] Lihat matriks kewenangannya.

@@ -9,9 +9,9 @@ Status: **usulan**, dibuat sebelum motion. Konsep A (kartu keputusan dipilah ke 
 [frustrated] Mau beli kursi kelas? [short pause] Kepala sekolah bilang, tanya yayasan. [short pause] Yayasan bilang, tanya kepala sekolah. [pause]
 [calmly] Masalahnya bukan orangnya. [short pause] Batas kewenangannya belum tertulis. [pause]
 [confident] Perjelas batas kewenangan dengan matriks persetujuan dan SOP yang tertulis. [short pause]
-[upbeat] Tiap keputusan langsung ketemu jalurnya: [short pause] ini ke yayasan… ini kepala sekolah… ini cukup di unit. [pause]
+[upbeat] Tiap keputusan langsung ketemu jalurnya. [pause]
 [clearly] Semuanya tertulis di Matriks Kewenangan dan Batas Persetujuan. [pause]
-[confident] Bagian dari Sistem Tata Kelola Yayasan — seratus tujuh puluh dua dokumen. [pause]
+[confident] Bagian dari Sistem Tata Kelola Yayasan. [pause]
 [warmly] [relieved] Sekarang jelas: siapa boleh memutuskan apa. [short pause]
 [firmly] Lihat matriks kewenangannya.
 ```
@@ -24,9 +24,9 @@ Status: **usulan**, dibuat sebelum motion. Konsep A (kartu keputusan dipilah ke 
 | Mau beli kursi kelas? Kepala sekolah bilang, tanya yayasan. Yayasan bilang, tanya kepala sekolah. | 33 | Masalah, dibuat terlihat dan sedikit lucu. | Satu kartu "Beli kursi kelas" dioper bolak-balik antara dua jalur. Dua gelembung chat: "Tanya yayasan." / "Tanya kepala sekolah." |
 | Masalahnya bukan orangnya. Batas kewenangannya belum tertulis. | 21 | Jembatan, sebab disebut eksplisit. | Kartu berhenti di tengah, tanda tanya. Teks: "Masalahnya bukan orangnya. Batas kewenangannya belum tertulis." |
 | Perjelas batas kewenangan dengan matriks persetujuan dan SOP yang tertulis. | 24 | Sub-headline persis. | Tiga jalur berubah jadi kolom matriks. |
-| Tiap keputusan langsung ketemu jalurnya: ini ke yayasan… ini kepala sekolah… ini cukup di unit. | 35 | Demo matriks. | Kartu-kartu keputusan (contoh) meluncur ke kolom yang benar dan dicentang. Kartu "Beli kursi kelas" ikut mendarat. |
+| Tiap keputusan langsung ketemu jalurnya. | 35 | Demo matriks. | Kartu-kartu keputusan (contoh) meluncur ke kolom yang benar dan dicentang. Kartu "Beli kursi kelas" ikut mendarat. |
 | Semuanya tertulis di Matriks Kewenangan dan Batas Persetujuan. | 22 | Nama dokumen dari kreatif. | Halaman dokumen YYS-PG-004 (isi baris = contoh). |
-| Bagian dari Sistem Tata Kelola Yayasan — seratus tujuh puluh dua dokumen. | 27 | Produk sekilas (pola yang kamu minta di promo laci). | Label produk, 172 menghitung naik. |
+| Bagian dari Sistem Tata Kelola Yayasan. | 27 | Produk sekilas (pola yang kamu minta di promo laci). | Label produk, 172 menghitung naik. |
 | Sekarang jelas: siapa boleh memutuskan apa. | 16 | Hasil. Mengulang kata headline, jadi cerita menutup. | Tiga kolom rapi, tanda tanya berubah jadi centang. |
 | Lihat matriks kewenangannya. | 9 | CTA asli kreatif, sama dengan tombol. | Tombol "Lihat Matriks Kewenangannya →". |
 
@@ -36,9 +36,9 @@ Kata sambung: **Tapi** (headline) → contoh masalah yang terlihat (kursi kelas 
 
 Serius dan penasaran (headline) → kesal sedikit lucu (`[frustrated]`, dioper bolak-balik) → tenang menjelaskan sebab (`[calmly]`) → yakin (`[confident]`, sub-headline) → ringan (`[upbeat]`, kartu meluncur ke jalurnya) → jernih (nama dokumen) → lega (`[warmly] [relieved]`) → tegas (CTA). Huruf besar hanya "APA".
 
-## Durasi (209 suku kata)
+## Durasi (176 suku kata)
 
-Dikalibrasi dari audio sebelumnya (±4,6 suku kata/detik termasuk jeda): **±45–46 detik**. Durasi bebas sesuai permintaanmu. Kalau terasa panjang, yang paling aman dibuang: kalimat produk sekilas (±6 detik) atau "ini ke yayasan… ini kepala sekolah… ini cukup di unit" (±4 detik, cukup di layar).
+Dikalibrasi dari audio sebelumnya (±4,6 suku kata/detik termasuk jeda): **±38–39 detik**. Versi pertama 209 suku kata (±45 detik), lalu dua bagian dipindah ke layar saja: "ini ke yayasan… ini kepala sekolah… ini cukup di unit" (kartu yang meluncur sudah menunjukkannya) dan "seratus tujuh puluh dua dokumen" (angka 172 tetap tampil di layar).
 
 ## Yang dikembangkan dari kreatif, dan kenapa
 
