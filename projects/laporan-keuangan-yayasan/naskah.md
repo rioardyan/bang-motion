@@ -51,3 +51,13 @@ Sudut RL yang dipakai: momen **donatur minta laporan**, momen **tutup buku** yan
 | 10 | **#14** (asli) | "Buang drama 'selisih tidak ketemu'. Mulai tutup buku ini." | "Sekali dan selamanya" dari rumus kuganti, karena terlalu menjanjikan. |
 
 Cek bahasa (dibaca lepas): #5 tanya-jawab "Iya, cuma buku kas" wajar · #6 tanya-jawab "Yang saya kirim buku kas" wajar · #7 tanda petik wajib dijelaskan · #8 sekali baca · #9 "tiap tutup buku" punya acuan jelas · #10 lolos.
+
+## Keputusan hook (pengguna)
+
+**"PENGURUS & BENDAHARA YAYASAN, siapa yang mau tutup buku tanpa begadang mencari selisih?"** — rumus #19 (asli) + sapaan persona di depan (pola terbukti "KETUA YAYASAN," / "PENGURUS YAYASAN PESANTREN,"). Sapaan memuat pengurus juga, karena pengurus sering yang memutuskan beli.
+
+## Kandidat konsep (menunggu pilihan)
+
+- **A. Neraca yang benar-benar timbangan** (#7 metafora benda): "neraca" = timbangan. Dua piring tidak seimbang, jarum menunjuk selisih. Lima komponen masuk satu per satu jadi beban, jarum bergerak ke **0**.
+- **B. Malam tutup buku** (diegetik): meja bendahara, jam 23.47, gulungan kalkulator memanjang, lampu meja. Excel masuk, jam berhenti lebih awal.
+- **C. Lima keping**: laporan keuangan sebagai teka-teki lima keping; keping yang hilang bertuliskan "selisih". Keping kelima masuk, angka jadi nol.
