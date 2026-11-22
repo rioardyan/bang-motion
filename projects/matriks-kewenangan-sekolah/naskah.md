@@ -1,6 +1,6 @@
 # Naskah: Yayasan punya sekolah, siapa boleh memutuskan apa (draf)
 
-Status: **draf**, menunggu pilihan konsep. Sumber: kreatif statis pemenang (lampiran pengguna, 22 Nov 2026). Durasi bebas (permintaan pengguna).
+Status: **draf**, konsep A dipilih. Naskah VO usulan di `vo-script.md`, menunggu persetujuan. Sumber: kreatif statis pemenang (lampiran pengguna, 22 Nov 2026). Durasi bebas (permintaan pengguna).
 
 ## Isi kreatif pemenang (dipertahankan)
 
