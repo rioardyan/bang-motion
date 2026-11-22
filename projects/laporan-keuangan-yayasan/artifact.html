@@ -214,6 +214,8 @@ FT(['#cap','#xl'],{opacity:1,y:0},{opacity:0,y:-24,duration:.3,ease:'power2.in'}
 
 /* ============ ADEGAN 6 (24,1-29,3): PRODUK SEKILAS ============ */
 memoIn('#m6',24.15);
+FT('#scale',{scale:1,transformOrigin:'540px 880px'},{scale:1.05,transformOrigin:'540px 880px',duration:3.2,ease:'sine.inOut'},24.2);   /* dorongan kamera pelan agar adegan tidak diam */
+FT('#scale',{scale:1.05,transformOrigin:'540px 880px'},{scale:1,transformOrigin:'540px 880px',duration:1.2,ease:'sine.inOut'},29.0);
 FT('#m6',{height:126},{height:330,duration:.4,ease:'power2.inOut'},27.2);
 FT('#m6 .big',{opacity:0,y:20},{opacity:1,y:0,duration:.4,ease:'back.out(1.6)'},27.3);
 FT(S,{cnt:0},{cnt:172,duration:1.5,ease:'power1.inOut'},27.4);
