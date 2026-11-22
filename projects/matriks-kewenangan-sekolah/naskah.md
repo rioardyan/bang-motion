@@ -7,7 +7,8 @@ Status: **draf**, konsep A dipilih. Naskah VO usulan di `vo-script.md`, menunggu
 | Bagian | Teks |
 |---|---|
 | Eyebrow | KHUSUS KETUA & PENGURUS YAYASAN |
-| Headline | YAYASAN PUNYA SEKOLAH. / TAPI SIAPA YANG BOLEH MEMUTUSKAN **APA?** |
+| Headline (kreatif asli) | YAYASAN PUNYA SEKOLAH. / TAPI SIAPA YANG BOLEH MEMUTUSKAN **APA?** |
+| **Headline di video (revisi pengguna)** | **YAYASAN PUNYA SEKOLAH. / TAPI KEPUTUSAN MANA YANG BOLEH DIAMBIL KEPALA SEKOLAH, DAN MANA YANG HARUS KE YAYASAN?** |
 | Sub | Perjelas batas kewenangan dengan matriks persetujuan dan SOP yang tertulis. |
 | Dokumen | Matriks Kewenangan & Batas Persetujuan (YYS-PG-004) |
 | CTA | Lihat Matriks Kewenangannya → |
