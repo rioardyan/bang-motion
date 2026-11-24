@@ -38,4 +38,4 @@ Draf pertama memakai bangunan, warna, dan font Satu Tiang (±90% sama). Ditolak 
 1. Penonton mengenali visualnya, merasa sudah pernah melihat, lalu menggulir layar tanpa mendengar isinya.
 2. Meta bisa menganggapnya iklan yang sama dengan Satu Tiang.
 
-Aturan untuk lanjutan: yang menyambung hanya cerita dan kata-katanya. Visual, palet, font, dan sudut pandang harus baru. `index.html` saat ini masih draf yang ditolak dan akan diganti.
+Aturan untuk lanjutan: yang menyambung hanya cerita dan kata-katanya. Visual, palet, font, dan sudut pandang harus baru. Visual pengganti: meja Ketua dilihat dari atas (arah A, pilihan pengguna). Lihat `style-brief.md`.
