@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Satu Tiang Tertulis</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  PROMO META ADS 4:5 (1080x1350), 44,7 detik, mengikuti audio/vo.mp3 (ElevenLabs, Finn), loop.
+  Lanjutan "Yayasan Satu Tiang" untuk pengunjung halaman jualan yang belum beli.
+  Naskah: naskah.md · Style brief: style-brief.md
+  Alur: bangunan di atas tiang KETUA -> tiang KETUA pergi, tiang PENGGANTI kosong, tanda tanya
+        -> tiga hal -> Memori Jabatan, Peta Suksesi, Serah Terima Jabatan jadi tiang -> 172 dokumen -> tombol.
+  ?debug=1 = panel scrub · ?clean=1 = tanpa autoplay (potret/export).
+  Halaman dokumen dibangun ulang dari kode (tanpa logo/brand). Isi baris = CONTOH tampilan, bukan salinan file asli.
+-->
+<link rel="stylesheet" href="fonts/fonts.css">
+<script src="vendor/gsap.min.js"></script>
+<style>
+:root{
+  --bg:#0A1517; --teal:#0E7C86; --teal2:#095F68; --teal3:#1796A2; --yellow:#F5C84B; --cream:#FFF9E6; --ink:#0A1517;
+  --cond:'Barlow Condensed','Arial Narrow',sans-serif; --ui:'Barlow',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var(--ui)}
+#stage{position:fixed;left:50%;top:50%;width:1080px;height:1350px;transform:translate(-50%,-50%) scale(1);overflow:hidden;background:var(--bg)}
+
+/* ---------- LATAR ---------- */
+#bgfx{position:absolute;inset:0}
+#spot{position:absolute;inset:0;background:radial-gradient(ellipse 640px 820px at 540px 640px,rgba(14,124,134,.46),rgba(14,124,134,.16) 48%,transparent 74%);opacity:.85}
+#floor{position:absolute;left:0;top:1190px;width:1080px;height:160px;background:linear-gradient(#14282C,#0B1A1D 42%,#050C0E)}
+#floor:before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:rgba(255,249,230,.22)}
+#floor:after{content:"";position:absolute;left:140px;top:2px;width:800px;height:100px;background:radial-gradient(ellipse at 50% 0,rgba(14,124,134,.38),transparent 70%)}
+#fsh{position:absolute;left:150px;top:1186px;width:780px;height:40px;background:radial-gradient(ellipse at 50% 50%,rgba(0,0,0,.55),transparent 70%)}
+.ghost{position:absolute;font:800 1000px/0.8 var(--cond);color:rgba(14,124,134,.26);letter-spacing:-.02em;white-space:nowrap;opacity:0;user-select:none}
+#g1{left:520px;top:210px}
+#g3{left:470px;top:250px;font-size:900px}
+#g172{left:-40px;top:340px;font-size:620px;color:rgba(245,200,75,.13)}
+
+/* ---------- ADEGAN (kamera) ---------- */
+#scene{position:absolute;left:0;top:0;width:1080px;height:1350px;transform-origin:540px 1190px}
+#bld,#pilw{position:absolute;left:0;top:0;width:1080px;height:1350px;transform-origin:540px 1000px}
+#bld svg,#pilw svg{position:absolute;left:0;top:0;width:1080px;height:1350px;overflow:visible}
+#cols{position:absolute;left:0;top:0;width:1080px;height:1350px}
+.col{position:absolute;width:90px;top:1190px;height:0;border-radius:4px 4px 0 0}
+.col:before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background:rgba(255,249,230,.45);border-radius:4px 4px 0 0}
+.col:after{content:"";position:absolute;right:0;top:0;bottom:0;width:16px;background:rgba(0,0,0,.28)}
+.col.cw{background:linear-gradient(90deg,var(--teal),var(--teal2))}
+.col.x{background:linear-gradient(90deg,#F5C84B,#CFA531)}
+.col .pl{position:absolute;left:6px;width:70px;bottom:66px;height:30px;border-radius:4px;background:var(--cream);color:var(--ink);font:800 19px/30px var(--cond);text-align:center;letter-spacing:.04em;z-index:2}
+.slot{position:absolute;width:90px;top:1190px;height:0;border:3px dashed rgba(255,249,230,.5);border-bottom:0;border-radius:4px 4px 0 0;opacity:0}
+#marks{position:absolute;left:0;top:0;width:1080px;height:1350px;pointer-events:none}
+.sb{position:absolute;width:48px;height:48px;margin:-24px 0 0 -24px;border-radius:50%;background:var(--yellow);color:var(--ink);font:800 36px/48px var(--cond);text-align:center;opacity:0;box-shadow:0 6px 16px rgba(0,0,0,.45)}
+.qm{position:absolute;opacity:0}
+.qm span{display:block;font:800 90px/1 var(--cond);color:var(--yellow);transform:translate(-50%,-50%);text-shadow:0 0 30px rgba(245,200,75,.35),0 4px 0 #0A1517}
+#docs{position:absolute;left:0;top:0;width:1080px;height:1350px}
+.doc{position:absolute;left:0;top:0;width:500px;height:560px;margin:-280px 0 0 -250px;border-radius:14px;background:#FFFBEF;overflow:hidden;
+  box-shadow:0 30px 60px rgba(0,0,0,.5);transform-origin:50% 50%}
+.doc .hd{height:94px;padding:0 26px;background:var(--c);color:var(--ct);display:flex;align-items:center;justify-content:space-between;gap:14px;transform-origin:50% 100%}
+.doc .hd b{font:800 40px/0.98 var(--cond);text-transform:uppercase;letter-spacing:.01em}
+.doc .hd i{font:600 18px var(--ui);font-style:normal;letter-spacing:.08em;padding:5px 11px;border-radius:6px;background:rgba(0,0,0,.2);color:inherit;flex:none}
+.doc .bd{padding:18px 26px;color:#142A2E;font:600 22px/1.2 var(--ui)}
+.doc .code{font:600 16px var(--ui);letter-spacing:.08em;color:#7C8B8D;margin-bottom:6px}
+.doc .mut{color:#7C8B8D;font-weight:500}
+.doc .ln{height:11px;border-radius:6px;background:#D9DFDC;margin:9px 0 4px}
+.doc .ln.s{width:64%}
+.sec{padding:10px 0 4px;font-size:21px}
+.sec .n{display:inline-block;width:30px;color:var(--teal);font-weight:800}
+.gx{display:grid;font-size:20px;border:2px solid #CFD8D4;grid-template-columns:1fr 1.15fr 1.25fr}
+.gx>div{padding:13px 10px;border-right:1px solid #DDE4E0;border-bottom:1px solid #DDE4E0;font-weight:600;white-space:nowrap;display:flex;align-items:center}
+.gx .gh{background:#E7EEEA;color:#4C5E60;font-size:15px;letter-spacing:.04em;text-transform:uppercase}
+.gx .y{background:#FCE8A6}
+.bar{flex:1;height:14px;border-radius:7px;background:#E1E7E4;overflow:hidden;margin-right:8px}
+.bar i{display:block;height:100%;width:0;border-radius:7px;background:var(--teal)}
+.bar.lo i{background:#E0A82E}
+.rd{font-size:16px;color:#4C5E60;white-space:nowrap}
+.stp{display:flex;gap:14px;align-items:center;padding:12px 8px;margin:0 -8px;border-bottom:1px solid #E7EBE8;font-size:21px;border-radius:6px}
+.stp b{flex:none;width:34px;height:34px;border-radius:50%;background:var(--teal);color:var(--cream);font:700 19px/34px var(--ui);text-align:center}
+
+#plinth{position:absolute;left:170px;top:1000px;width:740px;height:190px;border-radius:0 0 4px 4px;background:linear-gradient(#0F3A41,#0A2A30);opacity:0}
+#plinth:before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background:rgba(255,249,230,.4)}
+#plinth:after{content:"";position:absolute;right:-24px;top:-10px;bottom:0;width:24px;background:#07181C;transform:skewY(-32deg);transform-origin:0 100%}
+.cell{position:absolute;width:14px;height:30px;border-radius:2px;background:var(--cream);opacity:0}
+.cell.x{background:var(--yellow)}
+.tab{position:absolute;top:12px;width:44px;height:26px;border-radius:5px 5px 0 0;background:var(--teal3);color:var(--cream);font:700 15px/26px var(--cond);text-align:center;letter-spacing:.04em;opacity:0}
+.tab:nth-child(even){background:var(--teal)}
+
+#sweep{position:absolute;left:0;top:0;width:320px;height:1350px;background:linear-gradient(100deg,transparent,rgba(255,249,230,.34) 50%,transparent);transform:translateX(-420px) skewX(-14deg);opacity:0;pointer-events:none}
+#lbl{position:absolute;left:0;top:0;width:100%}
+
+/* ---------- TEKS (layar) ---------- */
+#hud{position:absolute;inset:0;pointer-events:none}
+.w{display:inline-block;opacity:0}
+.em{color:var(--yellow)}
+#hl{position:absolute;left:70px;top:58px;width:940px;font:800 96px/0.94 var(--cond);color:var(--cream);text-transform:uppercase;letter-spacing:.008em}
+#hl .hg{display:block}
+.tx{position:absolute;left:70px;width:940px;font:600 62px/1.1 var(--ui);color:var(--cream);letter-spacing:-.005em}
+#s2a{top:92px} #s2b{top:172px}
+#s3a{top:92px;font-size:50px;color:rgba(255,249,230,.78)}
+#s3b{top:236px;font-size:68px}
+.cap{position:absolute;left:0;width:1080px;top:50px;text-align:center;font:600 38px var(--ui);color:var(--cream);opacity:0;letter-spacing:.005em;white-space:nowrap}
+.cap b{display:inline-block;width:52px;height:52px;margin-right:16px;border-radius:50%;background:var(--yellow);color:var(--ink);font:800 38px/52px var(--cond);vertical-align:-2px}
+#big{position:absolute;left:0;width:1080px;top:92px;text-align:center;opacity:0}
+#big b{display:inline-block;font:800 250px/0.9 var(--cond);color:var(--yellow);font-variant-numeric:tabular-nums;letter-spacing:.005em}
+#big span{display:inline-block;margin-left:22px;font:800 76px/1 var(--cond);color:var(--cream);text-transform:uppercase;vertical-align:60px}
+#s4a{position:absolute;left:0;width:1080px;top:380px;text-align:center;font:600 46px/1.1 var(--ui);color:var(--cream);opacity:0}
+#s4a b{color:var(--yellow);font-weight:600}
+#f1,#f2{position:absolute;left:0;width:1080px;text-align:center;color:var(--cream)}
+#f1{top:118px;font:800 104px/0.95 var(--cond);text-transform:uppercase;letter-spacing:.01em}
+#f2{top:340px;font:600 52px/1.15 var(--ui)}
+#cta{position:absolute;left:140px;top:1226px;width:800px;height:104px;border-radius:52px;background:var(--yellow);color:var(--ink);display:flex;align-items:center;justify-content:center;gap:24px;
+  font:800 50px var(--cond);white-space:nowrap;text-transform:uppercase;letter-spacing:.03em;opacity:0;box-shadow:0 10px 0 #B8902A,0 24px 40px rgba(0,0,0,.5)}
+#cta svg{width:46px;height:46px;flex:none}
+
+#snd{position:fixed;right:14px;bottom:14px;z-index:60;background:rgba(10,21,23,.92);color:#FFF9E6;border:2px solid #F5C84B;border-radius:24px;padding:10px 18px;font:600 15px var(--ui);cursor:pointer}
+#snd.on{background:#F5C84B;color:#0A1517}
+#ui{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);display:none;align-items:center;gap:12px;padding:9px 14px;border-radius:12px;background:rgba(14,16,22,.9);font:13px var(--ui);color:#A0A6B4;z-index:50}
+#ui.on{display:flex} #ui button{background:#262A34;color:#fff;border:0;padding:6px 12px;border-radius:8px;font:inherit;cursor:pointer}
+#scrub{width:320px} #clock{font-variant-numeric:tabular-nums;min-width:5ch;text-align:right}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="bgfx">
+    <div id="spot"></div>
+    <div class="ghost" id="g1">1</div>
+    <div class="ghost" id="g3">3</div>
+    <div class="ghost" id="g172">172</div>
+    <div id="floor"></div><div id="fsh"></div>
+  </div>
+
+  <div id="scene">
+    <div id="cols"></div>
+
+    <div id="pilw"><svg viewBox="0 0 1080 1350">
+      <!-- tiang PENGGANTI (kosong, garis putus-putus) -->
+      <g id="pgK">
+        <rect id="pgR" x="497" y="1002" width="86" height="188" fill="rgba(255,249,230,.05)" stroke="#FFF9E6" stroke-opacity=".7" stroke-width="4" stroke-dasharray="14 10"/>
+        <rect id="pgPl" x="483" y="1062" width="114" height="44" rx="4" fill="#FFF9E6"/>
+        <text x="540" y="1093" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-size="24" letter-spacing=".5" fill="#0A1517">PENGGANTI</text>
+      </g>
+      <!-- tiang KETUA + gelembung ingatan -->
+      <g id="pilK"><g id="pil">
+        <g id="pilbody">
+          <polygon id="pilS" points="585,1000 609,985 609,1175 585,1190" fill="#1C2F34"/>
+          <rect id="pilF" x="495" y="1000" width="90" height="190" fill="#3A5258"/>
+          <rect x="495" y="1000" width="90" height="6" fill="rgba(255,249,230,.35)"/>
+        </g>
+        <g id="plaque">
+          <rect x="502" y="1070" width="76" height="46" rx="4" fill="#FFF9E6"/>
+          <text x="540" y="1104" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-size="27" letter-spacing=".5" fill="#0A1517">KETUA</text>
+        </g>
+        <g id="think" opacity="0">
+          <circle cx="612" cy="1070" r="7" fill="#FFF9E6"/>
+          <circle cx="636" cy="1052" r="11" fill="#FFF9E6"/>
+          <rect x="652" y="1018" width="232" height="104" rx="46" fill="#FFF9E6"/>
+          <rect class="tk" x="690" y="1044" width="156" height="12" rx="6" fill="#9FB0AE"/>
+          <rect class="tk" x="690" y="1064" width="124" height="12" rx="6" fill="#9FB0AE"/>
+          <rect class="tk" x="690" y="1084" width="140" height="12" rx="6" fill="#9FB0AE"/>
+        </g>
+      </g></g>
+    </svg></div>
+
+    <div id="bld"><svg viewBox="0 0 1080 1350" id="bsvg"></svg></div>
+
+    <div id="marks"></div>
+    <div id="plinth"></div>
+    <div id="docs"></div>
+    <div id="sweep"></div>
+  </div>
+
+  <div id="hud">
+    <div id="hl">
+      <div class="hg" id="h1" data-t="KETUA YAYASAN,"></div>
+      <div class="hg" id="h2" data-t="ATURAN YAYASAN|SUDAH TERTULIS,"></div>
+      <div class="hg em" id="h3" data-t="ATAU MASIH BAPAK|INGAT SENDIRI?"></div>
+    </div>
+    <div class="tx" id="s2a" data-t="Kalau Bapak berhenti besok,"></div>
+    <div class="tx" id="s2b" data-t="pengganti Bapak harus|*menebak-nebak *aturannya."></div>
+    <div class="tx" id="s3a" data-t="Supaya pengganti Bapak|tidak menebak-nebak,"></div>
+    <div class="tx" id="s3b" data-t="ada *tiga *hal yang perlu|disiapkan dari sekarang."></div>
+    <div id="lbl"></div>
+    <div id="big"><b id="bign">3</b><span>dokumen</span></div>
+    <div id="s4a">tata kelola yayasan · <b>14</b> kategori</div>
+    <div id="f1" data-t="Aturan yayasan|jadi *tersistem."></div>
+    <div id="f2" data-t="Tidak lagi hanya Bapak yang ingat."></div>
+    <div id="cta"><span>Dapatkan Sekarang</span>
+      <svg viewBox="0 0 54 54" fill="none" stroke="#0A1517" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 27h36M30 11l16 16-16 16"/></svg></div>
+  </div>
+</div>
+<audio id="vo" src="audio/vo.mp3" preload="auto"></audio>
+<button id="snd" aria-label="Putar dengan suara">&#9654;&#xFE0E; Dengan suara</button>
+<div id="ui"><button id="btn-play">Pause</button><button id="btn-restart">Restart</button>
+  <input type="range" id="scrub" min="0" max="1000" value="0"><span id="clock">0.00s</span></div>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const Q=new URLSearchParams(location.search);
+const W=1080,H=1350,DUR=44.7,GROUND=1190,BTOP=1000;
+const tl=gsap.timeline({paused:true});
+const FT=(tg,f,t,at)=>tl.fromTo(tg,f,Object.assign({immediateRender:false},t),at);
+
+/* ===== WAKTU DARI AUDIO (audio/vo.mp3, Finn, 44,12 dtk; silencedetect + Whisper) =====
+   "Ketua yayasan" 0,00-1,05 · "aturan yayasan sudah tertulis" 1,27-3,26 · "atau masih Bapak ingat sendiri?" 3,61-5,42
+   "Kalau Bapak berhenti besok, pengganti Bapak harus menebak-nebak aturannya." 5,87-9,90
+   "Supaya pengganti Bapak tidak menebak-nebak," 10,45-12,65 · "ada tiga hal yang perlu disiapkan dari sekarang." 12,85-15,53
+   "Pertama," 16,03 · "semua yang selama ini Bapak ingat sendiri." 16,81-19,00 · "Tulis di memori jabatan." 19,34-20,61
+   "Kedua," 21,01 · "siapa calon penerus Bapak dan seberapa siap." 21,76-24,64 · "Catat di peta suksesi." 24,92-26,16
+   "Ketiga," 26,54 · "cara menyerahkan jabatan" 27,37-28,72 · "sampai berita acaranya." 28,90-30,30 · "Ikuti SOP serah terima jabatan." 30,54-32,98
+   "Tiga dokumen ini bagian dari seratus tujuh puluh dua dokumen tata kelola yayasan." 33,39-38,27
+   "Aturan yayasan jadi tersistem." 38,64-40,72 · "Tidak lagi hanya Bapak yang ingat." 41,00-42,76 · "Dapatkan sekarang." 43,07-43,93 */
+
+/* ============ STATE (fungsi murni dari t) ============ */
+const S={th:0,sw:0,cs:1,n:3,kn:0,pg:0};
+const P=[0,1,2].map(()=>({en:0,fl:0,lc:0}));
+const SLOT=[300,780,540];
+const ENTER=[16.70,21.62,27.22], FLY=[20.48,25.98,32.55], LAND=FLY.map(x=>+(x+.42).toFixed(2));
+const TH0=7;
+
+/* ============ BANGUNAN (sama dengan Satu Tiang) ============ */
+const NS='http://www.w3.org/2000/svg';
+const FLOORS=['WEWENANG','ASET','KEUANGAN','PAJAK'];
+const bsvg=$('#bsvg'); const FL=[];
+function el(tag,attrs,parent){ const e=document.createElementNS(NS,tag); for(const k in attrs)e.setAttribute(k,attrs[k]); parent.appendChild(e); return e; }
+FLOORS.forEach((name,f)=>{
+  const yt=BTOP-72*(f+1);
+  const g=el('g',{class:'fl'},bsvg);
+  const side=el('polygon',{points:`900,${yt} 946,${yt-30} 946,${yt+42} 900,${yt+72}`,fill:'#10272E',stroke:'#0A1517','stroke-width':3},g);
+  let top=null;
+  if(f===3) top=el('polygon',{points:`180,${yt} 226,${yt-30} 946,${yt-30} 900,${yt}`,fill:'#2C5560',stroke:'#0A1517','stroke-width':3},g);
+  const front=el('rect',{x:180,y:yt,width:720,height:72,fill:'#1D3F49',stroke:'#0A1517','stroke-width':3},g);
+  const txt=el('text',{x:204,y:yt+49,'font-family':'Barlow Condensed','font-weight':700,'font-size':38,'letter-spacing':3,fill:'#FFF9E6','fill-opacity':.55},g);
+  txt.textContent=name;
+  const wins=[]; for(let i=0;i<10;i++) wins.push(el('rect',{x:440+i*46,y:yt+20,width:34,height:32,rx:3,fill:'#0E242B'},g));
+  FL.push({g,side,top,front,txt,wins,yt});
+});
+(function roof(){ const g=FL[3].g, y0=BTOP-72*4-30;
+  el('rect',{x:372,y:y0-52,width:300,height:52,rx:5,fill:'#F5C84B',stroke:'#0A1517','stroke-width':3},g);
+  const t=el('text',{x:522,y:y0-14,'text-anchor':'middle','font-family':'Barlow Condensed','font-weight':800,'font-size':42,'letter-spacing':6,fill:'#0A1517'},g); t.textContent='YAYASAN'; })();
+
+/* ============ DOKUMEN (isi = contoh tampilan) ============ */
+const DOCS=[
+ {cap:'Yang selama ini Bapak ingat sendiri',c:'#0E7C86',ct:'#FFF9E6',tag:'WORD',title:'Memori Jabatan',w:true,pl:'MEMORI',body:`
+  <div class="code">YYS-PG-012</div>
+  <div class="sec"><span class="n">1</span>Gambaran umum jabatan</div><div class="ln"></div><div class="ln s"></div>
+  <div class="sec"><span class="n">2</span>Pekerjaan yang sudah selesai</div><div class="ln"></div>
+  <div class="sec"><span class="n">3</span>Pekerjaan yang belum selesai</div><div class="ln"></div><div class="ln s"></div>
+  <div class="sec"><span class="n">4</span>Permasalahan dan saran</div><div class="ln s"></div>`},
+ {cap:'Calon penerus, dan seberapa siap',c:'#F5C84B',ct:'#0A1517',tag:'EXCEL',title:'Peta Suksesi',w:false,pl:'SUKSESI',body:`
+  <div class="code">EXCL-KS-010</div>
+  <div class="gx">
+   <div class="gh">Jabatan</div><div class="gh">Calon penerus</div><div class="gh">Kesiapan</div>
+   <div>Ketua</div><div>Siti Rahma</div><div><span class="bar"><i data-w="70"></i></span><span class="rd">1–2 th</span></div>
+   <div>Sekretaris</div><div>Ahmad Yusuf</div><div><span class="bar"><i data-w="100"></i></span><span class="rd">siap</span></div>
+   <div>Bendahara</div><div>Dewi Lestari</div><div><span class="bar lo"><i data-w="35"></i></span><span class="rd">3 th</span></div>
+   <div>Pengawas</div><div class="y">belum ada</div><div class="y"><span class="bar lo"><i data-w="0"></i></span><span class="rd">–</span></div></div>
+  <div class="mut" style="margin-top:14px;font-size:18px">Contoh pengisian.</div>`},
+ {cap:'Cara menyerahkan jabatan, sampai berita acaranya',c:'#0E7C86',ct:'#FFF9E6',tag:'WORD',title:'Serah Terima Jabatan',w:true,pl:'',body:`
+  <div class="code">YYS-PG-011 · SOP</div>
+  <div class="stp"><b>1</b>Siapkan memori jabatan</div>
+  <div class="stp"><b>2</b>Periksa dokumen dan aset</div>
+  <div class="stp"><b>3</b>Rapat serah terima</div>
+  <div class="stp" id="bast"><b>4</b>Tanda tangani berita acara</div>
+  <div class="ln" style="margin-top:20px"></div><div class="ln s"></div>`}
+];
+const docsEl=$('#docs'), colsEl=$('#cols'), lblEl=$('#lbl'), marksEl=$('#marks');
+const DOCEL=[], COLEL=[], CAPEL=[], SLEL=[], SBEL=[];
+DOCS.forEach((d,i)=>{
+  const e=document.createElement('div'); e.className='doc'; e.style.setProperty('--c',d.c); e.style.setProperty('--ct',d.ct);
+  e.innerHTML=`<div class="hd"><b>${d.title}</b><i>${d.tag}</i></div><div class="bd">${d.body}</div>`; docsEl.appendChild(e); DOCEL.push(e);
+  const c=document.createElement('div'); c.className='col '+(d.w?'cw':'x'); c.style.left=(SLOT[i]-45)+'px';
+  if(d.pl) c.innerHTML=`<div class="pl">${d.pl}</div>`; colsEl.appendChild(c); COLEL.push(c);
+  if(i<2){ const s=document.createElement('div'); s.className='slot'; s.style.left=(SLOT[i]-45)+'px'; colsEl.appendChild(s); SLEL.push(s); }
+  const b=document.createElement('div'); b.className='sb'; b.textContent=i+1; b.style.left=SLOT[i]+'px'; b.style.top='1150px'; marksEl.appendChild(b); SBEL.push(b);
+  const cp=document.createElement('div'); cp.className='cap'; cp.innerHTML=`<b>${i+1}</b>${d.cap}`; lblEl.appendChild(cp); CAPEL.push(cp);
+});
+/* tanda tanya "menebak-nebak" */
+const QPOS=[[392,1072,100],[694,1058,92],[330,1150,70],[762,1150,76],[632,1150,58],[452,1158,54]];
+const QM=QPOS.map(([x,y,s])=>{ const o=document.createElement('div'); o.className='qm'; o.style.left=x+'px'; o.style.top=y+'px';
+  o.innerHTML=`<span style="font-size:${s}px">?</span>`; marksEl.appendChild(o); return o; });
+const QIN=QM.map(o=>o.firstChild);
+
+/* plinth 172 + tab A-N */
+const plinth=$('#plinth'); const EXCELSET=new Set(); for(let j=0;j<24;j++)EXCELSET.add(Math.floor(j*172/24+3));
+const CELLS=[]; for(let k=0;k<172;k++){ const cl=Math.floor(k/4), rw=k%4; const e=document.createElement('div'); e.className='cell'+(EXCELSET.has(k)?' x':'');
+  e.style.left=(6+cl*17)+'px'; e.style.top=(54+rw*34)+'px'; plinth.appendChild(e); CELLS.push(e); }
+const TABS=[]; 'ABCDEFGHIJKLMN'.split('').forEach((ch,i)=>{ const e=document.createElement('div'); e.className='tab'; e.textContent=ch; e.style.left=(6+i*52.4)+'px'; plinth.appendChild(e); TABS.push(e); });
+
+/* teks per kata */
+function words(e){ e.innerHTML=e.dataset.t.split('|').map(l=>l.trim().split(/\s+/).map(w=>{ const em=w[0]==='*'; return `<span class="w${em?' em':''}">${em?w.slice(1):w}</span>`; }).join(' ')).join('<br>'); return $$('.w',e); }
+const WH=['#h1','#h2','#h3'].map(s=>words($(s)));
+const W2a=words($('#s2a')), W2b=words($('#s2b')), W3a=words($('#s3a')), W3b=words($('#s3b')), WF1=words($('#f1')), WF2=words($('#f2'));
+const wordsIn=(ws,at,o={})=>FT(ws,{opacity:0,y:o.y??34},{opacity:1,y:0,duration:o.dur??.5,ease:o.ease??'back.out(1.6)',stagger:o.st??.08},at);
+const fadeOut=(sel,at,d=.35,y=-26)=>FT(sel,{opacity:1,y:0},{opacity:0,y:y,duration:d,ease:'power2.in'},at);
+
+/* ============ ADEGAN 1 (0-5,6): PERTANYAAN ============ */
+FL.forEach((F,f)=>FT(F.g,{y:-460,opacity:0},{y:0,opacity:1,duration:.95,ease:'bounce.out'},.05+.14*f));
+FT('#pil',{y:60,opacity:0},{y:0,opacity:1,duration:.5,ease:'power3.out'},0);
+FT('#g1',{opacity:0,x:60},{opacity:1,x:0,duration:1.4,ease:'power2.out'},.2);
+wordsIn(WH[0],.04,{st:.12,dur:.5});
+wordsIn(WH[1],1.27,{st:.42,dur:.5});
+wordsIn(WH[2],3.6,{st:.33,dur:.55,ease:'back.out(1.9)'});
+FT(S,{cs:1},{cs:1.04,duration:5.4,ease:'sine.inOut'},0);
+/* "ingat sendiri": tiang KETUA menyala, gelembung ingatan muncul */
+FT('#pilF',{fill:'#3A5258'},{fill:'#F5C84B',duration:.4,ease:'power2.out'},4.35);
+FT('#pilS',{fill:'#1C2F34'},{fill:'#B8902A',duration:.4,ease:'power2.out'},4.35);
+FT('#think',{opacity:0},{opacity:1,duration:.35,ease:'power2.out'},4.45);
+FT('.tk',{opacity:0},{opacity:1,duration:.2,stagger:.12},4.6);
+
+/* ============ ADEGAN 2 (5,6-10,2): KETUA PERGI, PENGGANTI MENEBAK ============ */
+fadeOut('#hl',5.5,.35);
+FT(S,{cs:1.04},{cs:1,duration:.6,ease:'power2.inOut'},5.6);
+wordsIn(W2a,5.87,{st:.24,dur:.45,y:26});
+FT(S,{kn:0},{kn:1,duration:.85,ease:'power2.in'},6.45);           /* "berhenti besok" */
+FT(S,{th:0},{th:TH0,duration:1.3,ease:'elastic.out(1,0.38)'},6.9);
+FT(S,{sw:0},{sw:.6,duration:1,ease:'power1.inOut'},7.6);
+FT('#g1',{opacity:1},{opacity:0,duration:.5},6.6);
+wordsIn(W2b,7.35,{st:.3,dur:.45,y:26});
+FT(S,{pg:0},{pg:1,duration:.75,ease:'back.out(1.3)'},7.45);       /* "pengganti Bapak" */
+FT(QM,{opacity:0,scale:.2,rotation:-25},{opacity:1,scale:1,rotation:0,duration:.45,ease:'back.out(2.4)',stagger:.17},8.35);   /* "menebak-nebak" */
+
+/* ============ ADEGAN 3 (10,2-15,8): TIGA HAL ============ */
+fadeOut('#s2a',10.1,.3); fadeOut('#s2b',10.1,.3);
+wordsIn(W3a,10.45,{st:.3,dur:.45,y:24});
+FT(QM,{opacity:1,scale:1},{opacity:0,scale:.2,duration:.3,ease:'back.in(2)',stagger:.08},11.45);   /* "tidak menebak-nebak" */
+wordsIn(W3b,12.85,{st:.3,dur:.5,y:28});
+FT('#g3',{opacity:0,x:80},{opacity:1,x:0,duration:1.3,ease:'power2.out'},13.0);
+FT(SLEL,{opacity:0},{opacity:1,duration:.4,stagger:.25},13.4);
+FT(SBEL,{opacity:0,scale:.3},{opacity:1,scale:1,duration:.45,ease:'back.out(2.4)',stagger:.3},13.5);
+FT(S,{cs:1},{cs:1.05,duration:1.6,ease:'sine.inOut'},13.9);
+fadeOut('#s3a',15.6,.3); fadeOut('#s3b',15.6,.3);
+FT(S,{cs:1.05},{cs:1,duration:.5,ease:'power2.inOut'},15.6);
+
+/* ============ ADEGAN 4-6 (16-33): TIGA DOKUMEN JADI TIANG ============ */
+const FLOORLIT={0:[0],1:[1],2:[2,3]};
+const LIT={front:['#1D3F49','#0E7C86'],side:['#10272E','#095F68'],top:['#2C5560','#1796A2'],win:['#0E242B','#F5C84B']};
+const CAPIN=[16.0,21.0,26.52];
+DOCS.forEach((d,k)=>{
+  const a=ENTER[k], f=FLY[k], L=LAND[k];
+  FT(CAPEL[k],{opacity:0,y:18},{opacity:1,y:0,duration:.35,ease:'power2.out'},CAPIN[k]);
+  FT(CAPEL[k],{opacity:1},{opacity:0,duration:.2,ease:'power1.in'},f-.15);
+  FT(P[k],{en:0},{en:1,duration:.55,ease:'back.out(1.25)'},a);
+  FT(P[k],{fl:0},{fl:1,duration:.42,ease:'power3.in'},f);
+  FT(P[k],{lc:0},{lc:1,duration:.55,ease:'elastic.out(1,0.5)'},L-.12);
+  if(k<2) FT(SLEL[k],{opacity:1},{opacity:0,duration:.25},L);
+  FT(DOCEL[k],{opacity:1},{opacity:0,duration:.25,ease:'power1.in'},L+.12);   /* halaman kecil hilang, tiang bersih */
+  const from=TH0*(1-k/3), to=TH0*(1-(k+1)/3);
+  FT(S,{th:from},{th:to,duration:k===2?1.1:.6,ease:k===2?'elastic.out(1,0.35)':'power2.out'},L);
+  FLOORLIT[k].forEach((fi,j)=>{ const F=FL[fi], t0=L+.08*j;
+    FT(F.front,{fill:LIT.front[0]},{fill:LIT.front[1],duration:.4,ease:'power2.out'},t0);
+    FT(F.side,{fill:LIT.side[0]},{fill:LIT.side[1],duration:.4,ease:'power2.out'},t0);
+    if(F.top) FT(F.top,{fill:LIT.top[0]},{fill:LIT.top[1],duration:.4,ease:'power2.out'},t0);
+    FT(F.txt,{'fill-opacity':.55},{'fill-opacity':1,duration:.4},t0);
+    FT(F.wins,{fill:LIT.win[0]},{fill:LIT.win[1],duration:.35,ease:'power1.out',stagger:.035},t0+.05); });
+});
+/* sorotan di dalam dokumen, mengikuti ucapan */
+const HD=DOCEL.map(e=>e.querySelector('.hd'));
+FT(HD[0],{scale:1},{scale:1.05,duration:.3,ease:'sine.inOut',yoyo:true,repeat:1},19.45);          /* "Tulis di memori jabatan" */
+FT($$('.bar i',DOCEL[1]),{width:'0%'},{width:(i,e)=>e.dataset.w+'%',duration:.6,ease:'power2.out',stagger:.15},23.35);   /* "seberapa siap" */
+FT(HD[1],{scale:1},{scale:1.05,duration:.3,ease:'sine.inOut',yoyo:true,repeat:1},25.0);           /* "Catat di peta suksesi" */
+FT('#bast',{backgroundColor:'rgba(252,232,166,0)'},{backgroundColor:'rgba(252,232,166,1)',duration:.35,ease:'power2.out'},29.25);   /* "berita acaranya" */
+FT(HD[2],{scale:1},{scale:1.05,duration:.3,ease:'sine.inOut',yoyo:true,repeat:1},30.9);           /* "Ikuti SOP serah terima jabatan" */
+FT(S,{sw:.6},{sw:0,duration:1.6,ease:'power2.inOut'},31.4);
+/* momen istimewa: dokumen ketiga masuk ke tiang PENGGANTI -> tiang utuh, bangunan tegak, sapuan cahaya */
+FT('#pgR',{strokeOpacity:.7},{strokeOpacity:0,duration:.35},LAND[2]+.1);
+FT('#pgPl',{fill:'#FFF9E6'},{fill:'#F5C84B',duration:.35},LAND[2]+.1);
+FT('#sweep',{opacity:0},{opacity:1,duration:.01},LAND[2]+.15);
+FT('#sweep',{x:-420},{x:1500,duration:1.1,ease:'power1.inOut'},LAND[2]+.17);
+FT('#spot',{opacity:.85},{opacity:1,duration:1.0,ease:'power2.out'},LAND[2]);
+FT('#g3',{opacity:1},{opacity:0,duration:.6},33.0);
+
+/* ============ ADEGAN 7 (33,4-38,3): 3 DARI 172 ============ */
+FT('#big',{opacity:0,y:30,scale:.9},{opacity:1,y:0,scale:1,duration:.5,ease:'back.out(1.7)'},33.42);   /* "Tiga dokumen ini" */
+FT(COLEL,{scaleY:1,transformOrigin:'50% 100%'},{scaleY:1.06,duration:.22,ease:'sine.inOut',yoyo:true,repeat:1,stagger:.18},33.55);
+FT(SBEL,{scale:1},{scale:1.25,duration:.22,ease:'sine.inOut',yoyo:true,repeat:1,stagger:.18},33.55);
+FT(S,{cs:1},{cs:.9,duration:1.2,ease:'power2.inOut'},34.5);                                    /* "bagian dari" */
+FT('#g172',{opacity:0,x:-80},{opacity:1,x:0,duration:1.4,ease:'power2.out'},34.6);
+FT('#docs',{opacity:1},{opacity:0,duration:.4},34.7);
+FT([COLEL,SBEL,'#pgK'].flat(),{opacity:1},{opacity:0,duration:.5,ease:'power1.in'},34.95);
+FT('#plinth',{opacity:0},{opacity:1,duration:.5,ease:'power1.out'},34.85);
+FT(S,{n:3},{n:172,duration:1.6,ease:'power1.inOut'},35.3);                                    /* "seratus tujuh puluh dua dokumen" */
+FT('#s4a',{opacity:0,y:26},{opacity:1,y:0,duration:.5,ease:'back.out(1.5)'},37.0);            /* "tata kelola yayasan" */
+FT(TABS,{opacity:0,y:14},{opacity:1,y:0,duration:.3,ease:'back.out(2)',stagger:.04},37.2);
+
+/* ============ ADEGAN 8 (38,4-42,9): PENUTUP ============ */
+fadeOut('#big',38.3,.3); fadeOut('#s4a',38.3,.3);
+wordsIn(WF1,38.64,{st:.42,dur:.5,y:30});
+wordsIn(WF2,41.0,{st:.22,dur:.45,y:22});
+
+/* ============ ADEGAN 9 (43-44,7): TOMBOL ============ */
+FT('#cta',{opacity:0,y:170,scale:.85},{opacity:1,y:0,scale:1,duration:.7,ease:'back.out(1.8)'},43.0);
+FT('#cta',{scale:1},{scale:1.03,duration:.45,ease:'sine.inOut',repeat:1,yoyo:true},43.85);
+tl.to({},{duration:.01},DUR);
+
+/* ============ RENDER ============ */
+const scene=$('#scene'), bld=$('#bld'), bn=$('#bign');
+const SHK=[[6.75,9],...LAND.map((t,i)=>[t,i===2?14:4])];
+const ghosts=[$('#g1'),$('#g3'),$('#g172')], pilK=$('#pilK'), pgK=$('#pgK');
+let lastN=-1;
+const READ={x:540,y:400}, ROT=[-5,4,-3];
+const lerp=(a,b,u)=>a+(b-a)*u;
+function render(t){
+  let sh=0; SHK.forEach(([t0,A])=>{ const u=t-t0; if(u>0&&u<1.4) sh+=A*Math.exp(-5*u)*Math.sin(34*u); });
+  const fy=2.5*Math.sin(t*1.55);
+  scene.style.transform=`translate(0px,${(sh+fy).toFixed(2)}px) scale(${S.cs.toFixed(4)})`;
+  const th=S.th+S.sw*Math.sin(t*2.7);
+  bld.style.transform=`rotate(${th.toFixed(3)}deg)`;
+  const tan=Math.tan(th*Math.PI/180);
+  SLOT.forEach((x,i)=>{
+    const hU=GROUND-(BTOP+(x-540)*tan);
+    if(i<2){ const s=SLEL[i]; s.style.top=(GROUND-hU).toFixed(1)+'px'; s.style.height=hU.toFixed(1)+'px'; }
+    const p=P[i], h=hU*p.lc, c=COLEL[i];
+    c.style.top=(GROUND-h).toFixed(1)+'px'; c.style.height=Math.max(0,h).toFixed(1)+'px'; c.style.visibility=h>1?'visible':'hidden';
+    const d=DOCEL[i], en=p.en, fl=p.fl;
+    const cx=lerp(READ.x+(1-en)*1100, x, fl), cy=lerp(READ.y+6*Math.sin(t*1.3+i), 1128, fl), s=lerp(1,.17,fl), r=lerp((1-en)*9, ROT[i], fl);
+    d.style.transform=`translate(${(cx-540).toFixed(1)}px,${cy.toFixed(1)}px) rotate(${r.toFixed(2)}deg) scale(${s.toFixed(4)})`;
+    d.style.left='540px'; d.style.top='0px';
+  });
+  const kn=S.kn; pilK.setAttribute('transform',`translate(${(620*kn).toFixed(2)} ${(-80*kn).toFixed(2)}) rotate(${(70*kn).toFixed(2)} 540 1190)`); pilK.style.opacity=(1-kn).toFixed(3);
+  pgK.setAttribute('transform',`translate(${(-760*(1-S.pg)).toFixed(2)} 0)`);
+  QIN.forEach((q,i)=>{ q.style.transform=`translate(-50%,-50%) translate(${(4*Math.sin(t*2.1+i)).toFixed(1)}px,${(7*Math.sin(t*2.6+i*1.7)).toFixed(1)}px) rotate(${(8*Math.sin(t*1.8+i)).toFixed(1)}deg)`; });
+  ghosts.forEach((g,i)=>{ g.style.transform=`translate(${(-30*Math.sin(t*.25+i)).toFixed(1)}px,${(14*Math.cos(t*.3+i)).toFixed(1)}px)`; });
+  const n=Math.round(S.n);
+  if(n!==lastN){ bn.textContent=n; for(let k=0;k<172;k++)CELLS[k].style.opacity=k<n?1:0; lastN=n; }
+}
+
+/* ============ PEREKAT ============ */
+const stage=$('#stage');
+const fit=()=>{ const sc=Math.min(innerWidth/W,innerHeight/H); stage.style.transform=`translate(-50%,-50%) scale(${sc})`; };
+addEventListener('resize',fit); fit();
+const clock=$('#clock'),scrub=$('#scrub'),btn=$('#btn-play'); let scrubbing=false;
+(function frame(){ const t=tl.time(); render(t); clock.textContent=t.toFixed(2)+'s'; if(!scrubbing)scrub.value=String(t/DUR*1000); requestAnimationFrame(frame); })();
+const toggle=()=>{ if(tl.paused()||tl.progress()>=1){ if(tl.progress()>=1)tl.progress(0); tl.play(); btn.textContent='Pause'; } else { tl.pause(); btn.textContent='Play'; } };
+btn.onclick=toggle; $('#btn-restart').onclick=()=>{ tl.pause(0); tl.play(); btn.textContent='Pause'; };
+scrub.addEventListener('pointerdown',()=>{scrubbing=true;tl.pause();btn.textContent='Play';});
+addEventListener('pointerup',()=>scrubbing=false);
+scrub.addEventListener('input',()=>{tl.pause();tl.time(scrub.value/1000*DUR);});
+addEventListener('keydown',e=>{ if(e.code==='Space'){e.preventDefault();toggle();} if(/^[rR]$/.test(e.key)){tl.pause(0);tl.play();} if(/^[hH]$/.test(e.key))$('#ui').classList.toggle('on'); });
+if(Q.has('debug'))$('#ui').classList.add('on');
+const vo=$('#vo'), snd=$('#snd'); let soundOn=false;
+if(Q.has('clean')) snd.style.display='none';
+const setSound=on=>{ soundOn=on; snd.classList.toggle('on',on); snd.innerHTML=on?'&#9632;&#xFE0E; Suara menyala':'&#9654;&#xFE0E; Dengan suara';
+  if(on){ vo.currentTime=Math.min(tl.time(),vo.duration||DUR); const p=vo.play(); if(p&&p.catch)p.catch(()=>setSound(false)); } else vo.pause(); };
+snd.onclick=()=>{ if(!soundOn){ if(tl.paused()||tl.progress()>=1){ tl.pause(0); tl.play(); btn.textContent='Pause'; } } setSound(!soundOn); };
+(function sync(){ if(soundOn&&!tl.paused()&&Math.abs(vo.currentTime-tl.time())>.1) vo.currentTime=tl.time(); requestAnimationFrame(sync); })();
+tl.eventCallback('onComplete',()=>{ tl.play(0); if(soundOn){ vo.currentTime=0; vo.play().catch(()=>{}); } });
+const seek=t=>{ tl.pause(); tl.time(t,false); if(gsap.ticker.tick)gsap.ticker.tick(); render(t); };
+window.OPENER={W,H,DURATION:DUR,tl,seek,ready:false};
+Promise.all(['800 100px "Barlow Condensed"','700 40px "Barlow Condensed"','600 30px "Barlow"','500 30px "Barlow"'].map(f=>document.fonts.load(f)))
+  .then(()=>document.fonts.ready).then(()=>{ window.OPENER.ready=true; if(!Q.has('clean'))tl.play(0); });
+</script>
+</body>
+</html>
